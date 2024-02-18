@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2fe4b53c78ed0760d73b1cbaaf6beb2a",
+    "content-hash": "5d9e1b93c5ba8afb956dcb87ecb13be2",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6042,6 +6042,74 @@
             "time": "2023-12-08T13:03:43+00:00"
         },
         {
+            "name": "vigilant/core",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/core",
+                "reference": "5119cac1b908fb2f2fb8d7e5ed0788e7ebd51b61"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Core\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Core\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Core\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Core",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.6.0",
             "source": {
@@ -8687,7 +8755,7 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
