@@ -11,7 +11,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this
             ->registerConfig()
-            ->registerActions();
+            ->registerFacades();
     }
 
     protected function registerConfig(): static
@@ -21,8 +21,9 @@ class ServiceProvider extends BaseServiceProvider
         return $this;
     }
 
-    protected function registerActions(): static
+    protected function registerFacades(): static
     {
+
 
         return $this;
     }
