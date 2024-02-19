@@ -51,7 +51,10 @@
         "laravel": {
             "providers": [
                 "Vigilant\\Core\\ServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "Navigation": "Vigilant\\Core\\Facades\\Navigation"
+            }
         }
     },
     "minimum-stability": "dev",
