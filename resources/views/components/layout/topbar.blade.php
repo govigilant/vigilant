@@ -1,7 +1,7 @@
 <div
     class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-black px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
     <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden"
-        x-on:click="sidebarOpen = true">
+            x-on:click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              aria-hidden="true">
@@ -45,16 +45,6 @@
               </span>
                 </button>
 
-                <!--
-                  Dropdown menu, show/hide based on menu state.
-
-                  Entering: "transition ease-out duration-100"
-                    From: "transform opacity-0 scale-95"
-                    To: "transform opacity-100 scale-100"
-                  Leaving: "transition ease-in duration-75"
-                    From: "transform opacity-100 scale-100"
-                    To: "transform opacity-0 scale-95"
-                -->
                 <div
                     x-show="open"
                     x-on:click.outside="open = false"
@@ -67,13 +57,17 @@
                     x-transition:leave-end="transform opacity-0 scale-95"
                     class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
+                    <a href="{{ route('teams.show', ['team' => auth()->user()->currentTeam->id]) }}"
+                       class="block px-3 py-1 text-sm leading-6 text-gray-900"
+                       role="menuitem"
+                       tabindex="-1" id="user-menu-item-0">@lang('Your Team')</a>
                     <a href="{{ route('profile.show') }}" class="block px-3 py-1 text-sm leading-6 text-gray-900"
                        role="menuitem"
-                       tabindex="-1" id="user-menu-item-0">Your profile</a>
+                       tabindex="-1" id="user-menu-item-0">@lang('Your profile')</a>
                     <form action="{{ route('logout') }}" method="POST">
                         {{ csrf_field() }}
                         <button type="submit" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                tabindex="-1" id="user-menu-item-1">Sign out
+                                tabindex="-1" id="user-menu-item-1">@lang('Sign out')
                         </button>
                     </form>
 

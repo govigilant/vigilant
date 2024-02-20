@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace Vigilant\Users\Actions\Fortify;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\UpdatesUserPasswords;
+use Vigilant\Users\Models\User;
 
 class UpdateUserPassword implements UpdatesUserPasswords
 {

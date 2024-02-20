@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Actions\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream\Jetstream;
 
-use App\Models\Team;
-use App\Models\User;
 use Closure;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Gate;
@@ -15,6 +13,8 @@ use Laravel\Jetstream\Events\InvitingTeamMember;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\Mail\TeamInvitation;
 use Laravel\Jetstream\Rules\Role;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Models\User;
 
 class InviteTeamMember implements InvitesTeamMembers
 {

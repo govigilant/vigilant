@@ -2,12 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Team;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Vigilant\Users\Models\User;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Team>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Vigilant\Users\Models\Team>
  */
 class TeamFactory extends Factory
 {

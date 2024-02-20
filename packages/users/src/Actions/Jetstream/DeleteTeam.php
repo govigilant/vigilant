@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Actions\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream\Jetstream;
 
-use App\Models\Team;
 use Laravel\Jetstream\Contracts\DeletesTeams;
+use Vigilant\Users\Models\Team;
 
 class DeleteTeam implements DeletesTeams
 {

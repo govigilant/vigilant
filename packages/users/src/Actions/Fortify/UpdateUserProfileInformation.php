@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace Vigilant\Users\Actions\Fortify;
 
-use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
+use Vigilant\Users\Models\User;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
