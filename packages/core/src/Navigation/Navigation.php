@@ -43,7 +43,9 @@ class Navigation
             $this->loaded = true;
         }
 
+
         return collect($this->items)
+            ->sortBy('sort')
             ->toArray();
     }
 }
