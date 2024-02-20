@@ -3,10 +3,11 @@
 namespace Vigilant\Core\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Vigilant\Core\Navigation\NavigationItem;
 
 /**
  * @method Navigation path(string $path)
- * @method Navigation add(string $url, string $name, string $icon, int $sort)
+ * @method NavigationItem add(string $url, string $name)
  * @method array items()
  */
 class Navigation extends Facade

@@ -14,7 +14,7 @@
 
     @livewireStyles
 </head>
-<body class="font-sans antialiased dark dark:bg-black min-w-screen h-screen flex">
+<body class="font-sans antialiased dark dark:bg-black min-w-screen h-screen flex"  x-data="{ sidebarOpen: false }">
 <div class="fixed h-1.5 z-40 -top-px inset-x-0 bg-gradient-to-r from-green to-red"></div>
 <x-layout.sidebar/>
 
@@ -23,7 +23,7 @@
         <x-layout.topbar/>
 
 
-        <div class="bg-white rounded-tl-2xl overflow-hidden shadow-inner-sm flex flex-1 pt-px">
+        <div class="bg-white rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-1 pt-px">
             <div class="px-4 sm:px-6 lg:px-8 overflow-y-auto w-full max-h-full bg-neutral-100">
                 <x-banner/>
 

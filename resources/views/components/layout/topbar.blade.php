@@ -1,6 +1,7 @@
 <div
     class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-black px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
-    <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden">
+    <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+        x-on:click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
              aria-hidden="true">
