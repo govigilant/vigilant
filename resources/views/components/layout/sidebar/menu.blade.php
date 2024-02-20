@@ -1,7 +1,7 @@
 <div class="hidden h-full lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto dark:bg-black px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center">
-            <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+            <img class="h-8 w-auto" src=""
                  alt="Your Company">
         </div>
         <nav class="flex flex-1 flex-col">
@@ -9,50 +9,39 @@
                 <li>
                     <ul role="list" class="-mx-2 space-y-1">
                         @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
-                            @php($active = $item['url'] === request()->url())
-                        <li>
-                            <a href="{{ $item['url'] }}"
-                               @class([
-                                    'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
-                                    'bg-gray-800 text-white' => $active,
-                                    'text-gray-400 hover:text-white hover:bg-gray-800' => !$active,
-                               ])
-                            >
-                                @svg($item['icon'], 'h-6 w-6 shrink-0')
-                                {{ __($item['name'])  }}
-                            </a>
-                        </li>
+                            <li>
+                                <a href="{{ $item->url }}"
+                                    @class([
+                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
+                                         'bg-gray-800 text-white' => $item->active(),
+                                         'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
+                                    ])
+                                >
+                                    @if($item->icon !== null)
+                                        @svg($item->icon, 'h-6 w-6 shrink-0')
+                                    @endif
+                                    {{ __($item->name)  }}
+                                </a>
+
+                                @if($item->hasChildren())
+                                    <ul class="pl-12 border-l">
+                                        @foreach($item->getChildren() as $child)
+                                            <li>
+                                                <a href="{{ $child->url }}"
+                                                    @class([
+                                                         'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
+                                                         'text-white' => $child->active(),
+                                                         'text-gray-500 hover:text-white' => !$child->active(),
+                                                    ])
+                                                >
+                                                    {{ __($child->name)  }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+                            </li>
                         @endforeach
-                    </ul>
-                </li>
-                <li>
-                    <div class="text-xs font-semibold leading-6 text-gray-400">Your teams</div>
-                    <ul role="list" class="-mx-2 mt-2 space-y-1">
-                        <li>
-                            <!-- Current: "bg-gray-800 text-white", Default: "text-gray-400 hover:text-white hover:bg-gray-800" -->
-                            <a href="#"
-                               class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <span
-                                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">H</span>
-                                <span class="truncate">Heroicons</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <span
-                                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">T</span>
-                                <span class="truncate">Tailwind Labs</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#"
-                               class="text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
-                                    <span
-                                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border border-gray-700 bg-gray-800 text-[0.625rem] font-medium text-gray-400 group-hover:text-white">W</span>
-                                <span class="truncate">Workcation</span>
-                            </a>
-                        </li>
                     </ul>
                 </li>
                 <li class="mt-auto">

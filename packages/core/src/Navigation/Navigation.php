@@ -2,6 +2,8 @@
 
 namespace Vigilant\Core\Navigation;
 
+use Closure;
+
 class Navigation
 {
     protected array $paths = [];
@@ -9,6 +11,7 @@ class Navigation
     protected bool $loaded = false;
 
     protected array $items = [];
+
 
     public function path(string $path): static
     {
@@ -20,18 +23,15 @@ class Navigation
     public function add(
         string $url,
         string $name,
-        string $icon,
-        int $sort = 0
-    ): static {
-        $this->items[] = [
-            'url' => $url,
-            'name' => $name,
-            'icon' => $icon,
-            'sort' => $sort,
-        ];
+    ): NavigationItem {
+        $item = new NavigationItem($name, $url);
 
-        return $this;
+        $this->items[] = $item;
+
+        return $item;
     }
+
+
 
     public function items(): array
     {
@@ -39,10 +39,11 @@ class Navigation
             foreach ($this->paths as $path) {
                 require $path;
             }
+
+            $this->loaded = true;
         }
 
         return collect($this->items)
-            ->sortBy('sort')
             ->toArray();
     }
 }
