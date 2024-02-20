@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Policies;
+namespace Vigilant\Users\Policies;
 
-use App\Models\Team;
-use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Models\User;
 
 class TeamPolicy
 {

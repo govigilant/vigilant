@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Actions\Fortify;
+namespace Vigilant\Users\Actions\Fortify;
 
-use App\Models\Team;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Models\User;
 
 class CreateNewUser implements CreatesNewUsers
 {

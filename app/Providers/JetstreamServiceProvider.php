@@ -2,15 +2,20 @@
 
 namespace App\Providers;
 
-use App\Actions\Jetstream\AddTeamMember;
-use App\Actions\Jetstream\CreateTeam;
-use App\Actions\Jetstream\DeleteTeam;
-use App\Actions\Jetstream\DeleteUser;
-use App\Actions\Jetstream\InviteTeamMember;
-use App\Actions\Jetstream\RemoveTeamMember;
-use App\Actions\Jetstream\UpdateTeamName;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
+use Vigilant\Users\Actions\Jetstream\Jetstream\AddTeamMember;
+use Vigilant\Users\Actions\Jetstream\Jetstream\CreateTeam;
+use Vigilant\Users\Actions\Jetstream\Jetstream\DeleteTeam;
+use Vigilant\Users\Actions\Jetstream\Jetstream\DeleteUser;
+use Vigilant\Users\Actions\Jetstream\Jetstream\InviteTeamMember;
+use Vigilant\Users\Actions\Jetstream\Jetstream\RemoveTeamMember;
+use Vigilant\Users\Actions\Jetstream\Jetstream\UpdateTeamName;
+use Vigilant\Users\Models\Membership;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Models\TeamInvitation;
+use Vigilant\Users\Models\User;
 
 class JetstreamServiceProvider extends ServiceProvider
 {
@@ -36,6 +41,11 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::removeTeamMembersUsing(RemoveTeamMember::class);
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
+
+        Jetstream::useUserModel(User::class);
+        Jetstream::useTeamModel(Team::class);
+        Jetstream::useTeamInvitationModel(TeamInvitation::class);
+        Jetstream::useMembershipModel(Membership::class);
     }
 
     /**

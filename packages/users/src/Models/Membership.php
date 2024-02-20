@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Vigilant\Users\Models;
 
 use Laravel\Jetstream\Membership as JetstreamMembership;
 

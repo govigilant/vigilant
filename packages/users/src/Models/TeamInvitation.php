@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Vigilant\Users\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Laravel\Jetstream\Jetstream;

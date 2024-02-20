@@ -17,7 +17,9 @@
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
-        "vigilant/core": "dev-main"
+        "vigilant/core": "dev-main",
+        "vigilant/sites": "dev-main",
+        "vigilant/users": "dev-main"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

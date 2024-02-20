@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "604adffa55fbda4933f3b4461084524e",
+    "content-hash": "3af719d82ac43b9312beab99f978b1f2",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6265,6 +6265,142 @@
             }
         },
         {
+            "name": "vigilant/sites",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/sites",
+                "reference": "ba635c27e677e3ab322ec71fca1dacbd2b68e928"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Sites\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Sites\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Sites\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Sites",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "vigilant/users",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/users",
+                "reference": "9913d738a3f6d61289465bc935a9408ff3898a5c"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Users\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Users\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Users\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Users",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.6.0",
             "source": {
@@ -8912,7 +9048,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "vigilant/core": 20
+        "vigilant/core": 20,
+        "vigilant/sites": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -1,9 +1,7 @@
 <?php
 
-namespace App\Actions\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream\Jetstream;
 
-use App\Models\Team;
-use App\Models\User;
 use Closure;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +10,8 @@ use Laravel\Jetstream\Events\AddingTeamMember;
 use Laravel\Jetstream\Events\TeamMemberAdded;
 use Laravel\Jetstream\Jetstream;
 use Laravel\Jetstream\Rules\Role;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Models\User;
 
 class AddTeamMember implements AddsTeamMembers
 {
