@@ -54,6 +54,7 @@
                                 @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
                                     <li>
                                         <a href="{{ $item->url }}"
+                                           wire:navigate
                                            @class([
                                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                                             'bg-gray-800 text-white' => $item->active(),
@@ -65,6 +66,25 @@
                                             @endif
                                             {{ __($item->name)  }}
                                         </a>
+
+                                        @if($item->hasChildren())
+                                            <ul class="pl-12 border-l">
+                                                @foreach($item->getChildren() as $child)
+                                                    <li>
+                                                        <a href="{{ $child->url }}"
+                                                           wire:navigate
+                                                            @class([
+                                                                 'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
+                                                                 'text-white' => $child->active(),
+                                                                 'text-gray-500 hover:text-white' => !$child->active(),
+                                                            ])
+                                                        >
+                                                            {{ __($child->name)  }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endif
                                     </li>
                                 @endforeach
                             </ul>

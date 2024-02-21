@@ -1,13 +1,12 @@
 <?php
 
-namespace Vigilant\Sites;
+namespace Vigilant\Uptime;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
-use Vigilant\Sites\Http\Livewire\Create;
-use Vigilant\Sites\Http\Livewire\Sites;
+use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -20,7 +19,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): static
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/sites.php', 'sites');
+        $this->mergeConfigFrom(__DIR__.'/../config/uptime.php', 'uptime');
 
         return $this;
     }
@@ -46,7 +45,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootConfig(): static
     {
         $this->publishes([
-            __DIR__.'/../config/sites.php' => config_path('sites.php'),
+            __DIR__.'/../config/uptime.php' => config_path('uptime.php'),
         ], 'config');
 
         return $this;
@@ -72,15 +71,14 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootViews(): static
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'sites');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'uptime');
 
         return $this;
     }
 
     protected function bootLivewire(): static
     {
-        Livewire::component('sites', Sites::class);
-        Livewire::component('sites.create', Create::class);
+        Livewire::component('uptime', UptimeMonitors::class);
 
         return $this;
     }
