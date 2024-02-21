@@ -1,6 +1,9 @@
 <div class="hidden h-full lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto dark:bg-black px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center">
+            <h1 class="text-neutral-50 text-3xl">
+                <span class="text-red">V</span>igilant
+            </h1>
             <img class="h-8 w-auto" src=""
                  alt="Your Company">
         </div>
@@ -11,6 +14,7 @@
                         @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
                             <li>
                                 <a href="{{ $item->url }}"
+                                   wire:navigate
                                     @class([
                                          'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
                                          'bg-gray-800 text-white' => $item->active(),
@@ -28,6 +32,7 @@
                                         @foreach($item->getChildren() as $child)
                                             <li>
                                                 <a href="{{ $child->url }}"
+                                                   wire:navigate
                                                     @class([
                                                          'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
                                                          'text-white' => $child->active(),

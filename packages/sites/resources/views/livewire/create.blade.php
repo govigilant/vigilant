@@ -4,17 +4,16 @@
     </x-slot>
 
     <form wire:submit="save">
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
             <x-form.text class="sm:col-span-2"
                          field="url"
                          name="URL"
-                         placeholder="https://vigilant-monitoring.io"/>
+                         description="The URL of the site that you want to add."
+                         placeholder="{{ config('app.url') }}"/>
 
 
-            <div>
-                <x-form.button type="submit">@lang('Create')</x-form.button>
-            </div>
+            <x-form.submit-button/>
 
         </div>
     </form>

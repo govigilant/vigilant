@@ -15,7 +15,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): static
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/users.php', '');
+        $this->mergeConfigFrom(__DIR__.'/../config/users.php', 'users');
 
         return $this;
     }

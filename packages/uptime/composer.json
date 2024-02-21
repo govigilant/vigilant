@@ -1,6 +1,6 @@
 {
-    "name": "vigilant/users",
-    "description": "Vigilant Users",
+    "name": "vigilant/uptime",
+    "description": "Vigilant Uptime",
     "type": "package",
     "license": "AGPL",
     "authors": [
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Vigilant\\Users\\": "src"
+            "Vigilant\\Uptime\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vigilant\\Users\\Tests\\": "tests"
+            "Vigilant\\Uptime\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -50,7 +50,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vigilant\\Users\\ServiceProvider"
+                "Vigilant\\Uptime\\ServiceProvider"
             ]
         }
     },

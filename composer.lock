@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3af719d82ac43b9312beab99f978b1f2",
+    "content-hash": "ca6fc10221f517be92bdc09c2813d79a",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6199,11 +6199,11 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
-                "reference": "a73a33b14067d25d1ef6ae06eb92f99c98f1a81b"
+                "reference": "40e114cb498c216af9732a0f61e254f606fc7ec3"
             },
             "require": {
                 "laravel/framework": "^10.0",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "laravel/pint": "^1.6",
@@ -6333,16 +6333,84 @@
             }
         },
         {
+            "name": "vigilant/uptime",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/uptime",
+                "reference": "2025c0458ef6c5f07ca61e40846f9c6042195f07"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Uptime\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Uptime\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Uptime\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Uptime",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/users",
             "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
-                "reference": "9913d738a3f6d61289465bc935a9408ff3898a5c"
+                "reference": "ab3a1ad15536a467d78a38052de96ded877dea99"
             },
             "require": {
                 "laravel/framework": "^10.0",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "laravel/pint": "^1.6",
@@ -9049,7 +9117,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "vigilant/core": 20,
-        "vigilant/sites": 20
+        "vigilant/sites": 20,
+        "vigilant/users": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
