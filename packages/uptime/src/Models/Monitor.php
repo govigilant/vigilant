@@ -12,7 +12,7 @@ use Vigilant\Uptime\Enums\Type;
 
 /**
  * @property int $id
- * @property int $site_id
+ * @property ?int $site_id
  * @property string $name
  * @property Type $type
  * @property array $settings
