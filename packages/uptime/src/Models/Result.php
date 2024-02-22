@@ -9,8 +9,7 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $checker_id
- * @property int $latency
- * @property int $result_count
+ * @property int $total_time
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Monitor $monitor
@@ -18,6 +17,8 @@ use Illuminate\Support\Carbon;
 class Result extends Model
 {
     protected $table = 'uptime_results';
+
+    protected $guarded = [];
 
     public function monitor(): BelongsTo
     {
