@@ -13,8 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Monitor::class)->index();
 
-            $table->integer('latency');
-            $table->integer('result_count')->default(0);
+            $table->unsignedFloat('total_time');
 
             $table->timestamps();
         });
