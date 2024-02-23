@@ -23,6 +23,7 @@ use Vigilant\Uptime\Enums\Type;
  * @property ?Carbon $updated_at
  * @property ?Site $site
  * @property Collection<int, Result> $results
+ * @property Collection<int, Result> $aggregatedResults
  * @property Collection<int, Downtime> $downtimes
  */
 class Monitor extends Model
@@ -44,6 +45,11 @@ class Monitor extends Model
     public function results(): HasMany
     {
         return $this->hasMany(Result::class);
+    }
+
+    public function aggregatedResults(): HasMany
+    {
+        return $this->hasMany(ResultAggregate::class);
     }
 
     public function downtimes(): HasMany

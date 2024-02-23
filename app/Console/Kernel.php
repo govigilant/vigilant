@@ -2,22 +2,30 @@
 
 namespace App\Console;
 
+use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Vigilant\Uptime\Commands\AggregateResultsCommand;
+use Vigilant\Uptime\Jobs\CheckUptimeJob;
+use Vigilant\Uptime\Models\Monitor;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command(AggregateResultsCommand::class)->hourly();
+
+        Monitor::query()
+            ->get()
+            ->each(function (Monitor $monitor) use ($schedule) {
+                if (CronExpression::isValidExpression($monitor->interval)) {
+
+                    $schedule->job(new CheckUptimeJob($monitor))->cron($monitor->interval);
+
+                }
+            });
     }
 
-    /**
-     * Register the commands for the application.
-     */
     protected function commands(): void
     {
         $this->load(__DIR__.'/Commands');
