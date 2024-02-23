@@ -1,6 +1,6 @@
 {
-    "name": "vigilant/uptime",
-    "description": "Vigilant Uptime",
+    "name": "vigilant/frontend",
+    "description": "Vigilant Frontend - Collection of frontend components",
     "type": "package",
     "license": "AGPL",
     "authors": [
@@ -11,14 +11,9 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "guzzlehttp/guzzle": "^7.8",
+        "php": "^8.1",
         "laravel/framework": "^10.0",
-        "livewire/livewire": "^3.4",
-        "vigilant/core": "@dev",
-        "vigilant/sites": "@dev",
-        "vigilant/frontend": "@dev",
-        "geerlingguy/ping": "^1.2"
+        "livewire/livewire": "^3.4"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
@@ -29,14 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Vigilant\\Uptime\\": "src",
-            "Vigilant\\Uptime\\Database\\Factories\\": "database/factories"
-
+            "Vigilant\\Frontend\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vigilant\\Uptime\\Tests\\": "tests"
+            "Vigilant\\Frontend\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -58,16 +51,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vigilant\\Uptime\\ServiceProvider"
+                "Vigilant\\Frontend\\ServiceProvider"
             ]
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../*"
-        }
-    ]
+    "prefer-stable": true
+
 }

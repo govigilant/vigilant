@@ -2,17 +2,20 @@
 
 namespace Vigilant\Uptime\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Uptime\Database\Factories\MonitorFactory;
 use Vigilant\Uptime\Enums\Type;
 
 /**
  * @property int $id
  * @property ?int $site_id
+ * @property ?int $team_id
  * @property string $name
  * @property Type $type
  * @property array $settings
@@ -28,6 +31,8 @@ use Vigilant\Uptime\Enums\Type;
  */
 class Monitor extends Model
 {
+    use HasFactory;
+
     protected $table = 'uptime_monitors';
 
     protected $guarded = [];
@@ -57,4 +62,8 @@ class Monitor extends Model
         return $this->hasMany(Downtime::class);
     }
 
+    protected static function newFactory()
+    {
+        return new MonitorFactory;
+    }
 }
