@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f88a8e12c6e189ce4ed5f88ed4d34041",
+    "content-hash": "0c16ac59c009f77e5efbcc6d30c0947d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6302,6 +6302,75 @@
             }
         },
         {
+            "name": "vigilant/frontend",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/frontend",
+                "reference": "4f3b98e22a54608b30618e0bb17bfcb301783226"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Frontend\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Frontend\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Frontend\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Frontend - Collection of frontend components",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/sites",
             "version": "dev-main",
             "dist": {
@@ -6375,7 +6444,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
-                "reference": "564a368d91ed02f09f65eb23d80053366bddb604"
+                "reference": "18961f4ed488d79b5ca2392797924740929833da"
             },
             "require": {
                 "geerlingguy/ping": "^1.2",
@@ -6384,6 +6453,7 @@
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
                 "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
                 "vigilant/sites": "@dev"
             },
             "require-dev": {
@@ -6403,7 +6473,8 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Vigilant\\Uptime\\": "src"
+                    "Vigilant\\Uptime\\": "src",
+                    "Vigilant\\Uptime\\Database\\Factories\\": "database/factories"
                 }
             },
             "autoload-dev": {
@@ -9159,6 +9230,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "vigilant/core": 20,
+        "vigilant/frontend": 20,
         "vigilant/sites": 20,
         "vigilant/uptime": 20,
         "vigilant/users": 20

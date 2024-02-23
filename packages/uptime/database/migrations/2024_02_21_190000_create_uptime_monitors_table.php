@@ -4,6 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Users\Models\Team;
 
 return new class extends Migration
 {
@@ -12,6 +13,7 @@ return new class extends Migration
         Schema::create('uptime_monitors', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Site::class)->nullable();
+            $table->foreignIdFor(Team::class);
 
             $table->string('name');
             $table->string('type');
