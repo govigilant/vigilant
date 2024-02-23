@@ -10,12 +10,12 @@ use Vigilant\Uptime\Enums\Type;
 class CreateUptimeMonitorForm extends Form
 {
     #[Validate('required|max:255')]
-    public string $name = 'monitor';
+    public string $name = '';
 
     public string $type = Type::Http->value;
 
     public array $settings = [
-        'host' => 'https://google.com'
+        'host' => ''
     ];
 
     #[Validate('required')]
@@ -31,7 +31,9 @@ class CreateUptimeMonitorForm extends Form
     {
         return array_merge(parent::getRules(),
             [
-                'type' => ['required', Rule::enum(Type::class)]
+                'type' => ['required', Rule::enum(Type::class)],
+                'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
+                'settings.host' => ['required_if:type,ping,http'],
             ]);
     }
 }

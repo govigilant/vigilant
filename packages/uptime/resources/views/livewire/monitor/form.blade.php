@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        <x-page-header title="Add Uptime Monitor" :back="route('uptime')">
+        <x-page-header :title="$updating ? 'Edit Uptime Monitor - ' . $monitor->name : 'Add Uptime Monitor'" :back="route('uptime')">
         </x-page-header>
     </x-slot>
 
@@ -38,6 +38,12 @@
                     description="Host or IP address of the service"
                     placeholder="{{ config('app.url') }} or 1.1.1.1"
                 />
+
+                <x-form.number
+                    field="form.settings.port"
+                    name="Port"
+                    description="Port to check"
+                />
             @endif
 
             <x-form.select
@@ -51,19 +57,19 @@
                 <option value="* * * * 0">@lang('Hourly')</option>
             </x-form.select>
 
-            <x-form.text
+            <x-form.number
                 field="form.retries"
                 name="Retries"
                 description="Amount of retries before marking the service as down"
             />
 
-            <x-form.text
+            <x-form.number
                 field="form.timeout"
                 name="Timeout"
                 description="Timeout for connecting to the service"
             />
 
-            <x-form.submit-button/>
+            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
 
         </div>
     </form>

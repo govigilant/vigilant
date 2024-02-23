@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca6fc10221f517be92bdc09c2813d79a",
+    "content-hash": "f88a8e12c6e189ce4ed5f88ed4d34041",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -827,6 +827,43 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "geerlingguy/ping",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/geerlingguy/Ping.git",
+                "reference": "e0206326e23c99e3e8820e24705f8ca517adff93"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/geerlingguy/Ping/zipball/e0206326e23c99e3e8820e24705f8ca517adff93",
+                "reference": "e0206326e23c99e3e8820e24705f8ca517adff93",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "JJG/Ping.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jeff Geerling",
+                    "email": "jeff@jeffgeerling.com"
+                }
+            ],
+            "description": "A PHP class to ping hosts.",
+            "support": {
+                "issues": "https://github.com/geerlingguy/Ping/issues",
+                "source": "https://github.com/geerlingguy/Ping/tree/1.2.1"
+            },
+            "time": "2019-07-29T21:54:12+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -6338,11 +6375,16 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
-                "reference": "2025c0458ef6c5f07ca61e40846f9c6042195f07"
+                "reference": "564a368d91ed02f09f65eb23d80053366bddb604"
             },
             "require": {
+                "geerlingguy/ping": "^1.2",
+                "guzzlehttp/guzzle": "^7.8",
                 "laravel/framework": "^10.0",
-                "php": "^8.2"
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/sites": "@dev"
             },
             "require-dev": {
                 "laravel/pint": "^1.6",
@@ -9118,12 +9160,13 @@
     "stability-flags": {
         "vigilant/core": 20,
         "vigilant/sites": 20,
+        "vigilant/uptime": 20,
         "vigilant/users": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": "^8.2"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

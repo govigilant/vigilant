@@ -12,7 +12,7 @@ class UptimeMonitors extends Component
     public function render(): View
     {
         return view('uptime::livewire.uptime-monitors', [
-            'checkers' => Monitor::query()->paginate(),
+            'monitors' => Monitor::query()->paginate(),
         ]);
     }
 }
