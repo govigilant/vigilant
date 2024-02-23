@@ -2,37 +2,34 @@
 
 namespace Vigilant\Uptime\Actions;
 
+use Illuminate\Support\Collection;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
 class AggregateResults
 {
     public function aggregate(Monitor $monitor): void
     {
-        $offset = 1;
+        $resultChunks = $monitor
+            ->results()
+            ->select(['id'])
+            ->get()
+            ->chunk(60);
 
-        $allProcessed = false;
+        /** @var Collection $chunk */
+        foreach ($resultChunks as $chunk) {
+            $ids = $chunk->pluck('id');
 
-        while (! $allProcessed) {
+            $query = Result::query()
+                ->whereIn('id', $ids);
 
-            $resultsQuery = $monitor->results()
-                ->where('created_at', '<', now()->subHours($offset))
-                ->where('created_at', '>=', now()->subHours($offset + 1));
+            ResultAggregate::query()->create([
+                'monitor_id' => $monitor->id,
+                'total_time' => $query->average('total_time')
+            ]);
 
-            $results = $resultsQuery->get();
-
-            if (!$results->isEmpty()) {
-                ResultAggregate::query()->create([
-                    'monitor_id' => $monitor->id,
-                    'total_time' => $results->average('total_time')
-                ]);
-
-                $resultsQuery->delete();
-            }
-
-            $allProcessed = $monitor->results()->count() < 2;
-            $offset++;
-
+            $query->delete();
         }
     }
 }
