@@ -9,20 +9,18 @@ class Ping extends UptimeMonitor
 {
     public function process(Monitor $monitor): UptimeResult
     {
-        dd('ping');
+        /** @var \JJG\Ping $ping */
+        $ping = app(\JJG\Ping::class, ['host' => $monitor->settings['host']]);
 
-        $starttime = microtime(true);
-        $file      = fsockopen ($domain, 80, $errno, $errstr, 10);
-        $stoptime  = microtime(true);
-        $status    = 0;
+        $ping->setPort($monitor->settings['port']);
+        $ping->setTimeout($monitor->timeout);
 
-        if (!$file) $status = -1;  // Site is down
-        else {
-            fclose($file);
-            $status = ($stoptime - $starttime) * 1000;
-            $status = floor($status);
+        $latency = $ping->ping();
+
+        if ($latency === false) {
+            return new UptimeResult(false);
         }
 
-
+        return new UptimeResult(true, $latency);
     }
 }

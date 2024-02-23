@@ -31,7 +31,7 @@ class Http extends UptimeMonitor
 
         return new UptimeResult(
             true,
-            $stats['total_time']
+            $stats['total_time'] ?? 0
         );
     }
 }

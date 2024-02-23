@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
-use Vigilant\Uptime\Http\Livewire\CreateUptimeMonitor;
+use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
 
 class ServiceProvider extends BaseServiceProvider
@@ -81,7 +81,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootLivewire(): static
     {
         Livewire::component('uptime', UptimeMonitors::class);
-        Livewire::component('uptime-monitor-create', CreateUptimeMonitor::class);
+        Livewire::component('uptime-monitor-create', UptimeMonitorForm::class);
 
         return $this;
     }

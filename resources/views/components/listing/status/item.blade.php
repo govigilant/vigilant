@@ -6,7 +6,7 @@
                 <div class="h-2 w-2 rounded-full bg-green-light"></div>
             </div>
             <h2 class="min-w-0 text-sm font-semibold leading-6 text-white">
-                <a href="{{ $url ?? '#' }}" class="flex gap-x-2">
+                <a href="{{ $url ?? '#' }}" wire:navigate class="flex gap-x-2">
                     <span class="truncate">{{ $title }}</span>
                 </a>
             </h2>
