@@ -11,6 +11,8 @@ class LatencyChart extends BaseChart
     #[Locked]
     public int $monitorId = 0;
 
+    public int $height = 40;
+
     public function mount(int $monitorId): void
     {
         $this->monitorId = $monitorId;
@@ -33,6 +35,11 @@ class LatencyChart extends BaseChart
                     [
                         'label' => 'Latency',
                         'data' => $points->pluck('total_time'),
+                        'pointRadius' => 0,
+                        'pointHoverRadius' => 0,
+                        'borderWidth' => 2,
+                        'borderColor' => '#337F1F',
+                        'tension' => 0.4,
                     ],
                 ],
             ],
@@ -40,6 +47,9 @@ class LatencyChart extends BaseChart
                 'plugins' => [
                     'legend' => [
                         'display' => false,
+                    ],
+                    'tooltip' => [
+                        'enabled' => false,
                     ],
                 ],
                 'scales' => [

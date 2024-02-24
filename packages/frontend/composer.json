@@ -13,7 +13,8 @@
     "require": {
         "php": "^8.1",
         "laravel/framework": "^10.0",
-        "livewire/livewire": "^3.4"
+        "livewire/livewire": "^3.4",
+        "ramonrietdijk/livewire-tables": "^3.9"
     },
     "require-dev": {
         "laravel/pint": "^1.6",

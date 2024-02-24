@@ -1,6 +1,7 @@
 <div wire:init="loadChart" x-data="{show: false, loading: true}">
 
     <div
+        style="height: {{ $height }}px;"
         wire:ignore
         x-init="() => {
             Livewire.on('{{ $identifier }}-update-chart', params => {
