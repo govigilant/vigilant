@@ -1,3 +1,4 @@
-<ul role="list" class="divide-y divide-white/5">
+<div
+    {{ $attributes->merge(['class' => 'divide-y divide-white/5']) }}>
     {{ $slot }}
-</ul>
+</div>

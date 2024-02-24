@@ -17,6 +17,7 @@
         "livewire/livewire": "^3.4",
         "vigilant/core": "@dev",
         "vigilant/sites": "@dev",
+        "vigilant/users": "@dev",
         "vigilant/frontend": "@dev",
         "geerlingguy/ping": "^1.2"
     },

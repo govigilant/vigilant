@@ -7,43 +7,61 @@
         </x-page-header>
     </x-slot>
 
-    <x-listing.status.wrapper>
-        @foreach($monitors as $monitor)
-            <x-listing.status.item :title="$monitor->name" :url="route('uptime.monitor.edit', ['monitor' => $monitor])">
+    <livewire:uptime-monitor-table/>
 
-                <x-slot:subtitle>
-                    {{ $monitor->type->label() }} Monitor
-                </x-slot:subtitle>
+{{--    <x-listing.status.wrapper class="grid grid-cols-5">--}}
 
+{{--        <x-listing.status.header title="Monitor">--}}
+{{--            <div class="flex gap-4">--}}
 
-                <div class="flex gap-4">
+{{--                <div>@lang('Latency')</div>--}}
+{{--                <div>@lang('Uptime')</div>--}}
+{{--                <div>@lang('Last Downtime')</div>--}}
 
-                <div>
-                    <livewire:monitor-latency-chart :monitorId="$monitor->id"/>
-                </div>
+{{--            </div>--}}
+{{--        </x-listing.status.header>--}}
 
-                <div>
-                    test
-                </div>
+{{--        @foreach($monitors as $monitor)--}}
+{{--            <x-listing.status.item :title="$monitor->name" :url="route('uptime.monitor.edit', ['monitor' => $monitor])">--}}
 
-                <div>
-                    test2
-                </div>
-
-                </div>
+{{--                <x-slot:subtitle>--}}
+{{--                    {{ $monitor->type->label() }} Monitor--}}
+{{--                </x-slot:subtitle>--}}
 
 
-{{--                Laaste check hier? --}}
+{{--                <div class="flex gap-4">--}}
 
-{{--                Latency grafiekje --}}
+{{--                    @php($latency = $monitor->aggregatedResults()->orderByDesc('created_at')->first()?->total_time ?? null)--}}
 
-{{--                Laatste downtime --}}
+{{--                    @if ($latency !== null)--}}
+{{--                        <div>--}}
+{{--                            <span class="relative top-1 text-sm text-green-light">{{ $latency }} ms</span>--}}
+{{--                            <livewire:monitor-latency-chart :monitorId="$monitor->id"/>--}}
+{{--                        </div>--}}
+{{--                    @endif--}}
+
+{{--                    <div>--}}
+{{--                        test--}}
+{{--                    </div>--}}
+
+{{--                    <div>--}}
+{{--                        test2--}}
+{{--                    </div>--}}
+
+{{--                </div>--}}
 
 
-            </x-listing.status.item>
-        @endforeach
-    </x-listing.status.wrapper>
+{{--                --}}{{--                Laaste check hier? --}}
 
-    {{ $monitors->links() }}
+{{--                --}}{{--                Latency grafiekje --}}
+
+{{--                --}}{{--                Laatste downtime --}}
+
+
+{{--            </x-listing.status.item>--}}
+{{--        @endforeach--}}
+{{--    </x-listing.status.wrapper>--}}
+
+{{--    {{ $monitors->links() }}--}}
 
 </div>

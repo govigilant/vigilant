@@ -62,6 +62,17 @@ class Monitor extends Model
         return $this->hasMany(Downtime::class);
     }
 
+    public function currentDowntime(): ?Downtime
+    {
+        /** @var ?Downtime $downtime */
+        $downtime = $this->downtimes()
+            ->whereNull('end')
+            ->orderByDesc('start')
+            ->first();
+
+        return $downtime;
+    }
+
     protected static function newFactory()
     {
         return new MonitorFactory;
