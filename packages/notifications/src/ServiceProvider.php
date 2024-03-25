@@ -1,13 +1,11 @@
 <?php
 
-namespace Vigilant\Uptime;
+namespace Vigilant\Notifications;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
-use Vigilant\Notifications\Facades\NotificationRegistry;
-use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
@@ -26,7 +24,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): static
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/uptime.php', 'uptime');
+        $this->mergeConfigFrom(__DIR__.'/../config/notifications.php', 'notifications');
 
         return $this;
     }
@@ -52,7 +50,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootConfig(): static
     {
         $this->publishes([
-            __DIR__.'/../config/uptime.php' => config_path('uptime.php'),
+            __DIR__.'/../config/notifications.php' => config_path('notifications.php'),
         ], 'config');
 
         return $this;
@@ -69,8 +67,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CheckUptimeCommand::class,
-                AggregateResultsCommand::class,
+
             ]);
         }
 
@@ -79,19 +76,13 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootViews(): static
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'uptime');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'notifications');
 
         return $this;
     }
 
     protected function bootLivewire(): static
     {
-        Livewire::component('uptime', UptimeMonitors::class);
-        Livewire::component('uptime-monitor-create', UptimeMonitorForm::class);
-        Livewire::component('uptime-monitor-table', MonitorTable::class);
-
-        Livewire::component('monitor-latency-chart', LatencyChart::class);
-
 
         return $this;
     }
@@ -113,12 +104,5 @@ class ServiceProvider extends BaseServiceProvider
         return $this;
     }
 
-    protected function bootNotifications(): static
-    {
-        NotificationRegistry::register(
 
-        );
-
-        return $this;
-    }
 }

@@ -72,10 +72,6 @@ class MonitorTable extends LivewireTable
                 ->component('monitor-latency-chart')
                 ->parameters(fn (Monitor $monitor) => ['monitorId' => $monitor->id]),
 
-            //Column::make('')
-            //    ->displayUsing(fn () => '<span class="text-green-light">10 ms</span>')
-            //    ->asHtml(),
-
             Column::make(__('Uptime'))
                 ->displayUsing(function (Monitor $monitor) use ($calculateUptime) {
 

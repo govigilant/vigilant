@@ -12,7 +12,6 @@ class Navigation
 
     protected array $items = [];
 
-
     public function path(string $path): static
     {
         $this->paths[] = $path;

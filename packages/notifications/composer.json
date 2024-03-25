@@ -1,6 +1,6 @@
 {
-    "name": "vigilant/users",
-    "description": "Vigilant Users",
+    "name": "vigilant/notifications",
+    "description": "Vigilant Notifications",
     "type": "package",
     "license": "AGPL",
     "authors": [
@@ -11,10 +11,11 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.1",
         "laravel/framework": "^10.0",
-        "laravel/jetstream": "^4.2",
-        "laravel/sanctum": "^v3.0"
+        "livewire/livewire": "^3.4",
+        "vigilant/core": "@dev",
+        "vigilant/users": "dev-main"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
@@ -25,12 +26,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Vigilant\\Users\\": "src"
+            "Vigilant\\Notifications\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Vigilant\\Users\\Tests\\": "tests"
+            "Vigilant\\Notifications\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -52,11 +53,19 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Vigilant\\Users\\ServiceProvider"
-            ]
+                "Vigilant\\Notifications\\ServiceProvider"
+            ],
+            "aliases": {
+                "NotificationRegistry": "Vigilant\\Notifications\\Facades\\NotificationRegistry"
+            }
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
-
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
 }
