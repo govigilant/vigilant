@@ -16,9 +16,4 @@ class Navigation extends Facade
     {
         return \Vigilant\Core\Navigation\Navigation::class;
     }
-
-    public static function bind(): void
-    {
-        app()->bind(\Vigilant\Core\Navigation\Navigation::class, fn() => new \Vigilant\Core\Navigation\Navigation());
-    }
 }
