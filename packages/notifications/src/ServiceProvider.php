@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Notifications\Http\Livewire\Notifications;
+use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
@@ -83,6 +85,8 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootLivewire(): static
     {
+        Livewire::component('notifications', Notifications::class);
+        Livewire::component('notification-table', NotificationTable::class);
 
         return $this;
     }
@@ -103,6 +107,4 @@ class ServiceProvider extends BaseServiceProvider
 
         return $this;
     }
-
-
 }

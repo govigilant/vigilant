@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,6 +12,7 @@ use Illuminate\Support\Collection;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Database\Factories\MonitorFactory;
 use Vigilant\Uptime\Enums\Type;
+use Vigilant\Uptime\Observers\MonitorObserver;
 
 /**
  * @property int $id
@@ -29,6 +31,7 @@ use Vigilant\Uptime\Enums\Type;
  * @property Collection<int, Result> $aggregatedResults
  * @property Collection<int, Downtime> $downtimes
  */
+#[ObservedBy([MonitorObserver::class])]
 class Monitor extends Model
 {
     use HasFactory;

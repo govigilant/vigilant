@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1009094c599cabce64012591cd1b098d",
+    "content-hash": "fca865dc085b9e8f8e709ad81593d273",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6373,12 +6373,13 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
-                "reference": "4f3b98e22a54608b30618e0bb17bfcb301783226"
+                "reference": "79b81bddd10263a6cf9c3239cdbbf6205cbf041b"
             },
             "require": {
                 "laravel/framework": "^10.0",
                 "livewire/livewire": "^3.4",
-                "php": "^8.1"
+                "php": "^8.1",
+                "ramonrietdijk/livewire-tables": "^3.9"
             },
             "require-dev": {
                 "laravel/pint": "^1.6",
@@ -6432,6 +6433,80 @@
                 }
             ],
             "description": "Vigilant Frontend - Collection of frontend components",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "vigilant/notifications",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/notifications",
+                "reference": "585f14e2dd12a7b0083ea9f0e8e442e75ac8fbfb"
+            },
+            "require": {
+                "laravel/framework": "^10.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.1",
+                "vigilant/core": "@dev",
+                "vigilant/users": "dev-main"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.6",
+                "nunomaduro/larastan": "^2.5",
+                "orchestra/testbench": "^8.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^10.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Notifications\\ServiceProvider"
+                    ],
+                    "aliases": {
+                        "NotificationRegistry": "Vigilant\\Notifications\\Facades\\NotificationRegistry"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Notifications\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Notifications\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Notifications",
             "transport-options": {
                 "relative": true
             }
@@ -6510,7 +6585,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
-                "reference": "18961f4ed488d79b5ca2392797924740929833da"
+                "reference": "68c6572864fafde36ecefaed66336c9238141bb9"
             },
             "require": {
                 "geerlingguy/ping": "^1.2",
@@ -6520,7 +6595,8 @@
                 "php": "^8.2",
                 "vigilant/core": "@dev",
                 "vigilant/frontend": "@dev",
-                "vigilant/sites": "@dev"
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
             },
             "require-dev": {
                 "laravel/pint": "^1.6",
@@ -6585,10 +6661,12 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
-                "reference": "ab3a1ad15536a467d78a38052de96ded877dea99"
+                "reference": "3e4cc3fb09b7ecdae5c301f3f7e98c0c73e29898"
             },
             "require": {
                 "laravel/framework": "^10.0",
+                "laravel/jetstream": "^4.2",
+                "laravel/sanctum": "^v3.0",
                 "php": "^8.2"
             },
             "require-dev": {
