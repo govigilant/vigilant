@@ -14,10 +14,12 @@ return new class extends Migration
             $table->unsignedBigInteger('notification_trigger_id');
             $table->timestamps();
 
-            $table->foreign('notification_channel_id')->references('id')->on('notification_channels')->onDelete('cascade');
-            $table->foreign('notification_trigger_id')->references('id')->on('notification_triggers')->onDelete('cascade');
+            $table->foreign('notification_channel_id', 'channel_id')
+                ->references('id')->on('notification_channels')->onDelete('cascade');
+            $table->foreign('notification_trigger_id', 'trigger_id')
+                ->references('id')->on('notification_triggers')->onDelete('cascade');
 
-            $table->unique(['notification_channel_id', 'notification_trigger_id']);
+            $table->unique(['notification_channel_id', 'notification_trigger_id'], 'unique_notification_channel_trigger');
         });
     }
 

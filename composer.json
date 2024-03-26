@@ -19,6 +19,7 @@
         "livewire/livewire": "^3.0",
         "vigilant/core": "dev-main",
         "vigilant/frontend": "dev-main",
+        "vigilant/notifications": "dev-main",
         "vigilant/sites": "dev-main",
         "vigilant/uptime": "dev-main",
         "vigilant/users": "dev-main"
