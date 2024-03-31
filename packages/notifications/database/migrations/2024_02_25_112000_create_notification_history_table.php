@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
 
 return new class extends Migration
@@ -13,6 +14,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignIdFor(Trigger::class);
+            $table->foreignIdFor(Channel::class);
 
             $table->json('data');
 

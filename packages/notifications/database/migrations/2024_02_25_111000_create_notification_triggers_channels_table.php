@@ -10,16 +10,15 @@ return new class extends Migration
     {
         Schema::create('notification_channel_notification_trigger', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notification_channel_id');
-            $table->unsignedBigInteger('notification_trigger_id');
-            $table->timestamps();
+            $table->unsignedBigInteger('channel_id');
+            $table->unsignedBigInteger('trigger_id');
 
-            $table->foreign('notification_channel_id', 'channel_id')
+            $table->foreign('channel_id', 'channel_id')
                 ->references('id')->on('notification_channels')->onDelete('cascade');
-            $table->foreign('notification_trigger_id', 'trigger_id')
+            $table->foreign('trigger_id', 'trigger_id')
                 ->references('id')->on('notification_triggers')->onDelete('cascade');
 
-            $table->unique(['notification_channel_id', 'notification_trigger_id'], 'unique_notification_channel_trigger');
+            $table->unique(['channel_id', 'trigger_id'], 'unique_notification_channel_trigger');
         });
     }
 

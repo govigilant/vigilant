@@ -14,6 +14,7 @@ use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
+use Vigilant\Uptime\Notifications\DowntimeNotification;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -46,7 +47,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootViews()
             ->bootLivewire()
             ->bootRoutes()
-            ->bootNavigation();
+            ->bootNavigation()
+            ->bootNotifications();
     }
 
     protected function bootConfig(): static
@@ -92,7 +94,6 @@ class ServiceProvider extends BaseServiceProvider
 
         Livewire::component('monitor-latency-chart', LatencyChart::class);
 
-
         return $this;
     }
 
@@ -115,9 +116,9 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootNotifications(): static
     {
-        NotificationRegistry::register(
-
-        );
+        NotificationRegistry::registerNotification([
+            DowntimeNotification::class,
+        ]);
 
         return $this;
     }

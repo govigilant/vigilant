@@ -7,6 +7,8 @@ use Vigilant\Notifications\Models\Trigger;
 
 abstract class Notification
 {
+    public static string $name = '';
+
     public static function notify(...$args)
     {
         $instance = new static(...$args);
@@ -18,12 +20,14 @@ abstract class Notification
 
         foreach($triggers as $trigger) {
 
-            // Check conditions
+            // TODO: Check conditions
 
             // Dispatch job to send notification
 
+
+
         }
-
-
     }
+
+    abstract public function uniqueId(): string;
 }

@@ -6,7 +6,14 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Notifications\Channels\WebhookChannel;
+use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Notifications\Http\Livewire\ChannelForm;
+use Vigilant\Notifications\Http\Livewire\Channels;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
+use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
+use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
@@ -46,7 +53,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootViews()
             ->bootLivewire()
             ->bootRoutes()
-            ->bootNavigation();
+            ->bootNavigation()
+            ->bootNotificationChannels();
     }
 
     protected function bootConfig(): static
@@ -87,6 +95,13 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('notifications', Notifications::class);
         Livewire::component('notification-table', NotificationTable::class);
+        Livewire::component('notification-form', NotificationForm::class);
+
+        Livewire::component('channels', Channels::class);
+        Livewire::component('channel-table', ChannelTable::class);
+        Livewire::component('channel-form', ChannelForm::class);
+
+        Livewire::component('channel-configuration-webhook', Webhook::class);
 
         return $this;
     }
@@ -104,6 +119,15 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNavigation(): static
     {
         Navigation::path(__DIR__.'/../resources/navigation.php');
+
+        return $this;
+    }
+
+    protected function bootNotificationChannels(): static
+    {
+        NotificationRegistry::registerChannel([
+            WebhookChannel::class,
+        ]);
 
         return $this;
     }
