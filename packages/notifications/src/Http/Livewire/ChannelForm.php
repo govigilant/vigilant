@@ -8,6 +8,7 @@ use Livewire\Component;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateChannelForm;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
+use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\TestNotification;
 
 class ChannelForm extends Component
