@@ -29,7 +29,10 @@
                 <span class="text-xs text-neutral-400">{{ __('Select a channel to configure') }}</span>
             @endif
 
-            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
+
+            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'">
+                <x-form.button wire:click="test" class="bg-blue hover:bg-blue-light">Test</x-form.button>
+            </x-form.submit-button>
 
         </div>
     </form>
