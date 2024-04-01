@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Vigilant\Notifications\Channels\NotificationChannel;
 use Vigilant\Notifications\Models\Channel;
+use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\Notification;
 
 class SendNotificationJob implements ShouldQueue, ShouldBeUnique
@@ -21,7 +22,8 @@ class SendNotificationJob implements ShouldQueue, ShouldBeUnique
 
     public function __construct(
         public Notification $notification,
-        public Channel $channel
+        public Channel $channel,
+        public ?Trigger $trigger = null,
     ) {
     }
 
@@ -31,6 +33,13 @@ class SendNotificationJob implements ShouldQueue, ShouldBeUnique
         $instance = app($this->channel->channel);
 
         $instance->fire($this->notification, $this->channel);
+
+        $this->channel->history()->create([
+            'trigger_id' => $this->trigger?->id ?? null,
+            'notification' => get_class($this->notification),
+            'uniqueId' => $this->notification->uniqueId(),
+            'data' => $this->notification->toArray(),
+        ]);
     }
 
     public function uniqueId(): string

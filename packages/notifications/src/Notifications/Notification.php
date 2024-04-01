@@ -2,12 +2,13 @@
 
 namespace Vigilant\Notifications\Notifications;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Trigger;
 
-abstract class Notification
+abstract class Notification implements Arrayable
 {
     public static string $name = '';
 
@@ -31,8 +32,8 @@ abstract class Notification
 
             // TODO: Check conditions
 
-            foreach($trigger->channels as $channel) {
-                SendNotificationJob::dispatch($instance, $channel);
+            foreach ($trigger->channels as $channel) {
+                SendNotificationJob::dispatch($instance, $channel, $trigger);
             }
         }
     }
@@ -52,5 +53,14 @@ abstract class Notification
     public function description(): string
     {
         return $this->description;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'title' => $this->title(),
+            'description' => $this->description(),
+            'level' => $this->level(),
+        ];
     }
 }
