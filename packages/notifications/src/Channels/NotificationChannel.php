@@ -4,6 +4,7 @@ namespace Vigilant\Notifications\Channels;
 
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
+use Vigilant\Notifications\Notifications\Notification;
 
 abstract class NotificationChannel
 {
@@ -19,5 +20,5 @@ abstract class NotificationChannel
         return $this->rules;
     }
 
-    abstract public function fire(Channel $channel, Trigger $trigger): void;
+    abstract public function fire(Notification $notification, Channel $channel): void;
 }

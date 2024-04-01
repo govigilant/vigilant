@@ -6,7 +6,9 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateChannelForm;
+use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
+use Vigilant\Notifications\Notifications\TestNotification;
 
 class ChannelForm extends Component
 {
@@ -52,7 +54,7 @@ class ChannelForm extends Component
         $this->componentValidated = $validated;
     }
 
-    public function save(): void
+    public function save(bool $redirect = true): void
     {
         if (! $this->componentValidated && $this->settingsComponent !== null) {
             return;
@@ -68,7 +70,19 @@ class ChannelForm extends Component
             );
         }
 
-        $this->redirectRoute('notifications.channels');
+        if ($redirect) {
+            $this->redirectRoute('notifications.channels');
+        }
+    }
+
+    public function test(): void
+    {
+        $this->save(false);
+
+        SendNotificationJob::dispatchSync(
+            new TestNotification(),
+            $this->channelModel
+        );
     }
 
     public function render()

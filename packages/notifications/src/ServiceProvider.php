@@ -6,40 +6,29 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\WebhookChannel;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
-use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Uptime\Commands\CheckUptimeCommand;
-use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
-use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
-use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
-use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
 
 class ServiceProvider extends BaseServiceProvider
 {
     public function register(): void
     {
         $this
-            ->registerConfig()
-            ->registerActions();
+            ->registerConfig();
     }
 
     protected function registerConfig(): static
     {
         $this->mergeConfigFrom(__DIR__.'/../config/notifications.php', 'notifications');
-
-        return $this;
-    }
-
-    protected function registerActions(): static
-    {
 
         return $this;
     }
@@ -102,6 +91,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('channel-form', ChannelForm::class);
 
         Livewire::component('channel-configuration-webhook', Webhook::class);
+        Livewire::component('channel-configuration-ntfy', Ntfy::class);
 
         return $this;
     }
@@ -126,6 +116,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNotificationChannels(): static
     {
         NotificationRegistry::registerChannel([
+            NtfyChannel::class,
             WebhookChannel::class,
         ]);
 
