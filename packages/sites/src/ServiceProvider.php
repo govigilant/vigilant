@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Sites\Http\Livewire\Create;
 use Vigilant\Sites\Http\Livewire\Sites;
+use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -81,6 +82,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('sites', Sites::class);
         Livewire::component('sites.create', Create::class);
+        Livewire::component('sites.table', SiteTable::class);
 
         return $this;
     }
