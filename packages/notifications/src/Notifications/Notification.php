@@ -6,6 +6,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
+use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
 
 abstract class Notification implements Arrayable
@@ -32,7 +33,9 @@ abstract class Notification implements Arrayable
 
             // TODO: Check conditions
 
-            foreach ($trigger->channels as $channel) {
+            $channels = $trigger->all_channels ? Channel::all() : $trigger->channels;
+
+            foreach ($channels as $channel) {
                 SendNotificationJob::dispatch($instance, $channel, $trigger);
             }
         }

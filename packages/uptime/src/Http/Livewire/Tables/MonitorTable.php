@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Http\Livewire\Tables;
 
+use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Frontend\Integrations\Table\ChartColumn;
@@ -105,6 +106,11 @@ class MonitorTable extends LivewireTable
 
                 })
         ];
+    }
+
+    public function link(Model $model): ?string
+    {
+        return route('uptime.monitor.edit', ['monitor' => $model]);
     }
 }
 

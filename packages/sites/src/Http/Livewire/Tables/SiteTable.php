@@ -2,6 +2,7 @@
 
 namespace Vigilant\Sites\Http\Livewire\Tables;
 
+use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Sites\Models\Site;
@@ -15,5 +16,10 @@ class SiteTable extends LivewireTable
         return [
             Column::make(__('URL'), 'url'),
         ];
+    }
+
+    public function link(Model $model): ?string
+    {
+        return route('site.edit', ['site' => $model]);
     }
 }
