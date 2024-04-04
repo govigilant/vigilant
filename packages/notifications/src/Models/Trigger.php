@@ -17,6 +17,7 @@ use Vigilant\Users\Models\Team;
  * @property int $team_id
  * @property string $notification
  * @property array $conditions
+ * @property bool $all_channels
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Team $team
@@ -31,21 +32,22 @@ class Trigger extends Model
     protected $guarded = [];
 
     protected $casts = [
-      'conditions' => 'array',
+        'conditions' => 'array',
+        'all_channels' => 'bool',
     ];
 
     public function team(): BelongsTo
     {
-       return $this->belongsTo(Team::class);
+        return $this->belongsTo(Team::class);
     }
 
     public function channels(): BelongsToMany
     {
-       return $this->belongsToMany(Channel::class, 'notification_channel_notification_trigger');
+        return $this->belongsToMany(Channel::class, 'notification_channel_notification_trigger');
     }
 
     public function history(): HasMany
     {
-       return $this->hasMany(History::class);
+        return $this->hasMany(History::class);
     }
 }

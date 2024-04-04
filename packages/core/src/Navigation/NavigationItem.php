@@ -18,7 +18,10 @@ class NavigationItem
 
     public function active(): bool
     {
-        return request()->url() === $this->url;
+        $isBase = $this->url === config('app.url');
+
+        return request()->url() === $this->url ||
+            (!$isBase && str_starts_with(request()->url(), $this->url));
     }
 
     public function name(string $name): static

@@ -7,13 +7,12 @@
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
             <x-form.text class="sm:col-span-2"
-                         field="url"
+                         field="form.url"
                          name="URL"
                          description="The URL of the site that you want to add."
                          placeholder="{{ config('app.url') }}"/>
 
-
-            <x-form.submit-button/>
+            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
 
         </div>
     </form>

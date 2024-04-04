@@ -11,4 +11,6 @@ class CreateNotificationForm extends Form
     public string $notification = '';
 
     public array $conditions = [];
+
+    public bool $all_channels = false;
 }
