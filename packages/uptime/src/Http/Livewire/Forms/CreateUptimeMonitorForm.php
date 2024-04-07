@@ -3,12 +3,16 @@
 namespace Vigilant\Uptime\Http\Livewire\Forms;
 
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Vigilant\Uptime\Enums\Type;
 
 class CreateUptimeMonitorForm extends Form
 {
+    #[Locked]
+    public ?int $site_id;
+
     #[Validate('required|max:255')]
     public string $name = '';
 
