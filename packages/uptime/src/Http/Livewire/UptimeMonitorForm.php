@@ -4,12 +4,16 @@ namespace Vigilant\Uptime\Http\Livewire;
 
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Frontend\Traits\CanBeInline;
 use Vigilant\Uptime\Http\Livewire\Forms\CreateUptimeMonitorForm;
 use Vigilant\Uptime\Models\Monitor;
 
 class UptimeMonitorForm extends Component
 {
+    use CanBeInline;
+
     public CreateUptimeMonitorForm $form;
 
     #[Locked]
@@ -21,6 +25,7 @@ class UptimeMonitorForm extends Component
         $this->monitor = $monitor;
     }
 
+    #[On('save')]
     public function save(): void
     {
         $this->validate();
@@ -33,13 +38,15 @@ class UptimeMonitorForm extends Component
             );
         }
 
-        $this->redirectRoute('uptime');
+        if (! $this->inline) {
+            $this->redirectRoute('uptime');
+        }
     }
 
     public function render(): View
     {
         return view('uptime::livewire.monitor.form', [
-            'updating' => $this->monitor->exists
+            'updating' => $this->monitor->exists,
         ]);
     }
 }

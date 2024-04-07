@@ -62,7 +62,7 @@
                                            ])
                                            >
                                             @if($item->icon !== null)
-                                                @svg($item->icon, 'h-6 w-6 shrink-0')
+                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' : ''))
                                             @endif
                                             {{ __($item->name)  }}
                                         </a>

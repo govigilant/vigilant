@@ -1,23 +1,23 @@
 <div>
     <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Uptime Monitor - ' . $monitor->name : 'Add Uptime Monitor'" :back="route('uptime')">
+        <x-page-header :title="$updating ? 'Edit Uptime Monitor - ' . $monitor->name : 'Add Uptime Monitor'"
+                       :back="route('uptime')">
         </x-page-header>
     </x-slot>
-
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
             <x-form.text
-                    field="form.name"
-                    name="Name"
-                    description="Friendly name for this monitor"
+                field="form.name"
+                name="Name"
+                description="Friendly name for this monitor"
             />
 
             <x-form.select
-                    field="form.type"
-                    name="Monitor Type"
-                    description="Choose how this monitor should check if the service is up"
+                field="form.type"
+                name="Monitor Type"
+                description="Choose how this monitor should check if the service is up"
             >
                 @foreach(\Vigilant\Uptime\Enums\Type::cases() as $type)
                     <option value="{{ $type->value }}">{{ $type->label() }}</option>
@@ -69,7 +69,9 @@
                 description="Timeout for connecting to the service"
             />
 
-            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
+            @if(!$inline)
+                <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
+            @endif
 
         </div>
     </form>

@@ -15,14 +15,26 @@ class SiteForm extends Component
     #[Locked]
     public Site $site;
 
+    public string $tab = 'uptime';
+
     public function mount(?Site $site): void
     {
-       $this->form->fill($site->toArray());
-       $this->site = $site;
+        $this->form->fill($site->toArray());
+        $this->site = $site;
+    }
+
+    public function setTab(string $tab): void
+    {
+        $this->tab = $tab;
     }
 
     public function save(): void
     {
+        // Save tabs
+        if ($this->site->exists) {
+            $this->dispatch('save');
+        }
+
         $this->validate();
 
         if ($this->site->exists) {
@@ -31,15 +43,26 @@ class SiteForm extends Component
             Site::query()->create(
                 $this->form->all()
             );
-        }
 
-        $this->redirectRoute('sites');
+            $this->redirectRoute('site.edit', ['site' => $this->site]);
+        }
     }
 
     public function render(): View
     {
         return view('sites::livewire.form', [
             'updating' => $this->site->exists,
+            'tabs' => $this->tabs(),
         ]);
+    }
+
+    protected function tabs(): array
+    {
+        return [
+            'uptime' => [
+                'title' => __('Uptime Monitoring'),
+                'component' => 'sites.tabs.uptime-monitor',
+            ],
+        ];
     }
 }

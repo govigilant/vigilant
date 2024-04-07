@@ -89,7 +89,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootLivewire(): static
     {
         Livewire::component('uptime', UptimeMonitors::class);
-        Livewire::component('uptime-monitor-create', UptimeMonitorForm::class);
+        Livewire::component('uptime-monitor-form', UptimeMonitorForm::class);
         Livewire::component('uptime-monitor-table', MonitorTable::class);
 
         Livewire::component('monitor-latency-chart', LatencyChart::class);

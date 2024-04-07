@@ -9,6 +9,7 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
+use Vigilant\Sites\Http\Livewire\Tabs\UptimeMonitor;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -83,6 +84,8 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('sites', Sites::class);
         Livewire::component('sites.create', SiteForm::class);
         Livewire::component('sites.table', SiteTable::class);
+
+        Livewire::component('sites.tabs.uptime-monitor', UptimeMonitor::class);
 
         return $this;
     }

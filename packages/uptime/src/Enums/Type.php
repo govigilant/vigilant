@@ -14,7 +14,7 @@ enum Type: string
     public function label(): string
     {
         return match ($this) {
-            Type::Http => 'HTTP',
+            Type::Http => 'HTTP(s)',
             Type::Ping => 'Ping',
         };
     }
