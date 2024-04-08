@@ -11,17 +11,22 @@ class AggregateResultsTest extends TestCase
 {
     public function test_it_aggregates_uptime_results(): void
     {
-        /** @var Monitor $monitor */
-        $monitor = Monitor::query()->create([
-            'name' => 'Test Monitor',
-            'type' => Type::Http,
-            'settings' => [
-                'host' => 'http://service',
-            ],
-            'interval' => '* * * * *',
-            'retries' => 1,
-            'timeout' => 1,
-        ]);
+        $monitor = null;
+
+        Monitor::withoutEvents(function () use (&$monitor) {
+            /** @var Monitor $monitor */
+            $monitor = Monitor::query()->create([
+                'team_id' => 1,
+                'name' => 'Test Monitor',
+                'type' => Type::Http,
+                'settings' => [
+                    'host' => 'http://service',
+                ],
+                'interval' => '* * * * *',
+                'retries' => 1,
+                'timeout' => 1,
+            ]);
+        });
 
         for ($minute = 0; $minute < (60 * 24); $minute++) {
 

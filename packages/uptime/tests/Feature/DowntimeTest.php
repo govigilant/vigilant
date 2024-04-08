@@ -19,17 +19,22 @@ class DowntimeTest extends TestCase
     {
         Event::fake();
 
-        /** @var Monitor $monitor */
-        $monitor = Monitor::query()->create([
-            'name' => 'Test Monitor',
-            'type' => Type::Http,
-            'settings' => [
-                'host' => 'http://service',
-            ],
-            'interval' => '* * * * *',
-            'retries' => 1,
-            'timeout' => 1,
-        ]);
+        $monitor = null;
+
+        Monitor::withoutEvents(function () use (&$monitor) {
+            /** @var Monitor $monitor */
+            $monitor = Monitor::query()->create([
+                'team_id' => 1,
+                'name' => 'Test Monitor',
+                'type' => Type::Http,
+                'settings' => [
+                    'host' => 'http://service',
+                ],
+                'interval' => '* * * * *',
+                'retries' => 1,
+                'timeout' => 1,
+            ]);
+        });
 
         $this->mock(Http::class, function (MockInterface $mock) {
             $mock->shouldReceive('process')->andReturn(new UptimeResult(false));
@@ -50,17 +55,22 @@ class DowntimeTest extends TestCase
     {
         Event::fake();
 
-        /** @var Monitor $monitor */
-        $monitor = Monitor::query()->create([
-            'name' => 'Test Monitor',
-            'type' => Type::Http,
-            'settings' => [
-                'host' => 'http://service',
-            ],
-            'interval' => '* * * * *',
-            'retries' => 1,
-            'timeout' => 1,
-        ]);
+        $monitor = null;
+
+        Monitor::withoutEvents(function () use (&$monitor) {
+            /** @var Monitor $monitor */
+            $monitor = Monitor::query()->create([
+                'team_id' => 1,
+                'name' => 'Test Monitor',
+                'type' => Type::Http,
+                'settings' => [
+                    'host' => 'http://service',
+                ],
+                'interval' => '* * * * *',
+                'retries' => 1,
+                'timeout' => 1,
+            ]);
+        });
 
         $monitor->downtimes()->create([
             'start' => now()->subMinutes(5)
@@ -76,6 +86,6 @@ class DowntimeTest extends TestCase
 
         Event::assertDispatched(DowntimeEndEvent::class);
 
-       $this->assertNotNull($monitor->downtimes()->whereNotNull('end')->first());
+        $this->assertNotNull($monitor->downtimes()->whereNotNull('end')->first());
     }
 }

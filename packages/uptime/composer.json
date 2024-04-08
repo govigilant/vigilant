@@ -19,6 +19,7 @@
         "vigilant/sites": "@dev",
         "vigilant/users": "@dev",
         "vigilant/frontend": "@dev",
+        "vigilant/notifications": "@dev",
         "geerlingguy/ping": "^1.2"
     },
     "require-dev": {
