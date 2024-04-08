@@ -19,6 +19,11 @@ abstract class Notification implements Arrayable
 
     public Level $level = Level::Info;
 
+    public static function make(...$args): static
+    {
+        return new static(...$args);
+    }
+
     public static function notify(...$args): void
     {
         $instance = new static(...$args);

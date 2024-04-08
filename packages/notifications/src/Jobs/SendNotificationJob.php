@@ -44,6 +44,11 @@ class SendNotificationJob implements ShouldQueue, ShouldBeUnique
 
     public function uniqueId(): string
     {
-        return get_class($this->notification).$this->notification->uniqueId();
+        return implode('-', [
+            get_class($this->notification),
+            $this->channel->id,
+            $this->trigger?->id ?? 0,
+            $this->notification->uniqueId()
+        ]);
     }
 }

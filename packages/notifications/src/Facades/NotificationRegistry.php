@@ -10,6 +10,7 @@ use Vigilant\Notifications\Notifications\NotificationRegistry as Registry;
  * @method Registry registerChannel(string|array $channel)
  * @method array notifications()
  * @method array channels()
+ * @method void fake()
  */
 class NotificationRegistry extends Facade
 {

@@ -3,13 +3,13 @@
 namespace Vigilant\Notifications\Channels;
 
 use Vigilant\Notifications\Models\Channel;
-use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\Notification;
 
 abstract class NotificationChannel
 {
     public static string $name = '';
 
+    /** @var array $rules - Validation rules for settings */
     public array $rules = [];
 
     /** @var ?string Livewire component for configuring the channel */

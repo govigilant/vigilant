@@ -40,4 +40,10 @@ class NotificationRegistry
     {
         return $this->channels;
     }
+
+    public function fake(): void
+    {
+       $this->notifications = [];
+       $this->channels = [];
+    }
 }
