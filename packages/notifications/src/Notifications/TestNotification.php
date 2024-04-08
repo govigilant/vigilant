@@ -14,6 +14,7 @@ class TestNotification extends Notification
 
     public Level $level = Level::Success;
 
+    /** @codeCoverageIgnore */
     public function uniqueId(): string
     {
         return '';
