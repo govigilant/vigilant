@@ -1,6 +1,6 @@
 <?php
 
-namespace Vigilant\Users\Actions\Jetstream\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream;
 
 use Illuminate\Support\Facades\DB;
 use Laravel\Jetstream\Contracts\DeletesTeams;

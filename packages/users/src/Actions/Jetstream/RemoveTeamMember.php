@@ -1,6 +1,6 @@
 <?php
 
-namespace Vigilant\Users\Actions\Jetstream\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream;
 
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\Gate;

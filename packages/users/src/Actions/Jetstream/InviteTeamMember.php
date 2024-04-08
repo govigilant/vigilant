@@ -1,6 +1,6 @@
 <?php
 
-namespace Vigilant\Users\Actions\Jetstream\Jetstream;
+namespace Vigilant\Users\Actions\Jetstream;
 
 use Closure;
 use Illuminate\Database\Query\Builder;
