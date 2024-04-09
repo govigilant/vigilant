@@ -9,6 +9,7 @@
                name="{{ $name }}"
                id="{{ $field }}"
                wire:model.live="{{ $field }}"
+               {{ $attributes }}
         >
 
         @error($field) <span class="text-red">{{ $message }}</span> @enderror

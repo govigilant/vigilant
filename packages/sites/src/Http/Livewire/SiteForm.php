@@ -40,7 +40,7 @@ class SiteForm extends Component
         if ($this->site->exists) {
             $this->site->update($this->form->all());
         } else {
-            Site::query()->create(
+            $this->site = Site::query()->create(
                 $this->form->all()
             );
 
