@@ -5,6 +5,7 @@
             name="Enable Uptime Monitoring"
             description="Enable uptime monitoring for this site"
             field="enabled"
+            dusk="uptime-tab-enabled"
         ></x-form.checkbox>
     </div>
 

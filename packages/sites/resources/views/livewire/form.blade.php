@@ -49,7 +49,7 @@
                 </div>
             @endif
 
-            <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
+            <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
 
         </div>
     </form>
