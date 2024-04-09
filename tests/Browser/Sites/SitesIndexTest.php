@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
 use Vigilant\Sites\Models\Site;
 
-class IndexTest extends DuskTestCase
+class SitesIndexTest extends DuskTestCase
 {
     #[Test]
     public function it_shows_table(): void

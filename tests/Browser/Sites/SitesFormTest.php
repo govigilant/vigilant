@@ -7,7 +7,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
 use Vigilant\Sites\Models\Site;
 
-class SiteFormTest extends DuskTestCase
+class SitesFormTest extends DuskTestCase
 {
     #[Test]
     public function it_can_add_site(): void
@@ -25,7 +25,8 @@ class SiteFormTest extends DuskTestCase
                 ->waitForText('must be a valid URL', 5)
                 ->assertSee('must be a valid URL')
                 ->type('#form\.url', 'https://govigilant.io')
-                ->click('@submit-button');
+                ->click('@submit-button')
+                ->pause(250);
 
             /** @var ?Site $createdSite */
             $createdSite = Site::query()->firstWhere('url', '=', 'https://govigilant.io');
@@ -50,7 +51,8 @@ class SiteFormTest extends DuskTestCase
                 ->check('@uptime-tab-enabled')
                 ->waitForText('Friendly name for this monitor')
                 ->assertSee('Friendly name for this monitor') // Help text in monitor form
-                ->click('@submit-button');
+                ->click('@submit-button')
+                ->pause(250);
 
             /** @var ?Site $createdMonitor */
             $createdMonitor = $site->monitors()->first();

@@ -70,7 +70,7 @@
             />
 
             @if(!$inline)
-                <x-form.submit-button :submitText="$updating ? 'Save' : 'Create'"/>
+                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
             @endif
 
         </div>
