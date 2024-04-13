@@ -6,11 +6,14 @@ use Illuminate\Support\Facades\Facade;
 use Vigilant\Notifications\Notifications\NotificationRegistry as Registry;
 
 /**
- * @method Registry registerNotification(string|array $notifications)
- * @method Registry registerChannel(string|array $channel)
- * @method array notifications()
- * @method array channels()
- * @method void fake()
+ * @method static Registry registerNotification(string|array $notifications)
+ * @method static Registry registerChannel(string|array $channel)
+ * @method static Registry registerCondition(string|array $condition)
+ * @method static array notifications()
+ * @method static array channels()
+ * @method static array conditions()
+ * @method static bool hasCondition(string $condition)
+ * @method static void fake()
  */
 class NotificationRegistry extends Facade
 {

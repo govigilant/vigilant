@@ -4,7 +4,9 @@ namespace Vigilant\Notifications\Notifications;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Vigilant\Notifications\Conditions\ConditionEngine;
 use Vigilant\Notifications\Enums\Level;
+use Vigilant\Notifications\Enums\Operator;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
@@ -35,9 +37,14 @@ abstract class Notification implements Arrayable
             ->where('notification', '=', static::class)
             ->get();
 
+        /** @var ConditionEngine $conditionEngine */
+        $conditionEngine = app(ConditionEngine::class);
+
         foreach ($triggers as $trigger) {
 
-            // TODO: Check conditions
+            if (!$conditionEngine->checkGroup($instance, $trigger->conditions, $trigger->conditions['operator'] ?? 'any')) {
+                continue;
+            }
 
             $channels = $trigger->all_channels ? Channel::all() : $trigger->channels;
 

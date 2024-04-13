@@ -3,6 +3,7 @@
 namespace Vigilant\Notifications\Conditions;
 
 use Vigilant\Notifications\Enums\ConditionType;
+use Vigilant\Notifications\Notifications\Notification;
 
 abstract class Condition
 {
@@ -10,7 +11,7 @@ abstract class Condition
 
     public static ConditionType $type = ConditionType::Text;
 
-    abstract public function applies(string $sku, ?string $operand, string $operator, ?string $value, ?string $meta): bool;
+    abstract public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool;
 
     public function getOperators(): array
     {
