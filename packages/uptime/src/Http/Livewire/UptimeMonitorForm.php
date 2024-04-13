@@ -2,7 +2,6 @@
 
 namespace Vigilant\Uptime\Http\Livewire;
 
-use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -19,7 +18,7 @@ class UptimeMonitorForm extends Component
     #[Locked]
     public Monitor $monitor;
 
-    public function mount(?Monitor $monitor)
+    public function mount(?Monitor $monitor): void
     {
         $this->form->fill($monitor->toArray());
         $this->monitor = $monitor;
@@ -43,7 +42,7 @@ class UptimeMonitorForm extends Component
         }
     }
 
-    public function render(): View
+    public function render(): mixed
     {
         return view('uptime::livewire.monitor.form', [
             'updating' => $this->monitor->exists,

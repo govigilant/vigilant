@@ -8,12 +8,13 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('notification_triggers', function (Blueprint $table): void {
-            $table->boolean('all_channels')->default(false)->after('conditions');
+            $table->boolean('enabled')->default(true)->after('team_id');
+            $table->string('name')->after('notification');
         });
     }
 
     public function down(): void
     {
-        Schema::dropColumns('notification_triggers', ['all_channels']);
+        Schema::dropColumns('notification_triggers', ['enabled', 'name']);
     }
 };
