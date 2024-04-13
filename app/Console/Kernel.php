@@ -5,6 +5,7 @@ namespace App\Console;
 use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Jobs\CheckUptimeJob;
 use Vigilant\Uptime\Models\Monitor;
@@ -24,6 +25,9 @@ class Kernel extends ConsoleKernel
 
                 }
             });
+
+
+        $schedule->command(CreateNotificationsCommand::class)->daily();
     }
 
     protected function commands(): void

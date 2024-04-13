@@ -31,6 +31,7 @@ abstract class Notification implements Arrayable
         /** @var Collection<int, Trigger> $triggers */
         $triggers = Trigger::query()
             ->with('channels')
+            ->where('enabled', '=', true)
             ->where('notification', '=', static::class)
             ->get();
 

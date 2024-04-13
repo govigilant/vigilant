@@ -2,12 +2,14 @@
 
 namespace Vigilant\Notifications;
 
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\WebhookChannel;
+use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
@@ -17,6 +19,8 @@ use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
+use Vigilant\Notifications\Jobs\CreateNotificationsJob;
+use Vigilant\Users\Models\Team;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -40,6 +44,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootMigrations()
             ->bootCommands()
             ->bootViews()
+            ->bootEvents()
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
@@ -66,7 +71,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-
+                CreateNotificationsCommand::class,
             ]);
         }
 
@@ -76,6 +81,13 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootViews(): static
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'notifications');
+
+        return $this;
+    }
+
+    protected function bootEvents(): static
+    {
+        Team::created(fn(Team $team): PendingDispatch => CreateNotificationsJob::dispatch($team));
 
         return $this;
     }

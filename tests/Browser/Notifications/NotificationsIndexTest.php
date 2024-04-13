@@ -5,7 +5,6 @@ namespace Tests\Browser\Notifications;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
-use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Uptime\Notifications\DowntimeNotification;
 
 class NotificationsIndexTest extends DuskTestCase
@@ -16,12 +15,6 @@ class NotificationsIndexTest extends DuskTestCase
         $this->browse(function (Browser $browser) {
 
             $this->user();
-
-            Trigger::query()->create([
-                'notification' => DowntimeNotification::class,
-                'conditions' => [],
-                'all_channels' => false,
-            ]);
 
             $browser->login()
                 ->visit(route('notifications'))

@@ -15,7 +15,9 @@ use Vigilant\Users\Models\Team;
 /**
  * @property int $id
  * @property int $team_id
+ * @property bool $enabled
  * @property string $notification
+ * @property string $name
  * @property array $conditions
  * @property bool $all_channels
  * @property ?Carbon $created_at
@@ -32,6 +34,7 @@ class Trigger extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'bool',
         'conditions' => 'array',
         'all_channels' => 'bool',
     ];

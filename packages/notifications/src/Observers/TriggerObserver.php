@@ -10,9 +10,11 @@ class TriggerObserver
 {
     public function creating(Trigger $trigger): void
     {
-        /** @var User $user */
-        $user = Auth::user();
+        if ($trigger->team_id === null) {
+            /** @var ?User $user */
+            $user = Auth::user();
 
-        $trigger->team_id = $user->currentTeam->id;
+            $trigger->team_id = $user->currentTeam->id;
+        }
     }
 }
