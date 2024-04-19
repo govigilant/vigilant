@@ -5,7 +5,6 @@ namespace Vigilant\Notifications\Tests\Conditions;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Notifications\Conditions\ConditionEngine;
-use Vigilant\Notifications\Enums\Operator;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Tests\Fakes\Conditions\FalseCondition;
 use Vigilant\Notifications\Tests\Fakes\Conditions\TrueCondition;

@@ -10,6 +10,9 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\WebhookChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
+use Vigilant\Notifications\Conditions\Condition;
+use Vigilant\Notifications\Conditions\FalseCondition;
+use Vigilant\Notifications\Conditions\TrueCondition;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
@@ -17,6 +20,7 @@ use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
+use Vigilant\Notifications\Http\Livewire\Notifications\Conditions\ConditionGroup;
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Notifications\Jobs\CreateNotificationsJob;
@@ -49,6 +53,10 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootNavigation()
             ->bootNotificationChannels();
+
+        NotificationRegistry::registerCondition(TrueCondition::class);
+        NotificationRegistry::registerCondition(FalseCondition::class);
+
     }
 
     protected function bootConfig(): static
@@ -97,6 +105,8 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('notifications', Notifications::class);
         Livewire::component('notification-table', NotificationTable::class);
         Livewire::component('notification-form', NotificationForm::class);
+
+        Livewire::component('notification-condition-builder', Notifications\Conditions\ConditionBuilder::class);
 
         Livewire::component('channels', Channels::class);
         Livewire::component('channel-table', ChannelTable::class);

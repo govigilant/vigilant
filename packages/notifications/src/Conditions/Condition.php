@@ -9,7 +9,7 @@ abstract class Condition
 {
     public static string $name = '';
 
-    public static ConditionType $type = ConditionType::Text;
+    public ConditionType $type = ConditionType::Text;
 
     abstract public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool;
 
