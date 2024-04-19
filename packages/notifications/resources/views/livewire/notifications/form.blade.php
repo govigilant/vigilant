@@ -39,6 +39,8 @@
                 @endforeach
             </x-form.select>
 
+            <livewire:notification-condition-builder/>
+
             <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
 
         </div>

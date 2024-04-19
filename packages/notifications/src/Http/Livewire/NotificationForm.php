@@ -3,6 +3,7 @@
 namespace Vigilant\Notifications\Http\Livewire;
 
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateNotificationForm;
 use Vigilant\Notifications\Models\Trigger;
@@ -23,6 +24,12 @@ class NotificationForm extends Component
         if ($trigger->exists) {
             $this->channels = $trigger->channels->pluck('id')->toArray();
         }
+    }
+
+    #[On('conditions-updated')]
+    public function conditionsUpdated(array $conditions): void
+    {
+       $this->form->conditions = $conditions;
     }
 
     public function save(): void

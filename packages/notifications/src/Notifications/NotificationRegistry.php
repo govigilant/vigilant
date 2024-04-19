@@ -30,7 +30,7 @@ class NotificationRegistry
      */
     public function registerCondition(string|array $condition): static
     {
-        $this->conditions = array_merge($this->notifications(), Arr::wrap($condition));
+        $this->conditions = array_merge($this->conditions(), Arr::wrap($condition));
 
         return $this;
     }
