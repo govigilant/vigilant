@@ -66,7 +66,6 @@
                     <x-notifications::condition-builder.condition :condition="$child"
                                                                   :path="blank($path) ? '0' : $path . '.children.' . $index"/>
                 </div>
-
             @endif
         @endforeach
 

@@ -17,7 +17,7 @@ class ConditionEngineTest extends TestCase
     #[DataProvider('conditions')]
     public function it_checks_conditions(array $groups, string $operator, bool $expected): void
     {
-        NotificationRegistry::registerCondition([
+        NotificationRegistry::registerCondition(FakeNotification::class, [
             TrueCondition::class,
             FalseCondition::class,
         ]);

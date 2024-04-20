@@ -19,7 +19,7 @@ class ConditionEngine
 
         foreach ($children as $condition) {
             if ($condition['type'] == 'condition') {
-                if (! NotificationRegistry::hasCondition($condition['condition'])) {
+                if (! NotificationRegistry::hasCondition(get_class($notification), $condition['condition'])) {
                     continue;
                 }
 
