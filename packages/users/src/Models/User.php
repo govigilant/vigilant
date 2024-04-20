@@ -12,6 +12,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Vigilant\Users\Database\Factories\UserFactory;
 
 /**
+ * @property int $id
+ * @property string $email
+ * @property string $name
  * @property ?Team $currentTeam
  */
 class User extends Authenticatable

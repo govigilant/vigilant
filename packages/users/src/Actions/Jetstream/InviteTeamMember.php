@@ -29,6 +29,7 @@ class InviteTeamMember implements InvitesTeamMembers
 
         InvitingTeamMember::dispatch($team, $email, $role);
 
+        /** @var \Laravel\Jetstream\TeamInvitation $invitation */
         $invitation = $team->teamInvitations()->create([
             'email' => $email,
             'role' => $role,
