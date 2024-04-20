@@ -13,17 +13,17 @@ abstract class Condition
 
     abstract public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool;
 
-    public function getOperators(): array
+    public function operators(): array
     {
         return [];
     }
 
-    public function getOperands(): array
+    public function operands(): array
     {
         return [];
     }
 
-    public function getMetadata(): array
+    public function metadata(): array
     {
         return [];
     }

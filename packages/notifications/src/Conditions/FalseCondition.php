@@ -18,7 +18,7 @@ class FalseCondition extends Condition
         return true;
     }
 
-    public function getOperators(): array
+    public function operators(): array
     {
         return [
             '=',
@@ -26,7 +26,7 @@ class FalseCondition extends Condition
         ];
     }
 
-    public function getOperands(): array
+    public function operands(): array
     {
         return [
             'operand-a',

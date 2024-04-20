@@ -3,16 +3,34 @@
 namespace Vigilant\Notifications\Http\Livewire\Notifications\Conditions;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Vigilant\Notifications\Facades\NotificationRegistry;
 
 class ConditionBuilder extends Component
 {
+    #[Locked]
+    public string $notification;
+
     public array $parent = [
         'type' => 'group',
         'operator' => 'any',
     ];
 
     public array $children = [];
+
+    public function mount(string $notification, array $initial = []): void
+    {
+        $this->notification = $notification;
+
+        if ($initial === []) {
+            return;
+        }
+
+        $this->parent['operator'] = $initial['operator'] ?? 'any';
+        $this->children = $initial['children'] ?? [];
+    }
 
     public array $selectedCondition = [];
 
@@ -36,6 +54,13 @@ class ConditionBuilder extends Component
         ]);
     }
 
+    public function deletePath(string $path): void
+    {
+        Arr::forget($this->children, $path);
+
+        $this->updated();
+    }
+
     protected function addToPath(string $path, array $item): void
     {
         if (blank($path)) {
@@ -46,14 +71,16 @@ class ConditionBuilder extends Component
         $children = data_get($this->children, $path.'.children', []);
         $children[] = $item;
         data_set($this->children, $path.'.children', $children);
+
+        $this->updated();
     }
 
     public function updated(): void
     {
-       $conditions = $this->parent;
-       $conditions['children'] = $this->children;
+        $conditions = $this->parent;
+        $conditions['children'] = $this->children;
 
-       $this->dispatch('conditions-updated', $conditions);
+        $this->dispatch('conditions-updated', $conditions);
     }
 
     public function render(): mixed
@@ -65,8 +92,7 @@ class ConditionBuilder extends Component
 
     protected function conditions(): array
     {
-        // TODO: Filter on notification type
-        return \Vigilant\Notifications\Facades\NotificationRegistry::conditions();
+        return NotificationRegistry::conditions($this->notification);
     }
 
 }

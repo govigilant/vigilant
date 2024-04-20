@@ -10,7 +10,6 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\WebhookChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
-use Vigilant\Notifications\Conditions\Condition;
 use Vigilant\Notifications\Conditions\FalseCondition;
 use Vigilant\Notifications\Conditions\TrueCondition;
 use Vigilant\Notifications\Facades\NotificationRegistry;
@@ -24,6 +23,7 @@ use Vigilant\Notifications\Http\Livewire\Notifications\Conditions\ConditionGroup
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Notifications\Jobs\CreateNotificationsJob;
+use Vigilant\Uptime\Notifications\DowntimeNotification;
 use Vigilant\Users\Models\Team;
 
 class ServiceProvider extends BaseServiceProvider
@@ -53,10 +53,6 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootNavigation()
             ->bootNotificationChannels();
-
-        NotificationRegistry::registerCondition(TrueCondition::class);
-        NotificationRegistry::registerCondition(FalseCondition::class);
-
     }
 
     protected function bootConfig(): static
