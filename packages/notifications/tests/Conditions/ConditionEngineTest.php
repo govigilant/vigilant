@@ -38,7 +38,7 @@ class ConditionEngineTest extends TestCase
             'No conditions' => [
                 'groups' => [],
                 'operator' => 'all',
-                'excpected' => true,
+                'expected' => true,
             ],
 
             'True' => [
@@ -54,7 +54,7 @@ class ConditionEngineTest extends TestCase
                     ],
                 ],
                 'operator' => 'all',
-                'excpected' => true,
+                'expected' => true,
             ],
 
             'False' => [
@@ -70,7 +70,7 @@ class ConditionEngineTest extends TestCase
                     ],
                 ],
                 'operator' => 'all',
-                'excpected' => false,
+                'expected' => false,
             ],
 
             'Any' => [
@@ -92,7 +92,7 @@ class ConditionEngineTest extends TestCase
                     ],
                 ],
                 'operator' => 'any',
-                'excpected' => true,
+                'expected' => true,
             ],
 
             'All' => [
@@ -114,7 +114,7 @@ class ConditionEngineTest extends TestCase
                     ],
                 ],
                 'operator' => 'all',
-                'excpected' => false,
+                'expected' => false,
             ],
 
             'Children' => [
@@ -167,7 +167,7 @@ class ConditionEngineTest extends TestCase
                     ],
                 ],
                 'operator' => 'all',
-                'excpected' => true,
+                'expected' => true,
             ],
         ];
     }

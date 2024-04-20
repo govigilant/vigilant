@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Vigilant\Uptime\Actions\AggregateResults;
 use Vigilant\Uptime\Models\Monitor;
 
-class AggregateResultsJob implements ShouldQueue, ShouldBeUnique
+class AggregateResultsJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

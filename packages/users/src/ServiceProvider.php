@@ -23,7 +23,6 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerPolicies(): static
     {
 
-
         return $this;
     }
 

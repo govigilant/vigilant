@@ -1,11 +1,10 @@
 <?php
 
-namespace Vigilant\Sites\Tests;
+namespace Vigilant\Frontend\Tests;
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
-use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
-use Vigilant\Sites\ServiceProvider;
+use Vigilant\Frontend\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -15,7 +14,6 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             ServiceProvider::class,
-            LivewireServiceProvider::class,
         ];
     }
 

@@ -10,7 +10,7 @@ abstract class BaseChart extends Component
 {
     public int $height = 200;
 
-    public abstract function data(): array;
+    abstract public function data(): array;
 
     public function loadChart(): void
     {
@@ -54,7 +54,7 @@ abstract class BaseChart extends Component
                 'scales' => [
                     'x' => [
                         'title' => [
-                          'color' => '#ffffff',
+                            'color' => '#ffffff',
                         ],
                         'grid' => [
                             'color' => '#403E3C',
@@ -62,7 +62,7 @@ abstract class BaseChart extends Component
                     ],
                     'y' => [
                         'title' => [
-                          'color' => '#ffffff',
+                            'color' => '#ffffff',
                         ],
                         'grid' => [
                             'color' => '#403E3C',

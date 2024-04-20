@@ -13,7 +13,7 @@ use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\Notification;
 
-class SendNotificationJob implements ShouldQueue, ShouldBeUnique
+class SendNotificationJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -48,7 +48,7 @@ class SendNotificationJob implements ShouldQueue, ShouldBeUnique
             get_class($this->notification),
             $this->channel->id,
             $this->trigger?->id ?? 0,
-            $this->notification->uniqueId()
+            $this->notification->uniqueId(),
         ]);
     }
 }

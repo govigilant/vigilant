@@ -10,8 +10,6 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\WebhookChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
-use Vigilant\Notifications\Conditions\FalseCondition;
-use Vigilant\Notifications\Conditions\TrueCondition;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
@@ -19,11 +17,9 @@ use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
-use Vigilant\Notifications\Http\Livewire\Notifications\Conditions\ConditionGroup;
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Notifications\Jobs\CreateNotificationsJob;
-use Vigilant\Uptime\Notifications\DowntimeNotification;
 use Vigilant\Users\Models\Team;
 
 class ServiceProvider extends BaseServiceProvider
@@ -91,7 +87,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootEvents(): static
     {
-        Team::created(fn(Team $team): PendingDispatch => CreateNotificationsJob::dispatch($team));
+        Team::created(fn (Team $team): PendingDispatch => CreateNotificationsJob::dispatch($team));
 
         return $this;
     }

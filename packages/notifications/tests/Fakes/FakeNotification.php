@@ -22,6 +22,6 @@ class FakeNotification extends Notification
 
     public function uniqueId(): string
     {
-        return $this->number;
+        return (string) $this->number;
     }
 }

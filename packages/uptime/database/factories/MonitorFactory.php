@@ -17,7 +17,7 @@ class MonitorFactory extends Factory
             'name' => 'Monitor',
             'type' => Type::Http,
             'settings' => [
-                'host' => '1.1.1.1'
+                'host' => '1.1.1.1',
             ],
             'interval' => '* * * * *',
             'retries' => 1,

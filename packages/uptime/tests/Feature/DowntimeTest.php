@@ -36,6 +36,8 @@ class DowntimeTest extends TestCase
             ]);
         });
 
+        $this->assertNotNull($monitor);
+
         $this->mock(Http::class, function (MockInterface $mock) {
             $mock->shouldReceive('process')->andReturn(new UptimeResult(false));
         });
@@ -72,8 +74,10 @@ class DowntimeTest extends TestCase
             ]);
         });
 
+        $this->assertNotNull($monitor);
+
         $monitor->downtimes()->create([
-            'start' => now()->subMinutes(5)
+            'start' => now()->subMinutes(5),
         ]);
 
         $this->mock(Http::class, function (MockInterface $mock) {

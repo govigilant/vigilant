@@ -12,15 +12,17 @@
     ],
     "require": {
         "php": "^8.1",
+        "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
         "livewire/livewire": "^3.4",
+        "ramonrietdijk/livewire-tables": "^3.9",
         "vigilant/core": "@dev",
-        "vigilant/users": "@dev",
-        "guzzlehttp/guzzle": "^7.2"
+        "vigilant/sites": "dev-main",
+        "vigilant/users": "dev-main"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
-        "nunomaduro/larastan": "^2.5",
+        "larastan/larastan": "^2.5",
         "orchestra/testbench": "^8.0",
         "phpstan/phpstan-mockery": "^1.1",
         "phpunit/phpunit": "^10.0"

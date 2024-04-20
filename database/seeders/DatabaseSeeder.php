@@ -21,19 +21,17 @@ class DatabaseSeeder extends Seeder
 
         $currentDate = now();
 
-        for($i = 0; $i < 72; $i++) {
+        for ($i = 0; $i < 72; $i++) {
 
             $currentDate->subHour();
 
             $monitor->aggregatedResults()->create([
                 'total_time' => rand($latencyMin, $latencyMax),
                 'created_at' => $currentDate,
-                'updated_at' => $currentDate
+                'updated_at' => $currentDate,
             ]);
 
         }
-
-
 
     }
 }

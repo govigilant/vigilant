@@ -6,7 +6,6 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
 use Vigilant\Notifications\Conditions\ConditionEngine;
 use Vigilant\Notifications\Enums\Level;
-use Vigilant\Notifications\Enums\Operator;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
@@ -21,12 +20,12 @@ abstract class Notification implements Arrayable
 
     public Level $level = Level::Info;
 
-    public static function make(...$args): static
+    public static function make(mixed ...$args): static
     {
         return new static(...$args);
     }
 
-    public static function notify(...$args): void
+    public static function notify(mixed ...$args): void
     {
         $instance = new static(...$args);
 
@@ -42,7 +41,7 @@ abstract class Notification implements Arrayable
 
         foreach ($triggers as $trigger) {
 
-            if (!$conditionEngine->checkGroup($instance, $trigger->conditions, $trigger->conditions['operator'] ?? 'any')) {
+            if (! $conditionEngine->checkGroup($instance, $trigger->conditions, $trigger->conditions['operator'] ?? 'any')) {
                 continue;
             }
 

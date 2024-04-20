@@ -21,7 +21,7 @@ class WebhookChannel extends NotificationChannel
         Http::post($channel->settings['url'], [
             'level' => $notification->level(),
             'title' => $notification->title(),
-            'description' => $notification->description()
+            'description' => $notification->description(),
         ]);
     }
 }

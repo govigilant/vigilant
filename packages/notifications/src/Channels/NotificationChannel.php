@@ -9,7 +9,7 @@ abstract class NotificationChannel
 {
     public static string $name = '';
 
-    /** @var array $rules - Validation rules for settings */
+    /** @var array - Validation rules for settings */
     public array $rules = [];
 
     /** @var ?string Livewire component for configuring the channel */

@@ -10,9 +10,11 @@ class SiteObserver
 {
     public function creating(Site $site): void
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = Auth::user();
 
-        $site->team_id = $user->currentTeam->id;
+        if ($user !== null && $user->currentTeam !== null) {
+            $site->team_id = $user->currentTeam->id;
+        }
     }
 }

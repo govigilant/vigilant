@@ -22,7 +22,7 @@ class CheckUptime
 
             if ($currentDowntime === null) {
                 $monitor->downtimes()->create([
-                    'start' => now()
+                    'start' => now(),
                 ]);
 
                 DowntimeStartEvent::dispatch($monitor);
@@ -32,7 +32,7 @@ class CheckUptime
             if ($currentDowntime !== null) {
 
                 $currentDowntime->update([
-                    'end' => now()
+                    'end' => now(),
                 ]);
 
                 DowntimeEndEvent::dispatch($currentDowntime);

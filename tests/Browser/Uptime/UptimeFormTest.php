@@ -28,7 +28,6 @@ class UptimeFormTest extends DuskTestCase
                 ->click('@submit-button')
                 ->pause(250);
 
-
             /** @var ?Monitor $monitor */
             $monitor = Monitor::query()->first();
             $this->assertNotNull($monitor);
@@ -36,5 +35,4 @@ class UptimeFormTest extends DuskTestCase
             $this->assertEquals(['host' => 'govigilant.io', 'port' => 22], $monitor->settings);
         });
     }
-
 }

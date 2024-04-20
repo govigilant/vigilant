@@ -19,7 +19,7 @@ class NtfyChannelTest extends TestCase
             'ntfy/topic' => Http::response(),
         ]);
 
-        Channel::withoutEvents(function() {
+        Channel::withoutEvents(function () {
             Channel::query()->create([
                 'team_id' => 1,
                 'channel' => NtfyChannel::class,
@@ -42,11 +42,11 @@ class NtfyChannelTest extends TestCase
 
         $channel->fire($notification, $channelModel);
 
-        Http::assertSent(function(Request $request): bool {
+        Http::assertSent(function (Request $request): bool {
             return $request->header('Authorization') === ['Basic dXNlcm5hbWU6cGFzc3dvcmQ='] &&
                 $request->header('Title') === ['Title of this fake notification'] &&
                 $request->header('Tags') === ['triangular_flag_on_post'] &&
-                $request->data() === ['Description_of_this_fake_notification' => ''];
+                $request->data() === ['Description of this fake notification' => ''];
         });
     }
 }

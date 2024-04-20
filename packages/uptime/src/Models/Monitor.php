@@ -76,7 +76,7 @@ class Monitor extends Model
         return $downtime;
     }
 
-    protected static function newFactory()
+    protected static function newFactory(): MonitorFactory
     {
         return new MonitorFactory;
     }

@@ -29,16 +29,16 @@ class CalculateUptimePercentage
         $downtimeMinutes = 0;
 
         /** @var Downtime $downtime */
-        foreach($downtimes as $downtime) {
+        foreach ($downtimes as $downtime) {
 
-           $duration = $downtime->start->diffInMinutes($downtime->end);
+            $duration = $downtime->start->diffInMinutes($downtime->end);
 
-           $downtimeMinutes += $duration;
+            $downtimeMinutes += $duration;
         }
 
         $totalMinutes = $minutesSinceFirstResult - $downtimeMinutes;
         $uptimePercentage = ($totalMinutes / $minutesSinceFirstResult) * 100;
 
-        return round($uptimePercentage, 2);
+        return (int) round($uptimePercentage, 2);
     }
 }

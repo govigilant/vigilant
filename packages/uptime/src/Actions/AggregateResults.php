@@ -26,7 +26,7 @@ class AggregateResults
 
             ResultAggregate::query()->create([
                 'monitor_id' => $monitor->id,
-                'total_time' => $query->average('total_time')
+                'total_time' => $query->average('total_time'),
             ]);
 
             $query->delete();

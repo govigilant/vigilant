@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\Trigger;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('notification_history', function (Blueprint $table) {

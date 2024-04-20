@@ -16,16 +16,16 @@ class ChannelTable extends LivewireTable
     {
         return [
             Column::make(__('Channel'), 'channel')
-                ->displayUsing(function(string $channel) {
+                ->displayUsing(function (string $channel) {
                     /** @var class-string<NotificationChannel> $channel */
 
                     return $channel::$name;
-                })
+                }),
         ];
     }
 
     public function link(Model $model): ?string
     {
-       return route('notifications.channel.edit', ['channel' => $model]);
+        return route('notifications.channel.edit', ['channel' => $model]);
     }
 }

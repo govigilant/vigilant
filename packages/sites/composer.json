@@ -12,11 +12,15 @@
     ],
     "require": {
         "php": "^8.1",
-        "laravel/framework": "^10.0"
+        "laravel/framework": "^10.0",
+        "livewire/livewire": "^3.4",
+        "vigilant/core": "dev-main",
+        "vigilant/notifications": "dev-main",
+        "vigilant/uptime": "dev-main"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
-        "nunomaduro/larastan": "^2.5",
+        "larastan/larastan": "^2.5",
         "orchestra/testbench": "^8.0",
         "phpstan/phpstan-mockery": "^1.1",
         "phpunit/phpunit": "^10.0"
@@ -55,6 +59,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
-
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
 }

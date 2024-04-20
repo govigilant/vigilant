@@ -7,7 +7,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Facades\NotificationRegistry;
-use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;

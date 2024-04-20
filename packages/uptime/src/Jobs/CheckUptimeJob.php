@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Vigilant\Uptime\Actions\CheckUptime;
 use Vigilant\Uptime\Models\Monitor;
 
-class CheckUptimeJob implements ShouldQueue, ShouldBeUnique
+class CheckUptimeJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

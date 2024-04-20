@@ -20,8 +20,10 @@ class UptimeMonitorForm extends Component
 
     public function mount(?Monitor $monitor): void
     {
-        $this->form->fill($monitor->toArray());
-        $this->monitor = $monitor;
+        if ($monitor !== null) {
+            $this->form->fill($monitor->toArray());
+            $this->monitor = $monitor;
+        }
     }
 
     #[On('save')]

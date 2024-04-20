@@ -19,7 +19,7 @@ class CreateUptimeMonitorForm extends Form
     public string $type = Type::Http->value;
 
     public array $settings = [
-        'host' => ''
+        'host' => '',
     ];
 
     #[Validate('required')]

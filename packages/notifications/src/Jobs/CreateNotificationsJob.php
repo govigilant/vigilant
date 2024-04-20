@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Vigilant\Notifications\Actions\CreateNotifications;
 use Vigilant\Users\Models\Team;
 
-class CreateNotificationsJob implements ShouldQueue, ShouldBeUnique
+class CreateNotificationsJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -28,7 +28,7 @@ class CreateNotificationsJob implements ShouldQueue, ShouldBeUnique
         $notifications->create($this->team);
     }
 
-    public function uniqueId(): string
+    public function uniqueId(): int
     {
         return $this->team->id;
     }
