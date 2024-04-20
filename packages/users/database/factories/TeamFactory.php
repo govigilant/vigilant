@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Vigilant\Users\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Vigilant\Users\Models\User;
