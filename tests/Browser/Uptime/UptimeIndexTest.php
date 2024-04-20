@@ -5,8 +5,8 @@ namespace Tests\Browser\Uptime;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
-use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Enums\Type;
+use Vigilant\Uptime\Models\Monitor;
 
 class UptimeIndexTest extends DuskTestCase
 {

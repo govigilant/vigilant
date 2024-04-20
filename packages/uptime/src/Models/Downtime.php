@@ -28,6 +28,6 @@ class Downtime extends Model
 
     public function monitor(): BelongsTo
     {
-       return $this->belongsTo(Monitor::class);
+        return $this->belongsTo(Monitor::class);
     }
 }

@@ -13,7 +13,6 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire();
     }
 
-
     protected function bootViews(): static
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'frontend');
@@ -27,5 +26,4 @@ class ServiceProvider extends BaseServiceProvider
 
         return $this;
     }
-
 }

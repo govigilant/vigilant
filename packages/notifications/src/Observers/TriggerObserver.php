@@ -14,7 +14,9 @@ class TriggerObserver
             /** @var ?User $user */
             $user = Auth::user();
 
-            $trigger->team_id = $user->currentTeam->id;
+            if ($user !== null && $user->currentTeam !== null) {
+                $trigger->team_id = $user->currentTeam->id;
+            }
         }
     }
 }

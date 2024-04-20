@@ -1,5 +1,5 @@
 includes:
-    - ./vendor/nunomaduro/larastan/extension.neon
+    - ./vendor/larastan/larastan/extension.neon
     - ./vendor/phpstan/phpstan-mockery/extension.neon
 
 parameters:
@@ -9,3 +9,5 @@ parameters:
     level: 8
     checkMissingIterableValueType: false
     checkGenericClassInNonGenericObjectType: false
+    ignoreErrors:
+        - '#Unsafe usage of new static#'

@@ -25,10 +25,9 @@ class ChannelForm extends Component
 
     public function mount(?Channel $channel): void
     {
-        $this->channelModel = $channel;
-        $this->form->fill($channel->toArray());
-
-        if ($channel->channel !== null) {
+        if ($channel !== null) {
+            $this->channelModel = $channel;
+            $this->form->fill($channel->toArray());
             $this->settingsComponent = $channel->channel::$component ?? null;
         }
     }
@@ -85,7 +84,7 @@ class ChannelForm extends Component
         );
     }
 
-    public function render()
+    public function render(): mixed
     {
         return view('notifications::livewire.channels.form', [
             'updating' => $this->channelModel->exists,

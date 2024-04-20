@@ -10,9 +10,11 @@ class ChannelObserver
 {
     public function creating(Channel $channel): void
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = Auth::user();
 
-        $channel->team_id = $user->currentTeam->id;
+        if ($user !== null && $user->currentTeam !== null) {
+            $channel->team_id = $user->currentTeam->id;
+        }
     }
 }

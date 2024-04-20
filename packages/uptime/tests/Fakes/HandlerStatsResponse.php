@@ -7,20 +7,21 @@ use GuzzleHttp\Psr7\Response;
 
 class HandlerStatsResponse extends Response implements PromiseInterface
 {
-    protected $handlerStats = [];
+    protected array $handlerStats = [];
 
-    public function withHandlerStats(array $handlerStats)
+    public function withHandlerStats(array $handlerStats): static
     {
         $this->handlerStats = $handlerStats;
+
         return $this;
     }
 
-    public function handlerStats()
+    public function handlerStats(): array
     {
         return $this->handlerStats;
     }
 
-    public function then(callable $onFulfilled = null, callable $onRejected = null): PromiseInterface
+    public function then(?callable $onFulfilled = null, ?callable $onRejected = null): PromiseInterface
     {
         return $this;
     }

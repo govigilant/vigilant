@@ -24,7 +24,6 @@ return new class extends Migration
             $table->integer('retries');
             $table->integer('timeout');
 
-
             $table->timestamps();
         });
     }

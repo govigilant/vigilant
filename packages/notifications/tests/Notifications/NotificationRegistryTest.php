@@ -23,7 +23,7 @@ class NotificationRegistryTest extends TestCase
         NotificationRegistry::registerNotification(FakeNotification::class);
 
         $this->assertEquals([
-            FakeNotification::class
+            FakeNotification::class,
         ], NotificationRegistry::notifications());
     }
 
@@ -33,7 +33,7 @@ class NotificationRegistryTest extends TestCase
         NotificationRegistry::registerChannel(FakeChannel::class);
 
         $this->assertEquals([
-            FakeChannel::class
+            FakeChannel::class,
         ], NotificationRegistry::channels());
     }
 }

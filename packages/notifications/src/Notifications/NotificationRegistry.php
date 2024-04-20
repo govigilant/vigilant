@@ -66,8 +66,8 @@ class NotificationRegistry
 
     public function fake(): void
     {
-       $this->notifications = [];
-       $this->channels = [];
-       $this->conditions = [];
+        $this->notifications = [];
+        $this->channels = [];
+        $this->conditions = [];
     }
 }

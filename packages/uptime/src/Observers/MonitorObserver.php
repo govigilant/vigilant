@@ -10,9 +10,11 @@ class MonitorObserver
 {
     public function creating(Monitor $monitor): void
     {
-        /** @var User $user */
+        /** @var ?User $user */
         $user = Auth::user();
 
-        $monitor->team_id = $user->currentTeam->id;
+        if ($user !== null && $user->currentTeam !== null) {
+            $monitor->team_id = $user->currentTeam->id;
+        }
     }
 }

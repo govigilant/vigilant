@@ -24,7 +24,6 @@ class ServiceProvider extends BaseServiceProvider
     protected function registerFacades(): static
     {
 
-
         return $this;
     }
 

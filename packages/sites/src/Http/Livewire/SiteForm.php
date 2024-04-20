@@ -19,8 +19,10 @@ class SiteForm extends Component
 
     public function mount(?Site $site): void
     {
-        $this->form->fill($site->toArray());
-        $this->site = $site;
+        if ($site !== null) {
+            $this->form->fill($site->toArray());
+            $this->site = $site;
+        }
     }
 
     public function setTab(string $tab): void

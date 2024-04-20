@@ -28,6 +28,8 @@ class AggregateResultsTest extends TestCase
             ]);
         });
 
+        $this->assertNotNull($monitor);
+
         for ($minute = 0; $minute < (60 * 24); $minute++) {
 
             $date = now()->subMinutes($minute);

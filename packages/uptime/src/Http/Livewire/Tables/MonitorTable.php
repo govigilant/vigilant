@@ -33,7 +33,7 @@ class MonitorTable extends LivewireTable
                         return __('Down');
                     }
 
-                    /** @var ?Result|?ResultAggregate $lastResult */
+                    /** @var null|Result|ResultAggregate $lastResult */
                     $lastResult = $monitor->results()->orderByDesc('created_at')->first();
 
                     if ($lastResult === null) {
@@ -44,7 +44,7 @@ class MonitorTable extends LivewireTable
                         return __('Unknown');
                     }
 
-                    if ($lastResult->created_at->lessThan(now()->subMinutes(5))) {
+                    if ($lastResult->created_at !== null && $lastResult->created_at->lessThan(now()->subMinutes(5))) {
                         return __('Last check: :time', ['time' => $lastResult->created_at->diffForHumans()]);
                     }
 
@@ -57,10 +57,10 @@ class MonitorTable extends LivewireTable
                         return Status::Danger;
                     }
 
-                    /** @var ?Result|?ResultAggregate $lastResult */
+                    /** @var null|Result|ResultAggregate $lastResult */
                     $lastResult = $monitor->results()->orderByDesc('created_at')->first() ?? $monitor->aggregatedResults()->orderByDesc('created_at')->first();
 
-                    if ($lastResult === null || $lastResult->created_at->lessThan(now()->subMinutes(5))) {
+                    if ($lastResult === null || $lastResult->created_at === null || $lastResult->created_at->lessThan(now()->subMinutes(5))) {
                         return Status::Warning;
                     }
 
@@ -78,13 +78,13 @@ class MonitorTable extends LivewireTable
 
                     $percentage = $calculateUptime->calculate($monitor);
 
-                    $class = match(true) {
+                    $class = match (true) {
                         $percentage > 95 => 'text-green-light',
                         $percentage > 80 => 'text-orange',
                         default => 'text-red'
                     };
 
-                  return "<span class='$class'>$percentage%</span>";
+                    return "<span class='$class'>$percentage%</span>";
                 })
                 ->asHtml(),
 
@@ -104,7 +104,7 @@ class MonitorTable extends LivewireTable
 
                     return "{$lastDowntime->start->diffForHumans()} for $duration";
 
-                })
+                }),
         ];
     }
 
@@ -113,4 +113,3 @@ class MonitorTable extends LivewireTable
         return route('uptime.monitor.edit', ['monitor' => $model]);
     }
 }
-

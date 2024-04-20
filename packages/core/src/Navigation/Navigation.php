@@ -2,8 +2,6 @@
 
 namespace Vigilant\Core\Navigation;
 
-use Closure;
-
 class Navigation
 {
     protected array $paths = [];
@@ -30,8 +28,6 @@ class Navigation
         return $item;
     }
 
-
-
     public function items(): array
     {
         if (! $this->loaded) {
@@ -41,7 +37,6 @@ class Navigation
 
             $this->loaded = true;
         }
-
 
         return collect($this->items)
             ->sortBy('sort')

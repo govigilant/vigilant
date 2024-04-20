@@ -50,10 +50,10 @@ class NotificationTable extends LivewireTable
             BooleanFilter::make(__('Enabled'), 'enabled'),
             SelectFilter::make(__('Type'), 'notification')
                 ->options(
-                    collect(NotificationRegistry::notifications())
+                    collect(NotificationRegistry::notifications()) // @phpstan-ignore-line
                         ->mapWithKeys(fn (string $notification): array => [$notification => $notification::$name])
                         ->toArray()
-                )
+                ),
         ];
     }
 

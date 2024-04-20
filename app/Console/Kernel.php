@@ -26,7 +26,6 @@ class Kernel extends ConsoleKernel
                 }
             });
 
-
         $schedule->command(CreateNotificationsCommand::class)->daily();
     }
 

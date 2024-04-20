@@ -21,7 +21,7 @@ class NavigationItem
         $isBase = $this->url === config('app.url');
 
         return request()->url() === $this->url ||
-            (!$isBase && str_starts_with(request()->url(), $this->url));
+            (! $isBase && str_starts_with(request()->url(), $this->url));
     }
 
     public function name(string $name): static
@@ -66,6 +66,10 @@ class NavigationItem
 
     public function getChildren(): array
     {
+        if ($this->childrenCallback === null) {
+            return [];
+        }
+
         $navigation = new Navigation();
 
         call_user_func($this->childrenCallback, $navigation);

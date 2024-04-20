@@ -32,8 +32,10 @@ class UptimeTest extends TestCase
             ]);
         });
 
+        $this->assertNotNull($monitor);
+
         Http::fake([
-            'http://service' => Http::response()
+            'http://service' => Http::response(),
         ]);
 
         $this->artisan(CheckUptimeCommand::class, [
@@ -61,7 +63,7 @@ class UptimeTest extends TestCase
                 'type' => Type::Ping,
                 'settings' => [
                     'host' => '127.0.0.1',
-                    'port' => 53
+                    'port' => 53,
                 ],
                 'interval' => '* * * * *',
                 'retries' => 1,
@@ -69,14 +71,16 @@ class UptimeTest extends TestCase
             ]);
         });
 
+        $this->assertNotNull($monitor);
+
         $pingMock = $this->partialMock(Ping::class, function (MockInterface $mock) {
             $mock->shouldReceive('ping')->andReturn(10);
         });
 
-        $this->app->bind(Ping::class, fn () => $pingMock);
+        $this->app?->bind(Ping::class, fn () => $pingMock);
 
         Http::fake([
-            'http://service' => Http::response()
+            'http://service' => Http::response(),
         ]);
 
         $this->artisan(CheckUptimeCommand::class, [

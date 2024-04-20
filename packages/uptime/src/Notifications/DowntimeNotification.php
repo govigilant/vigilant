@@ -28,7 +28,7 @@ class DowntimeNotification extends Notification implements HasSite
 
     public function uniqueId(): string
     {
-        return $this->monitor->id;
+        return (string) $this->monitor->id;
     }
 
     public function site(): ?Site

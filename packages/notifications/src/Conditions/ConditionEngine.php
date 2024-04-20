@@ -2,6 +2,7 @@
 
 namespace Vigilant\Notifications\Conditions;
 
+use Illuminate\Support\Collection;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Notifications\Notification;
 
@@ -9,7 +10,8 @@ class ConditionEngine
 {
     public function checkGroup(Notification $notification, array $group, string $operator = 'any'): bool
     {
-        $children = collect($group['children'] ?? []);
+        /** @var Collection<int, array> $children */
+        $children = collect($group['children'] ?? []); // @phpstan-ignore-line
 
         if ($children->isEmpty()) {
             return true;

@@ -19,7 +19,7 @@ class NtfyChannel extends NotificationChannel
         'auth_method' => ['nullable', 'in:username,token'],
         'username' => ['required_if:auth_method,username'],
         'password' => ['required_if:auth_method,username'],
-        'token' => ['required_if:auth_method,token']
+        'token' => ['required_if:auth_method,token'],
     ];
 
     public function fire(Notification $notification, Channel $channel): void
@@ -36,7 +36,7 @@ class NtfyChannel extends NotificationChannel
         $request = Http::baseUrl($settings['server'])
             ->withHeaders([
                 'Title' => $notification->title(),
-                'Tags' => $tag
+                'Tags' => $tag,
             ]);
 
         if ($settings['auth_method'] === 'username') {
@@ -50,6 +50,6 @@ class NtfyChannel extends NotificationChannel
             $request->withToken($settings['token']);
         }
 
-        $request->post($settings['topic'], $notification->description());
+        $request->post($settings['topic'], [$notification->description() => '']);
     }
 }

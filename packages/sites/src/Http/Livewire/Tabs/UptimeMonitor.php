@@ -39,7 +39,7 @@ class UptimeMonitor extends Component
                 'type' => Type::Http,
                 'settings' => [
                     'host' => $site->url,
-                ]
+                ],
             ]);
         }
 
@@ -49,12 +49,12 @@ class UptimeMonitor extends Component
     #[On('save')]
     public function save(): void
     {
-        if (!$this->enabled && $this->monitor()->exists) {
+        if (! $this->enabled && $this->monitor()->exists) {
             $this->monitor()->delete();
         }
     }
 
-    public function render()
+    public function render(): mixed
     {
         return view('sites::livewire.tabs.uptime-monitor');
     }

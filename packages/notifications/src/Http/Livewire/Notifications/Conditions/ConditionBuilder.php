@@ -3,7 +3,6 @@
 namespace Vigilant\Notifications\Http\Livewire\Notifications\Conditions;
 
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Vigilant\Notifications\Facades\NotificationRegistry;
@@ -65,6 +64,7 @@ class ConditionBuilder extends Component
     {
         if (blank($path)) {
             $this->children[] = $item;
+
             return;
         }
 
@@ -94,5 +94,4 @@ class ConditionBuilder extends Component
     {
         return NotificationRegistry::conditions($this->notification);
     }
-
 }

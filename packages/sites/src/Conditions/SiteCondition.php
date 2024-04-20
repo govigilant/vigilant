@@ -22,11 +22,15 @@ class SiteCondition extends SelectCondition
             return false;
         }
 
-        $siteId = $notification->site()->id;
+        $site =  $notification->site();
+
+        if ($site === null) {
+            return false;
+        }
 
         return match ($operator) {
-            '=' => $siteId == $value,
-            '!=' => $siteId != $value,
+            '=' => $site->id == $value,
+            '!=' => $site->id != $value,
             default => false,
         };
     }

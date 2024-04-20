@@ -19,17 +19,19 @@ class NotificationForm extends Component
 
     public function mount(?Trigger $trigger): void
     {
-        $this->trigger = $trigger;
-        $this->form->fill($trigger->toArray());
-        if ($trigger->exists) {
-            $this->channels = $trigger->channels->pluck('id')->toArray();
+        if ($trigger !== null) {
+            $this->trigger = $trigger;
+            $this->form->fill($trigger->toArray());
+            if ($trigger->exists) {
+                $this->channels = $trigger->channels->pluck('id')->toArray();
+            }
         }
     }
 
     #[On('conditions-updated')]
     public function conditionsUpdated(array $conditions): void
     {
-       $this->form->conditions = $conditions;
+        $this->form->conditions = $conditions;
     }
 
     public function save(): void
@@ -49,7 +51,7 @@ class NotificationForm extends Component
         $this->redirectRoute('notifications.trigger.edit', ['trigger' => $this->trigger]);
     }
 
-    public function render()
+    public function render(): mixed
     {
         return view('notifications::livewire.notifications.form', [
             'updating' => $this->trigger->exists,

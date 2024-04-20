@@ -22,7 +22,7 @@ class CreateNotificationsCommand extends Command
         Team::query()
             ->when($teamId !== null, fn (Builder $builder): Builder => $builder->where('team_id', '=', $teamId))
             ->get()
-            ->each(fn (Team $team): PendingDispatch => CreateNotificationsJob::dispatch($team));
+            ->each(fn (Team $team): PendingDispatch => CreateNotificationsJob::dispatch($team)); // @phpstan-ignore-line
 
         return static::SUCCESS;
     }
