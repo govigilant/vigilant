@@ -14,7 +14,6 @@ class NotificationRegistry
 
     protected array $channels = [];
 
-
     /**
      * @param  class-string<Notification>|array<int, class-string<Notification>>  $notification
      */
@@ -28,9 +27,9 @@ class NotificationRegistry
     /**
      * @param  class-string<Condition>|array<int, class-string<Condition>>  $condition
      */
-    public function registerCondition(string|array $condition): static
+    public function registerCondition(string $notification, string|array $condition): static
     {
-        $this->conditions = array_merge($this->conditions(), Arr::wrap($condition));
+        $this->conditions[$notification] = array_merge($this->conditions($notification), Arr::wrap($condition));
 
         return $this;
     }
@@ -55,19 +54,20 @@ class NotificationRegistry
         return $this->channels;
     }
 
-    public function conditions(): array
+    public function conditions(string $notification): array
     {
-        return $this->conditions;
+        return $this->conditions[$notification] ?? [];
     }
 
-    public function hasCondition(string $condition): bool
+    public function hasCondition(string $notification, string $condition): bool
     {
-        return in_array($condition, $this->conditions());
+        return in_array($condition, $this->conditions($notification));
     }
 
     public function fake(): void
     {
        $this->notifications = [];
        $this->channels = [];
+       $this->conditions = [];
     }
 }

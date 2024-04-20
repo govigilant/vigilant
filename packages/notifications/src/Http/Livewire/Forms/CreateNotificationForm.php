@@ -10,6 +10,7 @@ class CreateNotificationForm extends Form
     #[Validate('required|max:255')]
     public string $notification = '';
 
+    #[Validate('required|array')]
     public array $conditions = [];
 
     public bool $all_channels = false;

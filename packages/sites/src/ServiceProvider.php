@@ -6,10 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
 use Vigilant\Sites\Http\Livewire\Tabs\UptimeMonitor;
+use Vigilant\Uptime\Notifications\DowntimeNotification;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -42,7 +45,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootViews()
             ->bootLivewire()
             ->bootRoutes()
-            ->bootNavigation();
+            ->bootNavigation()
+            ->bootNotifications();
     }
 
     protected function bootConfig(): static
@@ -103,6 +107,15 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNavigation(): static
     {
         Navigation::path(__DIR__.'/../resources/navigation.php');
+
+        return $this;
+    }
+
+    protected function bootNotifications(): static
+    {
+        NotificationRegistry::registerCondition(DowntimeNotification::class, [
+            SiteCondition::class,
+        ]);
 
         return $this;
     }
