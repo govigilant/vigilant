@@ -21,7 +21,7 @@ class RemoveTeamMember implements RemovesTeamMembers
 
         $this->ensureUserDoesNotOwnTeam($teamMember, $team);
 
-        $team->removeUser($teamMember);
+        $team->removeUser($teamMember); // @phpstan-ignore-line - Jetstream docblock
 
         TeamMemberRemoved::dispatch($team, $teamMember);
     }
@@ -42,7 +42,7 @@ class RemoveTeamMember implements RemovesTeamMembers
      */
     protected function ensureUserDoesNotOwnTeam(User $teamMember, Team $team): void
     {
-        if ($teamMember->id === $team->owner->id) {
+        if ($teamMember->id === $team->owner?->id) {
             throw ValidationException::withMessages([
                 'team' => [__('You may not leave a team that you created.')],
             ])->errorBag('removeTeamMember');

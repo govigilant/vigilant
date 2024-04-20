@@ -45,7 +45,7 @@ class DeleteUser implements DeletesUsers
     {
         $user->teams()->detach();
 
-        $user->ownedTeams->each(function (Team $team) {
+        $user->ownedTeams->each(function (Team $team): void { // @phpstan-ignore-line
             $this->deletesTeams->delete($team);
         });
     }

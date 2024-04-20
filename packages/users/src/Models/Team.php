@@ -9,6 +9,9 @@ use Laravel\Jetstream\Events\TeamUpdated;
 use Laravel\Jetstream\Team as JetstreamTeam;
 use Vigilant\Users\Database\Factories\TeamFactory;
 
+/**
+ * @property ?User $owner
+ */
 class Team extends JetstreamTeam
 {
     use HasFactory;

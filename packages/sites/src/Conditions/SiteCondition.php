@@ -22,7 +22,7 @@ class SiteCondition extends SelectCondition
             return false;
         }
 
-        $site =  $notification->site();
+        $site = $notification->site();
 
         if ($site === null) {
             return false;
