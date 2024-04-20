@@ -44,6 +44,7 @@ class NotificationTest extends TestCase
             Trigger::query()->create([
                 'team_id' => 1,
                 'notification' => FakeNotification::class,
+                'name' => 'Fake Notification',
                 'conditions' => [],
                 'all_channels' => true,
             ]);
@@ -51,6 +52,7 @@ class NotificationTest extends TestCase
             Trigger::query()->create([
                 'team_id' => 1,
                 'notification' => FakeNotification::class,
+                'name' => 'Fake Notification',
                 'conditions' => [],
                 'all_channels' => true,
             ]);
@@ -86,6 +88,7 @@ class NotificationTest extends TestCase
             $trigger = Trigger::query()->create([
                 'team_id' => 1,
                 'notification' => FakeNotification::class,
+                'name' => 'Fake Notification',
                 'conditions' => [],
                 'all_channels' => false,
             ]);
