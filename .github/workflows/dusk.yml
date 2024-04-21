@@ -13,7 +13,7 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_ROOT_PASSWORD: password
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
           MYSQL_DATABASE: vigilant_test
         ports:
           - 3306:3306
@@ -51,7 +51,7 @@ jobs:
         run: php artisan serve > /dev/null 2>&1 &
 
       - name: Wait for MySQL to initialize
-        run: sleep 15
+        run: sleep 10
 
       - name: Run Dusk Tests
         run: |
@@ -65,7 +65,6 @@ jobs:
           DB_HOST: 127.0.0.1
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: root
-          DB_PASSWORD: password
 
       - uses: actions/upload-artifact@v2
         if: always()
