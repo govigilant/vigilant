@@ -28,7 +28,10 @@ class ChannelForm extends Component
         if ($channel !== null) {
             $this->channelModel = $channel;
             $this->form->fill($channel->toArray());
-            $this->settingsComponent = $channel->channel::$component ?? null;
+
+            if ($channel->channel !== null) {
+                $this->settingsComponent = $channel->channel::$component ?? null;
+            }
         }
     }
 

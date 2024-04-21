@@ -39,7 +39,10 @@
                 @endforeach
             </x-form.select>
 
-            <livewire:notification-condition-builder :notification="$trigger->notification" :initial="$form->conditions"/>
+            @if($updating)
+                <livewire:notification-condition-builder :notification="$trigger->notification"
+                                                         :initial="$form->conditions"/>
+            @endif
 
             <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
 

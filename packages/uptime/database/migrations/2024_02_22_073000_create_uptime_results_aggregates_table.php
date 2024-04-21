@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Monitor::class)->index();
 
-            $table->unsignedFloat('total_time');
+            $table->float('total_time');
 
             $table->timestamps();
         });
