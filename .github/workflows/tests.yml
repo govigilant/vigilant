@@ -1,0 +1,24 @@
+name: tests
+
+on: ['push', 'pull_request']
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    name: Tests
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-interaction
+
+      - name: Execute tests
+        run: vendor/bin/phpunit
