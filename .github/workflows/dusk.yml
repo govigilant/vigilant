@@ -54,6 +54,14 @@ jobs:
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
           php artisan dusk
+        env:
+          APP_ENV: local
+          APP_URL: "http://127.0.0.1:8000"
+          DB_CONNECTION: mysql
+          DB_DATABASE: vigilant_test
+          DB_PORT: ${{ job.services.mysql.ports[3306] }}
+          DB_USER: root
+          DB_PASSWORD: password
 
       - uses: actions/upload-artifact@v2
         if: always()
