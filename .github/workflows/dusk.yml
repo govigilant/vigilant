@@ -3,7 +3,7 @@ name: Dusk
 on: ['push', 'pull_request']
 
 jobs:
-  test:
+  dusk:
     name: Dusk
     runs-on: ubuntu-latest
 
@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - run:
+      - run: php artisan dusk
         env:
           BROWSER: ${{ matrix.browser }}
 
