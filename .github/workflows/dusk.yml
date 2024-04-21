@@ -9,7 +9,7 @@ jobs:
 
     services:
       selenium:
-        image: selenium/standalone-${{ matrix.browser }}
+        image: selenium/standalone-chrome
       mysql:
         image: mysql
         env:
