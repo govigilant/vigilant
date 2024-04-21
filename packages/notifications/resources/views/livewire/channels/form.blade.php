@@ -5,8 +5,6 @@
         </x-page-header>
     </x-slot>
 
-    {{ json_encode($form->settings ?? []) }}
-
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 

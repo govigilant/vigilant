@@ -15,11 +15,11 @@ class CalculateUptimePercentage
             ->orderBy('created_at')
             ->first();
 
-        if ($firstResult === null) {
+        if ($firstResult === null || $firstResult->created_at === null) {
             return null;
         }
 
-        $minutesSinceFirstResult = now()->diffInMinutes($firstResult->created_at);
+        $minutesSinceFirstResult = $firstResult->created_at->diffInMinutes(now());
 
         $downtimes = $monitor->downtimes()
             ->where('created_at', '>=', $firstResult->created_at)

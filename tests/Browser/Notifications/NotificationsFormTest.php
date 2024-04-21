@@ -17,6 +17,7 @@ class NotificationsFormTest extends DuskTestCase
             $browser->login()
                 ->visit(route('notifications'))
                 ->click('@trigger-add-button')
+                ->pause(10 * 1000)
                 ->assertSee('Choose the event that triggers this notification') // Help text of the trigger dropdown
                 ->select('#form\.notification', DowntimeNotification::class)
                 ->check('#form\.all_channels')
