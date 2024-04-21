@@ -1,11 +1,11 @@
-name: Tests
+name: Package Quality
 
 on: ['push', 'pull_request']
 
 jobs:
-  tests:
+  package_quality:
     runs-on: ubuntu-latest
-    name: Tests
+    name: Package Quality
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -17,8 +17,5 @@ jobs:
           extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction
-
-      - name: Execute tests
-        run: vendor/bin/phpunit
+      - name: Check package quality
+        run: sh ./scripts/package-quality.sh
