@@ -11,9 +11,9 @@ jobs:
       selenium:
         image: selenium/standalone-chrome
       mysql:
-        image: mysql
+        image: mysql:8.0
         env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: password
           MYSQL_DATABASE: vigilant_test
         ports:
           - 3306
@@ -58,5 +58,5 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: ${{ matrix.browser }}
+          name: screenshots
           path: screenshots/
