@@ -59,6 +59,7 @@ jobs:
           APP_URL: "http://127.0.0.1:8000"
           DB_CONNECTION: mysql
           DB_DATABASE: vigilant_test
+          DB_HOST: mysql
           DB_PORT: ${{ job.services.mysql.ports[3306] }}
           DB_USER: root
           DB_PASSWORD: password
