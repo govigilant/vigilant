@@ -34,13 +34,12 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-interaction
-
-      - name: Frontend
+      - name: Setup
         run: |
+          composer install --prefer-dist --no-interaction
           npm install
           npm run build
+          cp .env.dusk .env
 
       - name: Upgrade Chrome Driver
         run: php artisan dusk:chrome-driver
