@@ -1,0 +1,30 @@
+name: DUsk
+
+on: [workflow_dispatch]
+
+jobs:
+  test:
+    name: Dusk
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ['chrome', 'firefox', 'edge']
+
+    services:
+      selenium:
+        image: selenium/standalone-${{ matrix.browser }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run:
+        env:
+          BROWSER: ${{ matrix.browser }}
+
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: ${{ matrix.browser }}
+          path: screenshots/
