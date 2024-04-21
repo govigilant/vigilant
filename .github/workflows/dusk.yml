@@ -7,11 +7,6 @@ jobs:
     name: Dusk
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [ 'chrome', 'firefox', 'edge' ]
-
     services:
       selenium:
         image: selenium/standalone-${{ matrix.browser }}
