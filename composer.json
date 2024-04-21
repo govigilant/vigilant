@@ -18,12 +18,12 @@
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
-        "vigilant/core": "dev-main",
-        "vigilant/frontend": "dev-main",
-        "vigilant/notifications": "dev-main",
-        "vigilant/sites": "dev-main",
-        "vigilant/uptime": "dev-main",
-        "vigilant/users": "dev-main"
+        "vigilant/core": "@dev",
+        "vigilant/frontend": "@dev",
+        "vigilant/notifications": "@dev",
+        "vigilant/sites": "@dev",
+        "vigilant/uptime": "@dev",
+        "vigilant/users": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

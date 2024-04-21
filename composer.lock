@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d2a55f3fa0357a015dcb76f7590564b",
+    "content-hash": "15696c099915b6a795b344d7dad26f21",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6367,7 +6367,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
-                "reference": "9b1d55e1dbe0fe3a3a5b3ea8dc615878752e6846"
+                "reference": "55ba933fd9f1bfcd0a24408b3c5bcf9750f65ec1"
             },
             "require": {
                 "laravel/framework": "^11.0",
@@ -6376,9 +6376,9 @@
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
@@ -6438,19 +6438,20 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
-                "reference": "428ef5136acaefe0cc969398188484acfaab6795"
+                "reference": "eaa824c6c0f26173c850966d0408e2a0984e2fd0"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
-                "php": "^8.2"
+                "php": "^8.2",
+                "ramonrietdijk/livewire-tables": "^4.0"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
@@ -6507,7 +6508,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
-                "reference": "b6667fc70480e1bdbf66ebd059853fb79fc1c88a"
+                "reference": "cbe71ceb90865641aa2544022ad35b2a87858cba"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.2",
@@ -6521,9 +6522,9 @@
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
@@ -6583,7 +6584,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "df6bf21c5b1668880ae4236ebc759243c81dcf30"
+                "reference": "5ec2de2753946b42a3fb7cdbcb5d1a6b8a7dcbb1"
             },
             "require": {
                 "laravel/framework": "^11.0",
@@ -6596,9 +6597,9 @@
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
@@ -6655,7 +6656,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
-                "reference": "525b5057e3c8b19e496b340914a150c1369c101a"
+                "reference": "14f369fb4dbe66a1576c3c070653a89f13f681d7"
             },
             "require": {
                 "geerlingguy/ping": "^1.2",
@@ -6672,9 +6673,9 @@
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
@@ -6732,7 +6733,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
-                "reference": "764c624342b9dff83ebc958e0ee9d9325e9c6dc3"
+                "reference": "6fc82544e2d8b2cd730097906b1d4f24885bca56"
             },
             "require": {
                 "laravel/framework": "^11.0",
@@ -6743,9 +6744,9 @@
             "require-dev": {
                 "larastan/larastan": "^2.5",
                 "laravel/pint": "^1.6",
-                "orchestra/testbench": "^8.0",
+                "orchestra/testbench": "^9.0",
                 "phpstan/phpstan-mockery": "^1.1",
-                "phpunit/phpunit": "^10.0"
+                "phpunit/phpunit": "^11.0"
             },
             "type": "package",
             "extra": {
