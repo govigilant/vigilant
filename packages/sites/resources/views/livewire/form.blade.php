@@ -9,6 +9,7 @@
             <x-form.text class="sm:col-span-2"
                          field="form.url"
                          name="URL"
+                         :disabled="$updating"
                          description="The URL of the site that you want to add."
                          placeholder="{{ config('app.url') }}"/>
 
