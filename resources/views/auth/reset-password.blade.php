@@ -27,9 +27,9 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-button>
+                <x-form.button class="bg-red">
                     {{ __('Reset Password') }}
-                </x-button>
+                </x-form.button>
             </div>
         </form>
     </x-authentication-card>

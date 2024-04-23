@@ -4,7 +4,7 @@
             <x-authentication-card-logo />
         </x-slot>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <div class="mb-4 text-sm text-white">
             {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
         </div>
 
@@ -19,25 +19,21 @@
                 @csrf
 
                 <div>
-                    <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
+                    <x-form.submit-button submitText="Resend Verification Email" type="submit"/>
                 </div>
             </form>
 
             <div>
                 <a
                     href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                     {{ __('Edit Profile') }}</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
                     @csrf
 
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
-                        {{ __('Log Out') }}
-                    </button>
+                    <x-form.submit-button submitText="Log Out"/>
                 </form>
             </div>
         </div>
