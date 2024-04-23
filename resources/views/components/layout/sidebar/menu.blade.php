@@ -12,32 +12,51 @@
                 <li>
                     <ul role="list" class="-mx-2 space-y-1">
                         @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
-                            <li>
+                            @php
+                                $activeChild = false;
+                                if($item->hasChildren()) {
+                                    foreach($item->getChildren() as $child) {
+                                        if ($child->active()) {
+                                            $activeChild = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                            @endphp
+                            <li x-data="{ showChildren: {{ $item->active() || $activeChild ? 'true' : 'false' }} }">
                                 <a href="{{ $item->url }}"
                                    wire:navigate
-                                    @class([
-                                         'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
-                                         'bg-gray-800 text-white' => $item->active(),
-                                         'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
-                                    ])
+                                        @class([
+                                             'group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
+                                             'bg-gray-800 text-white' => $item->active() || $activeChild,
+                                             'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
+                                        ])
                                 >
                                     @if($item->icon !== null)
-                                        @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() ? 'text-red' : ''))
+                                        @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() || $activeChild ? 'text-red' : ''))
                                     @endif
-                                    {{ __($item->name)  }}
+                                    <span class="flex-1">{{ __($item->name)  }}</span>
+
+                                    @if($item->hasChildren() || $activeChild)
+                                        <span x-show="!showChildren"
+                                              x-cloak>@svg('heroicon-o-chevron-up', 'h-5 w-5')</span>
+                                        <span x-show="showChildren"
+                                              x-cloak>@svg('heroicon-o-chevron-down', 'h-5 w-5')</span>
+                                    @endif
+
                                 </a>
 
                                 @if($item->hasChildren())
-                                    <ul class="pl-12 border-l">
+                                    <ul class="pl-5" x-show="showChildren">
                                         @foreach($item->getChildren() as $child)
-                                            <li>
+                                            <li class="p-2 border-l border-base-600">
                                                 <a href="{{ $child->url }}"
                                                    wire:navigate
-                                                    @class([
-                                                         'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
-                                                         'text-white' => $child->active(),
-                                                         'text-gray-500 hover:text-white' => !$child->active(),
-                                                    ])
+                                                        @class([
+                                                             'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
+                                                             'text-white' => $child->active(),
+                                                             'text-gray-500 hover:text-white' => !$child->active(),
+                                                        ])
                                                 >
                                                     {{ __($child->name)  }}
                                                 </a>
