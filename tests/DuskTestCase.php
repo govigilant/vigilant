@@ -10,7 +10,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
-use Vigilant\Core\Services\TeamService;
 use Vigilant\Users\Actions\Jetstream\CreateTeam;
 use Vigilant\Users\Models\User;
 

@@ -38,7 +38,6 @@ class NotificationForm extends Component
     {
         $this->validate();
 
-
         if ($this->trigger->exists) {
             $this->trigger->update($this->form->all());
         } else {
