@@ -9,7 +9,7 @@ jobs:
 
     services:
       selenium:
-        image: selenium/standalone-chrome:1.123.0
+        image: selenium/standalone-chrome:123.0
       mysql:
         image: mysql:8.0
         env:
