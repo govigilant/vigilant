@@ -12,7 +12,8 @@
     ],
     "require": {
         "php": "^8.2",
-        "laravel/framework": "^11.0"
+        "laravel/framework": "^11.0",
+        "vigilant/users": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
@@ -58,6 +59,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
-
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
 }

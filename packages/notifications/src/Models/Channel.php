@@ -3,10 +3,12 @@
 namespace Vigilant\Notifications\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Notifications\Observers\ChannelObserver;
 
 /**
@@ -19,6 +21,7 @@ use Vigilant\Notifications\Observers\ChannelObserver;
  * @property Collection<int, History> $history
  */
 #[ObservedBy([ChannelObserver::class])]
+#[ScopedBy([TeamScope::class])]
 class Channel extends Model
 {
     protected $table = 'notification_channels';

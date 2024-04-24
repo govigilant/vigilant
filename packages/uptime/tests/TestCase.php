@@ -5,6 +5,7 @@ namespace Vigilant\Uptime\Tests;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -15,6 +16,8 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             ServiceProvider::class,
+            \Vigilant\Core\ServiceProvider::class,
+            \Vigilant\Users\ServiceProvider::class,
             LivewireServiceProvider::class,
         ];
     }
@@ -27,5 +30,12 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        TeamService::fake();
     }
 }

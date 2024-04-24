@@ -3,13 +3,15 @@
 namespace Vigilant\Users\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Vigilant\Users\Models\User;
+use Vigilant\Users\Models\Team;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Vigilant\Users\Models\Team>
  */
 class TeamFactory extends Factory
 {
+    protected $model = Team::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,7 +21,7 @@ class TeamFactory extends Factory
     {
         return [
             'name' => $this->faker->unique()->company(),
-            'user_id' => User::factory(),
+            'user_id' => 1,
             'personal_team' => true,
         ];
     }

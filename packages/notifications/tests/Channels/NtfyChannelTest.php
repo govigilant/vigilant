@@ -35,7 +35,7 @@ class NtfyChannelTest extends TestCase
 
         $notification = FakeNotification::make(1);
         /** @var Channel $channelModel */
-        $channelModel = Channel::query()->first();
+        $channelModel = Channel::query()->withoutGlobalScopes()->first();
 
         /** @var NtfyChannel $channel */
         $channel = app(NtfyChannel::class);

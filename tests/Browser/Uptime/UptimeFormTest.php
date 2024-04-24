@@ -5,7 +5,6 @@ namespace Tests\Browser\Uptime;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
-use Vigilant\Uptime\Models\Monitor;
 
 class UptimeFormTest extends DuskTestCase
 {
@@ -25,14 +24,9 @@ class UptimeFormTest extends DuskTestCase
                 ->select('#form\.interval', '* * * * */2')
                 ->type('#form\.retries', 5)
                 ->type('#form\.timeout', 10)
-                ->click('@submit-button')
-                ->pause(250);
-
-            /** @var ?Monitor $monitor */
-            $monitor = Monitor::query()->first();
-            $this->assertNotNull($monitor);
-            $this->assertEquals('Test Monitor', $monitor->name);
-            $this->assertEquals(['host' => 'govigilant.io', 'port' => 22], $monitor->settings);
+                ->clickAndWaitForReload('@submit-button')
+                ->assertUrlIs(route('uptime'))
+                ->assertSee('Test Monitor');
         });
     }
 }

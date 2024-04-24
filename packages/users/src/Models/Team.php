@@ -10,6 +10,7 @@ use Laravel\Jetstream\Team as JetstreamTeam;
 use Vigilant\Users\Database\Factories\TeamFactory;
 
 /**
+ * @property int $id
  * @property ?User $owner
  */
 class Team extends JetstreamTeam

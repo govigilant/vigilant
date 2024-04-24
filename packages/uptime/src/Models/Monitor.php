@@ -3,12 +3,14 @@
 namespace Vigilant\Uptime\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Database\Factories\MonitorFactory;
 use Vigilant\Uptime\Enums\Type;
@@ -32,6 +34,7 @@ use Vigilant\Uptime\Observers\MonitorObserver;
  * @property Collection<int, Downtime> $downtimes
  */
 #[ObservedBy([MonitorObserver::class])]
+#[ScopedBy([TeamScope::class])]
 class Monitor extends Model
 {
     use HasFactory;

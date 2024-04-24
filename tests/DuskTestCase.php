@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Dusk\TestCase as BaseTestCase;
 use PHPUnit\Framework\Attributes\BeforeClass;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Users\Actions\Jetstream\CreateTeam;
 use Vigilant\Users\Models\User;
 
@@ -69,7 +70,7 @@ abstract class DuskTestCase extends BaseTestCase
             isset($_ENV['DUSK_START_MAXIMIZED']);
     }
 
-    protected function user()
+    protected function user(): User
     {
         /** @var User $user */
         $user = User::query()->firstOrCreate([
