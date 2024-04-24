@@ -50,13 +50,11 @@ class SitesFormTest extends DuskTestCase
                 ->waitFor('@uptime-tab-enabled')
                 ->check('@uptime-tab-enabled')
                 ->waitForText('Friendly name for this monitor')
-                ->assertSee('Friendly name for this monitor') // Help text in monitor form
                 ->click('@submit-button')
-                ->pause(250);
-
-            /** @var ?Site $createdMonitor */
-            $createdMonitor = $site->monitors()->first();
-            $this->assertNotNull($createdMonitor);
+                ->pause(250)
+                ->visit(route('uptime'))
+                ->pause(250)
+                ->assertSee('https://govigilant.io');
         });
     }
 }

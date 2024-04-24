@@ -3,12 +3,14 @@
 namespace Vigilant\Notifications\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Notifications\Observers\TriggerObserver;
 use Vigilant\Users\Models\Team;
 
@@ -27,6 +29,7 @@ use Vigilant\Users\Models\Team;
  * @property Collection<int, History> $history
  */
 #[ObservedBy([TriggerObserver::class])]
+#[ScopedBy([TeamScope::class])]
 class Trigger extends Model
 {
     protected $table = 'notification_triggers';

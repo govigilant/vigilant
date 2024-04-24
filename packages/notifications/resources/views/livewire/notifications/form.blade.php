@@ -8,6 +8,13 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
+            <x-form.text
+                field="form.name"
+                name="Name"
+                description="Name this notification"
+            >
+            </x-form.text>
+
             <x-form.select
                 field="form.notification"
                 name="Trigger"

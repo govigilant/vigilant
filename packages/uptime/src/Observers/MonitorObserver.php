@@ -2,19 +2,16 @@
 
 namespace Vigilant\Uptime\Observers;
 
-use Illuminate\Support\Facades\Auth;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\Models\Monitor;
-use Vigilant\Users\Models\User;
 
 class MonitorObserver
 {
     public function creating(Monitor $monitor): void
     {
-        /** @var ?User $user */
-        $user = Auth::user();
+        /** @var TeamService $teamService */
+        $teamService = app(TeamService::class);
 
-        if ($user !== null && $user->currentTeam !== null) {
-            $monitor->team_id = $user->currentTeam->id;
-        }
+        $monitor->team_id = $teamService->team()?->id;
     }
 }

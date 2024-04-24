@@ -33,7 +33,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Vigilant\\Notifications\\Tests\\": "tests"
+            "Vigilant\\Notifications\\Tests\\": "tests",
+            "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
         }
     },
     "scripts": {

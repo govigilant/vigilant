@@ -17,20 +17,18 @@ class UptimeTest extends TestCase
     {
         $monitor = null;
 
-        Monitor::withoutEvents(function () use (&$monitor) {
-            /** @var Monitor $monitor */
-            $monitor = Monitor::query()->create([
-                'team_id' => 1,
-                'name' => 'Test Monitor',
-                'type' => Type::Http,
-                'settings' => [
-                    'host' => 'http://service',
-                ],
-                'interval' => '* * * * *',
-                'retries' => 1,
-                'timeout' => 1,
-            ]);
-        });
+        /** @var Monitor $monitor */
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => [
+                'host' => 'http://service',
+            ],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 1,
+        ]);
 
         $this->assertNotNull($monitor);
 
@@ -55,21 +53,18 @@ class UptimeTest extends TestCase
     {
         $monitor = null;
 
-        Monitor::withoutEvents(function () use (&$monitor) {
-            /** @var Monitor $monitor */
-            $monitor = Monitor::query()->create([
-                'team_id' => 1,
-                'name' => 'Test Monitor',
-                'type' => Type::Ping,
-                'settings' => [
-                    'host' => '127.0.0.1',
-                    'port' => 53,
-                ],
-                'interval' => '* * * * *',
-                'retries' => 1,
-                'timeout' => 1,
-            ]);
-        });
+        /** @var Monitor $monitor */
+        $monitor = Monitor::query()->create([
+            'name' => 'Test Monitor',
+            'type' => Type::Ping,
+            'settings' => [
+                'host' => '127.0.0.1',
+                'port' => 53,
+            ],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 1,
+        ]);
 
         $this->assertNotNull($monitor);
 

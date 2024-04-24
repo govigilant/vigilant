@@ -32,8 +32,8 @@
     "autoload": {
         "psr-4": {
             "Vigilant\\Uptime\\": "src",
-            "Vigilant\\Uptime\\Database\\Factories\\": "database/factories"
-
+            "Vigilant\\Uptime\\Database\\Factories\\": "database/factories",
+            "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
         }
     },
     "autoload-dev": {

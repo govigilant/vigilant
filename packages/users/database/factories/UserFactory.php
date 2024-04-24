@@ -13,6 +13,8 @@ use Vigilant\Users\Models\User;
  */
 class UserFactory extends Factory
 {
+    protected $model = User::class;
+
     /**
      * Define the model's default state.
      *

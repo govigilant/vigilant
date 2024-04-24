@@ -4,6 +4,7 @@ namespace Vigilant\Core;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Vigilant\Core\Services\TeamService;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -11,7 +12,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this
             ->registerConfig()
-            ->registerFacades();
+            ->registerSingletons();
     }
 
     protected function registerConfig(): static
@@ -21,8 +22,9 @@ class ServiceProvider extends BaseServiceProvider
         return $this;
     }
 
-    protected function registerFacades(): static
+    protected function registerSingletons(): static
     {
+        $this->app->singleton(TeamService::class);
 
         return $this;
     }
