@@ -9,7 +9,7 @@ jobs:
 
     services:
       selenium:
-        image: selenium/standalone-chrome:123.0
+        image: selenium/standalone-chrome
       mysql:
         image: mysql:8.0
         env:
@@ -42,7 +42,7 @@ jobs:
           cp .env.dusk .env
 
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver 123
+        run: php artisan dusk:chrome-driver
 
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
