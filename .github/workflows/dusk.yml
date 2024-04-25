@@ -42,7 +42,7 @@ jobs:
           cp .env.dusk .env
 
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver
+        run: php artisan dusk:chrome-driver --detect
 
       - name: Start Chrome Driver
         run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
