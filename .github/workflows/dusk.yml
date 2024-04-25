@@ -9,6 +9,15 @@ jobs:
       max-parallel: 1
       matrix:
         php-versions: [ '8.3' ]
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_DATABASE: vigilant_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,6 +43,8 @@ jobs:
           php artisan dusk:chrome-driver
       - name: Run Laravel Server
         run: php artisan serve --ansi --no-interaction --quiet &
+      - name: Wait for MySQL to initialize
+        run: sleep 10
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
