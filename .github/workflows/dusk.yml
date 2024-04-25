@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
+      selenium:
+        image: selenium/standalone-chrome
       mysql:
         image: mysql:8.0
         env:
@@ -39,25 +41,17 @@ jobs:
           npm run build
           cp .env.dusk .env
 
-      - name: Setup Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get -y install libgtk2.0-0
-          sudo apt-get -y install chromium-browser
-          sudo apt-get -y install gtk2-engines-pixbuf
-          Xvfb -ac :0 -screen 0 1280x1024x16 &
-
       - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
+        run: php artisan dusk:chrome-driver
 
       - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
 
       - name: Run Laravel Server
-        run: php artisan serve &
+        run: php artisan serve > /dev/null 2>&1 &
 
       - name: Wait for MySQL to initialize
-        run: sleep 20
+        run: sleep 10
 
       - name: Run Dusk Tests
         run: |
