@@ -31,6 +31,7 @@ jobs:
         run: |
           composer install --prefer-dist --no-interaction
           cp .env.dusk .env
+          php artisan dusk:chrome-driver
       - name: Run Laravel Server
         run: php artisan serve --ansi --no-interaction --quiet &
       - name: Run Dusk Tests
