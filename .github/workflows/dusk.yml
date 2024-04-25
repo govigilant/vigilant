@@ -43,7 +43,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install libgtk2.0-0
-          sudo apt-get install chromium-browser
+          sudo apt-get -y install chromium-browser
           sudo apt-get -y install gtk2-engines-pixbuf
           Xvfb -ac :0 -screen 0 1280x1024x16 &
 
@@ -62,7 +62,7 @@ jobs:
       - name: Run Dusk Tests
         run: |
           chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk  --stop-on-error --stop-on-failure
+          php artisan dusk --stop-on-error --stop-on-failure -vvv
         env:
           APP_ENV: local
           APP_URL: "http://127.0.0.1:8000"
