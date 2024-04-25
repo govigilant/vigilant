@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      selenium:
-        image: selenium/standalone-chrome
       mysql:
         image: mysql:8.0
         env:
@@ -39,35 +37,24 @@ jobs:
           composer install --prefer-dist --no-interaction
           npm install
           npm run build
-          cp .env.dusk .env
 
       - name: Upgrade Chrome Driver
         run: php artisan dusk:chrome-driver --detect
 
       - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux > /dev/null 2>&1 &
+        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
 
       - name: Run Laravel Server
-        run: php artisan serve > /dev/null 2>&1 &
+        run: php artisan serve --no-reload &
 
       - name: Wait for MySQL to initialize
         run: sleep 10
 
       - name: Run Dusk Tests
-        run: |
-          chmod -R 0755 vendor/laravel/dusk/bin/
-          php artisan dusk --stop-on-error --stop-on-failure
-        env:
-          APP_ENV: local
-          APP_URL: "http://127.0.0.1:8000"
-          DB_CONNECTION: mysql
-          DB_DATABASE: vigilant_test
-          DB_HOST: 127.0.0.1
-          DB_PORT: ${{ job.services.mysql.ports[3306] }}
-          DB_USER: root
+        run: php artisan dusk --stop-on-error --stop-on-failure
 
       - uses: actions/upload-artifact@v2
-        if: always()
+        if: failure()
         with:
           name: screenshots
           path: screenshots/
