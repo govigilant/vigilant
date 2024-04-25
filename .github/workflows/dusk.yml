@@ -1,60 +1,53 @@
 name: Dusk
 
 on: [ 'push', 'pull_request' ]
-
 jobs:
   dusk:
-    name: Dusk
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ALLOW_EMPTY_PASSWORD: true
-          MYSQL_DATABASE: vigilant_test
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-
+    strategy:
+      fail-fast: true
+      max-parallel: 1
+      matrix:
+        php-versions: [ '8.3' ]
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        env:
+          DEBUG: true
+          APP_ENV: "testing"
+      - uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
-          extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
-          coverage: none
-
-      - name: Setup node
-        uses: actions/setup-node@v1
+          php_version: ${{ matrix.php-versions }}
+          extensions: mbstring, dom, fileinfo, mysql, gd, curl, zip, sqlite, xml,
+      - name: Npm install
+        uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
-
-      - name: Setup
-        run: |
-          composer install --prefer-dist --no-interaction
-          npm install
-          npm run build
-
-      - name: Upgrade Chrome Driver
-        run: php artisan dusk:chrome-driver --detect
-
-      - name: Start Chrome Driver
-        run: ./vendor/laravel/dusk/bin/chromedriver-linux &
-
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - run: npm install
+      - run: npm run build
       - name: Run Laravel Server
-        run: php artisan serve --no-reload &
-
-      - name: Wait for MySQL to initialize
-        run: sleep 10
-
+        run: php artisan serve --ansi --no-interaction --quiet &
       - name: Run Dusk Tests
-        run: php artisan dusk --stop-on-error --stop-on-failure
-
-      - uses: actions/upload-artifact@v2
+        run: |
+          chmod -R 0755 vendor/laravel/dusk/bin/
+          php artisan dusk --stop-on-error --stop-on-failure
+      - name: Upload Screenshots
         if: failure()
+        uses: actions/upload-artifact@v2
         with:
           name: screenshots
-          path: screenshots/
+          path: tests/Browser/screenshots
+      - name: Upload Console Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: console
+          path: tests/Browser/console
+      - name: Upload Laravel Storage Logs
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: storage-logs
+          path: storage/logs
