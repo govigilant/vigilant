@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      chrome:
-        image: zenika/alpine-chrome:124-with-chromedriver
       mysql:
         image: mysql:8.0
         env:
@@ -40,6 +38,14 @@ jobs:
           npm install
           npm run build
           cp .env.dusk .env
+
+      - name: Setup Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install libgtk2.0-0
+          sudo apt-get install chromium-browser
+          sudo apt-get -y install gtk2-engines-pixbuf
+          Xvfb -ac :0 -screen 0 1280x1024x16 &
 
       - name: Upgrade Chrome Driver
         run: php artisan dusk:chrome-driver --detect
