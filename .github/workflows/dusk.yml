@@ -28,7 +28,9 @@ jobs:
       - run: npm install
       - run: npm run build
       - name: Setup
-        run: composer install --prefer-dist --no-interaction
+        run: |
+          composer install --prefer-dist --no-interaction
+          cp .env.dusk .env
       - name: Run Laravel Server
         run: php artisan serve --ansi --no-interaction --quiet &
       - name: Run Dusk Tests
