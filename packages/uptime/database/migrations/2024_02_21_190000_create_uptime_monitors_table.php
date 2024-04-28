@@ -12,8 +12,8 @@ return new class extends Migration
     {
         Schema::create('uptime_monitors', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Site::class)->nullable();
-            $table->foreignIdFor(Team::class);
+            $table->foreignIdFor(Site::class)->nullable()->constrained()->onDelete('cascade');
+            $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
 
             $table->string('name');
             $table->string('type');

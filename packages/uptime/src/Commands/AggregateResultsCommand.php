@@ -14,7 +14,9 @@ class AggregateResultsCommand extends Command
 
     public function handle(): int
     {
-        $monitors = Monitor::query()->get();
+        $monitors = Monitor::query()
+            ->withoutGlobalScopes()
+            ->get();
 
         foreach ($monitors as $monitor) {
             AggregateResultsJob::dispatch($monitor);
