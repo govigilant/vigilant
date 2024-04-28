@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('uptime_downtimes', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Monitor::class)->index();
+            $table->foreignIdFor(Monitor::class)->index()->constrained()->onDelete('cascade');
 
             $table->dateTime('start');
             $table->dateTime('end')->nullable();

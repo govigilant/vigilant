@@ -42,6 +42,5 @@ class CheckUptime
                 'total_time' => $result->totalTime,
             ]);
         }
-
     }
 }

@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(AggregateResultsCommand::class)->hourly();
 
         Monitor::query()
+            ->withoutGlobalScopes()
             ->get()
             ->each(function (Monitor $monitor) use ($schedule) {
                 if (CronExpression::isValidExpression($monitor->interval)) {
