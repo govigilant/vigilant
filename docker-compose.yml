@@ -1,0 +1,56 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .env.docker:/app/.env
+            - ./storage:/app/storage
+            - public:/app/public
+        restart: always
+        working_dir: /app
+        networks:
+            - vigilant
+        healthcheck:
+            test: curl --fail http://localhost || exit 1
+            interval: 30s
+            timeout: 10s
+            retries: 5
+        depends_on:
+            mysql:
+                condition: service_healthy
+        ports:
+            - "8000:8000"
+
+    mysql:
+        image: mysql:8.0
+        restart: always
+        environment:
+            - MYSQL_DATABASE=vigilant
+            - MYSQL_ROOT_PASSWORD=password
+        volumes:
+            - database:/var/lib/mysql
+        networks:
+            - vigilant
+        healthcheck:
+            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            interval: 10s
+            timeout: 20s
+            retries: 10
+
+    redis:
+        image: redis:7
+        volumes:
+            - redis:/data
+        networks:
+            - vigilant
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+
+networks:
+    vigilant:
+
+volumes:
+    public:
+    database:
+    redis:

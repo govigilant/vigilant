@@ -5,7 +5,7 @@
                 <span class="text-red">V</span>igilant
             </h1>
             <img class="h-8 w-auto" src=""
-                 alt="Your Company">
+                 alt="Vigilant">
         </div>
         <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
