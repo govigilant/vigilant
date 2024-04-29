@@ -27,12 +27,20 @@ class ServiceProvider extends BaseServiceProvider
     public function register(): void
     {
         $this
-            ->registerConfig();
+            ->registerConfig()
+            ->registerSingletons();
     }
 
     protected function registerConfig(): static
     {
         $this->mergeConfigFrom(__DIR__.'/../config/notifications.php', 'notifications');
+
+        return $this;
+    }
+
+    protected function registerSingletons(): static
+    {
+        $this->app->singleton(NotificationRegistry::class);
 
         return $this;
     }
