@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev
+RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev supervisor
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -23,5 +23,6 @@ RUN mkdir /tmp/public/
 RUN cp -r /app/public/* /tmp/public/
 
 RUN yes | php artisan octane:install --server=frankenphp
+RUN /usr/bin/crontab /app/docker/crontab
 
 ENTRYPOINT ["sh", "/app/docker/entrypoint.sh"]

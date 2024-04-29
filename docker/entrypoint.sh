@@ -2,4 +2,5 @@
 
 
 php artisan migrate
-php artisan octane:frankenphp
+
+/usr/bin/supervisord -c /app/docker/supervisor/supervisor.conf
