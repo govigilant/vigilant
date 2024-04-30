@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev supervisor
+RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev supervisor nodejs npm
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -18,6 +18,9 @@ WORKDIR /app
 
 ENV COMPOSER_ALLOW_SUPERUSER=1
 RUN composer install --no-dev --prefer-dist --no-interaction
+
+RUN npm install
+RUN npm run build
 
 RUN mkdir /tmp/public/
 RUN cp -r /app/public/* /tmp/public/
