@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
-use Vigilant\Notifications\Channels\WebhookChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
@@ -40,7 +39,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerSingletons(): static
     {
-        $this->app->singleton(NotificationRegistry::class);
+        $this->app->singleton(\Vigilant\Notifications\Notifications\NotificationRegistry::class);
 
         return $this;
     }
@@ -139,7 +138,6 @@ class ServiceProvider extends BaseServiceProvider
     {
         NotificationRegistry::registerChannel([
             NtfyChannel::class,
-            WebhookChannel::class,
         ]);
 
         return $this;
