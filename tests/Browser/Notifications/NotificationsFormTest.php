@@ -5,7 +5,7 @@ namespace Tests\Browser\Notifications;
 use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
-use Vigilant\Uptime\Notifications\DowntimeNotification;
+use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class NotificationsFormTest extends DuskTestCase
 {
@@ -18,7 +18,7 @@ class NotificationsFormTest extends DuskTestCase
                 ->click('@trigger-add-button')
                 ->assertSee('Choose the event that triggers this notification') // Help text of the trigger dropdown
                 ->type('#form\.name', 'Test Notification')
-                ->select('#form\.notification', DowntimeNotification::class)
+                ->select('#form\.notification', DowntimeStartNotification::class)
                 ->check('#form\.all_channels')
                 ->clickAndWaitForReload('@submit-button')
                 ->assertPathContains('notifications/edit')

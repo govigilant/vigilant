@@ -12,7 +12,7 @@ use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
 use Vigilant\Sites\Http\Livewire\Tabs\UptimeMonitor;
-use Vigilant\Uptime\Notifications\DowntimeNotification;
+use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -113,7 +113,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootNotifications(): static
     {
-        NotificationRegistry::registerCondition(DowntimeNotification::class, [
+        NotificationRegistry::registerCondition(DowntimeStartNotification::class, [
             SiteCondition::class,
         ]);
 

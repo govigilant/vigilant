@@ -6,7 +6,7 @@ use Laravel\Dusk\Browser;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\DuskTestCase;
 use Vigilant\Notifications\Models\Trigger;
-use Vigilant\Uptime\Notifications\DowntimeNotification;
+use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class NotificationsIndexTest extends DuskTestCase
 {
@@ -20,13 +20,13 @@ class NotificationsIndexTest extends DuskTestCase
             Trigger::query()->create([
                 'enabled' => true,
                 'name' => 'Downtime',
-                'notification' => DowntimeNotification::class,
+                'notification' => DowntimeStartNotification::class,
                 'conditions' => [],
             ]);
 
             $browser->login()
                 ->visit(route('notifications'))
-                ->waitForText(DowntimeNotification::$name, 5);
+                ->waitForText(DowntimeStartNotification::$name, 5);
         });
     }
 }
