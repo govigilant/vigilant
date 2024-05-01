@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Notifications\Actions\CreateNotifications;
 use Vigilant\Users\Models\Team;
 
@@ -23,8 +24,9 @@ class CreateNotificationsJob implements ShouldBeUnique, ShouldQueue
     ) {
     }
 
-    public function handle(CreateNotifications $notifications): void
+    public function handle(CreateNotifications $notifications, TeamService $teamService): void
     {
+        $teamService->setTeam($this->team);
         $notifications->create($this->team);
     }
 
