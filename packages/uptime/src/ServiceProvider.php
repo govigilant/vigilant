@@ -18,6 +18,7 @@ use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
 use Vigilant\Uptime\Listeners\DowntimeEndNotificationListener;
 use Vigilant\Uptime\Listeners\DowntimeStartNotificationListener;
+use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class ServiceProvider extends BaseServiceProvider
@@ -129,6 +130,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         NotificationRegistry::registerNotification([
             DowntimeStartNotification::class,
+            DowntimeEndNotification::class,
         ]);
 
         return $this;
