@@ -9,6 +9,6 @@ class DowntimeStartNotificationListener
 {
     public function handle(DowntimeStartEvent $event): void
     {
-       DowntimeStartNotification::notify($event->monitor);
+        DowntimeStartNotification::notify($event->monitor);
     }
 }

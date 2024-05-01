@@ -22,5 +22,5 @@ Route::middleware([
     //    return view('dashboard');
     //})->name('dashboard');
 
-    Route::get('/', fn() => response()->redirectToRoute('sites'));
+    Route::get('/', fn () => response()->redirectToRoute('sites'));
 });
