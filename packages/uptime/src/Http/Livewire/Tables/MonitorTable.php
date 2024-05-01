@@ -18,6 +18,11 @@ class MonitorTable extends LivewireTable
 {
     protected string $model = Monitor::class;
 
+    protected array $pollingOptions = [
+        '' => 'None',
+        '30s' => 'Every 30 seconds',
+    ];
+
     protected function columns(): array
     {
         /** @var CalculateUptimePercentage $calculateUptime */
