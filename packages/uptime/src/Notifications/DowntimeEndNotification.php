@@ -8,9 +8,9 @@ use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Models\Monitor;
 
-class DowntimeNotification extends Notification implements HasSite
+class DowntimeEndNotification extends Notification implements HasSite
 {
-    public static string $name = 'Site downtime detected';
+    public static string $name = 'Site downtime solved';
 
     public Level $level = Level::Critical;
 
@@ -23,7 +23,7 @@ class DowntimeNotification extends Notification implements HasSite
     {
         $site = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
 
-        return __(':site is down!', ['site' => $site]);
+        return __(':site is back up!', ['site' => $site]);
     }
 
     public function uniqueId(): string
