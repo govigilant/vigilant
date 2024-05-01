@@ -23,7 +23,7 @@ class TeamService
         $this->team = $user->currentTeam;
     }
 
-    public function setTeam(Team $team): void
+    public function setTeam(?Team $team): void
     {
         $this->team = $team;
     }

@@ -15,6 +15,7 @@ use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Database\Factories\MonitorFactory;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Observers\MonitorObserver;
+use Vigilant\Users\Models\Team;
 
 /**
  * @property int $id
@@ -29,6 +30,7 @@ use Vigilant\Uptime\Observers\MonitorObserver;
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
+ * @property ?Team $team
  * @property Collection<int, Result> $results
  * @property Collection<int, Result> $aggregatedResults
  * @property Collection<int, Downtime> $downtimes
@@ -66,6 +68,11 @@ class Monitor extends Model
     public function downtimes(): HasMany
     {
         return $this->hasMany(Downtime::class);
+    }
+
+    public function team(): BelongsTo
+    {
+       return $this->belongsTo(Team::class);
     }
 
     public function currentDowntime(): ?Downtime
