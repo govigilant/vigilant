@@ -14,7 +14,7 @@ class EventServiceProvider extends ServiceProvider
         DowntimeStartEvent::class => [
             DowntimeStartNotificationListener::class,
         ],
-         DowntimeEndEvent::class => [
+        DowntimeEndEvent::class => [
             DowntimeEndNotificationListener::class,
         ],
     ];

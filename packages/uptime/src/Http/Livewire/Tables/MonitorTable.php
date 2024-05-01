@@ -105,9 +105,7 @@ class MonitorTable extends LivewireTable
                         return __('Never');
                     }
 
-                    $duration = $lastDowntime->start->longAbsoluteDiffForHumans($lastDowntime->end);
-
-                    return "{$lastDowntime->start->diffForHumans()} for $duration";
+                    return $lastDowntime->start->diffForHumans();
 
                 }),
         ];
