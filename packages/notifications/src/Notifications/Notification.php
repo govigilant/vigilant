@@ -41,7 +41,8 @@ abstract class Notification implements Arrayable
 
         foreach ($triggers as $trigger) {
 
-            if (! $conditionEngine->checkGroup($instance, $trigger->conditions, $trigger->conditions['operator'] ?? 'any')) {
+            if (! $conditionEngine->checkGroup($instance, $trigger->conditions,
+                $trigger->conditions['operator'] ?? 'any')) {
                 continue;
             }
 
@@ -68,6 +69,21 @@ abstract class Notification implements Arrayable
     public function description(): string
     {
         return $this->description;
+    }
+
+    public function viewUrl(): ?string
+    {
+        return null;
+    }
+
+    public function url(): ?string
+    {
+        return null;
+    }
+
+    public function urlTitle(): ?string
+    {
+        return null;
     }
 
     public function toArray(): array

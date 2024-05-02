@@ -2,5 +2,5 @@
     @if(isset($title))
         {!! $title !!}
     @endif
-    @livewire($component, $parameters)
+    <livewire:dynamic-component :is="$component" :data="$parameters" wire:key="{{ $component }}"/>
 </div>

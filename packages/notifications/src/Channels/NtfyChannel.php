@@ -35,9 +35,21 @@ class NtfyChannel extends NotificationChannel
 
         $request = Http::baseUrl($settings['server'])
             ->withHeaders([
-                'Title' => $notification->title(),
+                'Title' => $notification->title() . ' - ' . config('app.name'),
                 'Tags' => $tag,
             ]);
+
+        $viewUrl = $notification->viewUrl();
+        $url = $notification->url();
+        $urlTitle = $notification->urlTitle();
+
+        if ($viewUrl !== null) {
+            $request->withHeader('click', $viewUrl);
+        }
+
+        if ($url !== null && $urlTitle !== null) {
+            $request->withHeader('Actions', "view, $urlTitle, $url, clear=true");
+        }
 
         if ($settings['auth_method'] === 'username') {
             $request->withBasicAuth(
@@ -50,6 +62,6 @@ class NtfyChannel extends NotificationChannel
             $request->withToken($settings['token']);
         }
 
-        $request->post($settings['topic'], [$notification->description() => '']);
+        $request->post($settings['topic'], $notification->description()); // @phpstan-ignore-line
     }
 }
