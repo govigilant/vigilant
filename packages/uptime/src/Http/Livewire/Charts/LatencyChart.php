@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Http\Livewire\Charts;
 
+use Illuminate\Support\Facades\Validator;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Uptime\Models\ResultAggregate;
@@ -13,14 +14,17 @@ class LatencyChart extends BaseChart
 
     public int $height = 40;
 
-    public function mount(int $monitorId): void
+    public function mount(array $data): void
     {
-        $this->monitorId = $monitorId;
+        Validator::validate($data, [
+            'monitorId' => 'required'
+        ]);
+
+        $this->monitorId = $data['monitorId'];
     }
 
     public function data(): array
     {
-
         $points = ResultAggregate::query()
             ->where('monitor_id', '=', $this->monitorId)
             ->orderByDesc('created_at')
