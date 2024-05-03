@@ -3,6 +3,7 @@
 namespace Vigilant\Uptime\Http\Livewire\Charts;
 
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Uptime\Models\ResultAggregate;
@@ -34,11 +35,13 @@ class LatencyChart extends BaseChart
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $points->pluck('total_time'),
+                'labels' => [1, 20, 500, 10, 80],
+                //'labels' => $points->pluck('total_time'),
                 'datasets' => [
                     [
                         'label' => 'Latency',
-                        'data' => $points->pluck('total_time'),
+                        'data' => [1, 20, 50, 10, 80],
+                        //'data' => $points->pluck('total_time'),
                         'pointRadius' => 0,
                         'pointHoverRadius' => 0,
                         'borderWidth' => 2,
@@ -66,5 +69,10 @@ class LatencyChart extends BaseChart
                 ],
             ],
         ];
+    }
+
+    protected function getIdentifier(): string
+    {
+        return Str::slug(get_class($this)) . $this->monitorId;
     }
 }

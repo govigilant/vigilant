@@ -26,6 +26,17 @@ class DowntimeStartNotification extends Notification implements HasSite
         return __(':site is down!', ['site' => $site]);
     }
 
+    public function description(): string
+    {
+        $downtime = $this->monitor->currentDowntime();
+
+        if ($downtime === null) {
+            return '';
+        }
+
+        return __('Since: :start', ['start' => $downtime->start->toDateTimeString()]);
+    }
+
     public function uniqueId(): string
     {
         return (string) $this->monitor->id;
