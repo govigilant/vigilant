@@ -49,7 +49,7 @@ abstract class Notification implements Arrayable
             $channels = $trigger->all_channels ? Channel::all() : $trigger->channels;
 
             foreach ($channels as $channel) {
-                SendNotificationJob::dispatch($instance, $channel, $trigger);
+                SendNotificationJob::dispatch($instance, $channel->team_id, $channel->id, $trigger->id);
             }
         }
     }
