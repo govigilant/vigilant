@@ -83,6 +83,10 @@ class MonitorTable extends LivewireTable
 
                     $percentage = $calculateUptime->calculate($monitor);
 
+                    if ($percentage === null) {
+                        return __('Not available yet');
+                    }
+
                     $class = match (true) {
                         $percentage > 95 => 'text-green-light',
                         $percentage > 80 => 'text-orange',

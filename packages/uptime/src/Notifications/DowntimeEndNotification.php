@@ -6,6 +6,7 @@ use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 
 class DowntimeEndNotification extends Notification implements HasSite
@@ -24,6 +25,22 @@ class DowntimeEndNotification extends Notification implements HasSite
         $site = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
 
         return __(':site is back up!', ['site' => $site]);
+    }
+
+    public function description(): string
+    {
+        /** @var ?Downtime $downtime */
+        $downtime = $this->monitor->downtimes()->orderByDesc('end')->first();
+
+        if ($downtime === null) {
+            return '';
+        }
+
+        return __('When down at :start and became available on :end. Downtime: :downtime', [
+            'start' => $downtime->start->toDateTimeString(),
+            'end' => $downtime->end->toDateTimeString(),
+            'downtime' => $downtime->start->diffForHumans($downtime->end),
+        ]);
     }
 
     public function uniqueId(): string
