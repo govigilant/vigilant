@@ -11,7 +11,7 @@ use Vigilant\Uptime\Models\Monitor;
 
 class DowntimeEndNotification extends Notification implements HasSite
 {
-    public static string $name = 'Site downtime solved';
+    public static string $name = 'Downtime solved';
 
     public Level $level = Level::Critical;
 

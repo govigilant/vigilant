@@ -10,7 +10,7 @@ use Vigilant\Uptime\Models\Monitor;
 
 class DowntimeStartNotification extends Notification implements HasSite
 {
-    public static string $name = 'Site downtime detected';
+    public static string $name = 'Downtime detected';
 
     public Level $level = Level::Critical;
 
@@ -21,9 +21,9 @@ class DowntimeStartNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $site = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
+        $host = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
 
-        return __(':site is down!', ['site' => $site]);
+        return __(':host is down!', ['host' => $host]);
     }
 
     public function description(): string
