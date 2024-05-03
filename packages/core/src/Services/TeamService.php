@@ -28,6 +28,14 @@ class TeamService
         $this->team = $team;
     }
 
+    public function setTeamById(int $teamId): void
+    {
+        /** @var Team $team */
+        $team = Team::query()->findOrFail($teamId);
+
+        $this->setTeam($team);
+    }
+
     public function team(): ?Team
     {
         if ($this->team === null) {
