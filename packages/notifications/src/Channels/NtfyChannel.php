@@ -35,7 +35,7 @@ class NtfyChannel extends NotificationChannel
 
         $request = Http::baseUrl($settings['server'])
             ->withHeaders([
-                'Title' => $notification->title() . ' - ' . config('app.name'),
+                'Title' => $notification->title().' - '.config('app.name'),
                 'Tags' => $tag,
             ]);
 

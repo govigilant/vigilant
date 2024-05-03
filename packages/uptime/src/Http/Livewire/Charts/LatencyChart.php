@@ -18,7 +18,7 @@ class LatencyChart extends BaseChart
     public function mount(array $data): void
     {
         Validator::validate($data, [
-            'monitorId' => 'required'
+            'monitorId' => 'required',
         ]);
 
         $this->monitorId = $data['monitorId'];
@@ -35,13 +35,11 @@ class LatencyChart extends BaseChart
         return [
             'type' => 'line',
             'data' => [
-                'labels' => [1, 20, 500, 10, 80],
-                //'labels' => $points->pluck('total_time'),
+                'labels' => $points->pluck('total_time'),
                 'datasets' => [
                     [
                         'label' => 'Latency',
-                        'data' => [1, 20, 50, 10, 80],
-                        //'data' => $points->pluck('total_time'),
+                        'data' => $points->pluck('total_time'),
                         'pointRadius' => 0,
                         'pointHoverRadius' => 0,
                         'borderWidth' => 2,
@@ -73,6 +71,6 @@ class LatencyChart extends BaseChart
 
     protected function getIdentifier(): string
     {
-        return Str::slug(get_class($this)) . $this->monitorId;
+        return Str::slug(get_class($this)).$this->monitorId;
     }
 }
