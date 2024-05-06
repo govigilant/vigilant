@@ -1,11 +1,8 @@
 <div class="hidden h-full lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto dark:bg-black px-6 pb-4">
-        <div class="flex h-16 shrink-0 items-center">
-            <h1 class="text-neutral-50 text-3xl">
-                <span class="text-red">V</span>igilant
-            </h1>
-            <img class="h-8 w-auto" src=""
-                 alt="Vigilant">
+        <div class="flex h-16 shrink-0 items-center pt-4">
+            <img class="h-16 w-auto" src="{{ url('img/logo.svg') }}"
+                 alt="{{ config('app.name') }}">
         </div>
         <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
