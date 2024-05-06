@@ -43,9 +43,9 @@
             </div>
 
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-black px-6 pb-4 ring-1 ring-white/10">
-                <div class="flex h-16 shrink-0 items-center">
-                    <img class="h-8 w-auto" src=""
-                         alt="Your Company">
+                <div class="flex h-16 shrink-0 items-center pt-4">
+                    <img class="h-16 w-auto" src="{{ url('img/logo.svg') }}"
+                         alt="{{ config('app.name') }}">
                 </div>
                 <nav class="flex flex-1 flex-col">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
