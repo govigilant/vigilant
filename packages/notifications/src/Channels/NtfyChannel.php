@@ -64,6 +64,6 @@ class NtfyChannel extends NotificationChannel
 
         $request->withBody($notification->description());
 
-        $request->post($settings['topic']); // @phpstan-ignore-line
+        $request->post($settings['topic']);
     }
 }

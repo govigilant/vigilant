@@ -42,7 +42,7 @@ class LatencyChart extends BaseChart
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $points->pluck('created_at')->map(fn(Carbon $carbon): string => $carbon->format("d/m H:i")),
+                'labels' => $points->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->format('d/m H:i')),
                 'datasets' => [
                     [
                         'label' => 'Latency',

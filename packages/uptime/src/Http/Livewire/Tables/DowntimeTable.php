@@ -14,10 +14,13 @@ class DowntimeTable extends LivewireTable
 {
     protected string $model = Downtime::class;
 
+    protected bool $useSelection = false;
+
     #[Locked]
     public int $monitorId = 0;
 
     public string $sortColumn = 'start';
+
     public string $sortDirection = 'desc';
 
     public function mount(int $monitorId): void
@@ -42,7 +45,7 @@ class DowntimeTable extends LivewireTable
                 }
 
                 return $downtime->start->longAbsoluteDiffForHumans($downtime->end);
-            })
+            }),
         ];
     }
 
