@@ -83,7 +83,8 @@ class ChannelForm extends Component
 
         SendNotificationJob::dispatchSync(
             new TestNotification(),
-            $this->channelModel
+            $this->channelModel->team_id,
+            $this->channelModel->id
         );
     }
 

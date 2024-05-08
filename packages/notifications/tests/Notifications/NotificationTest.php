@@ -92,8 +92,7 @@ class NotificationTest extends TestCase
         FakeNotification::notify(1);
 
         Bus::assertDispatched(SendNotificationJob::class, function (SendNotificationJob $job): bool {
-            return $job->trigger?->notification === FakeNotification::class &&
-                $job->channel->settings === ['a'];
+            return $job->notification instanceof FakeNotification;
         });
     }
 

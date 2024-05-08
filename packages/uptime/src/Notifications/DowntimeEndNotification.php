@@ -38,7 +38,7 @@ class DowntimeEndNotification extends Notification implements HasSite
 
         return __('When down at :start and became available on :end. Downtime: :downtime', [
             'start' => $downtime->start->toDateTimeString(),
-            'end' => $downtime->end->toDateTimeString(),
+            'end' => $downtime->end?->toDateTimeString() ?? __('Unknown'),
             'downtime' => $downtime->start->diffForHumans($downtime->end),
         ]);
     }

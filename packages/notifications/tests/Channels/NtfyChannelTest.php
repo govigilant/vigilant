@@ -15,6 +15,7 @@ class NtfyChannelTest extends TestCase
     #[Test]
     public function it_sends_to_ntfy(): void
     {
+        config()->set('app.name', 'Vigilant');
         Http::fake([
             'ntfy/topic' => Http::response(),
         ]);
@@ -44,9 +45,9 @@ class NtfyChannelTest extends TestCase
 
         Http::assertSent(function (Request $request): bool {
             return $request->header('Authorization') === ['Basic dXNlcm5hbWU6cGFzc3dvcmQ='] &&
-                $request->header('Title') === ['Title of this fake notification'] &&
+                $request->header('Title') === ['Title of this fake notification - Vigilant'] &&
                 $request->header('Tags') === ['triangular_flag_on_post'] &&
-                $request->data() === ['Description of this fake notification' => ''];
+                $request->body() === 'Description of this fake notification';
         });
     }
 }
