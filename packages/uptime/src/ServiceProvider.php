@@ -9,7 +9,9 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
+use Vigilant\Uptime\Http\Livewire\Charts\ColumnLatencyChart;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
+use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
@@ -85,8 +87,11 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('uptime', UptimeMonitors::class);
         Livewire::component('uptime-monitor-form', UptimeMonitorForm::class);
-        Livewire::component('uptime-monitor-table', MonitorTable::class);
 
+        Livewire::component('uptime-monitor-table', MonitorTable::class);
+        Livewire::component('uptime-downtime-table', DowntimeTable::class);
+
+        Livewire::component('monitor-column-latency-chart', ColumnLatencyChart::class);
         Livewire::component('monitor-latency-chart', LatencyChart::class);
 
         return $this;

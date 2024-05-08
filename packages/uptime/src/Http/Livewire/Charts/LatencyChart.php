@@ -2,6 +2,8 @@
 
 namespace Vigilant\Uptime\Http\Livewire\Charts;
 
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
@@ -13,29 +15,34 @@ class LatencyChart extends BaseChart
     #[Locked]
     public int $monitorId = 0;
 
-    public int $height = 40;
+    public int $height = 200;
 
     public function mount(array $data): void
     {
-        Validator::validate($data, [
+        Validator::make($data, [
             'monitorId' => 'required',
-        ]);
+        ])->validate();
 
         $this->monitorId = $data['monitorId'];
     }
 
-    public function data(): array
+    protected function points(): Collection
     {
-        $points = ResultAggregate::query()
+        return ResultAggregate::query()
             ->where('monitor_id', '=', $this->monitorId)
             ->orderByDesc('created_at')
             ->take(10)
             ->get();
+    }
+
+    public function data(): array
+    {
+        $points = $this->points();
 
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $points->pluck('total_time'),
+                'labels' => $points->pluck('created_at')->map(fn(Carbon $carbon): string => $carbon->format("d/m H:i")),
                 'datasets' => [
                     [
                         'label' => 'Latency',
@@ -51,18 +58,18 @@ class LatencyChart extends BaseChart
             'options' => [
                 'plugins' => [
                     'legend' => [
-                        'display' => false,
+                        'display' => true,
                     ],
                     'tooltip' => [
-                        'enabled' => false,
+                        'enabled' => true,
                     ],
                 ],
                 'scales' => [
                     'y' => [
-                        'display' => false,
+                        'display' => true,
                     ],
                     'x' => [
-                        'display' => false,
+                        'display' => true,
                     ],
                 ],
             ],

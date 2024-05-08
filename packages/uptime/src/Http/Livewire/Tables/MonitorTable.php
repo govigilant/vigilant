@@ -75,7 +75,7 @@ class MonitorTable extends LivewireTable
             Column::make(__('Name'), 'name'),
 
             ChartColumn::make(__('Latency'))
-                ->component('monitor-latency-chart')
+                ->component('monitor-column-latency-chart')
                 ->parameters(fn (Monitor $monitor) => ['monitorId' => $monitor->id]),
 
             Column::make(__('Uptime'))
@@ -117,6 +117,6 @@ class MonitorTable extends LivewireTable
 
     public function link(Model $model): ?string
     {
-        return route('uptime.monitor.edit', ['monitor' => $model]);
+        return route('uptime.monitor.view', ['monitor' => $model]);
     }
 }
