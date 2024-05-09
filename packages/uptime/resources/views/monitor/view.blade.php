@@ -18,18 +18,20 @@
 
             <div class="text-base-50 bg-base-950 text-center py-6 rounded shadow">
                 <dt class="truncate text-sm font-medium text-base-100">@lang('Last downtime')</dt>
-                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">4 days ago.</dd>
-                <dd class="text-xs font-semibold tracking-tight text-base-50">For 4 minutes</dd>
+                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">{{ $lastDowntime === null ? __('Never') : $lastDowntime->end->diffForHumans() }}</dd>
+                @if ($lastDowntime !== null)
+                    <dd class="text-xs font-semibold tracking-tight text-base-50">@lang('For :time', ['time' =>  $lastDowntime->start->longAbsoluteDiffForHumans($lastDowntime->end)])</dd>
+                @endif
             </div>
 
             <div class="text-base-50 bg-base-950 text-center py-6 rounded shadow">
                 <dt class="truncate text-sm font-medium text-base-100">@lang('Uptime 30d')</dt>
-                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">100%</dd>
+                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">{{ $uptime30d }}%</dd>
             </div>
 
             <div class="text-base-50 bg-base-950 text-center py-6 rounded shadow">
                 <dt class="truncate text-sm font-medium text-base-100">@lang('Uptime 7d')</dt>
-                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">99.98%</dd>
+                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">{{ $uptime7d }}%</dd>
             </div>
         </dl>
 

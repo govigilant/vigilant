@@ -8,6 +8,7 @@ Navigation::add(route('notifications'), 'Notifications')
     ->children(function (\Vigilant\Core\Navigation\Navigation $navigation): void {
 
         $navigation->add(route('notifications.channels'), 'Notification Channels')
+            ->routeIs('notifications*')
             ->sort(401); // TODO: Fix child menu
 
     });

@@ -5,11 +5,15 @@ namespace Vigilant\Notifications\Http\Livewire;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Frontend\Concerns\DisplaysAlerts;
+use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateNotificationForm;
 use Vigilant\Notifications\Models\Trigger;
 
 class NotificationForm extends Component
 {
+    use DisplaysAlerts;
+
     public CreateNotificationForm $form;
 
     public array $channels = [];
@@ -47,6 +51,12 @@ class NotificationForm extends Component
         }
 
         $this->trigger->channels()->sync($this->channels);
+
+        $this->alert(
+            __('Saved'),
+            __('Notification was successfully :action', ['action' => $this->trigger->wasRecentlyCreated ? 'created' : 'saved']),
+            AlertType::Success
+        );
 
         $this->redirectRoute('notifications.trigger.edit', ['trigger' => $this->trigger]);
     }

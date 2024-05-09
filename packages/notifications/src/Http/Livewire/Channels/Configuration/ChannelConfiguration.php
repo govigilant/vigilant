@@ -20,6 +20,15 @@ abstract class ChannelConfiguration extends Component
         $this->settings = $settings;
     }
 
+    public function init()
+    {
+        if ($this->settings === []) {
+            return;
+        }
+
+        $this->updated();
+    }
+
     public function updated(): void
     {
         $this->dispatch('update-channel-validated', false);

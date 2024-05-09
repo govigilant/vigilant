@@ -27,12 +27,18 @@
 
         <x-layout.topbar/>
 
+
         <div class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-col flex-1 pt-px">
             @if (isset($header))
                 <header class="bg-base-950 px-8 py-4 text-neutral-50">
                     {{ $header }}
                 </header>
             @endif
+
+            <div class="pt-3 px-8">
+                <x-alert/>
+            </div>
+
             <div class="px-4 sm:px-6 lg:px-8 pt-6 overflow-y-auto w-full max-h-full">
                 <x-banner/>
                 {{ $slot }}

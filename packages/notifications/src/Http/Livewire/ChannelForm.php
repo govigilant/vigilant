@@ -5,13 +5,16 @@ namespace Vigilant\Notifications\Http\Livewire;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Frontend\Concerns\DisplaysAlerts;
+use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateChannelForm;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
-use Vigilant\Notifications\Notifications\TestNotification;
 
 class ChannelForm extends Component
 {
+    use DisplaysAlerts;
+
     public CreateChannelForm $form;
 
     #[Locked]
@@ -22,6 +25,8 @@ class ChannelForm extends Component
 
     #[Locked]
     public Channel $channelModel;
+
+    public bool $testSent = false;
 
     public function mount(?Channel $channel): void
     {
@@ -72,20 +77,29 @@ class ChannelForm extends Component
             );
         }
 
-        if ($redirect) {
-            $this->redirectRoute('notifications.channels');
+        if (! $redirect) {
+            $this->redirectRoute('notifications.channel.edit', ['channel' => $this->channelModel]);
+
+            $this->alert(
+                __('Saved'),
+                __('Channel was successfully :action',
+                    ['action' => $this->channelModel->wasRecentlyCreated ? 'created' : 'saved']),
+                AlertType::Success
+            );
         }
     }
 
     public function test(): void
     {
-        $this->save(false);
+        //$this->save(false);
+        //
+        //SendNotificationJob::dispatchSync(
+        //    new TestNotification(),
+        //    $this->channelModel->team_id,
+        //    $this->channelModel->id
+        //);
 
-        SendNotificationJob::dispatchSync(
-            new TestNotification(),
-            $this->channelModel->team_id,
-            $this->channelModel->id
-        );
+       $this->testSent = true;
     }
 
     public function render(): mixed

@@ -3,6 +3,7 @@
 namespace Vigilant\Core\Navigation;
 
 use Closure;
+use Illuminate\Support\Facades\Route;
 
 class NavigationItem
 {
@@ -13,17 +14,29 @@ class NavigationItem
         public string $url,
         public ?string $icon = null,
         public int $sort = 0,
+        public ?string $routeIs = null,
     ) {
     }
 
     public function active(): bool
     {
+        if ($this->routeIs !== null) {
+            return Route::is($this->routeIs);
+        }
+
         return request()->url() === $this->url;
     }
 
     public function name(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function routeIs(string $routeIs): static
+    {
+        $this->routeIs = $routeIs;
 
         return $this;
     }
