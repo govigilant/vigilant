@@ -7,12 +7,15 @@
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
+            @if($testSent)
+                <x-alerts.info :title="__('Test notification sent')"/>
+            @endif
 
             <x-form.select
-                field="form.channel"
-                name="Channel"
-                description="Choose the notification channel"
-                :disabled="$settingsComponent !== null"
+                    field="form.channel"
+                    name="Channel"
+                    description="Choose the notification channel"
+                    :disabled="$settingsComponent !== null"
             >
                 <option value="" disabled selected>--- Select ---</option>
 

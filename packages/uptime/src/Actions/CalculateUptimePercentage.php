@@ -2,16 +2,18 @@
 
 namespace Vigilant\Uptime\Actions;
 
+use Illuminate\Support\Carbon;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Models\ResultAggregate;
 
 class CalculateUptimePercentage
 {
-    public function calculate(Monitor $monitor): ?int
+    public function calculate(Monitor $monitor, string $carbonModifier = '-30 days'): ?int
     {
         /** @var ?ResultAggregate $firstResult */
         $firstResult = $monitor->aggregatedResults()
+            ->where('created_at', '>=', Carbon::parse($carbonModifier))
             ->orderBy('created_at')
             ->first();
 
