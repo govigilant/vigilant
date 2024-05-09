@@ -8,10 +8,10 @@ trait DisplaysAlerts
 {
     protected function alert(string $title, string $message = '', AlertType $type = AlertType::Info): void
     {
-       session()->flash('alert');
-       session()->flash('alert-title', $title);
-       session()->flash('alert-message', $message);
-       session()->flash('alert-type', $type);
+        session()->flash('alert');
+        session()->flash('alert-title', $title);
+        session()->flash('alert-message', $message);
+        session()->flash('alert-type', $type);
     }
 
     protected function alertNow(string $title, string $message = '', AlertType $type = AlertType::Info): void

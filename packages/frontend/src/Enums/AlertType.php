@@ -11,6 +11,6 @@ enum AlertType: string
 
     public function component(): string
     {
-        return 'alerts.' . $this->value;
+        return 'alerts.'.$this->value;
     }
 }

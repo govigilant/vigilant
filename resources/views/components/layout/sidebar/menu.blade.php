@@ -1,8 +1,10 @@
 <div class="hidden h-full lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
     <div class="flex grow flex-col gap-y-5 overflow-y-auto dark:bg-black px-6 pb-4">
         <div class="flex h-16 shrink-0 items-center pt-4">
-            <img class="h-14 w-auto" src="{{ url('img/logo.svg') }}"
-                 alt="{{ config('app.name') }}">
+            <a href="/">
+                <img class="h-14 w-auto" src="{{ url('img/logo.svg') }}"
+                     alt="{{ config('app.name') }}">
+            </a>
         </div>
         <nav class="flex flex-1 flex-col">
             <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -23,14 +25,15 @@
                             <li x-data="{ showChildren: {{ $item->active() || $activeChild ? 'true' : 'false' }} }">
                                 <a href="{{ $item->url }}"
                                    wire:navigate
-                                        @class([
-                                             'group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
-                                             'bg-gray-800 text-white' => $item->active() || $activeChild,
-                                             'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
-                                        ])
+                                    @class([
+                                         'group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
+                                         'bg-gray-800 text-white' => $item->active() || $activeChild,
+                                         'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
+                                    ])
                                 >
                                     @if($item->icon !== null)
-                                        @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() || $activeChild ? 'text-red' : ''))
+                                        @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() || $activeChild ?
+                                        'text-red' : ''))
                                     @endif
                                     <span class="flex-1">{{ __($item->name)  }}</span>
 
@@ -49,11 +52,11 @@
                                             <li class="p-2 border-l border-base-600">
                                                 <a href="{{ $child->url }}"
                                                    wire:navigate
-                                                        @class([
-                                                             'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
-                                                             'text-white' => $child->active(),
-                                                             'text-gray-500 hover:text-white' => !$child->active(),
-                                                        ])
+                                                    @class([
+                                                         'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold' ,
+                                                         'text-white' => $child->active(),
+                                                         'text-gray-500 hover:text-white' => !$child->active(),
+                                                    ])
                                                 >
                                                     {{ __($child->name)  }}
                                                 </a>

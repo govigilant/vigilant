@@ -44,8 +44,10 @@
 
             <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-black px-6 pb-4 ring-1 ring-white/10">
                 <div class="flex h-16 shrink-0 items-center pt-4">
-                    <img class="h-16 w-auto" src="{{ url('img/logo.svg') }}"
-                         alt="{{ config('app.name') }}">
+                    <a href="/">
+                        <img class="h-16 w-auto" src="{{ url('img/logo.svg') }}"
+                             alt="{{ config('app.name') }}">
+                    </a>
                 </div>
                 <nav class="flex flex-1 flex-col">
                     <ul role="list" class="flex flex-1 flex-col gap-y-7">
@@ -55,14 +57,15 @@
                                     <li>
                                         <a href="{{ $item->url }}"
                                            wire:navigate
-                                           @class([
-                                            'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
-                                            'bg-gray-800 text-white' => $item->active(),
-                                            'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
-                                           ])
-                                           >
+                                            @class([
+                                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
+                                             'bg-gray-800 text-white' => $item->active(),
+                                             'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
+                                            ])
+                                        >
                                             @if($item->icon !== null)
-                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' : ''))
+                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' :
+                                                ''))
                                             @endif
                                             {{ __($item->name)  }}
                                         </a>
