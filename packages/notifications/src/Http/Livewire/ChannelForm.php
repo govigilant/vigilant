@@ -99,7 +99,7 @@ class ChannelForm extends Component
         //    $this->channelModel->id
         //);
 
-       $this->testSent = true;
+        $this->testSent = true;
     }
 
     public function render(): mixed
