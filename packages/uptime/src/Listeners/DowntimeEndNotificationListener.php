@@ -2,13 +2,13 @@
 
 namespace Vigilant\Uptime\Listeners;
 
-use Vigilant\Uptime\Events\DowntimeStartEvent;
+use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 
 class DowntimeEndNotificationListener
 {
-    public function handle(DowntimeStartEvent $event): void
+    public function handle(DowntimeEndEvent $event): void
     {
-        DowntimeEndNotification::notify($event->monitor);
+        DowntimeEndNotification::notify($event->downtime);
     }
 }

@@ -7,7 +7,6 @@ use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Models\Downtime;
-use Vigilant\Uptime\Models\Monitor;
 
 class DowntimeEndNotification extends Notification implements HasSite
 {
@@ -16,40 +15,35 @@ class DowntimeEndNotification extends Notification implements HasSite
     public Level $level = Level::Critical;
 
     public function __construct(
-        public Monitor $monitor
+        public Downtime $downtime
     ) {
     }
 
     public function title(): string
     {
-        $site = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
+        $monitor = $this->downtime->monitor;
+
+        $site = $monitor->site?->url ?? $monitor->settings['host'] ?? '';
 
         return __(':site is back up!', ['site' => $site]);
     }
 
     public function description(): string
     {
-        /** @var ?Downtime $downtime */
-        $downtime = $this->monitor->downtimes()->orderByDesc('end')->first();
-
-        if ($downtime === null) {
-            return '';
-        }
-
         return __('When down at :start and became available on :end. Downtime: :downtime', [
-            'start' => $downtime->start->toDateTimeString(),
-            'end' => $downtime->end?->toDateTimeString() ?? __('Unknown'),
-            'downtime' => $downtime->start->diffForHumans($downtime->end),
+            'start' => $this->downtime->start->toDateTimeString(),
+            'end' => $this->downtime->end?->toDateTimeString() ?? __('Unknown'),
+            'downtime' => $this->downtime->start->diffForHumans($this->downtime->end),
         ]);
     }
 
     public function uniqueId(): string
     {
-        return (string) $this->monitor->id;
+        return $this->downtime->id;
     }
 
     public function site(): ?Site
     {
-        return $this->monitor->site;
+        return $this->downtime->monitor->site;
     }
 }
