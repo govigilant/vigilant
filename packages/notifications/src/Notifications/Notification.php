@@ -54,7 +54,7 @@ abstract class Notification implements Arrayable
         }
     }
 
-    abstract public function uniqueId(): string;
+    abstract public function uniqueId(): string|int;
 
     public function level(): Level
     {
