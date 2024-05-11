@@ -12,7 +12,7 @@ class DowntimeEndNotification extends Notification implements HasSite
 {
     public static string $name = 'Downtime solved';
 
-    public Level $level = Level::Critical;
+    public Level $level = Level::Success;
 
     public function __construct(
         public Downtime $downtime
@@ -33,17 +33,17 @@ class DowntimeEndNotification extends Notification implements HasSite
         return __('When down at :start and became available on :end. Downtime: :downtime', [
             'start' => $this->downtime->start->toDateTimeString(),
             'end' => $this->downtime->end?->toDateTimeString() ?? __('Unknown'),
-            'downtime' => $this->downtime->start->diffForHumans($this->downtime->end),
+            'downtime' => $this->downtime->start->longAbsoluteDiffForHumans($this->downtime->end),
         ]);
     }
 
-    public function uniqueId(): string
+    public function uniqueId(): string|int
     {
         return $this->downtime->id;
     }
 
     public function site(): ?Site
     {
-        return $this->downtime->monitor->site;
+        return $this->downtime->monitor?->site;
     }
 }
