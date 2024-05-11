@@ -52,9 +52,9 @@
                 description="Choose how often this monitor should check the service"
             >
                 <option value="* * * * *">@lang('Every minute')</option>
-                <option value="* * * * */2">@lang('Every two minutes')</option>
-                <option value="* * * * */5">@lang('Every five minutes')</option>
-                <option value="* * * * 0">@lang('Hourly')</option>
+                <option value="*/2 * * * *">@lang('Every two minutes')</option>
+                <option value="*/5 * * * *">@lang('Every five minutes')</option>
+                <option value="0 * * * *">@lang('Hourly')</option>
             </x-form.select>
 
             <x-form.number

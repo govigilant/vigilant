@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5038ed5f96458ab6860c15406204ee89",
+    "content-hash": "f51d5b0ed917cd298939c42118a69b39",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -333,6 +333,77 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codeat3/blade-phosphor-icons",
+            "version": "2.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeat3/blade-phosphor-icons.git",
+                "reference": "d7d7c027ce0a0ce2f5e5c68688595f0a816e7508"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeat3/blade-phosphor-icons/zipball/d7d7c027ce0a0ce2f5e5c68688595f0a816e7508",
+                "reference": "d7d7c027ce0a0ce2f5e5c68688595f0a816e7508",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "codeat3/blade-icon-generation-helpers": "^0.8",
+                "codeat3/phpcs-styles": "^1.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codeat3\\BladePhosphorIcons\\BladePhosphorIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codeat3\\BladePhosphorIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Swapnil Sarwe",
+                    "homepage": "https://swapnilsarwe.com"
+                },
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of \"Phosphor Icons\" in your Laravel Blade views.",
+            "homepage": "https://github.com/codeat3/blade-phosphor-icons",
+            "keywords": [
+                "blade",
+                "laravel",
+                "phosphor-icons"
+            ],
+            "support": {
+                "issues": "https://github.com/codeat3/blade-phosphor-icons/issues",
+                "source": "https://github.com/codeat3/blade-phosphor-icons/tree/2.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/swapnilsarwe",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-08T19:02:17+00:00"
         },
         {
             "name": "codeat3/blade-teeny-icons",
@@ -6830,6 +6901,84 @@
             }
         },
         {
+            "name": "vigilant/lighthouse",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/lighthouse",
+                "reference": "696192839d26eec05acd86bb4a52e436434bc70e"
+            },
+            "require": {
+                "geerlingguy/ping": "^1.2",
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Lighthouse\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Lighthouse\\": "src",
+                    "Vigilant\\Lighthouse\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Lighthouse\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse",
+                    "@style"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Lighthouse",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/notifications",
             "version": "dev-main",
             "dist": {
@@ -9925,6 +10074,7 @@
     "stability-flags": {
         "vigilant/core": 20,
         "vigilant/frontend": 20,
+        "vigilant/lighthouse": 20,
         "vigilant/notifications": 20,
         "vigilant/sites": 20,
         "vigilant/uptime": 20,
