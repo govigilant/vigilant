@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Lighthouse\Commands\LighthouseCommand;
+use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
+use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Notifications\Facades\NotificationRegistry;
-use Vigilant\Lighthouse\Commands\LighthouseCommand;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -61,6 +63,7 @@ class ServiceProvider extends BaseServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 LighthouseCommand::class,
+                ScheduleLighthouseCommand::class,
             ]);
         }
 
@@ -79,7 +82,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('lighthouse', LighthouseSites::class);
         Livewire::component('lighthouse-sites-table', LighthouseSitesTable::class);
         Livewire::component('lighthouse-site-form', LighthouseSiteForm::class);
-
+        Livewire::component('lighthouse-categories-chart', LighthouseCategoriesChart::class);
 
         return $this;
     }

@@ -12,8 +12,8 @@ use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class LighthouseSiteForm extends Component
 {
-    use DisplaysAlerts;
     use CanBeInline;
+    use DisplaysAlerts;
 
     public Forms\LighthouseSiteForm $form;
 
@@ -50,7 +50,6 @@ class LighthouseSiteForm extends Component
             $this->redirectRoute('lighthouse');
         }
     }
-
 
     public function render(): mixed
     {

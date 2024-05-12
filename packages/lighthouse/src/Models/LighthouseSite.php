@@ -26,11 +26,11 @@ class LighthouseSite extends Model
     protected $guarded = [];
 
     protected $casts = [
-      'settings' => 'array'  ,
+        'settings' => 'array',
     ];
 
     public function lighthouseResults(): HasMany
     {
-       return $this->hasMany(LighthouseResult::class);
+        return $this->hasMany(LighthouseResult::class);
     }
 }

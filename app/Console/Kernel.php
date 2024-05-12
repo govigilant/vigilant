@@ -2,31 +2,25 @@
 
 namespace App\Console;
 
-use Cron\CronExpression;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Uptime\Jobs\CheckUptimeJob;
-use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 
 class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule): void
     {
+        // Uptime
         $schedule->command(AggregateResultsCommand::class)->hourly();
+        $schedule->command(ScheduleUptimeChecksCommand::class)->everyMinute();
 
-        Monitor::query()
-            ->withoutGlobalScopes()
-            ->get()
-            ->each(function (Monitor $monitor) use ($schedule) {
-                if (CronExpression::isValidExpression($monitor->interval)) {
+        // Lighthouse
+        $schedule->command(ScheduleLighthouseCommand::class)->everyMinute();
 
-                    $schedule->job(new CheckUptimeJob($monitor))->cron($monitor->interval);
-
-                }
-            });
-
+        // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();
     }
 

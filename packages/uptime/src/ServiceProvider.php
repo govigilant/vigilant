@@ -9,6 +9,7 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
+use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\ColumnLatencyChart;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
 use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
@@ -70,6 +71,7 @@ class ServiceProvider extends BaseServiceProvider
             $this->commands([
                 CheckUptimeCommand::class,
                 AggregateResultsCommand::class,
+                ScheduleUptimeChecksCommand::class,
             ]);
         }
 
