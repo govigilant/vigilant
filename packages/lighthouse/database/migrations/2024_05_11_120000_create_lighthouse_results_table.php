@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Schema;
 use Vigilant\Lighthouse\Models\LighthouseSite;
 use Vigilant\Users\Models\Team;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::create('lighthouse_results', function (Blueprint $table) {
