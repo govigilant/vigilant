@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Lighthouse Monitor - ' . $monitor->name : 'Add Lighthouse Monitor'"
+        <x-page-header :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseSite->url : 'Add Lighthouse Monitor'"
                        :back="route('lighthouse')">
         </x-page-header>
     </x-slot>

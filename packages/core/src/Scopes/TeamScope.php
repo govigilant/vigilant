@@ -17,6 +17,6 @@ class TeamScope implements Scope
 
         abort_if($team === null, 401);
 
-        $builder->where('team_id', '=', $team->id);
+        $builder->where($model->qualifyColumn('team_id'), '=', $team->id);
     }
 }

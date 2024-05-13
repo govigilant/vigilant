@@ -6,11 +6,10 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Lighthouse\Models\LighthouseSite;
 use Vigilant\Sites\Models\Site;
-use Vigilant\Uptime\Enums\Type;
-use Vigilant\Uptime\Models\Monitor;
 
-class UptimeMonitor extends Component
+class LighthouseMonitor extends Component
 {
     #[Locked]
     public int $siteId;
@@ -24,22 +23,18 @@ class UptimeMonitor extends Component
     }
 
     #[Computed]
-    public function monitor(): Monitor
+    public function monitor(): LighthouseSite
     {
         /** @var Site $site */
         $site = Site::query()->findOrFail($this->siteId);
 
-        /** @var ?Monitor $monitor */
-        $monitor = $site->uptimeMonitors()->first();
+        /** @var ?LighthouseSite $monitor */
+        $monitor = $site->lighthouseMonitors()->first();
 
         if ($monitor === null) {
-            $monitor = new Monitor([
+            $monitor = new LighthouseSite([
                 'site_id' => $site->id,
-                'name' => $site->url,
-                'type' => Type::Http,
-                'settings' => [
-                    'host' => $site->url,
-                ],
+                'url' => $site->url,
             ]);
         }
 
@@ -56,6 +51,6 @@ class UptimeMonitor extends Component
 
     public function render(): mixed
     {
-        return view('sites::livewire.tabs.uptime-monitor');
+        return view('sites::livewire.tabs.lighthouse-monitor');
     }
 }
