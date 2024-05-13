@@ -19,19 +19,12 @@ class SiteForm extends Component
     #[Locked]
     public Site $site;
 
-    public string $tab = 'uptime';
-
     public function mount(?Site $site): void
     {
         if ($site !== null) {
             $this->form->fill($site->toArray());
             $this->site = $site;
         }
-    }
-
-    public function setTab(string $tab): void
-    {
-        $this->tab = $tab;
     }
 
     public function save(): void
@@ -75,6 +68,12 @@ class SiteForm extends Component
                 'title' => __('Uptime Monitoring'),
                 'component' => 'sites.tabs.uptime-monitor',
             ],
+
+            'lighthouse' => [
+                'title' => __('Lighthouse Monitoring'),
+                'component' => 'sites.tabs.lighthouse-monitor',
+            ],
+
         ];
     }
 }

@@ -3,10 +3,12 @@
 namespace Vigilant\Lighthouse\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Users\Observers\TeamObserver;
 
 /**
@@ -21,6 +23,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property Collection<int, LighthouseResult> $lighthouseResults
  */
 #[ObservedBy([TeamObserver::class])]
+#[ScopedBy([TeamScope::class])]
 class LighthouseSite extends Model
 {
     protected $guarded = [];

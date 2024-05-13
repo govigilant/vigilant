@@ -9,8 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
+use Vigilant\Lighthouse\Models\LighthouseSite;
 use Vigilant\Sites\Observers\SiteObserver;
-use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
 
 /**
  * @property int $id
@@ -18,7 +19,8 @@ use Vigilant\Uptime\Models\Monitor;
  * @property string $url
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
- * @property Collection<int, Monitor> $monitors
+ * @property Collection<int, UptimeMonitor> $uptimeMonitors
+ * @property Collection<int, LighthouseSite> $lighthouseMonitors
  */
 #[ObservedBy([SiteObserver::class])]
 #[ScopedBy([TeamScope::class])]
@@ -26,8 +28,14 @@ class Site extends Model
 {
     protected $guarded = [];
 
-    public function monitors(): HasMany
+    public function uptimeMonitors(): HasMany
     {
-        return $this->hasMany(Monitor::class);
+        return $this->hasMany(UptimeMonitor::class);
     }
+
+    public function lighthouseMonitors(): HasMany
+    {
+        return $this->hasMany(LighthouseSite::class);
+    }
+
 }
