@@ -3,10 +3,15 @@
 namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Facades\Process;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class Lighthouse
 {
+    public function __construct(protected CheckLighthouseResult $lighthouseResult)
+    {
+    }
+
     public function run(LighthouseSite $site): void
     {
         $output = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless"')
@@ -24,6 +29,9 @@ class Lighthouse
             })
             ->toArray();
 
-        $site->lighthouseResults()->create($categories);
+        /** @var LighthouseResult $result */
+        $result = $site->lighthouseResults()->create($categories);
+
+        $this->lighthouseResult->check($result);
     }
 }

@@ -6,13 +6,17 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
+use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
+use Vigilant\Lighthouse\Notifications\Conditions\AverageScoreCondition;
 use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Sites\Conditions\SiteCondition;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -64,6 +68,7 @@ class ServiceProvider extends BaseServiceProvider
             $this->commands([
                 LighthouseCommand::class,
                 ScheduleLighthouseCommand::class,
+                CheckLighthouseCommand::class,
             ]);
         }
 
@@ -107,7 +112,12 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNotifications(): static
     {
         NotificationRegistry::registerNotification([
+            CategoryScoreChangedNotification::class,
+        ]);
 
+        NotificationRegistry::registerCondition(CategoryScoreChangedNotification::class, [
+            SiteCondition::class,
+            AverageScoreCondition::class,
         ]);
 
         return $this;

@@ -20,6 +20,8 @@ abstract class Notification implements Arrayable
 
     public Level $level = Level::Info;
 
+    public static array $defaultConditions = [];
+
     public static function make(mixed ...$args): static
     {
         return new static(...$args);
@@ -93,5 +95,10 @@ abstract class Notification implements Arrayable
             'description' => $this->description(),
             'level' => $this->level(),
         ];
+    }
+
+    public function defaultConditions(): array
+    {
+        return [];
     }
 }
