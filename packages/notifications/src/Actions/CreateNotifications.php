@@ -22,7 +22,7 @@ class CreateNotifications
                 'enabled' => true,
                 'name' => $notification::$name,
                 'all_channels' => true,
-                'conditions' => [],
+                'conditions' => $notification::$defaultConditions,
             ]);
         }
     }
