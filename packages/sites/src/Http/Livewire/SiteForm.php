@@ -61,6 +61,7 @@ class SiteForm extends Component
         ]);
     }
 
+    /** @return array<string, array<string, string>> */
     protected function tabs(): array
     {
         return [

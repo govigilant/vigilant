@@ -21,16 +21,16 @@ class TrueCondition extends Condition
     public function operators(): array
     {
         return [
-            '=',
-            '!=',
+            '=' => 'Equal to',
+            '!=' => 'Not equal to',
         ];
     }
 
     public function operands(): array
     {
         return [
-            'operand-a',
-            'operand-b',
+            'operand-a' => 'Operand A',
+            'operand-b' => 'Operand B',
         ];
     }
 }
