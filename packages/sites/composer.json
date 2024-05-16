@@ -16,6 +16,7 @@
         "livewire/livewire": "^3.4",
         "vigilant/core": "dev-main",
         "vigilant/notifications": "dev-main",
+        "vigilant/lighthouse": "dev-main",
         "vigilant/uptime": "dev-main"
     },
     "require-dev": {

@@ -12,6 +12,7 @@ class TeamObserver
         /** @var TeamService $teamService */
         $teamService = app(TeamService::class);
 
+        // @phpstan-ignore-next-line
         $model->team_id = $teamService->team()?->id;
     }
 }

@@ -21,7 +21,7 @@ class ScheduleUptimeChecksCommand extends Command
             ->each(function (Monitor $monitor) {
                 if (CronExpression::isValidExpression($monitor->interval)) {
 
-                    $expression = new CronExpression($site->interval);
+                    $expression = new CronExpression($monitor->interval);
 
                     if ($expression->isDue(now())) {
                         CheckUptimeJob::dispatch($monitor);

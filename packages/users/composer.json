@@ -21,7 +21,8 @@
         "larastan/larastan": "^2.5",
         "orchestra/testbench": "^9.0",
         "phpstan/phpstan-mockery": "^1.1",
-        "phpunit/phpunit": "^11.0"
+        "phpunit/phpunit": "^11.0",
+        "vigilant/core": "@dev"
     },
     "autoload": {
         "psr-4": {
@@ -58,6 +59,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
-
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
 }

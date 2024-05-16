@@ -11,6 +11,7 @@ class SiteCondition extends SelectCondition
 {
     public static string $name = 'Site';
 
+    /** {@inheritDoc} */
     public function applies(
         Notification $notification,
         ?string $operand,
@@ -35,6 +36,7 @@ class SiteCondition extends SelectCondition
         };
     }
 
+    /** {@inheritDoc} */
     public function operators(): array
     {
         return [
@@ -43,6 +45,7 @@ class SiteCondition extends SelectCondition
         ];
     }
 
+    /** {@inheritDoc} */
     public function options(): array
     {
         return Site::query()->get()
