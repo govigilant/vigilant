@@ -6,10 +6,8 @@ use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Notifications\Conditions\Condition;
 use Vigilant\Notifications\Notifications\Notification;
 
-class AverageScoreCondition extends Condition
+abstract class ScoreCondition extends Condition
 {
-    public static string $name = 'Average Score Change in percentage';
-
     public function operands(): array
     {
         return [
@@ -38,20 +36,22 @@ class AverageScoreCondition extends Condition
         ?array $meta
     ): bool {
         /** @var CategoryScoreChangedNotification $notification */
-        $averageScore = $notification->data->averageDifference();
+        $score = $this->score($notification);
 
         if ($operand === 'absolute') {
-            $averageScore = abs($averageScore);
+            $score = abs($score);
         }
 
         return match ($operator) {
-            '=' => $averageScore == $value,
-            '<>' => $averageScore != $value,
-            '<' => $averageScore < $value,
-            '<=' => $averageScore <= $value,
-            '>' => $averageScore > $value,
-            '>=' => $averageScore >= $value,
+            '=' => $score == $value,
+            '<>' => $score != $value,
+            '<' => $score < $value,
+            '<=' => $score <= $value,
+            '>' => $score > $value,
+            '>=' => $score >= $value,
             default => false,
         };
     }
+
+    abstract protected function score(CategoryScoreChangedNotification $notification): float;
 }

@@ -86,7 +86,7 @@ class CategoryResultDifferenceData extends Data
             $this->performanceDifference(),
             $this->accessibilityDifference(),
             $this->bestPracticesDifference(),
-            $this->seoDifference()
+            $this->seoDifference(),
         ];
 
         return array_sum($differences) / count($differences);

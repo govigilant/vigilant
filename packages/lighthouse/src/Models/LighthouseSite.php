@@ -37,7 +37,7 @@ class LighthouseSite extends Model
 
     public function site(): BelongsTo
     {
-       return $this->belongsTo(Site::class);
+        return $this->belongsTo(Site::class);
     }
 
     public function lighthouseResults(): HasMany

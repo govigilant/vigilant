@@ -15,17 +15,17 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
     public static string $name = 'Lighthouse score changed';
 
     public static array $defaultConditions = [
-            'type' => 'group',
-            'children' => [
-                [
-                    'type' => 'condition',
-                    'condition' => AverageScoreCondition::class,
-                    'operator' => '>=',
-                    'operand' => 'absolute',
-                    'value' => 10,
-                ],
+        'type' => 'group',
+        'children' => [
+            [
+                'type' => 'condition',
+                'condition' => AverageScoreCondition::class,
+                'operator' => '>=',
+                'operand' => 'absolute',
+                'value' => 10,
             ],
-        ];
+        ],
+    ];
 
     public function __construct(
         public LighthouseResult $result,
