@@ -10,7 +10,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
- * @property ?int $lighthouse_site_id
+ * @property int $lighthouse_site_id
  * @property int $team_id
  * @property float $performance
  * @property float $accessibility

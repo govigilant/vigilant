@@ -14,7 +14,11 @@ use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
+use Vigilant\Lighthouse\Notifications\Conditions\AccessibilityPercentScoreCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\AverageScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\BestPracticesPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\PerformancePercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\SeoPercentPercentScoreCondition;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
 
@@ -118,6 +122,10 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerCondition(CategoryScoreChangedNotification::class, [
             SiteCondition::class,
             AverageScoreCondition::class,
+            AccessibilityPercentScoreCondition::class,
+            BestPracticesPercentScoreCondition::class,
+            PerformancePercentScoreCondition::class,
+            SeoPercentPercentScoreCondition::class,
         ]);
 
         return $this;
