@@ -22,9 +22,9 @@ class CategoryResultDifferenceDataTest extends TestCase
             'seo_new' => 0,
         ]);
 
-       $this->assertEquals(100, $data->performanceDifference());
-       $this->assertEquals(-50, $data->accessibilityDifference());
-       $this->assertEquals(0, $data->bestPracticesDifference());
-       $this->assertEquals(0, $data->seoDifference());
+        $this->assertEquals(100, $data->performanceDifference());
+        $this->assertEquals(-50, $data->accessibilityDifference());
+        $this->assertEquals(0, $data->bestPracticesDifference());
+        $this->assertEquals(0, $data->seoDifference());
     }
 }

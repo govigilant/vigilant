@@ -16,7 +16,7 @@ class LighthouseTest extends TestCase
     #[Test]
     public function it_runs_lighthouse(): void
     {
-        $this->mock(CheckLighthouseResult::class, function(MockInterface $mock): void {
+        $this->mock(CheckLighthouseResult::class, function (MockInterface $mock): void {
             $mock->shouldReceive('check')->once();
         });
 
@@ -44,7 +44,7 @@ class LighthouseTest extends TestCase
         Process::fake([
             '*' => Process::result(
                 output: $output,
-            )
+            ),
         ]);
 
         /** @var Lighthouse $action */
