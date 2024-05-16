@@ -20,7 +20,7 @@ class LighthouseTest extends TestCase
             $mock->shouldReceive('check')->once();
         });
 
-        $output = [
+        $output = json_encode([
             'categories' => [
                 'performance' => [
                     'score' => 1,
@@ -35,11 +35,15 @@ class LighthouseTest extends TestCase
                     'score' => 1,
                 ],
             ],
-        ];
+        ]);
+
+        if ($output === false) {
+            $this->fail('Invalid JSON');
+        }
 
         Process::fake([
             '*' => Process::result(
-                output: json_encode($output),
+                output: $output,
             )
         ]);
 
