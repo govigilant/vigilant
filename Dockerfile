@@ -21,6 +21,7 @@ RUN composer install --no-dev --prefer-dist --no-interaction
 
 RUN npm install
 RUN npm run build
+RUN npm install -g lighthouse
 
 RUN mkdir /tmp/public/
 RUN cp -r /app/public/* /tmp/public/

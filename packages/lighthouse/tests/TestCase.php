@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Vigilant\Core\Services\TeamService;
-use Vigilant\Uptime\ServiceProvider;
+use Vigilant\Lighthouse\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
 {

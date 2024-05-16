@@ -37,5 +37,4 @@ class Site extends Model
     {
         return $this->hasMany(LighthouseSite::class);
     }
-
 }

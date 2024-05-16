@@ -94,6 +94,10 @@ class CategoryResultDifferenceData extends Data
 
     protected function calculateDifference(float $old, float $new): float
     {
+        if ($old == 0) {
+            return 0;
+        }
+
         $difference = (($new - $old) / $old) * 100;
 
         return round($difference, 1);
