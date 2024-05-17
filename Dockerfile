@@ -1,6 +1,6 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev supervisor nodejs npm
+RUN apk add --no-cache git linux-headers libzip-dev libxml2-dev supervisor nodejs npm chromium
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
@@ -19,6 +20,7 @@ class Kernel extends ConsoleKernel
 
         // Lighthouse
         $schedule->command(ScheduleLighthouseCommand::class)->everyMinute();
+        $schedule->command(AggregateLighthouseResultsCommand::class)->daily();
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();
