@@ -35,6 +35,22 @@
                 @endforeach
             </dl>
 
+            <div class="text-base-50 bg-base-950 p-6 rounded shadow">
+                <h2 class="text-xl mb-1">@lang('Average difference over time')</h2>
+                <div>
+                    <span>@lang('7 days')</span>
+                    <span>{{ $difference['7d'] === null ? '-' : round($difference['7d']->averageDifference()) . '%' }}</span>
+                </div>
+                <div>
+                    <span>@lang('30 days')</span>
+                    <span>{{ $difference['30d'] === null ? '-' : round($difference['30d']->averageDifference()) . '%' }}</span>
+                </div>
+                <div>
+                    <span>@lang('90 days')</span>
+                    <span>{{ $difference['90d'] === null ? '-' : round($difference['90d']->averageDifference()) . '%' }}</span>
+                </div>
+            </div>
+
         </div>
 
         <div class="flex-1">
