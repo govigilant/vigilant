@@ -19,10 +19,10 @@ class CheckLighthouseResult
     public function check(LighthouseResult $result): void
     {
         $current = $this->averageResults($result->lighthouse_site_id, 2, 0)
-            ->mapWithKeys(fn (float $score, string $key) => [$key.'_new' => $score]);
+            ->mapWithKeys(fn (?float $score, string $key) => [$key.'_new' => $score ?? 0]);
 
         $previous = $this->averageResults($result->lighthouse_site_id, 2, 2)
-            ->mapWithKeys(fn (float $score, string $key) => [$key.'_old' => $score]);
+            ->mapWithKeys(fn (?float $score, string $key) => [$key.'_old' => $score ?? 0]);
 
         $data = CategoryResultDifferenceData::of($current->merge($previous)->toArray());
 
