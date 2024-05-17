@@ -58,5 +58,11 @@
 
     </div>
 
+    <div class="mt-4">
+        <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100 mb-2">{{ __('Results') }}</h2>
+
+        <livewire:lighthouse-results-table :siteId="$lighthouseSite->id"/>
+    </div>
+
 
 </x-app-layout>
