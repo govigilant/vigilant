@@ -14,7 +14,7 @@ class Lighthouse
 
     public function run(LighthouseSite $site): void
     {
-        $output = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless"')
+        $output = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox"')
             ->throw()
             ->output();
 
