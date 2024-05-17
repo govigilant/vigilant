@@ -13,6 +13,7 @@ use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
+use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Lighthouse\Notifications\Conditions\AccessibilityPercentScoreCondition;
@@ -92,6 +93,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('lighthouse', LighthouseSites::class);
         Livewire::component('lighthouse-sites-table', LighthouseSitesTable::class);
+        Livewire::component('lighthouse-results-table', LighthouseResultsTable::class);
         Livewire::component('lighthouse-site-form', LighthouseSiteForm::class);
         Livewire::component('lighthouse-categories-chart', LighthouseCategoriesChart::class);
 
