@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
@@ -73,6 +74,7 @@ class ServiceProvider extends BaseServiceProvider
                 LighthouseCommand::class,
                 ScheduleLighthouseCommand::class,
                 CheckLighthouseCommand::class,
+                AggregateLighthouseResultsCommand::class,
             ]);
         }
 

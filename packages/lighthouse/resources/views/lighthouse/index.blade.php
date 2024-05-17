@@ -50,7 +50,6 @@
                     <span>{{ $difference['90d'] === null ? '-' : round($difference['90d']->averageDifference()) . '%' }}</span>
                 </div>
             </div>
-
         </div>
 
         <div class="flex-1">
