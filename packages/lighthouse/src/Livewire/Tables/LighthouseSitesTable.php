@@ -88,19 +88,18 @@ class LighthouseSitesTable extends LivewireTable
     {
         return [
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
-                $models->each(fn (LighthouseSite $site) => $site->delete());
+                $models->each(fn (LighthouseSite $site): ?bool => $site->delete());
             }),
         ];
     }
 
-    protected function query(): Builder
+    protected function appliedQuery(): Builder
     {
-        return parent::query()
+        return parent::appliedQuery()
             ->leftJoin('lighthouse_results', function (JoinClause $join): void {
                 $join->on('lighthouse_sites.id', '=', 'lighthouse_results.lighthouse_site_id')
                     ->whereRaw('lighthouse_results.id IN (SELECT MAX(id) FROM lighthouse_results GROUP BY lighthouse_site_id)');
-            })
-            ->select([
+            })->select([
                 'lighthouse_sites.*',
                 'lighthouse_results.performance',
                 'lighthouse_results.accessibility',
