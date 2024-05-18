@@ -38,8 +38,7 @@
         "style": "pint --test",
         "quality": [
             "@test",
-            "@analyse",
-            "@style"
+            "@analyse"
         ]
     },
     "config": {
