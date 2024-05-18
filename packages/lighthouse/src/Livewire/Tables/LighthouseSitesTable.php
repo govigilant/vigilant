@@ -5,6 +5,8 @@ namespace Vigilant\Lighthouse\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Enumerable;
+use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -13,8 +15,6 @@ use Vigilant\Lighthouse\Models\LighthouseSite;
 class LighthouseSitesTable extends LivewireTable
 {
     protected string $model = LighthouseSite::class;
-
-    protected bool $useSelection = false;
 
     protected function columns(): array
     {
@@ -84,6 +84,15 @@ class LighthouseSitesTable extends LivewireTable
         return '<span class="'.$color.'">'.$percentage.'%</span>';
     }
 
+    protected function actions(): array
+    {
+        return [
+            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+                $models->each(fn (LighthouseSite $site) => $site->delete());
+            }),
+        ];
+    }
+
     protected function query(): Builder
     {
         return parent::query()
@@ -92,6 +101,7 @@ class LighthouseSitesTable extends LivewireTable
                     ->whereRaw('lighthouse_results.id IN (SELECT MAX(id) FROM lighthouse_results GROUP BY lighthouse_site_id)');
             })
             ->select([
+                'lighthouse_sites.*',
                 'lighthouse_results.performance',
                 'lighthouse_results.accessibility',
                 'lighthouse_results.best_practices',

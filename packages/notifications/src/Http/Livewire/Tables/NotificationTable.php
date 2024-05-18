@@ -76,6 +76,10 @@ class NotificationTable extends LivewireTable
                     ]);
             }),
 
+            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+                $models->each(fn (Trigger $trigger) => $trigger->delete());
+            }),
+
         ];
     }
 
