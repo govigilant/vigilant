@@ -4,13 +4,13 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
-use Vigilant\Users\Actions\Jetstream\Jetstream\AddTeamMember;
-use Vigilant\Users\Actions\Jetstream\Jetstream\CreateTeam;
-use Vigilant\Users\Actions\Jetstream\Jetstream\DeleteTeam;
-use Vigilant\Users\Actions\Jetstream\Jetstream\DeleteUser;
-use Vigilant\Users\Actions\Jetstream\Jetstream\InviteTeamMember;
-use Vigilant\Users\Actions\Jetstream\Jetstream\RemoveTeamMember;
-use Vigilant\Users\Actions\Jetstream\Jetstream\UpdateTeamName;
+use Vigilant\Users\Actions\Jetstream\AddTeamMember;
+use Vigilant\Users\Actions\Jetstream\CreateTeam;
+use Vigilant\Users\Actions\Jetstream\DeleteTeam;
+use Vigilant\Users\Actions\Jetstream\DeleteUser;
+use Vigilant\Users\Actions\Jetstream\InviteTeamMember;
+use Vigilant\Users\Actions\Jetstream\RemoveTeamMember;
+use Vigilant\Users\Actions\Jetstream\UpdateTeamName;
 use Vigilant\Users\Models\Membership;
 use Vigilant\Users\Models\Team;
 use Vigilant\Users\Models\TeamInvitation;
@@ -60,11 +60,5 @@ class JetstreamServiceProvider extends ServiceProvider
             'update',
             'delete',
         ])->description('Administrator users can perform any action.');
-
-        Jetstream::role('editor', 'Editor', [
-            'read',
-            'create',
-            'update',
-        ])->description('Editor users have the ability to read, create, and update.');
     }
 }

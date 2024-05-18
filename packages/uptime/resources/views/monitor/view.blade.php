@@ -18,9 +18,9 @@
 
             <div class="text-base-50 bg-base-950 text-center py-6 rounded shadow">
                 <dt class="truncate text-sm font-medium text-base-100">@lang('Last downtime')</dt>
-                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">{{ $lastDowntime === null ? __('Never') : $lastDowntime->end->diffForHumans() }}</dd>
+                <dd class="mt-1 text-xl font-semibold tracking-tight text-base-50">{{ $lastDowntime === null ? __('Never') : teamTimezone($lastDowntime->end)->diffForHumans() }}</dd>
                 @if ($lastDowntime !== null)
-                    <dd class="text-xs font-semibold tracking-tight text-base-50">@lang('For :time', ['time' =>  $lastDowntime->start->longAbsoluteDiffForHumans($lastDowntime->end)])</dd>
+                    <dd class="text-xs font-semibold tracking-tight text-base-50">@lang('For :time', ['time' =>  teamTimezone($lastDowntime->start)->longAbsoluteDiffForHumans(teamTimezone($lastDowntime->end))])</dd>
                 @endif
             </div>
 

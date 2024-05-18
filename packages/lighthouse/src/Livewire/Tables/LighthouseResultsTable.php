@@ -5,7 +5,7 @@ namespace Vigilant\Lighthouse\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Columns\DateColumn;
+use Vigilant\Frontend\Integrations\Table\DateColumn;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 

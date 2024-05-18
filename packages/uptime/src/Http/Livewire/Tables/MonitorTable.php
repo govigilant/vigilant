@@ -111,7 +111,7 @@ class MonitorTable extends LivewireTable
                         return __('Never');
                     }
 
-                    return $lastDowntime->start->diffForHumans();
+                    return teamTimezone($lastDowntime->start)->diffForHumans();
 
                 }),
         ];
