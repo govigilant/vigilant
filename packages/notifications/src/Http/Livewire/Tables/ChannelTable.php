@@ -3,6 +3,8 @@
 namespace Vigilant\Notifications\Http\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Enumerable;
+use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Notifications\Channels\NotificationChannel;
@@ -21,6 +23,15 @@ class ChannelTable extends LivewireTable
 
                     return $channel::$name;
                 }),
+        ];
+    }
+
+    protected function actions(): array
+    {
+        return [
+            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+                $models->each(fn (Channel $channel) => $channel->delete());
+            }),
         ];
     }
 

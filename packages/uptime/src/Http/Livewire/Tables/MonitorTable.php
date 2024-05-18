@@ -3,6 +3,8 @@
 namespace Vigilant\Uptime\Http\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Enumerable;
+use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Frontend\Integrations\Table\ChartColumn;
@@ -112,6 +114,15 @@ class MonitorTable extends LivewireTable
                     return $lastDowntime->start->diffForHumans();
 
                 }),
+        ];
+    }
+
+    protected function actions(): array
+    {
+        return [
+            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+                $models->each(fn (Monitor $monitor) => $monitor->delete());
+            }),
         ];
     }
 
