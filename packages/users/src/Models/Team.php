@@ -3,6 +3,7 @@
 namespace Vigilant\Users\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Carbon;
 use Laravel\Jetstream\Events\TeamCreated;
 use Laravel\Jetstream\Events\TeamDeleted;
 use Laravel\Jetstream\Events\TeamUpdated;
@@ -11,6 +12,12 @@ use Vigilant\Users\Database\Factories\TeamFactory;
 
 /**
  * @property int $id
+ * @property int $user_id
+ * @property string $name
+ * @property bool $personal_team
+ * @property string $timezone
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  * @property ?User $owner
  */
 class Team extends JetstreamTeam

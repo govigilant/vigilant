@@ -29,8 +29,8 @@
     </x-slot>
 
     <x-slot name="actions">
-        <x-button>
+        <x-form.button class="bg-red">
             {{ __('Create') }}
-        </x-button>
+        </x-form.button>
     </x-slot>
 </x-form-section>
