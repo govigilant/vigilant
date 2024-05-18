@@ -10,7 +10,6 @@ class CalculateTimeDifference
 {
     public function calculate(LighthouseSite $site, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
     {
-
         $results = $site->lighthouseResults()
             ->where('created_at', '>=', $from)
             ->get();
