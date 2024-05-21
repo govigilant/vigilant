@@ -22,9 +22,12 @@ class Http extends UptimeMonitor
                 ->withUserAgent('Vigilant Bot')
                 ->get($settings['host'])
                 ->throw();
-        } catch (HttpClientException) {
+        } catch (HttpClientException $exception) {
             return new UptimeResult(
                 false,
+                data: [
+                    'status' => $exception->getCode(),
+                ],
             );
         }
 
@@ -32,7 +35,10 @@ class Http extends UptimeMonitor
 
         return new UptimeResult(
             true,
-            $stats['total_time'] ?? 0
+            $stats['total_time'] ?? 0,
+            [
+                'status' => $response->status()
+            ],
         );
     }
 }

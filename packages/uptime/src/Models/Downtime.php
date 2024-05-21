@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
  * @property int $checker_id
  * @property Carbon $start
  * @property ?Carbon $end
+ * @property ?array $data
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Monitor $monitor
@@ -24,6 +25,7 @@ class Downtime extends Model
     protected $casts = [
         'start' => 'datetime',
         'end' => 'datetime',
+        'data' => 'array',
     ];
 
     public function monitor(): BelongsTo
