@@ -2,7 +2,6 @@
 
 namespace Vigilant\Uptime\Uptime;
 
-use Illuminate\Http\Client\HttpClientException;
 use Illuminate\Support\Facades\Http as HttpClient;
 use Illuminate\Support\Facades\Validator;
 use Vigilant\Uptime\Data\UptimeResult;
@@ -16,17 +15,16 @@ class Http extends UptimeMonitor
             'host' => ['required', 'url'],
         ]);
 
-        try {
-            $response = HttpClient::timeout($monitor->timeout)
-                ->connectTimeout($monitor->timeout)
-                ->withUserAgent('Vigilant Bot')
-                ->get($settings['host'])
-                ->throw();
-        } catch (HttpClientException $exception) {
+        $response = HttpClient::timeout($monitor->timeout)
+            ->connectTimeout($monitor->timeout)
+            ->withUserAgent('Vigilant Bot')
+            ->get($settings['host']);
+
+        if (! $response->ok()) {
             return new UptimeResult(
                 false,
                 data: [
-                    'status' => $exception->getCode(),
+                    'status' => $response->status(),
                 ],
             );
         }
@@ -36,9 +34,7 @@ class Http extends UptimeMonitor
         return new UptimeResult(
             true,
             $stats['total_time'] ?? 0,
-            [
-                'status' => $response->status()
-            ],
+            ['status' => $response->status()],
         );
     }
 }
