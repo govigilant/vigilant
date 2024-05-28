@@ -1,4 +1,4 @@
-@props(['field', 'name', 'placeholder', 'description' => '', 'inline'])
+@props(['field', 'name', 'placeholder', 'description' => '', 'inline' => false])
 
 @if(!$inline)
     <div class="grid grid-cols-2">
@@ -7,7 +7,7 @@
             <span class="text-neutral-400 text-xs">{{ $description ?? '' }}</span>
         </div>
         <div>
-            @endif
+@endif
             <select id="{{ $field }}"
                     name="{{ $field }}"
                     wire:model.live="{{ $field }}"
@@ -16,7 +16,7 @@
                 {{ $slot }}
             </select>
             @error($field) <span class="text-red">{{ $message }}</span> @enderror
-            @if(!$inline)
+@if(!$inline)
 
         </div>
 
