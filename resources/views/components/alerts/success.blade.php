@@ -1,7 +1,7 @@
 <div class="rounded-md bg-green-light p-4" x-data="{show: true}" x-show="show">
     <div class="flex">
         <div class="flex-shrink-0">
-            <x-heroicon-o-check-circle class="h5 w-5 text-white"/>
+            <x-heroicon-o-check-circle class="h-5 w-5 text-white"/>
         </div>
         <div class="ml-3 flex-1">
             <div class="flex justify-between">

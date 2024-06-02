@@ -22,7 +22,7 @@ class LighthouseSitesTable extends LivewireTable
             Column::make(__('URL'), 'url'),
 
             Column::make(__('Performance'), 'performance')
-                ->displayUsing(fn (?float $value): string => $this->scoreDisplay($value))
+                ->displayUsing(fn (?float $value): string => static::scoreDisplay($value))
                 ->asHtml()
                 ->sortable(function (Builder $builder, Direction $direction): void {
                     if ($direction === Direction::Ascending) {
@@ -33,7 +33,7 @@ class LighthouseSitesTable extends LivewireTable
                 }),
 
             Column::make(__('Accessibility'), 'accessibility')
-                ->displayUsing(fn (?float $value): string => $this->scoreDisplay($value))
+                ->displayUsing(fn (?float $value): string => static::scoreDisplay($value))
                 ->asHtml()
                 ->sortable(function (Builder $builder, Direction $direction): void {
                     if ($direction === Direction::Ascending) {
@@ -44,7 +44,7 @@ class LighthouseSitesTable extends LivewireTable
                 }),
 
             Column::make(__('Best Practices'), 'best_practices')
-                ->displayUsing(fn (?float $value): string => $this->scoreDisplay($value))
+                ->displayUsing(fn (?float $value): string => static::scoreDisplay($value))
                 ->asHtml()
                 ->sortable(function (Builder $builder, Direction $direction): void {
                     if ($direction === Direction::Ascending) {
@@ -55,7 +55,7 @@ class LighthouseSitesTable extends LivewireTable
                 }),
 
             Column::make(__('SEO'), 'seo')
-                ->displayUsing(fn (?float $value): string => $this->scoreDisplay($value))
+                ->displayUsing(fn (?float $value): string => static::scoreDisplay($value))
                 ->asHtml()
                 ->sortable(function (Builder $builder, Direction $direction): void {
                     if ($direction === Direction::Ascending) {
@@ -67,7 +67,7 @@ class LighthouseSitesTable extends LivewireTable
         ];
     }
 
-    protected function scoreDisplay(?float $value): string
+    public static function scoreDisplay(?float $value): string
     {
         if ($value === null) {
             return '-';
@@ -76,8 +76,8 @@ class LighthouseSitesTable extends LivewireTable
         $percentage = round($value * 100);
 
         $color = match (true) {
-            $percentage > 60 => 'text-orange-light',
             $percentage > 80 => 'text-green-light',
+            $percentage >= 60 => 'text-orange-light',
             default => 'text-red-light'
         };
 
