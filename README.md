@@ -9,7 +9,7 @@
 [Vigilant Web Monitoring](https://govigilant.io) is an open source application to monitor websites and web applications.
 You can easily self host Vigilant using Docker to have full control over your own data.
 
-> Currently in development
+> Currently in active development, subscribe to updates on [the website](https://govigilant.io)
 
 ![Vigilant Screenshot](https://govigilant.io/screenshot.png)
 
