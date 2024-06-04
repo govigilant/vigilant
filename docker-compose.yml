@@ -1,8 +1,6 @@
 services:
     app:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: ghcr.io/govigilant/vigilant:latest
         volumes:
             - .env.docker:/app/.env
             - ./storage:/app/storage
@@ -23,9 +21,7 @@ services:
             - "8000:8000"
 
     horizon:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: ghcr.io/govigilant/vigilant:latest
         volumes:
             - .env.docker:/app/.env
             - ./storage:/app/storage
