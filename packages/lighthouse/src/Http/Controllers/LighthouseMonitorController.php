@@ -26,6 +26,7 @@ class LighthouseMonitorController extends Controller
                 '7d' => $timeDifference->calculate($lighthouseSite, now()->subDays(7)),
                 '30d' => $timeDifference->calculate($lighthouseSite, now()->subMonth()),
                 '90d' => $timeDifference->calculate($lighthouseSite, now()->subMonths(3)),
+                '180d' => $timeDifference->calculate($lighthouseSite, now()->subMonths(6)),
             ],
         ]);
     }

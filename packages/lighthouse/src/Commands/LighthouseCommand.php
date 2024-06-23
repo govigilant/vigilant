@@ -18,7 +18,10 @@ class LighthouseCommand extends Command
         $siteId = $this->argument('siteId');
 
         /** @var LighthouseSite $site */
-        $site = LighthouseSite::query()->findOrFail($siteId);
+        $site = LighthouseSite::query()
+            ->withoutGlobalScopes()
+            ->findOrFail($siteId);
+
 
         LighthouseJob::dispatch($site);
 

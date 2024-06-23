@@ -1,9 +1,12 @@
 <div>
-    <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseSite->url : 'Add Lighthouse Monitor'"
-                       :back="route('lighthouse')">
-        </x-page-header>
-    </x-slot>
+    @if(!$inline)
+        <x-slot name="header">
+            <x-page-header
+                :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseSite->url : 'Add Lighthouse Monitor'"
+                :back="route('lighthouse')">
+            </x-page-header>
+        </x-slot>
+    @endif
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
