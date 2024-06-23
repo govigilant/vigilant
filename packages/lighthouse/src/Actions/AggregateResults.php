@@ -4,6 +4,7 @@ namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Carbon;
 use Vigilant\Lighthouse\Models\LighthouseResult;
+use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class AggregateResults
@@ -34,6 +35,10 @@ class AggregateResults
             ->where('id', '!=', $aggregate->id)
             ->pluck('id')
             ->toArray();
+
+        LighthouseResultAudit::query()
+            ->whereIn('lighthouse_result_id', $idsToDelete)
+            ->delete();
 
         LighthouseResult::query()
             ->whereIn('id', $idsToDelete)
