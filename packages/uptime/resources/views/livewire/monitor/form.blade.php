@@ -1,9 +1,11 @@
 <div>
-    <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Uptime Monitor - ' . $monitor->name : 'Add Uptime Monitor'"
-                       :back="route('uptime')">
-        </x-page-header>
-    </x-slot>
+    @if(!$inline)
+        <x-slot name="header">
+            <x-page-header :title="$updating ? 'Edit Uptime Monitor - ' . $monitor->name : 'Add Uptime Monitor'"
+                           :back="route('uptime')">
+            </x-page-header>
+        </x-slot>
+    @endif
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">

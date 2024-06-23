@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Users\Observers\TeamObserver;
 
@@ -22,6 +24,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?LighthouseSite $lighthouseSite
+ * @property Collection<int, LighthouseResultAudit> $audits
  */
 #[ObservedBy([TeamObserver::class])]
 #[ScopedBy([TeamScope::class])]
@@ -36,5 +39,10 @@ class LighthouseResult extends Model
     public function lighthouseSite(): BelongsTo
     {
         return $this->belongsTo(LighthouseSite::class);
+    }
+
+    public function audits(): HasMany
+    {
+        return $this->hasMany(LighthouseResultAudit::class);
     }
 }

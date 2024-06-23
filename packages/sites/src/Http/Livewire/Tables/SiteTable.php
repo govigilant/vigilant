@@ -120,6 +120,6 @@ class SiteTable extends LivewireTable
 
     public function link(Model $model): ?string
     {
-        return route('site.edit', ['site' => $model]);
+        return route('site.view', ['site' => $model]);
     }
 }

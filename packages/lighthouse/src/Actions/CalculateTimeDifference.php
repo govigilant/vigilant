@@ -18,6 +18,12 @@ class CalculateTimeDifference
             return null;
         }
 
+        $firstResult = $results->sortBy('created_at')->first();
+
+        if ($from->diffInDays($firstResult->created_at) > 7) {
+            return null;
+        }
+
         $take = max(1, round($results->count() * $sampleSize));
 
         $old = $results->take($take);
