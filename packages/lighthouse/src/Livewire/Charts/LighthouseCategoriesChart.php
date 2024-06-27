@@ -29,7 +29,6 @@ class LighthouseCategoriesChart extends BaseChart
     {
         $results = LighthouseResult::query()
             ->where('lighthouse_site_id', '=', $this->lighthouseSiteId)
-            ->where('created_at', '>', now()->subDays(90))
             ->get();
 
         $labels = $results->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->toDateTimeString());
@@ -90,9 +89,11 @@ class LighthouseCategoriesChart extends BaseChart
                 'scales' => [
                     'y' => [
                         'display' => true,
+                        'min' => 0,
+                        'max' => 100,
                     ],
                     'x' => [
-                        'display' => true,
+                        'display' => false,
                     ],
                 ],
             ],

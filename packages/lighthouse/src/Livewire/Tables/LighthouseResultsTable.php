@@ -3,6 +3,7 @@
 namespace Vigilant\Lighthouse\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
@@ -70,6 +71,11 @@ class LighthouseResultsTable extends LivewireTable
         };
 
         return '<span class="'.$color.'">'.$percentage.'%</span>';
+    }
+
+    protected function link(Model $model): ?string
+    {
+        return route('lighthouse.result.index', ['result' => $model]);
     }
 
     protected function query(): Builder

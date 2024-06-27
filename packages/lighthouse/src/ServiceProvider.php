@@ -11,8 +11,12 @@ use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
+use Vigilant\Lighthouse\Livewire\Charts\LighthouseFcpChart;
+use Vigilant\Lighthouse\Livewire\Charts\LighthouseLcpChart;
+use Vigilant\Lighthouse\Livewire\Charts\NumericLighthouseChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
+use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
@@ -96,6 +100,10 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('lighthouse-results-table', LighthouseResultsTable::class);
         Livewire::component('lighthouse-site-form', LighthouseSiteForm::class);
         Livewire::component('lighthouse-categories-chart', LighthouseCategoriesChart::class);
+        Livewire::component('lighthouse-result-audits-table', LighthouseResultAuditsTable::class);
+
+        Livewire::component('lighthouse-numeric-chart', NumericLighthouseChart::class);
+
 
         return $this;
     }

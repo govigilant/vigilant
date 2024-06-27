@@ -26,7 +26,7 @@
 
                     }
 
-                 @endphp
+                @endphp
                 <div class="text-base-50 bg-base-950 text-center p-4 rounded shadow">
                     <dt class="truncate text-sm font-medium text-base-100">{{ str_replace('_', ' ', ucfirst($category)) }}</dt>
                     <dd class="mt-1 text-xl font-semibold tracking-tight {{ $color ?? 'text-base-50' }}">{{ $lastResult === null ? '-' : $percentage . '%' }}</dd>
@@ -48,6 +48,24 @@
         </div>
 
     </div>
+
+    <div class="mt-8 grid grid-cols-2 gap-12">
+        @foreach($charts as $chart)
+            <div>
+                <h3 class="text-md font-bold leading-7 sm:truncate sm:text-xl sm:tracking-tight text-neutral-100">{{ $chart['title'] }}</h3>
+                <p class="text-sm text-neutral-400 mb-4">
+                    {{ $chart['description'] }}
+                    <br/>
+                    <a href="{{ $chart['link'] }}"
+                       target="_blank">Learn more about the {{$chart['title']}} metric</a>.
+                </p>
+
+                <livewire:lighthouse-numeric-chart :audit="$chart['audit']"
+                                                   :data="['lighthouseSiteId' => $lighthouseSite->id]"/>
+            </div>
+        @endforeach
+    </div>
+
 
     <div class="my-4">
         <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100 mb-2">{{ __('Results') }}</h2>
