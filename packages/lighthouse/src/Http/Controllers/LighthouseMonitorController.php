@@ -4,6 +4,8 @@ namespace Vigilant\Lighthouse\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Vigilant\Lighthouse\Actions\CalculateTimeDifference;
+use Vigilant\Lighthouse\Models\LighthouseResult;
+use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class LighthouseMonitorController extends Controller
@@ -11,11 +13,25 @@ class LighthouseMonitorController extends Controller
     public function index(LighthouseSite $lighthouseSite, CalculateTimeDifference $timeDifference): mixed
     {
         $lastResults = $lighthouseSite->lighthouseResults()
-            ->where('created_at', '>=', now()->subDays(3))
             ->get();
+
+        /** @var ?LighthouseResult $lastResult */
+        $lastResult = $lastResults->last();
+
+        if ($lastResult !== null) {
+            /** @var ?LighthouseResultAudit $screenshotAudit */
+            $screenshotAudit = $lastResult->audits()
+                ->firstWhere('audit', '=', 'screenshot-thumbnails');
+
+            if ($screenshotAudit !== null) {
+                $screenshots = $screenshotAudit->details['items'] ?? [];
+            }
+        }
+
 
         return view('lighthouse::lighthouse.index', [
             'lighthouseSite' => $lighthouseSite,
+            'screenshots' => $screenshots ?? [],
             'lastResult' => [
                 'performance' => $lastResults->average('performance'),
                 'accessibility' => $lastResults->average('accessibility'),

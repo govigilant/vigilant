@@ -5,10 +5,14 @@ namespace Vigilant\Lighthouse\Livewire\Charts;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Isolate;
+use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 
+#[Lazy]
+#[Isolate]
 class LighthouseCategoriesChart extends BaseChart
 {
     #[Locked]
