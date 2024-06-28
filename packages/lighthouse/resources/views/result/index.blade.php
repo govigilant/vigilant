@@ -5,7 +5,7 @@
         </x-page-header>
     </x-slot>
 
-    <div>
+    <div class="flex">
         <dl class="grid grid-cols-4 grid-rows-2 gap-4">
             @foreach(['performance', 'accessibility', 'best_practices', 'seo'] as $category)
                 @php

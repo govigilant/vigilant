@@ -4,6 +4,7 @@ namespace Vigilant\Lighthouse\Livewire\Charts;
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Livewire\Attributes\Isolate;
 use Livewire\Attributes\Lazy;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
@@ -11,6 +12,7 @@ use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 
 #[Lazy]
+#[Isolate]
 class NumericLighthouseChart extends BaseChart
 {
     #[Locked]
