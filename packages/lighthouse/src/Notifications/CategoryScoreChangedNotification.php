@@ -4,7 +4,7 @@ namespace Vigilant\Lighthouse\Notifications;
 
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Notifications\Conditions\AverageScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;

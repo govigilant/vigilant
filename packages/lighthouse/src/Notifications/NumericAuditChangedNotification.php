@@ -37,7 +37,7 @@ class NumericAuditChangedNotification extends Notification implements HasSite
 
     public function site(): ?Site
     {
-        return $this->audit->lighthouseResult->lighthouseSite->site;
+        return $this->audit->lighthouseResult?->lighthouseSite?->site;
     }
 
     public function uniqueId(): string|int

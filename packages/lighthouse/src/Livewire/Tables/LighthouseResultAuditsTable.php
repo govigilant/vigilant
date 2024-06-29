@@ -19,7 +19,7 @@ class LighthouseResultAuditsTable extends LivewireTable
     #[Locked]
     public int $resultId = 0;
 
-    public function mount(int $resultId)
+    public function mount(int $resultId): void
     {
         $this->resultId = $resultId;
     }
