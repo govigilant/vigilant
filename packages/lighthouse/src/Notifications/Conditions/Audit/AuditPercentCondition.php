@@ -1,14 +1,14 @@
 <?php
 
-namespace Vigilant\Lighthouse\Notifications\Conditions;
+namespace Vigilant\Lighthouse\Notifications\Conditions\Audit;
 
-use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
+use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Notifications\Conditions\Condition;
 use Vigilant\Notifications\Notifications\Notification;
 
-class AverageScoreCondition extends Condition
+class AuditPercentCondition extends Condition
 {
-    public static string $name = 'Average Score Change in percentage';
+    public static string $name = 'Percent change';
 
     public function operands(): array
     {
@@ -37,21 +37,22 @@ class AverageScoreCondition extends Condition
         mixed $value,
         ?array $meta
     ): bool {
-        /** @var CategoryScoreChangedNotification $notification */
-        $averageScore = $notification->data->averageDifference();
+        /** @var NumericAuditChangedNotification $notification */
+        $percent = $notification->percentChanged;
 
         if ($operand === 'absolute') {
-            $averageScore = abs($averageScore);
+            $score = abs($percent);
         }
 
         return match ($operator) {
-            '=' => $averageScore == $value,
-            '<>' => $averageScore != $value,
-            '<' => $averageScore < $value,
-            '<=' => $averageScore <= $value,
-            '>' => $averageScore > $value,
-            '>=' => $averageScore >= $value,
+            '=' => $percent == $value,
+            '<>' => $percent != $value,
+            '<' => $percent < $value,
+            '<=' => $percent <= $value,
+            '>' => $percent > $value,
+            '>=' => $percent >= $value,
             default => false,
         };
     }
+
 }
