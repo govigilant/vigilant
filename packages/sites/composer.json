@@ -14,10 +14,10 @@
         "php": "^8.2",
         "laravel/framework": "^11.0",
         "livewire/livewire": "^3.4",
-        "vigilant/core": "dev-main",
-        "vigilant/notifications": "dev-main",
-        "vigilant/lighthouse": "dev-main",
-        "vigilant/uptime": "dev-main"
+        "vigilant/core": "@dev",
+        "vigilant/notifications": "@dev",
+        "vigilant/lighthouse": "@dev",
+        "vigilant/uptime": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",

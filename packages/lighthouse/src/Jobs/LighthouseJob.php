@@ -19,9 +19,7 @@ class LighthouseJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public LighthouseSite $site)
-    {
-    }
+    public function __construct(public LighthouseSite $site) {}
 
     public function handle(Lighthouse $lighthouse, TeamService $teamService): void
     {

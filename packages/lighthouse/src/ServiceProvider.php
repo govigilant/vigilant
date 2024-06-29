@@ -105,7 +105,6 @@ class ServiceProvider extends BaseServiceProvider
 
         Livewire::component('lighthouse-numeric-chart', NumericLighthouseChart::class);
 
-
         return $this;
     }
 

@@ -16,8 +16,7 @@ class DowntimeEndNotification extends Notification implements HasSite
 
     public function __construct(
         public Downtime $downtime
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {

@@ -47,7 +47,7 @@ class AuditTypeCondition extends SelectCondition
                     ->select('audit', 'title', 'numericUnit')
                     ->distinct()
                     ->get()
-                    ->mapWithKeys(fn(LighthouseResultAudit $audit) => [$audit->audit => $audit->title . ' (' . $audit->numericUnit . ')'])
+                    ->mapWithKeys(fn (LighthouseResultAudit $audit) => [$audit->audit => $audit->title.' ('.$audit->numericUnit.')'])
                     ->toArray();
             }
         );

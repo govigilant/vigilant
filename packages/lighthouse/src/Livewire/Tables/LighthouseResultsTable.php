@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use Vigilant\Frontend\Integrations\Table\DateColumn;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class LighthouseResultsTable extends LivewireTable
@@ -83,5 +83,4 @@ class LighthouseResultsTable extends LivewireTable
         return parent::query()
             ->where('lighthouse_site_id', '=', $this->siteId);
     }
-
 }

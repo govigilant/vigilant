@@ -9,8 +9,8 @@ class SiteController extends Controller
 {
     public function view(Site $site): mixed
     {
-       return view('sites::sites.view', [
-           'site' => $site
-       ]);
+        return view('sites::sites.view', [
+            'site' => $site,
+        ]);
     }
 }

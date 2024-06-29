@@ -8,9 +8,7 @@ use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class DowntimeStartNotificationListener
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function handle(DowntimeStartEvent $event): void
     {

@@ -28,7 +28,6 @@ class LighthouseMonitorController extends Controller
             }
         }
 
-
         return view('lighthouse::lighthouse.index', [
             'lighthouseSite' => $lighthouseSite,
             'screenshots' => $screenshots ?? [],
@@ -82,7 +81,7 @@ class LighthouseMonitorController extends Controller
                     'link' => 'https://web.dev/articles/cls',
                 ],
 
-            ]
+            ],
         ]);
     }
 }

@@ -10,5 +10,5 @@ return [
         \Vigilant\Lighthouse\Notifications\Conditions\AverageScoreCondition::class => \Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreCondition::class,
         \Vigilant\Lighthouse\Notifications\Conditions\BestPracticesPercentScoreCondition::class => \Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesPercentScoreCondition::class,
         \Vigilant\Lighthouse\Notifications\Conditions\SeoPercentPercentScoreCondition::class => \Vigilant\Lighthouse\Notifications\Conditions\Category\SeoPercentPercentScoreCondition::class,
-    ]
+    ],
 ];

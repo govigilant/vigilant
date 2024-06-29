@@ -18,9 +18,7 @@ class AggregateResultsJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public Monitor $monitor)
-    {
-    }
+    public function __construct(public Monitor $monitor) {}
 
     public function handle(AggregateResults $results): void
     {

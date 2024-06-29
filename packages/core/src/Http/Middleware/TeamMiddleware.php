@@ -9,9 +9,7 @@ use Vigilant\Core\Services\TeamService;
 
 class TeamMiddleware
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     /**
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next

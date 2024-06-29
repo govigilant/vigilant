@@ -33,8 +33,7 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     public function __construct(
         public LighthouseResultAudit $audit,
         public float $percentChanged,
-    ) {
-    }
+    ) {}
 
     public function site(): ?Site
     {

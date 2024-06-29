@@ -16,8 +16,8 @@
         "laravel/framework": "^11.0",
         "livewire/livewire": "^3.4",
         "vigilant/core": "@dev",
-        "vigilant/sites": "dev-main",
-        "vigilant/users": "dev-main"
+        "vigilant/sites": "@dev",
+        "vigilant/users": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",

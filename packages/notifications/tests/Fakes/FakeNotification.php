@@ -17,8 +17,7 @@ class FakeNotification extends Notification
 
     public function __construct(
         protected int $number
-    ) {
-    }
+    ) {}
 
     public function uniqueId(): string
     {

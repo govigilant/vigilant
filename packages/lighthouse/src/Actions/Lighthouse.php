@@ -8,9 +8,7 @@ use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class Lighthouse
 {
-    public function __construct(protected CheckLighthouseResult $lighthouseResult)
-    {
-    }
+    public function __construct(protected CheckLighthouseResult $lighthouseResult) {}
 
     public function run(LighthouseSite $site): void
     {

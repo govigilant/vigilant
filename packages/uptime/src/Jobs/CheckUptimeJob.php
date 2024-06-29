@@ -18,9 +18,7 @@ class CheckUptimeJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public Monitor $monitor)
-    {
-    }
+    public function __construct(public Monitor $monitor) {}
 
     public function handle(CheckUptime $uptime): void
     {

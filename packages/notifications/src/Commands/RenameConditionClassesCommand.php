@@ -31,7 +31,7 @@ class RenameConditionClassesCommand extends Command
 
             foreach ($triggers as $trigger) {
                 $trigger->update([
-                    'conditions' => $this->processGroup($trigger->conditions, $old, $new)
+                    'conditions' => $this->processGroup($trigger->conditions, $old, $new),
                 ]);
             }
 

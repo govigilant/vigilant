@@ -21,8 +21,7 @@ class CreateNotificationsJob implements ShouldBeUnique, ShouldQueue
 
     public function __construct(
         public Team $team
-    ) {
-    }
+    ) {}
 
     public function handle(CreateNotifications $notifications, TeamService $teamService): void
     {

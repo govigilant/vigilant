@@ -24,8 +24,7 @@ class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
         public LighthouseSite $site,
         public Carbon $from,
         public Carbon $till,
-    ) {
-    }
+    ) {}
 
     public function handle(AggregateResults $aggregateResults, TeamService $teamService): void
     {
@@ -39,6 +38,6 @@ class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
 
     public function uniqueId(): int
     {
-        return $this->site->id . $this->from->getTimestamp();
+        return $this->site->id.$this->from->getTimestamp();
     }
 }

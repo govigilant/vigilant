@@ -22,7 +22,6 @@ class LighthouseCommand extends Command
             ->withoutGlobalScopes()
             ->findOrFail($siteId);
 
-
         LighthouseJob::dispatch($site);
 
         return static::SUCCESS;

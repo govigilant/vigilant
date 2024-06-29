@@ -15,8 +15,7 @@ class NavigationItem
         public ?string $icon = null,
         public int $sort = 0,
         public ?string $routeIs = null,
-    ) {
-    }
+    ) {}
 
     public function active(): bool
     {
