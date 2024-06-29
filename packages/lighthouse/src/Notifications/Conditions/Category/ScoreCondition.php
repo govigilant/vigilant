@@ -1,6 +1,6 @@
 <?php
 
-namespace Vigilant\Lighthouse\Notifications\Conditions;
+namespace Vigilant\Lighthouse\Notifications\Conditions\Category;
 
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Notifications\Conditions\Condition;

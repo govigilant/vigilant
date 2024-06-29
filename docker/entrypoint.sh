@@ -2,6 +2,7 @@
 
 php artisan migrate --force
 php artisan notifications:create
+php artisan notifications:rename-classes
 
 cp -f -r /tmp/public/* /app/public
 

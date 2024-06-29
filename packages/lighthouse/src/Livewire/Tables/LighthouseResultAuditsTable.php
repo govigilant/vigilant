@@ -52,7 +52,6 @@ class LighthouseResultAuditsTable extends LivewireTable
             Column::make(__('Unit'), 'numericUnit')
                 ->displayUsing(fn (?string $value) => $value !== null ? $value : '-')
                 ->sortable(),
-
         ];
     }
 

@@ -11,8 +11,6 @@ use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
-use Vigilant\Lighthouse\Livewire\Charts\LighthouseFcpChart;
-use Vigilant\Lighthouse\Livewire\Charts\LighthouseLcpChart;
 use Vigilant\Lighthouse\Livewire\Charts\NumericLighthouseChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
@@ -20,11 +18,14 @@ use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
-use Vigilant\Lighthouse\Notifications\Conditions\AccessibilityPercentScoreCondition;
-use Vigilant\Lighthouse\Notifications\Conditions\AverageScoreCondition;
-use Vigilant\Lighthouse\Notifications\Conditions\BestPracticesPercentScoreCondition;
-use Vigilant\Lighthouse\Notifications\Conditions\PerformancePercentScoreCondition;
-use Vigilant\Lighthouse\Notifications\Conditions\SeoPercentPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditTypeCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AccessibilityPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\PerformancePercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoPercentPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
 
@@ -129,6 +130,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         NotificationRegistry::registerNotification([
             CategoryScoreChangedNotification::class,
+            NumericAuditChangedNotification::class,
         ]);
 
         NotificationRegistry::registerCondition(CategoryScoreChangedNotification::class, [
@@ -138,6 +140,11 @@ class ServiceProvider extends BaseServiceProvider
             BestPracticesPercentScoreCondition::class,
             PerformancePercentScoreCondition::class,
             SeoPercentPercentScoreCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(NumericAuditChangedNotification::class, [
+            AuditPercentCondition::class,
+            AuditTypeCondition::class,
         ]);
 
         return $this;

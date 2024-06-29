@@ -9,6 +9,7 @@ use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
+use Vigilant\Notifications\Commands\RenameConditionClassesCommand;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
@@ -79,6 +80,7 @@ class ServiceProvider extends BaseServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CreateNotificationsCommand::class,
+                RenameConditionClassesCommand::class,
             ]);
         }
 
