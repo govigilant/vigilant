@@ -10,7 +10,7 @@ class LighthouseResultController extends Controller
     public function index(LighthouseResult $result)
     {
         return view('lighthouse::result.index', [
-            'result' => $result
+            'result' => $result,
         ]);
     }
 }

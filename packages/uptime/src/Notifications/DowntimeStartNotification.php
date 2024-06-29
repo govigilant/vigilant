@@ -16,8 +16,7 @@ class DowntimeStartNotification extends Notification implements HasSite
 
     public function __construct(
         public Monitor $monitor
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {

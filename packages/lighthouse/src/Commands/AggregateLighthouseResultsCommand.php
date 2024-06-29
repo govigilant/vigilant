@@ -47,7 +47,7 @@ class AggregateLighthouseResultsCommand extends Command
 
                 $start->addDay();
 
-                if($start->diffInDays(now()) <= 2) {
+                if ($start->diffInDays(now()) <= 2) {
                     break;
                 }
             }

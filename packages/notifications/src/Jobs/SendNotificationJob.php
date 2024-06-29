@@ -23,8 +23,7 @@ class SendNotificationJob implements ShouldBeUnique, ShouldQueue
         public int $teamId,
         public int $channelId,
         public ?int $triggerId = null,
-    ) {
-    }
+    ) {}
 
     public function handle(TeamService $teamService): void
     {

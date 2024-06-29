@@ -13,6 +13,5 @@ class DowntimeEndEvent
 
     public function __construct(
         public Downtime $downtime
-    ) {
-    }
+    ) {}
 }

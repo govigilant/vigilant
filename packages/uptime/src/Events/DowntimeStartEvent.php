@@ -13,6 +13,5 @@ class DowntimeStartEvent
 
     public function __construct(
         public Monitor $monitor
-    ) {
-    }
+    ) {}
 }

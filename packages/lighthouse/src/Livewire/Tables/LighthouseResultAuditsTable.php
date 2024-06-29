@@ -60,5 +60,4 @@ class LighthouseResultAuditsTable extends LivewireTable
         return parent::query()
             ->where('lighthouse_result_id', '=', $this->resultId);
     }
-
 }

@@ -30,8 +30,7 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
     public function __construct(
         public LighthouseResult $result,
         public CategoryResultDifferenceData $data
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {

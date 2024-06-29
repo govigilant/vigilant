@@ -5,8 +5,8 @@ namespace Vigilant\Uptime\Http\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use Vigilant\Frontend\Integrations\Table\DateColumn;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 

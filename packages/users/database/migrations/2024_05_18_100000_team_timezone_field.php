@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('teams', function (Blueprint $table) {
-           $table->string('timezone')->after('personal_team')->default('UTC');
+            $table->string('timezone')->after('personal_team')->default('UTC');
         });
     }
 

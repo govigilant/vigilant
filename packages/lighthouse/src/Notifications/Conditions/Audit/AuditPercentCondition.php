@@ -54,5 +54,4 @@ class AuditPercentCondition extends Condition
             default => false,
         };
     }
-
 }

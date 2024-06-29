@@ -1,0 +1,19 @@
+name: PHP Linting
+on:
+  pull_request:
+    branches:
+      - 'feature/*'
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  phplint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: "laravel-pint"
+        uses: aglipanci/laravel-pint-action@2.4.0
+        with:
+          preset: laravel
+          pintVersion: 1.16.1

@@ -4,7 +4,8 @@ use Illuminate\Support\Carbon;
 use Vigilant\Core\Services\TeamService;
 
 if (! function_exists('teamTimezone')) {
-    function teamTimezone(Carbon $carbon): Carbon {
+    function teamTimezone(Carbon $carbon): Carbon
+    {
         /** @var TeamService $teamService */
         $teamService = app(TeamService::class);
 

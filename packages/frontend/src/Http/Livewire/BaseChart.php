@@ -25,9 +25,9 @@ abstract class BaseChart extends Component
 
     public function placeholder(): mixed
     {
-       return view('frontend::livewire.charts.base-chart-placeholder', [
-           'height' => $this->height,
-       ]);
+        return view('frontend::livewire.charts.base-chart-placeholder', [
+            'height' => $this->height,
+        ]);
     }
 
     public function render(): View

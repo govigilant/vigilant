@@ -8,6 +8,5 @@ class UptimeResult
         public bool $up = true,
         public float $totalTime = 0,
         public array $data = [],
-    ) {
-    }
+    ) {}
 }
