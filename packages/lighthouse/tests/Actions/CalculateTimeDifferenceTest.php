@@ -123,6 +123,7 @@ class CalculateTimeDifferenceTest extends TestCase
         $action = app(CalculateTimeDifference::class);
         $result = $action->calculate($site, now()->subHours(24));
 
+        $this->assertNotNull($result);
         $this->assertEquals(0.5, $result->performanceNew());
         $this->assertEquals(1, $result->performanceOld());
         $this->assertEquals(-50, $result->performanceDifference());

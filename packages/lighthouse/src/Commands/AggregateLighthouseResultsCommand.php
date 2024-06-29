@@ -33,9 +33,13 @@ class AggregateLighthouseResultsCommand extends Command
                 continue;
             }
 
-            $days = round($lastNonAggregatedResult->created_at->diffInDays(now()));
+            $days = round($lastNonAggregatedResult->created_at?->diffInDays(now()) ?? 0);
 
             $start = $lastNonAggregatedResult->created_at;
+
+            if ($start === null) {
+                continue;
+            }
 
             for ($i = 0; $i < $days; $i++) {
 

@@ -36,7 +36,7 @@ class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
         );
     }
 
-    public function uniqueId(): int
+    public function uniqueId(): string
     {
         return $this->site->id.$this->from->getTimestamp();
     }

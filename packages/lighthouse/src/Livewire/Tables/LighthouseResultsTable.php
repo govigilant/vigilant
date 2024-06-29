@@ -23,7 +23,7 @@ class LighthouseResultsTable extends LivewireTable
     #[Locked]
     public int $siteId = 0;
 
-    public function mount(int $siteId)
+    public function mount(int $siteId): void
     {
         $this->siteId = $siteId;
     }

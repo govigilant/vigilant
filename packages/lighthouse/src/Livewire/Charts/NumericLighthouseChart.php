@@ -55,18 +55,18 @@ class NumericLighthouseChart extends BaseChart
         $unit = $audit['numericUnit'];
 
         $formatter = match ($unit) {
-            'millisecond' => fn (mixed $value) => round($value / 1000, 1),
-            default => fn (mixed $value) => $value,
+            'millisecond' => fn (mixed $value): float => round($value / 1000, 1),
+            default => fn (mixed $value): mixed => $value ?? '-',
         };
 
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $audits->map(fn (LighthouseResultAudit $audit) => $audit->created_at->toDateTimeString('minute'))->toArray(),
+                'labels' => $audits->map(fn (LighthouseResultAudit $audit): string => $audit->created_at?->toDateTimeString('minute') ?? '-')->toArray(),
                 'datasets' => [
                     [
                         'label' => $title.' (s)',
-                        'data' => $audits->map(fn (LighthouseResultAudit $audit) => $formatter($audit['numericValue']))->toArray(),
+                        'data' => $audits->map(fn (LighthouseResultAudit $audit): string => $formatter($audit['numericValue']))->toArray(),
                         'pointRadius' => 0,
                         'pointHoverRadius' => 0,
                         'borderWidth' => 2,

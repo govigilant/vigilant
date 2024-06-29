@@ -4,6 +4,7 @@ namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Carbon;
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseSite;
 
 class CalculateTimeDifference
@@ -18,13 +19,14 @@ class CalculateTimeDifference
             return null;
         }
 
+        /** @var LighthouseResult $firstResult */
         $firstResult = $results->sortBy('created_at')->first();
 
-        if ($from->diffInDays($firstResult->created_at) > 7) {
+        if ($firstResult->created_at === null || $from->diffInDays($firstResult->created_at) > 7) {
             return null;
         }
 
-        $take = max(1, round($results->count() * $sampleSize));
+        $take = (int)max(1, round($results->count() * $sampleSize));
 
         $old = $results->take($take);
         $new = $results->skip($results->count() - $take)->take($take);

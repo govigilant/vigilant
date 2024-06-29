@@ -24,10 +24,10 @@ class AggregateResults
         /** @var LighthouseResult $aggregate */
         $aggregate = $results->first();
 
-        $aggregate->performance = round($results->average('performance'), 2);
-        $aggregate->accessibility = round($results->average('accessibility'), 2);
-        $aggregate->best_practices = round($results->average('best_practices'), 2);
-        $aggregate->seo = round($results->average('seo'), 2);
+        $aggregate->performance = round($results->average('performance') ?? 0, 2);
+        $aggregate->accessibility = round($results->average('accessibility') ?? 0, 2);
+        $aggregate->best_practices = round($results->average('best_practices') ?? 0, 2);
+        $aggregate->seo = round($results->average('seo') ?? 0, 2);
         $aggregate->aggregated = true;
         $aggregate->save();
 

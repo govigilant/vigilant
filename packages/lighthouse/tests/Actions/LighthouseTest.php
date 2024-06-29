@@ -35,6 +35,15 @@ class LighthouseTest extends TestCase
                     'score' => 1,
                 ],
             ],
+            'audits' => [
+                'audit' => [
+                    'id' => 'audit',
+                    'title' => 'Test Audit',
+                    'description' => 'Test Audit',
+                    'score' => 1,
+                    'scoreDisplayMode' => 'binary',
+                ],
+            ],
         ]);
 
         if ($output === false) {
@@ -68,5 +77,7 @@ class LighthouseTest extends TestCase
         $this->assertEquals(1, $result->accessibility);
         $this->assertEquals(1, $result->best_practices);
         $this->assertEquals(1, $result->seo);
+
+        $this->assertEquals(1, $result->audits()->count());
     }
 }
