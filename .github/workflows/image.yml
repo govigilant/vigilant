@@ -5,12 +5,34 @@ on:
     branches:
       - 'main'
 
+env:
+  REGISTRY_IMAGE: govigilant/vigilant
+
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm/v6
+          - linux/arm/v7
+          - linux/arm64
     permissions:
       packages: write
     steps:
+      - name: Prepare
+        run: |
+          platform=${{ matrix.platform }}
+          echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY_IMAGE }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
@@ -32,3 +54,6 @@ jobs:
         with:
           push: true
           tags: ghcr.io/govigilant/vigilant:latest
+          platforms: ${{ matrix.platform }}
+          labels: ${{ steps.meta.outputs.labels }}
+          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
