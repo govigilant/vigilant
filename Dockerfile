@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:latest-php8.3-alpine
+FROM dunglas/frankenphp:latest-php8.3
 
 RUN apk add --no-cache bash git linux-headers libzip-dev libxml2-dev supervisor nodejs npm chromium
 
@@ -31,5 +31,6 @@ RUN yes | php artisan octane:install --server=frankenphp
 RUN /usr/bin/crontab /app/docker/crontab
 
 ENV CHROME_PATH=/usr/bin/chromium
+ENV OCTANE_SERVER=frankenphp
 
 ENTRYPOINT ["sh", "/app/docker/entrypoint.sh"]
