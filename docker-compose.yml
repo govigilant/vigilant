@@ -2,7 +2,10 @@ services:
     app:
         image: ghcr.io/govigilant/vigilant:latest
         volumes:
-            - .env.docker:/app/.env
+            - type: bind
+              source: ./.env
+              target: /app/.env
+              read_only: true
             - ./storage:/app/storage
             - public:/app/public
         restart: always
@@ -23,7 +26,10 @@ services:
     horizon:
         image: ghcr.io/govigilant/vigilant:latest
         volumes:
-            - .env.docker:/app/.env
+            - type: bind
+              source: ./.env
+              target: /app/.env
+              read_only: true
             - ./storage:/app/storage
             - public:/app/public
         restart: always
