@@ -6,10 +6,6 @@ mkdir -p /app/storage/framework/cache
 mkdir -p /app/storage/framework/sessions
 mkdir -p /app/storage/framework/views
 
-if [ ! -f "/app/.env" ]; then
-    cp /app/.env.docker /app/.env
-fi
-
 if ! grep -q "^APP_KEY=" ".env" || [ -z "$(grep "^APP_KEY=" ".env" | cut -d '=' -f2)" ]; then
     php artisan key:generate
 fi
