@@ -1,11 +1,12 @@
 services:
     app:
         image: ghcr.io/govigilant/vigilant:latest
+        build:
+            context: .
         volumes:
             - type: bind
               source: ./.env
               target: /app/.env
-              read_only: true
             - ./storage:/app/storage
             - public:/app/public
         restart: always

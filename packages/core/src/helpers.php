@@ -13,3 +13,10 @@ if (! function_exists('teamTimezone')) {
             ->timezone($teamService->team()?->timezone ?? 'UTC');
     }
 }
+
+if (! function_exists('ce')) {
+    function ce(): bool
+    {
+        return config('core.edition', 'ce') === 'ce';
+    }
+}

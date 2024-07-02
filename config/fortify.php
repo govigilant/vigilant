@@ -1,6 +1,7 @@
 <?php
 
 use Laravel\Fortify\Features;
+use Vigilant\Users\Http\Middleware\NoUserMiddleware;
 
 return [
 
@@ -101,7 +102,7 @@ return [
     |
     */
 
-    'middleware' => ['web'],
+    'middleware' => ['web', NoUserMiddleware::class],
 
     /*
     |--------------------------------------------------------------------------

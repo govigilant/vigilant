@@ -9,6 +9,7 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
 use Vigilant\Users\Models\Team;
 use Vigilant\Users\Models\User;
+use Vigilant\Users\Validators\RegistrationEnabledValidator;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -23,7 +24,7 @@ class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users', new RegistrationEnabledValidator],
             'password' => $this->passwordRules(),
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ])->validate();
