@@ -17,7 +17,9 @@ class CheckLighthouseResult
         'seo',
     ];
 
-    public function __construct(protected CheckLighthouseResultAudit $checkLighthouseResultAudit) {}
+    public function __construct(protected CheckLighthouseResultAudit $checkLighthouseResultAudit)
+    {
+    }
 
     public function check(LighthouseResult $result): void
     {
@@ -29,12 +31,7 @@ class CheckLighthouseResult
 
         $data = CategoryResultDifferenceData::of($current->merge($previous)->toArray());
 
-        // Ignore changes of less than 3%
-        $shouldNotify = abs($data->averageDifference()) > 3;
-
-        if ($shouldNotify) {
-            CategoryScoreChangedNotification::notify($result, $data);
-        }
+        CategoryScoreChangedNotification::notify($result, $data);
 
         $result->audits()
             ->get()
