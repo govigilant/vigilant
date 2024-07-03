@@ -4,6 +4,7 @@ namespace Vigilant\Notifications\Notifications;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Vigilant\Notifications\Concerns\NotificationFake;
 use Vigilant\Notifications\Conditions\ConditionEngine;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
@@ -12,6 +13,8 @@ use Vigilant\Notifications\Models\Trigger;
 
 abstract class Notification implements Arrayable
 {
+    use NotificationFake;
+
     public static string $name = '';
 
     public string $title = '';
@@ -30,6 +33,11 @@ abstract class Notification implements Arrayable
     public static function notify(mixed ...$args): void
     {
         $instance = new static(...$args);
+
+        if (static::$faked) {
+            static::$fakeDispatches[] = $instance;
+            return;
+        }
 
         /** @var Collection<int, Trigger> $triggers */
         $triggers = Trigger::query()

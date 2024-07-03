@@ -20,24 +20,21 @@ class CheckLighthouseResultAudit
         if ($previous == 0) {
             $percentDifference = ($current == 0) ? 0 : 100;
         } else {
-            $percentDifference = (($current - $previous) / $previous) * 100;
+            $percentDifference = (($previous - $current) / $previous) * 100;
         }
 
-        // Ignore changes of less than 3%
-        $shouldNotify = $percentDifference > 3 || $percentDifference < -3;
-
-        if ($shouldNotify) {
-            NumericAuditChangedNotification::notify($audit, $percentDifference);
-        }
+        NumericAuditChangedNotification::notify($audit, $percentDifference);
     }
 
     protected function averageNumericValue(LighthouseResultAudit $audit, int $count = 3, int $skip = 0): float
     {
         return LighthouseResultAudit::query()
             ->where('lighthouse_result_id', '=', $audit->lighthouse_result_id)
+            ->where('audit', '=', $audit->audit)
             ->orderByDesc('id')
             ->skip($skip)
             ->take($count)
+            ->get()
             ->average('numericValue');
     }
 }
