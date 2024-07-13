@@ -21,11 +21,11 @@ class LighthouseResultsTable extends LivewireTable
     public string $sortDirection = 'desc';
 
     #[Locked]
-    public int $siteId = 0;
+    public int $monitorId = 0;
 
-    public function mount(int $siteId): void
+    public function mount(int $monitorId): void
     {
-        $this->siteId = $siteId;
+        $this->monitorId = $monitorId;
     }
 
     protected function columns(): array
@@ -81,6 +81,6 @@ class LighthouseResultsTable extends LivewireTable
     protected function query(): Builder
     {
         return parent::query()
-            ->where('lighthouse_site_id', '=', $this->siteId);
+            ->where('lighthouse_monitor_id', '=', $this->monitorId);
     }
 }

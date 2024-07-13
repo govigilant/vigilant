@@ -5,11 +5,11 @@ namespace Vigilant\Lighthouse\Actions;
 use Illuminate\Support\Carbon;
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class CalculateTimeDifference
 {
-    public function calculate(LighthouseSite $site, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
+    public function calculate(LighthouseMonitor $site, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
     {
         $results = $site->lighthouseResults()
             ->where('created_at', '>=', $from)

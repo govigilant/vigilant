@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Lighthouse\Actions\Lighthouse;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseJob implements ShouldBeUnique, ShouldQueue
 {
@@ -19,7 +19,7 @@ class LighthouseJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public LighthouseSite $site) {}
+    public function __construct(public LighthouseMonitor $site) {}
 
     public function handle(Lighthouse $lighthouse, TeamService $teamService): void
     {

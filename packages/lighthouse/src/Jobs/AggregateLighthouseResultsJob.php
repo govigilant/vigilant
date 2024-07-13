@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Carbon;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Lighthouse\Actions\AggregateResults;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
 {
@@ -21,7 +21,7 @@ class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
     use SerializesModels;
 
     public function __construct(
-        public LighthouseSite $site,
+        public LighthouseMonitor $site,
         public Carbon $from,
         public Carbon $till,
     ) {}

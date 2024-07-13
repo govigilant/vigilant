@@ -6,7 +6,7 @@ use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Models\Site;
 
 class LighthouseMonitor extends Component
@@ -23,16 +23,16 @@ class LighthouseMonitor extends Component
     }
 
     #[Computed]
-    public function monitor(): LighthouseSite
+    public function monitor(): LighthouseMonitor
     {
         /** @var Site $site */
         $site = Site::query()->findOrFail($this->siteId);
 
-        /** @var ?LighthouseSite $monitor */
+        /** @var ?LighthouseMonitor $monitor */
         $monitor = $site->lighthouseMonitors()->first();
 
         if ($monitor === null) {
-            $monitor = new LighthouseSite([
+            $monitor = new LighthouseMonitor([
                 'site_id' => $site->id,
                 'url' => $site->url,
             ]);

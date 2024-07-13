@@ -6,7 +6,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResultAudit;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Lighthouse\Tests\TestCase;
 
@@ -17,8 +17,8 @@ class CheckLighthouseResultAuditTest extends TestCase
     {
         NumericAuditChangedNotification::fake();
 
-        /** @var LighthouseSite $site */
-        $site = LighthouseSite::query()->create([
+        /** @var LighthouseMonitor $site */
+        $site = LighthouseMonitor::query()->create([
             'team_id' => 1,
             'url' => 'https://govigilant.io',
             'settings' => [],

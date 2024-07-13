@@ -8,7 +8,7 @@ use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Frontend\Traits\CanBeInline;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseSiteForm extends Component
 {
@@ -18,9 +18,9 @@ class LighthouseSiteForm extends Component
     public Forms\LighthouseSiteForm $form;
 
     #[Locked]
-    public LighthouseSite $lighthouseSite;
+    public LighthouseMonitor $lighthouseSite;
 
-    public function mount(?LighthouseSite $site): void
+    public function mount(?LighthouseMonitor $site): void
     {
         if ($site !== null) {
             $this->form->fill($site->toArray());
@@ -36,7 +36,7 @@ class LighthouseSiteForm extends Component
         if ($this->lighthouseSite->exists) {
             $this->lighthouseSite->update($this->form->all());
         } else {
-            $this->lighthouseSite = LighthouseSite::query()->create(
+            $this->lighthouseSite = LighthouseMonitor::query()->create(
                 $this->form->all()
             );
         }

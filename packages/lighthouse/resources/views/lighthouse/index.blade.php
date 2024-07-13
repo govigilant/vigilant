@@ -89,7 +89,7 @@
         <p class="text-sm text-neutral-400 mb-4">
             @lang('View the raw results from each Lighthouse run')
         </p>
-        <livewire:lighthouse-results-table :siteId="$lighthouseSite->id"/>
+        <livewire:lighthouse-results-table :monitorId="$lighthouseSite->id"/>
     </div>
 
 </x-app-layout>

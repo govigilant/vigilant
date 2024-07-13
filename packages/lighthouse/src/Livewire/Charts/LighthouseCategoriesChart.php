@@ -32,7 +32,7 @@ class LighthouseCategoriesChart extends BaseChart
     public function data(): array
     {
         $results = LighthouseResult::query()
-            ->where('lighthouse_site_id', '=', $this->lighthouseSiteId)
+            ->where('lighthouse_monitor_id', '=', $this->lighthouseSiteId)
             ->get();
 
         $labels = $results->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->toDateTimeString());

@@ -4,7 +4,7 @@ namespace Vigilant\Lighthouse\Tests\Actions;
 
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\AggregateResults;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Tests\TestCase;
 
 class AggregateResultsTest extends TestCase
@@ -12,8 +12,8 @@ class AggregateResultsTest extends TestCase
     #[Test]
     public function it_aggregates_result(): void
     {
-        /** @var LighthouseSite $site */
-        $site = LighthouseSite::query()->create([
+        /** @var LighthouseMonitor $site */
+        $site = LighthouseMonitor::query()->create([
             'team_id' => 1,
             'url' => 'https://govigilant.io',
             'settings' => [],

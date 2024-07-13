@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResult;
 use Vigilant\Lighthouse\Actions\Lighthouse;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Tests\TestCase;
 
 class LighthouseTest extends TestCase
@@ -59,8 +59,8 @@ class LighthouseTest extends TestCase
         /** @var Lighthouse $action */
         $action = app(Lighthouse::class);
 
-        /** @var LighthouseSite $site */
-        $site = LighthouseSite::query()->create([
+        /** @var LighthouseMonitor $site */
+        $site = LighthouseMonitor::query()->create([
             'team_id' => 1,
             'url' => 'https://govigilant.io',
             'settings' => [],

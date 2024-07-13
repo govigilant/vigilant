@@ -5,7 +5,7 @@ namespace Vigilant\Lighthouse\Commands;
 use Cron\CronExpression;
 use Illuminate\Console\Command;
 use Vigilant\Lighthouse\Jobs\LighthouseJob;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class ScheduleLighthouseCommand extends Command
 {
@@ -15,10 +15,10 @@ class ScheduleLighthouseCommand extends Command
 
     public function handle(): int
     {
-        LighthouseSite::query()
+        LighthouseMonitor::query()
             ->withoutGlobalScopes()
             ->get()
-            ->each(function (LighthouseSite $site) {
+            ->each(function (LighthouseMonitor $site) {
 
                 if (CronExpression::isValidExpression($site->interval)) {
                     $expression = new CronExpression($site->interval);
