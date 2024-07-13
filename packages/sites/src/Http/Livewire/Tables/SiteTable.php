@@ -9,7 +9,7 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
@@ -30,7 +30,7 @@ class SiteTable extends LivewireTable
             Column::make(__('Average Lighthouse Score'))
                 ->displayUsing(function (Site $site) {
 
-                    /** @var ?LighthouseSite $monitor */
+                    /** @var ?LighthouseMonitor $monitor */
                     $monitor = $site->lighthouseMonitors()->first();
 
                     if ($monitor === null) {

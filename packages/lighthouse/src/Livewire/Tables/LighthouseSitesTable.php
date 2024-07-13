@@ -10,11 +10,11 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseSitesTable extends LivewireTable
 {
-    protected string $model = LighthouseSite::class;
+    protected string $model = LighthouseMonitor::class;
 
     protected function columns(): array
     {
@@ -88,7 +88,7 @@ class LighthouseSitesTable extends LivewireTable
     {
         return [
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
-                $models->each(fn (LighthouseSite $site): ?bool => $site->delete());
+                $models->each(fn (LighthouseMonitor $site): ?bool => $site->delete());
             }),
         ];
     }
@@ -97,10 +97,10 @@ class LighthouseSitesTable extends LivewireTable
     {
         return parent::appliedQuery()
             ->leftJoin('lighthouse_results', function (JoinClause $join): void {
-                $join->on('lighthouse_sites.id', '=', 'lighthouse_results.lighthouse_site_id')
-                    ->whereRaw('lighthouse_results.id IN (SELECT MAX(id) FROM lighthouse_results GROUP BY lighthouse_site_id)');
+                $join->on('lighthouse_monitors.id', '=', 'lighthouse_results.lighthouse_monitor_id')
+                    ->whereRaw('lighthouse_results.id IN (SELECT MAX(id) FROM lighthouse_results GROUP BY lighthouse_monitor_id)');
             })->select([
-                'lighthouse_sites.*',
+                'lighthouse_monitors.*',
                 'lighthouse_results.performance',
                 'lighthouse_results.accessibility',
                 'lighthouse_results.best_practices',

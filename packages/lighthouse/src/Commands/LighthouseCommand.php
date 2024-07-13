@@ -4,7 +4,7 @@ namespace Vigilant\Lighthouse\Commands;
 
 use Illuminate\Console\Command;
 use Vigilant\Lighthouse\Jobs\LighthouseJob;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseCommand extends Command
 {
@@ -17,8 +17,8 @@ class LighthouseCommand extends Command
         /** @var int $siteId */
         $siteId = $this->argument('siteId');
 
-        /** @var LighthouseSite $site */
-        $site = LighthouseSite::query()
+        /** @var LighthouseMonitor $site */
+        $site = LighthouseMonitor::query()
             ->withoutGlobalScopes()
             ->findOrFail($siteId);
 

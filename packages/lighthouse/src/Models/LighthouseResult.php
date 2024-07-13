@@ -14,7 +14,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
- * @property int $lighthouse_site_id
+ * @property int $lighthouse_monitor_id
  * @property int $team_id
  * @property float $performance
  * @property float $accessibility
@@ -23,7 +23,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property bool $aggregated
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
- * @property ?LighthouseSite $lighthouseSite
+ * @property ?LighthouseMonitor $lighthouseSite
  * @property Collection<int, LighthouseResultAudit> $audits
  */
 #[ObservedBy([TeamObserver::class])]
@@ -38,7 +38,7 @@ class LighthouseResult extends Model
 
     public function lighthouseSite(): BelongsTo
     {
-        return $this->belongsTo(LighthouseSite::class);
+        return $this->belongsTo(LighthouseMonitor::class);
     }
 
     public function audits(): HasMany

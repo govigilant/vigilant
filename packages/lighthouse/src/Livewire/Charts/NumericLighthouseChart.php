@@ -36,7 +36,7 @@ class NumericLighthouseChart extends BaseChart
     {
         $resultIds = LighthouseResult::query()
             ->select(['id'])
-            ->where('lighthouse_site_id', '=', $this->lighthouseSiteId)
+            ->where('lighthouse_monitor_id', '=', $this->lighthouseSiteId)
             ->get()
             ->pluck('id');
 

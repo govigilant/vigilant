@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Observers\SiteObserver;
 use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
 
@@ -35,6 +35,6 @@ class Site extends Model
 
     public function lighthouseMonitors(): HasMany
     {
-        return $this->hasMany(LighthouseSite::class);
+        return $this->hasMany(LighthouseMonitor::class);
     }
 }

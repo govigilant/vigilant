@@ -23,10 +23,10 @@ class CheckLighthouseResult
 
     public function check(LighthouseResult $result): void
     {
-        $current = $this->averageResults($result->lighthouse_site_id, 4, 0)
+        $current = $this->averageResults($result->lighthouse_monitor_id, 4, 0)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_new' => $score ?? 0]);
 
-        $previous = $this->averageResults($result->lighthouse_site_id, 12, 4)
+        $previous = $this->averageResults($result->lighthouse_monitor_id, 12, 4)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_old' => $score ?? 0]);
 
         $data = CategoryResultDifferenceData::of($current->merge($previous)->toArray());
@@ -41,7 +41,7 @@ class CheckLighthouseResult
     protected function averageResults(int $lighthouseSiteId, int $count = 3, int $skip = 0): Collection
     {
         $results = LighthouseResult::query()
-            ->where('lighthouse_site_id', '=', $lighthouseSiteId)
+            ->where('lighthouse_monitor_id', '=', $lighthouseSiteId)
             ->orderByDesc('id')
             ->skip($skip)
             ->take($count)

@@ -6,11 +6,11 @@ use Illuminate\Routing\Controller;
 use Vigilant\Lighthouse\Actions\CalculateTimeDifference;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseMonitorController extends Controller
 {
-    public function index(LighthouseSite $lighthouseSite, CalculateTimeDifference $timeDifference): mixed
+    public function index(LighthouseMonitor $lighthouseSite, CalculateTimeDifference $timeDifference): mixed
     {
         $lastResults = $lighthouseSite->lighthouseResults()
             ->get();
