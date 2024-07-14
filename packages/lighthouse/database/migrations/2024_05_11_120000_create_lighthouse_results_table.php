@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('lighthouse_results', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(LighthouseMonitor::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(LighthouseMonitor::class, 'lighthouse_site_id')->constrained()->onDelete('cascade');
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
 
             $table->float('performance');
