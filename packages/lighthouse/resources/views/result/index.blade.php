@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-header :back="route('lighthouse.index', ['lighthouseSite' => $result->lighthouse_site_id])" title="Lighthouse Result - {{ $result->created_at->toDateTimeString('minute') }}">
+        <x-page-header :back="route('lighthouse.index', ['monitor' => $result->lighthouse_monitor_id])" title="Lighthouse Result - {{ $result->created_at->toDateTimeString('minute') }}">
 
         </x-page-header>
     </x-slot>

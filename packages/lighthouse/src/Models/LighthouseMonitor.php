@@ -27,7 +27,7 @@ use Vigilant\Users\Observers\TeamObserver;
  */
 #[ObservedBy([TeamObserver::class])]
 #[ScopedBy([TeamScope::class])]
-class LighthouseSite extends Model
+class LighthouseMonitor extends Model
 {
     protected $guarded = [];
 

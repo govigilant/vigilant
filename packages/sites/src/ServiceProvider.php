@@ -11,7 +11,7 @@ use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
-use Vigilant\Sites\Http\Livewire\Tabs\LighthouseMonitor;
+use Vigilant\Sites\Http\Livewire\Tabs\LighthouseMonitors;
 use Vigilant\Sites\Http\Livewire\Tabs\UptimeMonitor;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
@@ -91,7 +91,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('sites.table', SiteTable::class);
 
         Livewire::component('sites.tabs.uptime-monitor', UptimeMonitor::class);
-        Livewire::component('sites.tabs.lighthouse-monitor', LighthouseMonitor::class);
+        Livewire::component('sites.tabs.lighthouse-monitor', LighthouseMonitors::class);
 
         return $this;
     }

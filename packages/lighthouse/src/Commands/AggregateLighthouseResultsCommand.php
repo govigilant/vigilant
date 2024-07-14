@@ -5,7 +5,7 @@ namespace Vigilant\Lighthouse\Commands;
 use Illuminate\Console\Command;
 use Vigilant\Lighthouse\Jobs\AggregateLighthouseResultsJob;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class AggregateLighthouseResultsCommand extends Command
 {
@@ -15,11 +15,11 @@ class AggregateLighthouseResultsCommand extends Command
 
     public function handle(): int
     {
-        $sites = LighthouseSite::query()
+        $sites = LighthouseMonitor::query()
             ->withoutGlobalScopes()
             ->get();
 
-        /** @var LighthouseSite $site */
+        /** @var LighthouseMonitor $site */
         foreach ($sites as $site) {
             /** @var ?LighthouseResult $lastNonAggregatedResult */
             $lastNonAggregatedResult = $site->lighthouseResults()

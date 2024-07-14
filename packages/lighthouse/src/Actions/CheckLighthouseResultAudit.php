@@ -28,7 +28,7 @@ class CheckLighthouseResultAudit
 
     protected function averageNumericValue(LighthouseResultAudit $audit, int $count = 3, int $skip = 0): float
     {
-        return LighthouseResultAudit::query()
+        return (float) LighthouseResultAudit::query()
             ->where('lighthouse_result_id', '=', $audit->lighthouse_result_id)
             ->where('audit', '=', $audit->audit)
             ->orderByDesc('id')

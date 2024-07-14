@@ -98,7 +98,7 @@ class CategoryResultDifferenceData extends Data
             return 0;
         }
 
-        $difference = (($old - $new) / $old) * 100;
+        $difference = (($new - $old) / $old) * 100;
 
         return round($difference, 1);
     }

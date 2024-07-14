@@ -1,10 +1,9 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-header :back="route('lighthouse')" title="Lighthouse Monitor - {{ $lighthouseSite->url }}">
-            <x-form.button dusk="lighthouse-edit-button" class="bg-blue hover:bg-blue-light"
-                           :href="route('uptime.monitor.edit', ['monitor' => $lighthouseSite])">
-                @lang('Edit')
-            </x-form.button>
+        <x-page-header :back="route('lighthouse')" title="Lighthouse Monitor - {{ $lighthouseMonitor->url }}">
+{{--            <x-form.button dusk="lighthouse-edit-button" class="bg-blue hover:bg-blue-light">--}}
+{{--                @lang('Edit')--}}
+{{--            </x-form.button>--}}
         </x-page-header>
     </x-slot>
 
@@ -44,7 +43,7 @@
         </dl>
 
         <div class="flex-1">
-            <livewire:lighthouse-categories-chart :data="['lighthouseSiteId' => $lighthouseSite->id]"/>
+            <livewire:lighthouse-categories-chart :data="['monitorId' => $lighthouseMonitor->id]"/>
         </div>
 
     </div>
@@ -78,7 +77,7 @@
                 </p>
 
                 <livewire:lighthouse-numeric-chart :audit="$chart['audit']"
-                                                   :data="['lighthouseSiteId' => $lighthouseSite->id]"/>
+                                                   :data="['monitorId' => $lighthouseMonitor->id]"/>
             </div>
         @endforeach
     </div>
@@ -89,7 +88,7 @@
         <p class="text-sm text-neutral-400 mb-4">
             @lang('View the raw results from each Lighthouse run')
         </p>
-        <livewire:lighthouse-results-table :siteId="$lighthouseSite->id"/>
+        <livewire:lighthouse-results-table :monitorId="$lighthouseMonitor->id"/>
     </div>
 
 </x-app-layout>
