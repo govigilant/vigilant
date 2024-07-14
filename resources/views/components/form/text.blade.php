@@ -1,9 +1,11 @@
-@props(['field', 'name', 'placeholder', 'description' => ''])
+@props(['field', 'name' => '', 'placeholder', 'description' => ''])
 <div class="grid grid-cols-2">
+    @if(!blank($name))
     <div>
         <label for="{{ $field }}" class="block text-sm font-medium leading-6 text-white">@lang($name)</label>
         <span class="text-neutral-400 text-xs">{{ $description ?? '' }}</span>
     </div>
+    @endif
     <div class="mt-2">
         <div
             class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
