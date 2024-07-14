@@ -1,6 +1,6 @@
-@props(['field', 'name', 'placeholder', 'description' => '', 'inline' => false])
+@props(['field', 'name' => '', 'placeholder', 'description' => '', 'inline' => false])
 
-@if(!$inline)
+@if(!$inline && !blank($name))
     <div class="grid grid-cols-2">
         <div>
             <label for="{{ $field }}" class="block text-sm font-medium leading-6 text-white">@lang($name)</label>
@@ -16,7 +16,7 @@
                 {{ $slot }}
             </select>
             @error($field) <span class="text-red">{{ $message }}</span> @enderror
-@if(!$inline)
+@if(!$inline && !blank($name))
 
         </div>
 

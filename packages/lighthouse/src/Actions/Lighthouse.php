@@ -4,13 +4,13 @@ namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Facades\Process;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class Lighthouse
 {
     public function __construct(protected CheckLighthouseResult $lighthouseResult) {}
 
-    public function run(LighthouseSite $site): void
+    public function run(LighthouseMonitor $site): void
     {
         $output = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox"')
             ->throw()

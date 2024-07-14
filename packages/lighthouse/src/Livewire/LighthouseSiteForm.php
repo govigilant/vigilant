@@ -8,7 +8,7 @@ use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Frontend\Traits\CanBeInline;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseSiteForm extends Component
 {
@@ -18,13 +18,13 @@ class LighthouseSiteForm extends Component
     public Forms\LighthouseSiteForm $form;
 
     #[Locked]
-    public LighthouseSite $lighthouseSite;
+    public LighthouseMonitor $lighthouseMonitor;
 
-    public function mount(?LighthouseSite $site): void
+    public function mount(?LighthouseMonitor $monitor): void
     {
-        if ($site !== null) {
-            $this->form->fill($site->toArray());
-            $this->lighthouseSite = $site;
+        if ($monitor !== null) {
+            $this->form->fill($monitor->toArray());
+            $this->lighthouseMonitor = $monitor;
         }
     }
 
@@ -33,10 +33,10 @@ class LighthouseSiteForm extends Component
     {
         $this->validate();
 
-        if ($this->lighthouseSite->exists) {
-            $this->lighthouseSite->update($this->form->all());
+        if ($this->lighthouseMonitor->exists) {
+            $this->lighthouseMonitor->update($this->form->all());
         } else {
-            $this->lighthouseSite = LighthouseSite::query()->create(
+            $this->lighthouseMonitor = LighthouseMonitor::query()->create(
                 $this->form->all()
             );
         }
@@ -44,7 +44,7 @@ class LighthouseSiteForm extends Component
         if (! $this->inline) {
             $this->alert(
                 __('Saved'),
-                __('Lighthouse monitor was successfully :action', ['action' => $this->lighthouseSite->wasRecentlyCreated ? 'created' : 'saved']),
+                __('Lighthouse monitor was successfully :action', ['action' => $this->lighthouseMonitor->wasRecentlyCreated ? 'created' : 'saved']),
                 AlertType::Success
             );
             $this->redirectRoute('lighthouse');
@@ -54,7 +54,7 @@ class LighthouseSiteForm extends Component
     public function render(): mixed
     {
         return view('lighthouse::livewire.lighthouse-site-form', [
-            'updating' => $this->lighthouseSite->exists,
+            'updating' => $this->lighthouseMonitor->exists,
         ]);
     }
 }

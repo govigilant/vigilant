@@ -6,14 +6,13 @@ use Illuminate\Routing\Controller;
 use Vigilant\Lighthouse\Actions\CalculateTimeDifference;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseSite;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseMonitorController extends Controller
 {
-    public function index(LighthouseSite $lighthouseSite, CalculateTimeDifference $timeDifference): mixed
+    public function index(LighthouseMonitor $monitor, CalculateTimeDifference $timeDifference): mixed
     {
-        $lastResults = $lighthouseSite->lighthouseResults()
-            ->get();
+        $lastResults = $monitor->lighthouseResults()->get();
 
         /** @var ?LighthouseResult $lastResult */
         $lastResult = $lastResults->last();
@@ -29,7 +28,7 @@ class LighthouseMonitorController extends Controller
         }
 
         return view('lighthouse::lighthouse.index', [
-            'lighthouseSite' => $lighthouseSite,
+            'lighthouseMonitor' => $monitor,
             'screenshots' => $screenshots ?? [],
             'lastResult' => [
                 'performance' => $lastResults->average('performance'),
@@ -38,16 +37,16 @@ class LighthouseMonitorController extends Controller
                 'seo' => $lastResults->average('seo'),
             ],
             'difference' => [
-                '7d' => $timeDifference->calculate($lighthouseSite, now()->subDays(7)),
-                '30d' => $timeDifference->calculate($lighthouseSite, now()->subMonth()),
-                '90d' => $timeDifference->calculate($lighthouseSite, now()->subMonths(3)),
-                '180d' => $timeDifference->calculate($lighthouseSite, now()->subMonths(6)),
+                '7d' => $timeDifference->calculate($monitor, now()->subDays(7)),
+                '30d' => $timeDifference->calculate($monitor, now()->subMonth()),
+                '90d' => $timeDifference->calculate($monitor, now()->subMonths(3)),
+                '180d' => $timeDifference->calculate($monitor, now()->subMonths(6)),
             ],
             'charts' => [
                 [
                     'audit' => 'first-contentful-paint',
                     'title' => 'First Contentful Paint',
-                    'description' => ' First Contentful Paint marks the time at which the first text or image is painted.',
+                    'description' => 'First Contentful Paint marks the time at which the first text or image is painted.',
                     'link' => 'https://developer.chrome.com/docs/lighthouse/performance/first-contentful-paint/',
                 ],
                 [
