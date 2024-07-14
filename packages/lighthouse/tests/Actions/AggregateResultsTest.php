@@ -48,6 +48,12 @@ class AggregateResultsTest extends TestCase
         $action->aggregate($site, now()->subHours(10), now());
 
         $this->assertCount(1, $site->lighthouseResults);
+
+        $this->assertNotNull($site->lighthouseResults->first());
+        $this->assertNotNull($site->lighthouseResults->first());
+        $this->assertNotNull($site->lighthouseResults->first());
+        $this->assertNotNull($site->lighthouseResults->first());
+
         $this->assertEquals(0.75, $site->lighthouseResults->first()->performance);
         $this->assertEquals(0.75, $site->lighthouseResults->first()->accessibility);
         $this->assertEquals(0.75, $site->lighthouseResults->first()->best_practices);
