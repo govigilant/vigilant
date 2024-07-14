@@ -50,7 +50,7 @@ class SiteForm extends Component
             AlertType::Success
         );
 
-        $this->redirectRoute('site.edit', ['site' => $this->site]);
+        $this->redirectRoute('site.view', ['site' => $this->site]);
     }
 
     public function render(): View

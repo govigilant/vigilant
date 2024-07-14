@@ -16,23 +16,23 @@ use Vigilant\Lighthouse\Models\LighthouseResult;
 class LighthouseCategoriesChart extends BaseChart
 {
     #[Locked]
-    public int $lighthouseSiteId = 0;
+    public int $lighthouseMonitorId = 0;
 
     public int $height = 200;
 
     public function mount(array $data): void
     {
         Validator::make($data, [
-            'lighthouseSiteId' => 'required',
+            'lighthouseMonitorId' => 'required',
         ])->validate();
 
-        $this->lighthouseSiteId = $data['lighthouseSiteId'];
+        $this->lighthouseMonitorId = $data['lighthouseMonitorId'];
     }
 
     public function data(): array
     {
         $results = LighthouseResult::query()
-            ->where('lighthouse_monitor_id', '=', $this->lighthouseSiteId)
+            ->where('lighthouse_monitor_id', '=', $this->lighthouseMonitorId)
             ->get();
 
         $labels = $results->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->toDateTimeString());
@@ -106,6 +106,6 @@ class LighthouseCategoriesChart extends BaseChart
 
     protected function getIdentifier(): string
     {
-        return Str::slug(get_class($this)).$this->lighthouseSiteId;
+        return Str::slug(get_class($this)).$this->lighthouseMonitorId;
     }
 }

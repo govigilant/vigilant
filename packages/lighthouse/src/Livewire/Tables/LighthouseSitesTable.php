@@ -110,6 +110,6 @@ class LighthouseSitesTable extends LivewireTable
 
     protected function link(Model $model): ?string
     {
-        return route('lighthouse.index', ['lighthouseSite' => $model]);
+        return route('lighthouse.index', ['monitor' => $model]);
     }
 }

@@ -16,7 +16,7 @@ use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 class NumericLighthouseChart extends BaseChart
 {
     #[Locked]
-    public int $lighthouseSiteId = 0;
+    public int $lighthouseMonitorId = 0;
 
     public int $height = 200;
 
@@ -26,17 +26,17 @@ class NumericLighthouseChart extends BaseChart
     public function mount(array $data): void
     {
         Validator::make($data, [
-            'lighthouseSiteId' => 'required',
+            'lighthouseMonitorId' => 'required',
         ])->validate();
 
-        $this->lighthouseSiteId = $data['lighthouseSiteId'];
+        $this->lighthouseMonitorId = $data['lighthouseMonitorId'];
     }
 
     public function data(): array
     {
         $resultIds = LighthouseResult::query()
             ->select(['id'])
-            ->where('lighthouse_monitor_id', '=', $this->lighthouseSiteId)
+            ->where('lighthouse_monitor_id', '=', $this->lighthouseMonitorId)
             ->get()
             ->pluck('id');
 
@@ -99,6 +99,6 @@ class NumericLighthouseChart extends BaseChart
 
     protected function getIdentifier(): string
     {
-        return Str::slug(get_class($this)).$this->lighthouseSiteId.$this->audit;
+        return Str::slug(get_class($this)).$this->lighthouseMonitorId.$this->audit;
     }
 }
