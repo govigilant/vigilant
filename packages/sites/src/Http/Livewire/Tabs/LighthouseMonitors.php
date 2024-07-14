@@ -17,9 +17,11 @@ class LighthouseMonitors extends Component
 
     public bool $enabled = false;
 
+    /** @var array<int, array<string, string|int>> $monitors */
     #[Validate]
     public array $monitors = [];
 
+    /** @return array<string, array<int, mixed>> */
     public function rules(): array
     {
         return [
@@ -29,6 +31,7 @@ class LighthouseMonitors extends Component
         ];
     }
 
+    /** @return array<string, string> */
     public function validationAttributes(): array
     {
         return [
@@ -39,11 +42,12 @@ class LighthouseMonitors extends Component
     public function mount(Site $site): void
     {
         $this->siteId = $site->id;
+        // @phpstan-ignore-next-line
         $this->monitors = $site->lighthouseMonitors->map(function (LighthouseMonitor $monitor): array {
             return [
-                'id' => $monitor->id,
-                'url' => $monitor->url,
-                'interval' => $monitor->interval,
+                'id' => $monitor->id, // @phpstan-ignore-line
+                'url' => $monitor->url, // @phpstan-ignore-line
+                'interval' => $monitor->interval, // @phpstan-ignore-line
             ];
         })->toArray();
     }
@@ -63,6 +67,7 @@ class LighthouseMonitors extends Component
                 /** @var LighthouseMonitor $model */
                 $model = LighthouseMonitor::query()->findOrFail($monitor['id']);
             } else {
+                /** @var LighthouseMonitor $model */
                 $model = LighthouseMonitor::query()->newModelInstance([
                     'site_id' => $this->siteId,
                     'settings' => [],
