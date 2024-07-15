@@ -41,7 +41,7 @@ class AuditPercentCondition extends Condition
         $percent = $notification->percentChanged;
 
         if ($operand === 'absolute') {
-            $score = abs($percent);
+            $percent = abs($percent);
         }
 
         return match ($operator) {
