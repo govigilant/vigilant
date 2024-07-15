@@ -12,6 +12,7 @@ use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\ColumnLatencyChart;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
+use Vigilant\Uptime\Http\Livewire\Monitor\Dashboard;
 use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
@@ -95,6 +96,8 @@ class ServiceProvider extends BaseServiceProvider
 
         Livewire::component('monitor-column-latency-chart', ColumnLatencyChart::class);
         Livewire::component('monitor-latency-chart', LatencyChart::class);
+
+        Livewire::component('monitor-dashboard', Dashboard::class);
 
         return $this;
     }

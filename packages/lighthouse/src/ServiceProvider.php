@@ -14,6 +14,7 @@ use Vigilant\Lighthouse\Livewire\Charts\LighthouseCategoriesChart;
 use Vigilant\Lighthouse\Livewire\Charts\NumericLighthouseChart;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;
 use Vigilant\Lighthouse\Livewire\LighthouseSites;
+use Vigilant\Lighthouse\Livewire\Monitor\Dashboard;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
@@ -104,6 +105,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('lighthouse-result-audits-table', LighthouseResultAuditsTable::class);
 
         Livewire::component('lighthouse-numeric-chart', NumericLighthouseChart::class);
+        Livewire::component('lighthouse-monitor-dashboard', Dashboard::class);
 
         return $this;
     }
