@@ -4,8 +4,8 @@ namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Carbon;
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class CalculateTimeDifference
 {
@@ -26,7 +26,7 @@ class CalculateTimeDifference
             return null;
         }
 
-        $take = (int)max(1, round($results->count() * $sampleSize));
+        $take = (int) max(1, round($results->count() * $sampleSize));
 
         $old = $results->take($take);
         $new = $results->skip($results->count() - $take)->take($take);

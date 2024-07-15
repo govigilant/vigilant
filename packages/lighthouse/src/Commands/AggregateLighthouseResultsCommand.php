@@ -4,8 +4,8 @@ namespace Vigilant\Lighthouse\Commands;
 
 use Illuminate\Console\Command;
 use Vigilant\Lighthouse\Jobs\AggregateLighthouseResultsJob;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class AggregateLighthouseResultsCommand extends Command
 {

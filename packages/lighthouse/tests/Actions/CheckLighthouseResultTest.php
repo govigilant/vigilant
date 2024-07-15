@@ -6,8 +6,8 @@ use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResult;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Lighthouse\Tests\TestCase;
 

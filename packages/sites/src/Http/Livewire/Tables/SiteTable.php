@@ -8,12 +8,11 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
-use Vigilant\Uptime\Models\Monitor;
 
 class SiteTable extends LivewireTable
 {

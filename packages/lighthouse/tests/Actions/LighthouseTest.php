@@ -7,8 +7,8 @@ use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResult;
 use Vigilant\Lighthouse\Actions\Lighthouse;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Tests\TestCase;
 
 class LighthouseTest extends TestCase

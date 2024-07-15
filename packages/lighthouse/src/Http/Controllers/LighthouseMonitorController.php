@@ -3,14 +3,13 @@
 namespace Vigilant\Lighthouse\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Vigilant\Lighthouse\Actions\CalculateTimeDifference;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseMonitorController extends Controller
 {
-    public function index(LighthouseMonitor $monitor,): mixed
+    public function index(LighthouseMonitor $monitor): mixed
     {
         $lastResults = $monitor->lighthouseResults()->get();
 
