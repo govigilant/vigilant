@@ -4,9 +4,9 @@ namespace Vigilant\Lighthouse\Tests\Actions;
 
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Lighthouse\Actions\CheckLighthouseResultAudit;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Lighthouse\Tests\TestCase;
 

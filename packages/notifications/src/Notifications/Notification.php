@@ -36,6 +36,7 @@ abstract class Notification implements Arrayable
 
         if (static::$faked) {
             static::$fakeDispatches[] = $instance;
+
             return;
         }
 

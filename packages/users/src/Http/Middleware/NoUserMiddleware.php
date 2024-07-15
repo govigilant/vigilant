@@ -17,7 +17,7 @@ class NoUserMiddleware
         $userCount = User::query()->count();
 
         if ($userCount === 0) {
-           return redirect()->route('register');
+            return redirect()->route('register');
         }
 
         return $next($request);

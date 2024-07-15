@@ -3,8 +3,8 @@
 namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Facades\Process;
-use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class Lighthouse
 {

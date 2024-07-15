@@ -7,7 +7,8 @@ use Vigilant\Notifications\Notifications\Notification;
 trait NotificationFake
 {
     protected static bool $faked = false;
-    /** @var array<int, Notification> $fakeDispatches */
+
+    /** @var array<int, Notification> */
     protected static array $fakeDispatches = [];
 
     public static function fake(): void

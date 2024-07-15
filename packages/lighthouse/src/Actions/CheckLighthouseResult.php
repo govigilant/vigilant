@@ -17,9 +17,7 @@ class CheckLighthouseResult
         'seo',
     ];
 
-    public function __construct(protected CheckLighthouseResultAudit $checkLighthouseResultAudit)
-    {
-    }
+    public function __construct(protected CheckLighthouseResultAudit $checkLighthouseResultAudit) {}
 
     public function check(LighthouseResult $result): void
     {

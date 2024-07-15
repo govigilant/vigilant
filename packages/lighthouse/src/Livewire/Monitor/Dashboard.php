@@ -14,7 +14,7 @@ class Dashboard extends Component
 
     public function mount(int $monitorId): void
     {
-       $this->monitorId = $monitorId;
+        $this->monitorId = $monitorId;
     }
 
     public function render()

@@ -3,9 +3,9 @@
 namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Carbon;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class AggregateResults
 {
