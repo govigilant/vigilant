@@ -60,8 +60,7 @@ class SiteTable extends LivewireTable
             Column::make(__('Uptime'))
                 ->displayUsing(function (Site $site) use ($calculateUptime) {
 
-                    /** @var ?Monitor $monitor */
-                    $monitor = $site->uptimeMonitors()->first();
+                    $monitor = $site->uptimeMonitor;
 
                     if ($monitor === null) {
                         return __('Not Monitored');
@@ -85,8 +84,7 @@ class SiteTable extends LivewireTable
 
             Column::make(__('Last downtime'))
                 ->displayUsing(function (Site $site) {
-                    /** @var ?Monitor $monitor */
-                    $monitor = $site->uptimeMonitors()->first();
+                    $monitor = $site->uptimeMonitor;
 
                     if ($monitor === null) {
                         return __('Not Monitored');

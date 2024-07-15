@@ -10,7 +10,7 @@ use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseMonitorController extends Controller
 {
-    public function index(LighthouseMonitor $monitor, CalculateTimeDifference $timeDifference): mixed
+    public function index(LighthouseMonitor $monitor,): mixed
     {
         $lastResults = $monitor->lighthouseResults()->get();
 
@@ -30,18 +30,6 @@ class LighthouseMonitorController extends Controller
         return view('lighthouse::lighthouse.index', [
             'lighthouseMonitor' => $monitor,
             'screenshots' => $screenshots ?? [],
-            'lastResult' => [
-                'performance' => $lastResults->average('performance'),
-                'accessibility' => $lastResults->average('accessibility'),
-                'best_practices' => $lastResults->average('best_practices'),
-                'seo' => $lastResults->average('seo'),
-            ],
-            'difference' => [
-                '7d' => $timeDifference->calculate($monitor, now()->subDays(7)),
-                '30d' => $timeDifference->calculate($monitor, now()->subMonth()),
-                '90d' => $timeDifference->calculate($monitor, now()->subMonths(3)),
-                '180d' => $timeDifference->calculate($monitor, now()->subMonths(6)),
-            ],
             'charts' => [
                 [
                     'audit' => 'first-contentful-paint',
