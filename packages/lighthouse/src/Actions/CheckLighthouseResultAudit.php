@@ -23,7 +23,9 @@ class CheckLighthouseResultAudit
             $percentDifference = (($previous - $current) / $previous) * 100;
         }
 
-        NumericAuditChangedNotification::notify($audit, $percentDifference);
+        if ($percentDifference > 0) {
+            NumericAuditChangedNotification::notify($audit, $percentDifference);
+        }
     }
 
     protected function averageNumericValue(LighthouseResultAudit $audit, int $count = 3, int $skip = 0): float
