@@ -17,7 +17,7 @@ class Dashboard extends Component
         $this->monitorId = $monitorId;
     }
 
-    public function render()
+    public function render(): mixed
     {
         /** @var CalculateTimeDifference $timeDifference */
         $timeDifference = app(CalculateTimeDifference::class);
