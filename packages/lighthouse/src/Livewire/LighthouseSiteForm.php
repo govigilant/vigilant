@@ -47,7 +47,7 @@ class LighthouseSiteForm extends Component
                 __('Lighthouse monitor was successfully :action', ['action' => $this->lighthouseMonitor->wasRecentlyCreated ? 'created' : 'saved']),
                 AlertType::Success
             );
-            $this->redirectRoute('lighthouse');
+            $this->redirectRoute('lighthouse.index', ['monitor' => $this->lighthouseMonitor]);
         }
     }
 
