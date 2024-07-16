@@ -2,7 +2,7 @@
     @if(!$inline)
         <x-slot name="header">
             <x-page-header
-                :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseSite->url : 'Add Lighthouse Monitor'"
+                :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseMonitor->url : 'Add Lighthouse Monitor'"
                 :back="route('lighthouse')">
             </x-page-header>
         </x-slot>
