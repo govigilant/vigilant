@@ -1,0 +1,73 @@
+{
+    "name": "vigilant/dns",
+    "description": "Vigilant DNS",
+    "type": "package",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Vincent Boon",
+            "email": "info@vincentbean.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^11.0",
+        "livewire/livewire": "^3.4",
+        "vigilant/core": "@dev",
+        "vigilant/sites": "@dev",
+        "vigilant/users": "@dev",
+        "vigilant/frontend": "@dev",
+        "vigilant/notifications": "@dev"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.6",
+        "larastan/larastan": "^2.5",
+        "orchestra/testbench": "^9.0",
+        "phpstan/phpstan-mockery": "^1.1",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vigilant\\Dns\\": "src",
+            "Vigilant\\Dns\\Database\\Factories\\": "database/factories",
+            "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vigilant\\Dns\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan",
+        "style": "pint --test",
+        "quality": [
+            "@test",
+            "@analyse"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vigilant\\Dns\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
+}
