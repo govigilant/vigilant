@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
 
             $table->string('type');
-            $table->string('ip');
+            $table->string('value');
             $table->json('geoip')->nullable();
 
             $table->timestamps();

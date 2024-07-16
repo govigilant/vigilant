@@ -11,7 +11,7 @@ use Vigilant\Dns\Enums\Type;
  * @property int $site_id
  * @property int $team_id
  * @property Type $type
- * @property string $ip
+ * @property string $value
  * @property ?array $geoip
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at

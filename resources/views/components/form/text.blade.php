@@ -12,7 +12,7 @@
             <input type="text"
                    name="{{ $name }}"
                    id="{{ $field }}"
-                   wire:model.live="{{ $field }}"
+                   wire:model.blur="{{ $field }}"
                    {{ $attributes->merge(['class' => 'flex-1 border-0 bg-transparent py-1.5 text-white focus:ring-0 sm:text-sm sm:leading-6']) }}
                    placeholder="{{ $placeholder ?? '' }}">
         </div>

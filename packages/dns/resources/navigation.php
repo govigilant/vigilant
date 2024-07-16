@@ -1,8 +1,8 @@
 <?php
 
 use Vigilant\Core\Facades\Navigation;
-//
-//Navigation::add(route('lighthouse'), 'Lighthouse')
-//    ->icon('phosphor-lighthouse-light')
-//    ->routeIs('lighthouse*')
-//    ->sort(300);
+
+Navigation::add(route('dns.index'), 'DNS')
+    ->icon('phosphor-globe-simple')
+    ->routeIs('dns*')
+    ->sort(400);

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f51d5b0ed917cd298939c42118a69b39",
+    "content-hash": "fd9d2c17eeadd72baf6c20156ae7ef83",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6768,7 +6768,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -6841,18 +6841,95 @@
             }
         },
         {
+            "name": "vigilant/dns",
+            "version": "dev-feature/dns-monitor",
+            "dist": {
+                "type": "path",
+                "url": "./packages/dns",
+                "reference": "34d58acc31a4c9ca2ad6e995afe9efe9c89bb36a"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Dns\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Dns\\": "src",
+                    "Vigilant\\Dns\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Dns\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant DNS",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/frontend",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
-                "reference": "c468f949752278b5f8f0ccfab2715cc5a64d01ff"
+                "reference": "88df7586fb2e9451afe1e716ade116a408d1c4af"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
-                "ramonrietdijk/livewire-tables": "^4.0"
+                "ramonrietdijk/livewire-tables": "^4.0",
+                "vigilant/core": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -6988,11 +7065,11 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
-                "reference": "f237b84a6f6ae9f763dbd257193c384ee4e01643"
+                "reference": "f2911aed9281abb6e35124d70bb2437d2bd88f80"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.2",
@@ -7000,8 +7077,8 @@
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
                 "vigilant/core": "@dev",
-                "vigilant/sites": "dev-main",
-                "vigilant/users": "dev-main"
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -7064,20 +7141,20 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "374065bc70d4c74e7257dc30d1b9dafb68b68448"
+                "reference": "9a5594fc23736e28db3e65129ebf77ff884d4ca8"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
-                "vigilant/core": "dev-main",
-                "vigilant/lighthouse": "dev-main",
-                "vigilant/notifications": "dev-main",
-                "vigilant/uptime": "dev-main"
+                "vigilant/core": "@dev",
+                "vigilant/lighthouse": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/uptime": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -7136,7 +7213,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7213,7 +7290,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -10080,6 +10157,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "vigilant/core": 20,
+        "vigilant/dns": 20,
         "vigilant/frontend": 20,
         "vigilant/lighthouse": 20,
         "vigilant/notifications": 20,

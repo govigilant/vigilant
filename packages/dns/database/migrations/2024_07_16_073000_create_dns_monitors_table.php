@@ -17,7 +17,7 @@ return new class extends Migration
 
             $table->string('type');
             $table->string('record');
-            $table->string('ip');
+            $table->string('value');
             $table->json('geoip')->nullable();
 
             $table->timestamps();

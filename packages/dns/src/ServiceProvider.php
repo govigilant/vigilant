@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Dns\Livewire\DnsMonitorForm;
+use Vigilant\Dns\Livewire\DnsMonitors;
+use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Sites\Conditions\SiteCondition;
 
 class ServiceProvider extends BaseServiceProvider
@@ -65,13 +68,15 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootViews(): static
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'lighthouse');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'dns');
 
         return $this;
     }
 
     protected function bootLivewire(): static
     {
+        Livewire::component('dns-monitors', DnsMonitors::class);
+        Livewire::component('dns-monitor-form', DnsMonitorForm::class);
 
         return $this;
     }
