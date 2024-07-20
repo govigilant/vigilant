@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
+use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Observers\SiteObserver;
 use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
@@ -22,6 +23,7 @@ use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
  * @property ?Carbon $updated_at
  * @property ?UptimeMonitor $uptimeMonitor
  * @property Collection<int, LighthouseMonitor> $lighthouseMonitors
+ * @property Collection<int, DnsMonitor> $dnsMonitors
  */
 #[ObservedBy([SiteObserver::class])]
 #[ScopedBy([TeamScope::class])]
@@ -38,4 +40,10 @@ class Site extends Model
     {
         return $this->hasMany(LighthouseMonitor::class);
     }
+
+    public function dnsMonitors(): HasMany
+    {
+        return $this->hasMany(DnsMonitor::class);
+    }
+
 }

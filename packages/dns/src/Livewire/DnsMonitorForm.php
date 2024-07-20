@@ -4,6 +4,7 @@ namespace Vigilant\Dns\Livewire;
 
 use Livewire\Attributes\Locked;
 use Livewire\Component;
+use Vigilant\Dns\Actions\ResolveRecord;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
@@ -27,7 +28,19 @@ class DnsMonitorForm extends Component
 
     public function resolve(): void
     {
-        $this->form->value = '127.0.0.1';
+        $this->validate([
+            'form.record' => 'required',
+            'form.type' => 'required',
+        ]);
+
+        /** @var ResolveRecord $resolver */
+        $resolver = app(ResolveRecord::class);
+
+        $result = $resolver->resolve($this->form->type, $this->form->record);
+
+        if ($result !== null) {
+            $this->form->value = $result;
+        }
     }
 
     public function save(): void

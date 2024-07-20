@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Dns\Commands\CheckDnsRecordCommand;
+use Vigilant\Dns\Livewire\DnsImport;
 use Vigilant\Dns\Livewire\DnsMonitorForm;
 use Vigilant\Dns\Livewire\DnsMonitors;
-use Vigilant\Dns\Models\DnsMonitor;
-use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -59,7 +60,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-
+                CheckDnsRecordCommand::class,
             ]);
         }
 
@@ -77,6 +78,9 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('dns-monitors', DnsMonitors::class);
         Livewire::component('dns-monitor-form', DnsMonitorForm::class);
+        Livewire::component('dns-monitor-table', DnsMonitorTable::class);
+        Livewire::component('dns-monitor-import', DnsImport::class);
+
 
         return $this;
     }

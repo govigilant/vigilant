@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('dns_monitor_history', function (Blueprint $table) {
+        Schema::create('dns_monitor_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(DnsMonitor::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
@@ -25,6 +25,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('dns_monitor_history');
+        Schema::dropIfExists('dns_monitor_histories');
     }
 };
