@@ -28,7 +28,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Site $site
  * @property Collection<int, DnsMonitorHistory> $history
  */
-#[ObservedBy(TeamObserver::class, GeoipObserver::class)]
+#[ObservedBy([TeamObserver::class, GeoipObserver::class])]
 #[ScopedBy(TeamScope::class)]
 class DnsMonitor extends Model
 {
