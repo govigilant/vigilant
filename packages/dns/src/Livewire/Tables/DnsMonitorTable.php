@@ -7,6 +7,7 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Models\DnsMonitor;
+use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
 
 class DnsMonitorTable extends LivewireTable
 {
@@ -26,6 +27,9 @@ class DnsMonitorTable extends LivewireTable
             Column::make(__('Value'), 'value')
                 ->searchable()
                 ->sortable(),
+
+            GeoIpColumn::make(__('GeoIP'), 'geoip.country_code'),
+
         ];
     }
 

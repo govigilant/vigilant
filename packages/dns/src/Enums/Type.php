@@ -46,4 +46,15 @@ enum Type: string
 
         return $instance;
     }
+
+    public static function geoIpableTypes(): array
+    {
+        return [
+            Type::A,
+            Type::AAAA,
+            Type::CNAME,
+            Type::MX,
+            Type::PTR,
+        ];
+    }
 }

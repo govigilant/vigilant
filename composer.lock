@@ -3356,6 +3356,74 @@
             "time": "2024-03-06T16:17:14+00:00"
         },
         {
+            "name": "outhebox/blade-flags",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MohmmedAshraf/blade-flags.git",
+                "reference": "fc630fc31f99fd43033338d79604bf153767c70b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MohmmedAshraf/blade-flags/zipball/fc630fc31f99fd43033338d79604bf153767c70b",
+                "reference": "fc630fc31f99fd43033338d79604bf153767c70b",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OutheBox\\BladeFlags\\BladeFlagsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OutheBox\\BladeFlags\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Ashraf",
+                    "email": "cupo.ashraf@gmail.com",
+                    "homepage": "https://github.com/MohmmedAshraf"
+                }
+            ],
+            "description": "A package to easily make use of country & language flags in your Laravel Blade views.",
+            "homepage": "https://github.com/MohmmedAshraf/blade-flags",
+            "keywords": [
+                "blade",
+                "country flags",
+                "flags",
+                "language flags",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/MohmmedAshraf/blade-flags/issues",
+                "source": "https://github.com/MohmmedAshraf/blade-flags/tree/1.5.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/MohmmedAshraf",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-23T09:00:44+00:00"
+        },
+        {
             "name": "paragonie/constant_time_encoding",
             "version": "v2.7.0",
             "source": {
@@ -6922,11 +6990,12 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
-                "reference": "88df7586fb2e9451afe1e716ade116a408d1c4af"
+                "reference": "f22b7bc4426afd33237b7f8da1be751e5867316b"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
+                "outhebox/blade-flags": "^1.5",
                 "php": "^8.2",
                 "ramonrietdijk/livewire-tables": "^4.0",
                 "vigilant/core": "@dev"
@@ -7145,13 +7214,14 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "9a5594fc23736e28db3e65129ebf77ff884d4ca8"
+                "reference": "79a17842e7ee294cf07f9851ab7e0d51a1ae9a11"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
                 "vigilant/core": "@dev",
+                "vigilant/dns": "@dev",
                 "vigilant/lighthouse": "@dev",
                 "vigilant/notifications": "@dev",
                 "vigilant/uptime": "@dev"

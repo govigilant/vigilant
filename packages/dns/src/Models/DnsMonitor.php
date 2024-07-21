@@ -11,6 +11,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Dns\Enums\Type;
+use Vigilant\Dns\Observers\GeoipObserver;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Users\Observers\TeamObserver;
 
@@ -27,7 +28,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Site $site
  * @property Collection<int, DnsMonitorHistory> $history
  */
-#[ObservedBy(TeamObserver::class)]
+#[ObservedBy(TeamObserver::class, GeoipObserver::class)]
 #[ScopedBy(TeamScope::class)]
 class DnsMonitor extends Model
 {

@@ -72,10 +72,11 @@ class DnsImport extends Component
                 continue;
             }
 
-            DnsMonitor::query()->firstOrCreate([
+            DnsMonitor::query()->updateOrCreate([
                 'site_id' => $this->siteId,
                 'type' => $record['type'],
                 'record' => $record['host'],
+            ], [
                 'value' => $record['value'],
             ]);
         }
