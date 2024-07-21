@@ -10,6 +10,10 @@ class ResolveRecord
     {
         $result = dns_get_record($record, $type->flag());
 
+        if ($result === false) {
+            return null;
+        }
+
         $parser = $type->parser();
 
         return $parser->parse($result);

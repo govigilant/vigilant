@@ -24,8 +24,8 @@ class RecordChangedNotification extends Notification implements HasSite
     public function description(): string
     {
         return __('Old value: :old, new value: :new', [
-            'old' => $this->previous->value,
-            'new' => $this->monitor->value,
+            'old' => $this->previous->value ?? '?',
+            'new' => $this->monitor->value ?? '?',
         ]);
     }
 

@@ -45,7 +45,7 @@ class TeamService
         return $this->team;
     }
 
-    public static function instance(): static
+    public static function instance(): TeamService
     {
         /** @var TeamService $instance */
         $instance = app(TeamService::class);

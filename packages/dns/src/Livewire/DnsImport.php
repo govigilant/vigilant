@@ -98,6 +98,7 @@ class DnsImport extends Component
             'domain' => ['required', 'max:255', new Fqdn],
         ]);
 
+        /** @var array<int, array<string, mixed>> $records */
         $records = dns_get_record($this->domain, DNS_ALL);
 
         foreach ($records as $record) {
