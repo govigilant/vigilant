@@ -22,7 +22,7 @@ class Dashboard extends Component
     {
         $uptimePercentage = app(CalculateUptimePercentage::class);
 
-        /** @var ?Monitor $monitor */
+        /** @var Monitor $monitor */
         $monitor = Monitor::query()->findOrFail($this->monitorId);
 
         return view('uptime::livewire.monitor.dashboard', [

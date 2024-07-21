@@ -30,7 +30,7 @@ class UptimeMonitor extends Component
         $site = Site::query()->findOrFail($this->siteId);
 
         /** @var ?Monitor $monitor */
-        $monitor = $site->uptimeMonitors()->first();
+        $monitor = $site->uptimeMonitor;
 
         if ($monitor === null) {
             $monitor = new Monitor([

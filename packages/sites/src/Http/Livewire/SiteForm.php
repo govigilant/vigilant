@@ -65,14 +65,19 @@ class SiteForm extends Component
     protected function tabs(): array
     {
         return [
-            'uptime' => [
-                'title' => __('Uptime Monitoring'),
-                'component' => 'sites.tabs.uptime-monitor',
-            ],
-
-            'lighthouse' => [
-                'title' => __('Lighthouse Monitoring'),
-                'component' => 'sites.tabs.lighthouse-monitor',
+            //'uptime' => [
+            //    'title' => __('Uptime Monitoring'),
+            //    'component' => 'sites.tabs.uptime-monitor',
+            //],
+            //
+            //'lighthouse' => [
+            //    'title' => __('Lighthouse Monitoring'),
+            //    'component' => 'sites.tabs.lighthouse-monitor',
+            //],
+            //
+            'dns' => [
+                'title' => __('DNS Monitoring'),
+                'component' => 'sites.tabs.dns-monitors',
             ],
 
         ];
