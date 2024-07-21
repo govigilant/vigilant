@@ -17,6 +17,7 @@
         "vigilant/core": "@dev",
         "vigilant/notifications": "@dev",
         "vigilant/lighthouse": "@dev",
+        "vigilant/dns": "@dev",
         "vigilant/uptime": "@dev"
     },
     "require-dev": {
