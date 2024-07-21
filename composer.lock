@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f51d5b0ed917cd298939c42118a69b39",
+    "content-hash": "fd9d2c17eeadd72baf6c20156ae7ef83",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -3354,6 +3354,74 @@
                 }
             ],
             "time": "2024-03-06T16:17:14+00:00"
+        },
+        {
+            "name": "outhebox/blade-flags",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MohmmedAshraf/blade-flags.git",
+                "reference": "fc630fc31f99fd43033338d79604bf153767c70b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MohmmedAshraf/blade-flags/zipball/fc630fc31f99fd43033338d79604bf153767c70b",
+                "reference": "fc630fc31f99fd43033338d79604bf153767c70b",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "OutheBox\\BladeFlags\\BladeFlagsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "OutheBox\\BladeFlags\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Ashraf",
+                    "email": "cupo.ashraf@gmail.com",
+                    "homepage": "https://github.com/MohmmedAshraf"
+                }
+            ],
+            "description": "A package to easily make use of country & language flags in your Laravel Blade views.",
+            "homepage": "https://github.com/MohmmedAshraf/blade-flags",
+            "keywords": [
+                "blade",
+                "country flags",
+                "flags",
+                "language flags",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/MohmmedAshraf/blade-flags/issues",
+                "source": "https://github.com/MohmmedAshraf/blade-flags/tree/1.5.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/MohmmedAshraf",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-04-23T09:00:44+00:00"
         },
         {
             "name": "paragonie/constant_time_encoding",
@@ -6768,7 +6836,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -6841,18 +6909,96 @@
             }
         },
         {
+            "name": "vigilant/dns",
+            "version": "dev-feature/dns-monitor",
+            "dist": {
+                "type": "path",
+                "url": "./packages/dns",
+                "reference": "34d58acc31a4c9ca2ad6e995afe9efe9c89bb36a"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Dns\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Dns\\": "src",
+                    "Vigilant\\Dns\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Dns\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant DNS",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/frontend",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
-                "reference": "c468f949752278b5f8f0ccfab2715cc5a64d01ff"
+                "reference": "f22b7bc4426afd33237b7f8da1be751e5867316b"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
+                "outhebox/blade-flags": "^1.5",
                 "php": "^8.2",
-                "ramonrietdijk/livewire-tables": "^4.0"
+                "ramonrietdijk/livewire-tables": "^4.0",
+                "vigilant/core": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -6988,11 +7134,11 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
-                "reference": "f237b84a6f6ae9f763dbd257193c384ee4e01643"
+                "reference": "f2911aed9281abb6e35124d70bb2437d2bd88f80"
             },
             "require": {
                 "guzzlehttp/guzzle": "^7.2",
@@ -7000,8 +7146,8 @@
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
                 "vigilant/core": "@dev",
-                "vigilant/sites": "dev-main",
-                "vigilant/users": "dev-main"
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -7064,20 +7210,21 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "374065bc70d4c74e7257dc30d1b9dafb68b68448"
+                "reference": "79a17842e7ee294cf07f9851ab7e0d51a1ae9a11"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
-                "vigilant/core": "dev-main",
-                "vigilant/lighthouse": "dev-main",
-                "vigilant/notifications": "dev-main",
-                "vigilant/uptime": "dev-main"
+                "vigilant/core": "@dev",
+                "vigilant/dns": "@dev",
+                "vigilant/lighthouse": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/uptime": "@dev"
             },
             "require-dev": {
                 "larastan/larastan": "^2.5",
@@ -7136,7 +7283,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7213,7 +7360,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-main",
+            "version": "dev-feature/dns-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -10080,6 +10227,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "vigilant/core": 20,
+        "vigilant/dns": 20,
         "vigilant/frontend": 20,
         "vigilant/lighthouse": 20,
         "vigilant/notifications": 20,

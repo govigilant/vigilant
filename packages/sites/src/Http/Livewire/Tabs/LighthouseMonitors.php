@@ -42,12 +42,12 @@ class LighthouseMonitors extends Component
     public function mount(Site $site): void
     {
         $this->siteId = $site->id;
-        // @phpstan-ignore-next-line
+
         $this->monitors = $site->lighthouseMonitors->map(function (LighthouseMonitor $monitor): array {
             return [
-                'id' => $monitor->id, // @phpstan-ignore-line
-                'url' => $monitor->url, // @phpstan-ignore-line
-                'interval' => $monitor->interval, // @phpstan-ignore-line
+                'id' => $monitor->id,
+                'url' => $monitor->url,
+                'interval' => $monitor->interval,
             ];
         })->toArray();
     }

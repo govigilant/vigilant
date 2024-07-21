@@ -22,6 +22,7 @@
         "livewire/livewire": "^3.0",
         "ramonrietdijk/livewire-tables": "^4.0",
         "vigilant/core": "@dev",
+        "vigilant/dns": "@dev",
         "vigilant/frontend": "@dev",
         "vigilant/lighthouse": "dev-main",
         "vigilant/notifications": "@dev",
