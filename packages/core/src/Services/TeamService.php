@@ -45,15 +45,20 @@ class TeamService
         return $this->team;
     }
 
-    public static function fake(): Team
+    public static function instance(): static
     {
         /** @var TeamService $instance */
         $instance = app(TeamService::class);
 
+        return $instance;
+    }
+
+    public static function fake(): Team
+    {
         /** @var Team $team */
         $team = Team::factory()->create();
 
-        $instance->setTeam($team);
+        static::instance()->setTeam($team);
 
         return $team;
     }

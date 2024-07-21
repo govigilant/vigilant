@@ -3,6 +3,7 @@
 namespace Vigilant\Users;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Vigilant\Core\Services\TeamService;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -29,9 +30,17 @@ class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this
+            ->bootServices()
             ->bootConfig()
             ->bootMigrations()
             ->bootCommands();
+    }
+
+    protected function bootServices(): static
+    {
+        app()->singleton(TeamService::class);
+
+        return $this;
     }
 
     protected function bootConfig(): static
