@@ -11,8 +11,7 @@ class CheckDnsRecord
     public function __construct(
         protected ResolveRecord $record,
         protected TeamService $teamService
-    ) {
-    }
+    ) {}
 
     public function check(DnsMonitor $monitor): void
     {

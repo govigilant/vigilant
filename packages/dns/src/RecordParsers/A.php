@@ -6,7 +6,7 @@ class A extends RecordParser
 {
     public function parse(array $result): ?string
     {
-        $result = !isset($result['ip'])
+        $result = ! isset($result['ip'])
          ? collect($result)->pluck('ip')->implode(',')
             : $result['ip'];
 

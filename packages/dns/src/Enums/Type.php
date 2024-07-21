@@ -2,9 +2,7 @@
 
 namespace Vigilant\Dns\Enums;
 
-use Vigilant\Dns\RecordParsers\A;
 use Vigilant\Dns\RecordParsers\RecordParser;
-use Vigilant\Dns\Records\BaseRecord;
 
 enum Type: string
 {
@@ -23,25 +21,25 @@ enum Type: string
     public function flag(): int
     {
         return match ($this) {
-            static::A => DNS_A,
-            static::AAAA => DNS_AAAA,
-            static::CNAME => DNS_CNAME,
-            static::MX => DNS_MX,
-            static::NS => DNS_NS,
-            static::PTR => DNS_PTR,
-            static::SOA => DNS_SOA,
-            static::SRV => DNS_SRV,
-            static::TXT => DNS_TXT,
-            static::NAPTR => DNS_NAPTR,
-            static::CAA => DNS_CAA,
+            self::A => DNS_A,
+            self::AAAA => DNS_AAAA,
+            self::CNAME => DNS_CNAME,
+            self::MX => DNS_MX,
+            self::NS => DNS_NS,
+            self::PTR => DNS_PTR,
+            self::SOA => DNS_SOA,
+            self::SRV => DNS_SRV,
+            self::TXT => DNS_TXT,
+            self::NAPTR => DNS_NAPTR,
+            self::CAA => DNS_CAA,
         };
     }
 
     public function parser(): RecordParser
     {
-        $class = '\Vigilant\Dns\RecordParsers\\' . $this->name;
+        $class = '\Vigilant\Dns\RecordParsers\\'.$this->name;
 
-        throw_if(!class_exists($class), 'No parser for type ' . $this->name);
+        throw_if(! class_exists($class), 'No parser for type '.$this->name);
 
         /** @var RecordParser $instance */
         $instance = app($class);

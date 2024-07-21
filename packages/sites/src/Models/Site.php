@@ -45,5 +45,4 @@ class Site extends Model
     {
         return $this->hasMany(DnsMonitor::class);
     }
-
 }

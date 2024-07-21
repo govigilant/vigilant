@@ -17,9 +17,8 @@ class CheckAllDnsRecordsCommand extends Command
     {
         DnsMonitor::query()
             ->get()
-            ->each(fn(DnsMonitor $monitor): PendingDispatch => CheckDnsRecordJob::dispatch($monitor));
+            ->each(fn (DnsMonitor $monitor): PendingDispatch => CheckDnsRecordJob::dispatch($monitor));
 
         return static::SUCCESS;
     }
 }
-

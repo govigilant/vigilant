@@ -14,9 +14,7 @@ class RecordChangedNotification extends Notification implements HasSite
 {
     public static string $name = 'DNS Record Changed';
 
-    public function __construct(public DnsMonitor $monitor, public DnsMonitorHistory $previous)
-    {
-    }
+    public function __construct(public DnsMonitor $monitor, public DnsMonitorHistory $previous) {}
 
     public function title(): string
     {
@@ -27,7 +25,7 @@ class RecordChangedNotification extends Notification implements HasSite
     {
         return __('Old value: :old, new value: :new', [
             'old' => $this->previous->value,
-            'new' => $this->monitor->value
+            'new' => $this->monitor->value,
         ]);
     }
 

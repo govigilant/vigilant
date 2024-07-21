@@ -6,7 +6,7 @@ class AAAA extends RecordParser
 {
     public function parse(array $result): ?string
     {
-        $result = !isset($result['ipv6'])
+        $result = ! isset($result['ipv6'])
          ? collect($result)->pluck('ipv6')->implode(',')
             : $result['ipv6'];
 

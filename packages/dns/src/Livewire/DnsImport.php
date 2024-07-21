@@ -17,8 +17,8 @@ use Vigilant\Sites\Models\Site;
 
 class DnsImport extends Component
 {
-    use DisplaysAlerts;
     use CanBeInline;
+    use DisplaysAlerts;
 
     #[Locked]
     public ?int $siteId = null;
@@ -112,7 +112,7 @@ class DnsImport extends Component
             $this->records[] = [
                 'type' => $type,
                 'host' => $record['host'],
-                'value' => $value
+                'value' => $value,
             ];
         }
 

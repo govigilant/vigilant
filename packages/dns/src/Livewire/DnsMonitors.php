@@ -9,6 +9,6 @@ class DnsMonitors extends Component
 {
     public function render(): View
     {
-       return view('dns::livewire.monitors');
+        return view('dns::livewire.monitors');
     }
 }

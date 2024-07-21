@@ -18,14 +18,14 @@ class CheckDnsRecordTest extends TestCase
     {
         RecordChangedNotification::fake();
 
-        $this->mock(ResolveRecord::class, function(MockInterface $mock): void {
-           $mock->shouldReceive('resolve')->with(Type::A, 'govigilant.io')->andReturn('127.0.0.1');
+        $this->mock(ResolveRecord::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('resolve')->with(Type::A, 'govigilant.io')->andReturn('127.0.0.1');
         });
 
         $monitor = DnsMonitor::query()->create([
-           'type' => Type::A,
-           'record' => 'govigilant.io',
-           'value' => '127.0.0.1',
+            'type' => Type::A,
+            'record' => 'govigilant.io',
+            'value' => '127.0.0.1',
         ]);
 
         /** @var CheckDnsRecord $action */
@@ -41,7 +41,7 @@ class CheckDnsRecordTest extends TestCase
     {
         RecordChangedNotification::fake();
 
-        $this->mock(ResolveRecord::class, function(MockInterface $mock): void {
+        $this->mock(ResolveRecord::class, function (MockInterface $mock): void {
             $mock->shouldReceive('resolve')->with(Type::A, 'govigilant.io')->andReturn('127.0.0.2');
         });
 

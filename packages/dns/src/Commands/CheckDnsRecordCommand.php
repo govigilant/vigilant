@@ -26,5 +26,4 @@ class CheckDnsRecordCommand extends Command
 
         return static::SUCCESS;
     }
-
 }

@@ -24,10 +24,10 @@ class DnsMonitorForm extends Form
         return [
             'type' => [
                 'required',
-                Rule::enum(Type::class)
+                Rule::enum(Type::class),
             ],
-            'record' => ['required','max:255', new Fqdn],
-            'value' => ['required','max:255'],
+            'record' => ['required', 'max:255', new Fqdn],
+            'value' => ['required', 'max:255'],
         ];
     }
 }

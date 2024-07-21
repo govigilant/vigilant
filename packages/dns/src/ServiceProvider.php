@@ -81,7 +81,6 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('dns-monitor-table', DnsMonitorTable::class);
         Livewire::component('dns-monitor-import', DnsImport::class);
 
-
         return $this;
     }
 
