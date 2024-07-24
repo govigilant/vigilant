@@ -1,4 +1,4 @@
-@props(['field', 'name' => '', 'placeholder', 'description' => ''])
+@props(['field', 'name' => '', 'placeholder', 'description' => '', 'live' => true])
 <div class="grid grid-cols-2">
     @if(!blank($name))
     <div>
@@ -12,7 +12,8 @@
             <input type="text"
                    name="{{ $name }}"
                    id="{{ $field }}"
-                   wire:model.blur="{{ $field }}"
+                   @if($live) wire:model.blur="{{ $field }}" @else wire:model="{{ $field }}" @endif
+                   wire:loading.attr="disabled"
                    {{ $attributes->merge(['class' => 'flex-1 border-0 bg-transparent py-1.5 text-white focus:ring-0 sm:text-sm sm:leading-6']) }}
                    placeholder="{{ $placeholder ?? '' }}">
         </div>

@@ -11,22 +11,28 @@
             field="domain"
             name="Domain"
             description="Domain to lookup DNS records for"
+            :live="false"
         />
 
         <div>
-            <x-form.button class="bg-blue hover:bg-blue-light" type="button" wire:click="lookup">
+            <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
+                           type="button" wire:click="lookup">
                 @lang('Import')
             </x-form.button>
         </div>
+
     </div>
 
+    <div class="mt-6" wire:loading>
+        <span class="text-xs text-base-300">@lang('Looking up DNS records')</span>
+    </div>
     @if($records === [])
         @if($noRecords)
             <p class="text-md text-base-200 mt-4">@lang('No records found')</p>
         @endif
     @else
 
-        <div class="mt-6 inline-block min-w-full">
+        <div class="mt-6 inline-block min-w-full" wire:loading.remove>
 
             <table class="min-w-full divide-y divide-base-400">
                 <thead>
@@ -61,7 +67,7 @@
             </table>
         </div>
 
-        @if(!$inline)
+        @if(!$inline && count($records) > 0)
             <div class="mt-4 mb-12 flex justify-end">
                 <x-form.button class="bg-green hover:bg-green-light"
                                type="button"
