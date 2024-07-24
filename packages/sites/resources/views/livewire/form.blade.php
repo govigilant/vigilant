@@ -1,6 +1,6 @@
 <div>
     <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Site ' . $site->url : 'Add Site'" :back="route('site.view', ['site' => $site])"></x-page-header>
+        <x-page-header :title="$updating ? 'Edit Site ' . $site->url : 'Add Site'" :back="$updating ? route('site.view', ['site' => $site]) : route('sites')"></x-page-header>
     </x-slot>
 
     <form wire:submit="save">
