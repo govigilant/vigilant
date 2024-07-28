@@ -20,7 +20,9 @@ class ResolveGeoIpJob implements ShouldBeUnique, ShouldQueue
 
     public function __construct(
         public DnsMonitor $monitor
-    ) {}
+    ) {
+        $this->onQueue(config('dns.queue'));
+    }
 
     public function handle(ResolveGeoIp $geoIp): void
     {

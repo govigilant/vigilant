@@ -1,6 +1,9 @@
 <?php
 
 return [
+
+    'queue' => 'notifications',
+
     /*
      * Move the old condition classes in the DB to the new ones
      * Old class => new class

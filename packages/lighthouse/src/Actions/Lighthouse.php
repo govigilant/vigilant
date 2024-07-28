@@ -12,13 +12,10 @@ class Lighthouse
 
     public function run(LighthouseMonitor $site): void
     {
-        $output = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox"')
-            ->throw()
-            ->output();
+        $process = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox"')
+            ->throw();
 
-        $result = json_decode($output, true);
-
-        file_put_contents(base_path('lighthouse.json'), $output);
+        $result = json_decode($process->output(), true);
 
         /** @var array<string, array> $categoriesResult */
         $categoriesResult = $result['categories'] ?? [];

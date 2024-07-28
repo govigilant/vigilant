@@ -24,7 +24,9 @@ class AggregateLighthouseResultsJob implements ShouldBeUnique, ShouldQueue
         public LighthouseMonitor $site,
         public Carbon $from,
         public Carbon $till,
-    ) {}
+    ) {
+        $this->onQueue(config('lighthouse.queue'));
+    }
 
     public function handle(AggregateResults $aggregateResults, TeamService $teamService): void
     {
