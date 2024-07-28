@@ -27,7 +27,7 @@ class ResolveGeoIp
                 'isp' => $geoip['isp'],
                 'org' => $geoip['org'],
                 'as' => $geoip['as'],
-            ]
+            ],
         ]);
     }
 }
