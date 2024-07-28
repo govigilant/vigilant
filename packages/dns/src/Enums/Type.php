@@ -2,6 +2,7 @@
 
 namespace Vigilant\Dns\Enums;
 
+use BlueLibraries\Dns\Records\RecordTypes;
 use Vigilant\Dns\RecordParsers\RecordParser;
 
 enum Type: string
@@ -21,17 +22,17 @@ enum Type: string
     public function flag(): int
     {
         return match ($this) {
-            self::A => DNS_A,
-            self::AAAA => DNS_AAAA,
-            self::CNAME => DNS_CNAME,
-            self::MX => DNS_MX,
-            self::NS => DNS_NS,
-            self::PTR => DNS_PTR,
-            self::SOA => DNS_SOA,
-            self::SRV => DNS_SRV,
-            self::TXT => DNS_TXT,
-            self::NAPTR => DNS_NAPTR,
-            self::CAA => DNS_CAA,
+            self::A => RecordTypes::A,
+            self::AAAA => RecordTypes::AAAA,
+            self::CNAME => RecordTypes::CNAME,
+            self::MX => RecordTypes::MX,
+            self::NS => RecordTypes::NS,
+            self::PTR => RecordTypes::PTR,
+            self::SOA => RecordTypes::SOA,
+            self::SRV => RecordTypes::SRV,
+            self::TXT => RecordTypes::TXT,
+            self::NAPTR => RecordTypes::NAPTR,
+            self::CAA => RecordTypes::CAA,
         };
     }
 

@@ -19,7 +19,8 @@
         "vigilant/sites": "@dev",
         "vigilant/users": "@dev",
         "vigilant/frontend": "@dev",
-        "vigilant/notifications": "@dev"
+        "vigilant/notifications": "@dev",
+        "bluelibraries/dns": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
@@ -68,6 +69,10 @@
         {
             "type": "path",
             "url": "../*"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:VincentBean/dns.git"
         }
     ]
 }

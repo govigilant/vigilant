@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
 use Vigilant\Dns\Commands\CheckDnsRecordCommand;
 use Vigilant\Dns\Commands\ResolveGeoIpCommand;
 use Vigilant\Dns\Livewire\DnsImport;
@@ -62,6 +63,7 @@ class ServiceProvider extends BaseServiceProvider
         if ($this->app->runningInConsole()) {
             $this->commands([
                 CheckDnsRecordCommand::class,
+                CheckAllDnsRecordsCommand::class,
                 ResolveGeoIpCommand::class,
             ]);
         }

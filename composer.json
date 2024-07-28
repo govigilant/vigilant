@@ -28,7 +28,8 @@
         "vigilant/notifications": "@dev",
         "vigilant/sites": "@dev",
         "vigilant/uptime": "@dev",
-        "vigilant/users": "@dev"
+        "vigilant/users": "@dev",
+        "bluelibraries/dns": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -90,6 +91,10 @@
         {
             "type": "path",
             "url": "./packages/*"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:VincentBean/dns.git"
         }
     ]
 }

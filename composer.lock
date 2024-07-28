@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fd9d2c17eeadd72baf6c20156ae7ef83",
+    "content-hash": "028bd8d57d13ac550e9959e3b8b23c8d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -209,6 +209,69 @@
                 }
             ],
             "time": "2024-02-07T16:09:20+00:00"
+        },
+        {
+            "name": "bluelibraries/dns",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/VincentBean/dns.git",
+                "reference": "95843e4f5960a37eecfd729a0cdc3ffe8c5ccb33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/VincentBean/dns/zipball/95843e4f5960a37eecfd729a0cdc3ffe8c5ccb33",
+                "reference": "95843e4f5960a37eecfd729a0cdc3ffe8c5ccb33",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-sockets": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "9.6.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BlueLibraries\\Dns\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "BlueLibraries\\Dns\\Test\\": "test"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "vendor/bin/phpunit"
+                ]
+            },
+            "license": [
+                "LGPL-2.1-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Molnar Raul Alexandru",
+                    "email": "raul2molnar@gmail.com",
+                    "homepage": "https://www.linkedin.com/in/raulmolnar/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP DNS utility",
+            "homepage": "https://github.com/bluelibraries/dns",
+            "keywords": [
+                "bluelibraries",
+                "dns",
+                "php",
+                "records"
+            ],
+            "support": {
+                "source": "https://github.com/VincentBean/dns/tree/main"
+            },
+            "time": "2024-07-27T20:21:44+00:00"
         },
         {
             "name": "brick/math",
@@ -6836,7 +6899,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -6910,13 +6973,14 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
-                "reference": "34d58acc31a4c9ca2ad6e995afe9efe9c89bb36a"
+                "reference": "bdaf95e86537401cbd70f4565d560731afcb0723"
             },
             "require": {
+                "bluelibraries/dns": "@dev",
                 "guzzlehttp/guzzle": "^7.8",
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
@@ -6986,7 +7050,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7134,7 +7198,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7210,7 +7274,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -7283,7 +7347,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7360,7 +7424,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/dns-monitor",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -10233,7 +10297,8 @@
         "vigilant/notifications": 20,
         "vigilant/sites": 20,
         "vigilant/uptime": 20,
-        "vigilant/users": 20
+        "vigilant/users": 20,
+        "bluelibraries/dns": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

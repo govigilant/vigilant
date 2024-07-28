@@ -2,11 +2,14 @@
 
 namespace Vigilant\Dns\Livewire;
 
+use BlueLibraries\Dns\Records\AbstractRecord;
+use BlueLibraries\Dns\Records\RecordTypes;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Dns\Client\DnsClient;
 use Vigilant\Dns\Enums\Type;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
@@ -101,21 +104,34 @@ class DnsImport extends Component
 
         $this->records = [];
 
-        /** @var array<int, array<string, mixed>> $records */
-        $records = dns_get_record($this->domain, DNS_ALL);
+        /** @var DnsClient $client */
+        $client = app(DnsClient::class);
+
+        /** @var array<int, AbstractRecord> $records */
+        $records = $client->get($this->domain, [
+            RecordTypes::A,
+            RecordTypes::AAAA,
+            RecordTypes::CNAME,
+            RecordTypes::SOA,
+            RecordTypes::TXT,
+            RecordTypes::MX,
+            RecordTypes::NS,
+        ]);
 
         foreach ($records as $record) {
-            $type = Type::tryFrom($record['type']);
+            $data = $record->toArray();
+
+            $type = Type::tryFrom($data['type']);
 
             if ($type === null) {
                 continue;
             }
 
-            $value = $type->parser()->parse($record);
+            $value = $type->parser()->parse($data);
 
             $this->records[] = [
                 'type' => $type,
-                'host' => $record['host'],
+                'host' => $data['host'],
                 'value' => $value,
             ];
         }
