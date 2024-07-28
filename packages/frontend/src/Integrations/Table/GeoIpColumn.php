@@ -13,7 +13,6 @@ class GeoIpColumn extends Column
     {
         $geoip = $model['geoip'] ?? [];
 
-
         return view($this->view, $geoip);
     }
 }

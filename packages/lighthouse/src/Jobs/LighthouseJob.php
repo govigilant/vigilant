@@ -19,7 +19,8 @@ class LighthouseJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public LighthouseMonitor $site) {
+    public function __construct(public LighthouseMonitor $site)
+    {
         $this->onQueue(config('lighthouse.queue'));
     }
 

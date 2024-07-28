@@ -8,9 +8,7 @@ use Vigilant\Dns\Enums\Type;
 
 class ResolveRecord
 {
-    public function __construct(protected DnsClient $client)
-    {
-    }
+    public function __construct(protected DnsClient $client) {}
 
     public function resolve(Type $type, string $record): ?string
     {
