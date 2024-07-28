@@ -21,7 +21,9 @@ class CreateNotificationsJob implements ShouldBeUnique, ShouldQueue
 
     public function __construct(
         public Team $team
-    ) {}
+    ) {
+        $this->onQueue(config('notifications.queue'));
+    }
 
     public function handle(CreateNotifications $notifications, TeamService $teamService): void
     {

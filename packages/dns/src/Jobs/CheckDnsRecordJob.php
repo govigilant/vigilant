@@ -20,7 +20,9 @@ class CheckDnsRecordJob implements ShouldBeUnique, ShouldQueue
 
     public function __construct(
         public DnsMonitor $monitor
-    ) {}
+    ) {
+        $this->onQueue(config('dns.queue'));
+    }
 
     public function handle(CheckDnsRecord $record): void
     {

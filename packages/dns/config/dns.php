@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'queue' => 'default',
+    'queue' => 'dns',
 
     'nameserver' => '1.1.1.1',
 ];
