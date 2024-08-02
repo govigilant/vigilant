@@ -13,6 +13,8 @@ use Vigilant\Dns\Livewire\DnsImport;
 use Vigilant\Dns\Livewire\DnsMonitorForm;
 use Vigilant\Dns\Livewire\DnsMonitors;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
+use Vigilant\Dns\Notifications\RecordChangedNotification;
+use Vigilant\Notifications\Facades\NotificationRegistry;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -107,6 +109,9 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootNotifications(): static
     {
+        NotificationRegistry::registerNotification([
+            RecordChangedNotification::class,
+        ]);
 
         return $this;
     }
