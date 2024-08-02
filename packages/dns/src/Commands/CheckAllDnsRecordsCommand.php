@@ -16,6 +16,7 @@ class CheckAllDnsRecordsCommand extends Command
     public function handle(): int
     {
         DnsMonitor::query()
+            ->withoutGlobalScopes()
             ->get()
             ->each(fn (DnsMonitor $monitor): PendingDispatch => CheckDnsRecordJob::dispatch($monitor));
 
