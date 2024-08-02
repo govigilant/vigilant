@@ -35,7 +35,7 @@ class CheckLighthouseResultAuditTest extends TestCase
             'updated_at' => now(),
         ]);
 
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 100; $i++) {
             $result->audits()->create([
                 'audit' => 'test',
                 'title' => 'test',
@@ -66,7 +66,7 @@ class CheckLighthouseResultAuditTest extends TestCase
         $this->assertTrue(NumericAuditChangedNotification::wasDispatched(function (
             NumericAuditChangedNotification $notification
         ): bool {
-            return round($notification->percentChanged) == 52;
+            return round($notification->percentChanged) == 32;
         }));
     }
 }
