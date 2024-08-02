@@ -16,10 +16,10 @@ class CheckLighthouseCommand extends Command
     public function handle(CheckLighthouseResult $lighthouseResult, TeamService $teamService): int
     {
         /** @var int $resultId */
-        $resultId = $this->argument('resultId');
+        $resultId = (int) $this->argument('resultId');
 
         /** @var LighthouseResult $result */
-        $result = LighthouseResult::query()->findOrFail($resultId);
+        $result = LighthouseResult::query()->withoutGlobalScopes()->findOrFail($resultId);
 
         $teamService->setTeamById($result->team_id);
 

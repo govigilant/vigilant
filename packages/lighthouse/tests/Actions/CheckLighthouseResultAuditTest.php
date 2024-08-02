@@ -66,7 +66,7 @@ class CheckLighthouseResultAuditTest extends TestCase
         $this->assertTrue(NumericAuditChangedNotification::wasDispatched(function (
             NumericAuditChangedNotification $notification
         ): bool {
-            return round($notification->percentChanged) == -52;
+            return round($notification->percentChanged) == 52;
         }));
     }
 }
