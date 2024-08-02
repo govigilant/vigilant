@@ -28,12 +28,24 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     public function __construct(
         public LighthouseResultAudit $audit,
         public float $percentChanged,
-    ) {}
+        public float $previous,
+        public float $current,
+    ) {
+    }
 
     public function title(): string
     {
-        return __('Lighthouse numeric audit changed by :percent %', [
+        return __('Lighthouse numeric audit \':audit\' changed by :percent %', [
+            'audit' => $this->audit->title,
             'percent' => round($this->percentChanged),
+        ]);
+    }
+
+    public function description(): string
+    {
+        return __('Raw value changed from from :previous to :current', [
+            'previous' => $this->previous,
+            'current' => $this->current,
         ]);
     }
 

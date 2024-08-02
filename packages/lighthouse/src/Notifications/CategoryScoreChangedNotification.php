@@ -30,11 +30,36 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
     public function __construct(
         public LighthouseResult $result,
         public CategoryResultDifferenceData $data
-    ) {}
+    ) {
+    }
 
     public function title(): string
     {
-        return __('Lighthouse score changed');
+        return __('Average lighthouse score changed');
+    }
+
+    public function description(): string
+    {
+        $performanceOld = $this->data->performanceOld() * 100;
+        $performanceNew = $this->data->performanceNew() * 100;
+
+        $accessibilityOld = $this->data->accessibilityOld() * 100;
+        $accessibilityNew = $this->data->accessibilityNew() * 100;
+
+        $bestPracticesOld = $this->data->bestPracticesOld() * 100;
+        $bestPracticesNew = $this->data->bestPracticesNew() * 100;
+
+        $seoOld = $this->data->seoOld() * 100;
+        $seoNew = $this->data->seoNew() * 100;
+
+        return __('New values are: Performance :performance, Accessibility :accessibility, Best Practices :best_practices, SEO :seo',
+            [
+                'performance' => "$performanceOld% => $performanceNew%",
+                'accessibility' => "$accessibilityOld% => $accessibilityNew%",
+                'best_practices' => "$bestPracticesOld% => $bestPracticesNew%",
+                'seo' => "$seoOld% => $seoNew%",
+            ]
+        );
     }
 
     public function level(): Level

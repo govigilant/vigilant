@@ -24,7 +24,7 @@ class CheckLighthouseResultAudit
         }
 
         if ($percentDifference > 0) {
-            NumericAuditChangedNotification::notify($audit, $percentDifference);
+            NumericAuditChangedNotification::notify($audit, $percentDifference, $previous, $current);
         }
     }
 
