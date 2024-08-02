@@ -30,11 +30,15 @@ class CheckLighthouseResultAudit
 
     protected function averageNumericValue(LighthouseResultAudit $audit, int $count = 3, int $skip = 0): float
     {
+        /** @var ?int $monitorId */
+        $monitorId = $audit->lighthouseResult?->lighthouse_monitor_id;
+
+        throw_if($monitorId === null, 'Invalid relationship');
+
         return (float) LighthouseResultAudit::query()
-            ->join('lighthouse_results', function (JoinClause $join) use ($audit) {
+            ->join('lighthouse_results', function (JoinClause $join) use ($monitorId) {
                 $join->on('lighthouse_results.id', '=', 'lighthouse_result_audits.lighthouse_result_id')
-                    ->where('lighthouse_results.lighthouse_monitor_id', '=',
-                        $audit->lighthouseResult->lighthouse_monitor_id);
+                    ->where('lighthouse_results.lighthouse_monitor_id', '=', $monitorId);
             })
             ->where('audit', '=', $audit->audit)
             ->orderByDesc('lighthouse_result_audits.id')
