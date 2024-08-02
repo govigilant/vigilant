@@ -33,7 +33,7 @@ class CheckLighthouseResultAudit
         return (float) LighthouseResultAudit::query()
             ->join('lighthouse_results', function (JoinClause $join) use ($audit) {
                 $join->on('lighthouse_results.id', '=', 'lighthouse_result_audits.lighthouse_result_id')
-                    ->where('lighthouse_result.lighthouse_monitor_id', '=',
+                    ->where('lighthouse_results.lighthouse_monitor_id', '=',
                         $audit->lighthouseResult->lighthouse_monitor_id);
             })
             ->where('audit', '=', $audit->audit)
