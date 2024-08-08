@@ -35,7 +35,9 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        return __('Average lighthouse score changed');
+        return __('Average lighthouse score changed on :url', [
+            'url' => $this->result->lighthouseSite?->url ?? '?',
+        ]);
     }
 
     public function description(): string
