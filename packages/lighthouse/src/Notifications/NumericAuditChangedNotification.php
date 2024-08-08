@@ -35,8 +35,9 @@ class NumericAuditChangedNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        return __('Lighthouse numeric audit \':audit\' changed by :percent %', [
+        return __('Lighthouse numeric audit \':audit\' on :url changed by :percent %', [
             'audit' => $this->audit->title,
+            'url' => $this->audit->lighthouseResult?->lighthouseSite?->url ?? '?',
             'percent' => round($this->percentChanged),
         ]);
     }
