@@ -38,7 +38,7 @@ class LighthouseResult extends Model
 
     public function lighthouseSite(): BelongsTo
     {
-        return $this->belongsTo(LighthouseMonitor::class);
+        return $this->belongsTo(LighthouseMonitor::class, 'lighthouse_monitor_id');
     }
 
     public function audits(): HasMany
