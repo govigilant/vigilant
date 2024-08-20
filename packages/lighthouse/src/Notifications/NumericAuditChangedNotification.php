@@ -30,8 +30,7 @@ class NumericAuditChangedNotification extends Notification implements HasSite
         public float $percentChanged,
         public float $previous,
         public float $current,
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {
@@ -45,8 +44,8 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     public function description(): string
     {
         return __('Raw value changed from from :previous to :current', [
-            'previous' => $this->previous,
-            'current' => $this->current,
+            'previous' => $this->roundRawValue($this->previous),
+            'current' => $this->roundRawValue($this->current),
         ]);
     }
 
@@ -58,5 +57,24 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     public function uniqueId(): string|int
     {
         return $this->audit->id;
+    }
+
+    protected function roundRawValue(float $rawValue): float
+    {
+        if ($rawValue > 10) {
+            return round($rawValue, 0);
+        }
+
+        if ($rawValue > 0) {
+            return round($rawValue, 2);
+        }
+
+        if ($rawValue == 0) {
+            return 0.00;
+        }
+
+        $strNumber = rtrim(rtrim(sprintf('%.10f', $rawValue), '0'), '.');
+
+        return (float) $strNumber;
     }
 }
