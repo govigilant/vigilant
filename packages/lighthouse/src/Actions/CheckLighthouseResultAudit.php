@@ -13,9 +13,29 @@ class CheckLighthouseResultAudit
         if ($audit->scoreDisplayMode !== 'numeric') {
             return;
         }
-        $current = $this->averageNumericValue($audit, 10, 0);
 
-        $previous = $this->averageNumericValue($audit, 50, 10);
+        /** @var ?int $monitorId */
+        $monitorId = $audit->lighthouseResult?->lighthouse_monitor_id;
+
+        throw_if($monitorId === null, 'Invalid relationship');
+
+        $totalResultCount = LighthouseResultAudit::query()
+            ->join('lighthouse_results', function (JoinClause $join) use ($monitorId) {
+                $join->on('lighthouse_results.id', '=', 'lighthouse_result_audits.lighthouse_result_id')
+                    ->where('lighthouse_results.lighthouse_monitor_id', '=', $monitorId)
+                    ->where('lighthouse_results.created_at', '>', now()->subMonth());
+            })
+            ->count();
+
+        // take 10% of the result set to calculate the current value
+        $currentLimit = (int) floor($totalResultCount * 0.1);
+
+        // take 20% of the result set before the current to calculate the previous value
+        $previousLimit = (int) floor($totalResultCount * 0.3);
+
+        $current = $this->averageNumericValue($audit, $currentLimit, 0);
+
+        $previous = $this->averageNumericValue($audit, $previousLimit, $currentLimit);
 
         if ($previous == 0) {
             $percentDifference = ($current == 0) ? 0 : 100;
