@@ -2,6 +2,7 @@
 
 namespace Vigilant\Lighthouse\Actions;
 
+use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
 use Vigilant\Lighthouse\Models\LighthouseResult;
@@ -21,10 +22,25 @@ class CheckLighthouseResult
 
     public function check(LighthouseResult $result): void
     {
-        $current = $this->averageResults($result->lighthouse_monitor_id, 4, 0)
+        $totalResultCount = LighthouseResult::query()
+            ->where('lighthouse_monitor_id', '=', $result->lighthouse_monitor_id)
+            ->count();
+
+        // Not enough data
+        if ($totalResultCount < 10) {
+            return;
+        }
+
+        // take 10% of the result set to calculate the current value
+        $currentLimit = (int) floor($totalResultCount * 0.1);
+
+        // take 30% of the result set before the current to calculate the previous value
+        $previousLimit = (int) floor($totalResultCount * 0.3);
+
+        $current = $this->averageResults($result->lighthouse_monitor_id, $currentLimit, 0)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_new' => $score ?? 0]);
 
-        $previous = $this->averageResults($result->lighthouse_monitor_id, 12, 4)
+        $previous = $this->averageResults($result->lighthouse_monitor_id, $previousLimit, $currentLimit)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_old' => $score ?? 0]);
 
         $data = CategoryResultDifferenceData::of($current->merge($previous)->toArray());
