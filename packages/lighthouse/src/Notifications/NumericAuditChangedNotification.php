@@ -62,7 +62,7 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     protected function roundRawValue(float $rawValue): float
     {
         if ($rawValue > 10) {
-            return round($rawValue, 0);
+            return round($rawValue);
         }
 
         if ($rawValue > 0) {

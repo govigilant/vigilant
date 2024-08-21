@@ -25,12 +25,18 @@ class CheckLighthouseResultAudit
                     ->where('lighthouse_results.lighthouse_monitor_id', '=', $monitorId)
                     ->where('lighthouse_results.created_at', '>', now()->subMonth());
             })
+            ->where('audit', '=', $audit->audit)
             ->count();
+
+        // Not enough data
+        if ($totalResultCount < 10) {
+            return;
+        }
 
         // take 10% of the result set to calculate the current value
         $currentLimit = (int) floor($totalResultCount * 0.1);
 
-        // take 20% of the result set before the current to calculate the previous value
+        // take 30% of the result set before the current to calculate the previous value
         $previousLimit = (int) floor($totalResultCount * 0.3);
 
         $current = $this->averageNumericValue($audit, $currentLimit, 0);
