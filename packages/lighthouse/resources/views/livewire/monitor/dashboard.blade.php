@@ -34,7 +34,7 @@
     </dl>
 
     <div class="flex-1">
-        <livewire:lighthouse-categories-chart :data="['monitorId' => $lighthouseMonitor->id]"/>
+        <livewire:lighthouse-categories-chart :data="['lighthouseMonitorId' => $lighthouseMonitor->id]"/>
     </div>
 
 </div>

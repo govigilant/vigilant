@@ -52,7 +52,7 @@ class CheckLighthouseResult
             ->each(fn (LighthouseResultAudit $audit) => $this->checkLighthouseResultAudit->check($audit));
     }
 
-    protected function averageResults(int $lighthouseSiteId, int $count = 3, int $skip = 0): Collection
+    protected function averageResults(int $lighthouseSiteId, int $count, int $skip): Collection
     {
         $results = LighthouseResult::query()
             ->where('lighthouse_monitor_id', '=', $lighthouseSiteId)

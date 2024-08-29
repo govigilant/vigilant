@@ -7,6 +7,7 @@
     </x-slot>
 
     <div class="flex items-center gap-4">
+
         <x-form.text
             field="domain"
             name="Domain"
@@ -14,12 +15,10 @@
             :live="false"
         />
 
-        <div>
-            <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
-                           type="button" wire:click="lookup">
-                @lang('Import')
-            </x-form.button>
-        </div>
+        <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
+                       type="button" wire:click="lookup">
+            @lang('Import')
+        </x-form.button>
 
     </div>
 

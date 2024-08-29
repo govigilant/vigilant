@@ -22,7 +22,7 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
                 'condition' => AverageScoreCondition::class,
                 'operator' => '>=',
                 'operand' => 'absolute',
-                'value' => 10,
+                'value' => 20,
             ],
         ],
     ];
