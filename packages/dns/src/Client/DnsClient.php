@@ -3,6 +3,7 @@
 namespace Vigilant\Dns\Client;
 
 use BlueLibraries\Dns\DnsRecords;
+use BlueLibraries\Dns\Handlers\DnsHandlerException;
 use BlueLibraries\Dns\Handlers\Types\TCP;
 
 class DnsClient
@@ -14,6 +15,10 @@ class DnsClient
 
         $dnsRecordsService = new DnsRecords($dnsHandler);
 
-        return $dnsRecordsService->get($record, $type);
+        try {
+            return $dnsRecordsService->get($record, $type);
+        } catch(DnsHandlerException $e) {
+            return [];
+        }
     }
 }

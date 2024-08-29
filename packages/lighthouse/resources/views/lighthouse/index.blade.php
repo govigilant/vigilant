@@ -38,7 +38,7 @@
                 </p>
 
                 <livewire:lighthouse-numeric-chart :audit="$chart['audit']"
-                                                   :data="['monitorId' => $lighthouseMonitor->id]"/>
+                                                   :data="['lighthouseMonitorId' => $lighthouseMonitor->id]"/>
             </div>
         @endforeach
     </div>
