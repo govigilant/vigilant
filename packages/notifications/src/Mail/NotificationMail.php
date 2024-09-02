@@ -14,10 +14,7 @@ class NotificationMail extends Mailable
     use Queueable;
     use SerializesModels;
 
-    public function __construct(public Notification $notification)
-    {
-
-    }
+    public function __construct(public Notification $notification) {}
 
     public function envelope(): Envelope
     {
@@ -25,7 +22,7 @@ class NotificationMail extends Mailable
             subject: implode(' - ', [
                 $this->notification->level()->name,
                 $this->notification->title(),
-                'Vigilant'
+                'Vigilant',
             ])
         );
     }

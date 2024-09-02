@@ -12,10 +12,10 @@ enum Level: string
     public function color(): int
     {
         return match ($this) {
-            Level::Info => 0x3498db,    // Blue
-            Level::Warning => 0xf1c40f, // Yellow
-            Level::Critical => 0xe74c3c,   // Red
-            Level::Success => 0x2ecc71, // Green
+            Level::Info => 0x3498DB,    // Blue
+            Level::Warning => 0xF1C40F, // Yellow
+            Level::Critical => 0xE74C3C,   // Red
+            Level::Success => 0x2ECC71, // Green
         };
     }
 }

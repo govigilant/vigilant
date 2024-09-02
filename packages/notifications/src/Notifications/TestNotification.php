@@ -10,9 +10,7 @@ class TestNotification extends Notification
 
     public string $description = 'If you receive this notification it means that the notification channel is working!';
 
-    public function __construct(public Level $level = Level::Success)
-    {
-    }
+    public function __construct(public Level $level = Level::Success) {}
 
     public function title(): string
     {

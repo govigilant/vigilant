@@ -3,7 +3,6 @@
 namespace Vigilant\Notifications\Channels;
 
 use Illuminate\Support\Facades\Http;
-use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Notifications\Notification;
 
