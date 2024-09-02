@@ -2,7 +2,6 @@
 
 namespace Vigilant\Lighthouse\Actions;
 
-use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Collection;
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
 use Vigilant\Lighthouse\Models\LighthouseResult;
