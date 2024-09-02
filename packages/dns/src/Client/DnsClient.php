@@ -17,7 +17,7 @@ class DnsClient
 
         try {
             return $dnsRecordsService->get($record, $type);
-        } catch(DnsHandlerException $e) {
+        } catch (DnsHandlerException $e) {
             return [];
         }
     }

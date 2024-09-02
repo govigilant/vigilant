@@ -1,4 +1,4 @@
-<div wire:init="init">
+<div>
     <x-form.text
         field="settings.server"
         name="NTFY Server"
