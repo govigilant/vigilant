@@ -7,13 +7,20 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Notifications\Channels\DiscordChannel;
+use Vigilant\Notifications\Channels\MailChannel;
 use Vigilant\Notifications\Channels\NtfyChannel;
+use Vigilant\Notifications\Channels\SlackChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Notifications\Commands\RenameConditionClassesCommand;
+use Vigilant\Notifications\Commands\TestNotificationCommand;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\Channels;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Discord;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Mail;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Slack;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
@@ -81,6 +88,7 @@ class ServiceProvider extends BaseServiceProvider
             $this->commands([
                 CreateNotificationsCommand::class,
                 RenameConditionClassesCommand::class,
+                TestNotificationCommand::class,
             ]);
         }
 
@@ -115,6 +123,9 @@ class ServiceProvider extends BaseServiceProvider
 
         Livewire::component('channel-configuration-webhook', Webhook::class);
         Livewire::component('channel-configuration-ntfy', Ntfy::class);
+        Livewire::component('channel-configuration-mail', Mail::class);
+        Livewire::component('channel-configuration-slack', Slack::class);
+        Livewire::component('channel-configuration-discord', Discord::class);
 
         return $this;
     }
@@ -140,6 +151,9 @@ class ServiceProvider extends BaseServiceProvider
     {
         NotificationRegistry::registerChannel([
             NtfyChannel::class,
+            MailChannel::class,
+            DiscordChannel::class,
+            SlackChannel::class,
         ]);
 
         return $this;

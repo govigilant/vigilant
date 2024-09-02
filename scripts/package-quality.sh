@@ -1,6 +1,12 @@
 #!/bin/sh
 
-for dir in ./packages/*
+if [ -n "$1" ]; then
+    dirs="./packages/$1"
+else
+    dirs="./packages/*"
+fi
+
+for dir in $dirs
 do
     echo 'Checking ' $dir
 
