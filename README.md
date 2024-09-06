@@ -16,7 +16,7 @@ You can easily self host Vigilant using Docker to have full control over your ow
 
 ## Getting Started with Vigilant
 
-Take a look at the [documentation](https://docs.govigilant.io) on how to get started!
+Take a look at the [documentation]([https://docs.govigilant.io](https://govigilant.io/documentation/welcome)) on how to get started!
 
 ## Technology
 
