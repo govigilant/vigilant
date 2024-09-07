@@ -10,7 +10,10 @@ class NoUserMiddleware
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        if ($request->routeIs('register') || auth()->check()) {
+        $isRegisterRoute = $request->routeIs('register')
+            || ($request->isMethod('POST') && str_ends_with($request->url(), 'register'));
+
+        if ($isRegisterRoute || auth()->check()) {
             return $next($request);
         }
 
