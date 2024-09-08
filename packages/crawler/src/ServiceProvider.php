@@ -1,19 +1,23 @@
 <?php
 
-namespace Vigilant\Dns;
+namespace Vigilant\Crawler;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
-use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
-use Vigilant\Dns\Commands\CheckDnsRecordCommand;
-use Vigilant\Dns\Commands\ResolveGeoIpCommand;
-use Vigilant\Dns\Livewire\DnsImport;
-use Vigilant\Dns\Livewire\DnsMonitorForm;
-use Vigilant\Dns\Livewire\DnsMonitors;
-use Vigilant\Dns\Livewire\Tables\CrawlerTable;
-use Vigilant\Dns\Notifications\RecordChangedNotification;
+use Vigilant\Crawler\Commands\CollectCrawlerStatsCommand;
+use Vigilant\Crawler\Commands\CrawlUrlsCommand;
+use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
+use Vigilant\Crawler\Commands\StartCrawlerCommand;
+use Vigilant\Crawler\Events\CrawlerFinishedEvent;
+use Vigilant\Crawler\Listeners\CrawlerFinishedListener;
+use Vigilant\Crawler\Livewire\Crawler\Dashboard;
+use Vigilant\Crawler\Livewire\CrawlerForm;
+use Vigilant\Crawler\Livewire\Crawlers;
+use Vigilant\Crawler\Livewire\Tables\CrawlerTable;
+use Vigilant\Crawler\Livewire\Tables\IssuesTable;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 
 class ServiceProvider extends BaseServiceProvider
@@ -26,7 +30,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerConfig(): static
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/dns.php', 'dns');
+        $this->mergeConfigFrom(__DIR__.'/../config/crawler.php', 'crawler');
 
         return $this;
     }
@@ -40,6 +44,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootViews()
             ->bootLivewire()
             ->bootRoutes()
+            ->bootEvents()
             ->bootNavigation()
             ->bootNotifications();
     }
@@ -47,7 +52,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootConfig(): static
     {
         $this->publishes([
-            __DIR__.'/../config/dns.php' => config_path('dns.php'),
+            __DIR__.'/../config/crawler.php' => config_path('crawler.php'),
         ], 'config');
 
         return $this;
@@ -64,9 +69,10 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                CheckDnsRecordCommand::class,
-                CheckAllDnsRecordsCommand::class,
-                ResolveGeoIpCommand::class,
+                StartCrawlerCommand::class,
+                CrawlUrlsCommand::class,
+                CollectCrawlerStatsCommand::class,
+                ProcessCrawlerStatesCommand::class,
             ]);
         }
 
@@ -75,17 +81,19 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootViews(): static
     {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'dns');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'crawler');
 
         return $this;
     }
 
     protected function bootLivewire(): static
     {
-        Livewire::component('dns-monitors', DnsMonitors::class);
-        Livewire::component('dns-monitor-form', DnsMonitorForm::class);
-        Livewire::component('dns-monitor-table', CrawlerTable::class);
-        Livewire::component('dns-monitor-import', DnsImport::class);
+        Livewire::component('crawlers', Crawlers::class);
+        Livewire::component('crawler-table', CrawlerTable::class);
+        Livewire::component('crawler-form', CrawlerForm::class);
+
+        Livewire::component('crawler-dashboard', Dashboard::class);
+        Livewire::component('crawler-issues-table', IssuesTable::class);
 
         return $this;
     }
@@ -100,6 +108,13 @@ class ServiceProvider extends BaseServiceProvider
         return $this;
     }
 
+    protected function bootEvents(): static
+    {
+        Event::listen(CrawlerFinishedEvent::class, CrawlerFinishedListener::class);
+
+        return $this;
+    }
+
     protected function bootNavigation(): static
     {
         Navigation::path(__DIR__.'/../resources/navigation.php');
@@ -110,7 +125,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNotifications(): static
     {
         NotificationRegistry::registerNotification([
-            RecordChangedNotification::class,
+
         ]);
 
         return $this;
