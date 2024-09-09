@@ -3,13 +3,16 @@
 namespace Vigilant\Crawler\Livewire;
 
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
+use Vigilant\Frontend\Traits\CanBeInline;
 
 class CrawlerForm extends Component
 {
+    use CanBeInline;
     use DisplaysAlerts;
 
     public Forms\CrawlerForm $form;
@@ -32,6 +35,7 @@ class CrawlerForm extends Component
         }
     }
 
+    #[On('save')]
     public function save(): void
     {
         $this->form->sitemaps = $this->form->sitemaps !== null ? array_filter($this->form->sitemaps) : null;
@@ -46,13 +50,16 @@ class CrawlerForm extends Component
             );
         }
 
-        $this->alert(
-            __('Saved'),
-            __('Crawler was successfully :action',
-                ['action' => $this->crawler->wasRecentlyCreated ? 'created' : 'saved']),
-            AlertType::Success
-        );
-        $this->redirectRoute('crawler.index');
+        if (! $this->inline) {
+            $this->alert(
+                __('Saved'),
+                __('Crawler was successfully :action',
+                    ['action' => $this->crawler->wasRecentlyCreated ? 'created' : 'saved']),
+                AlertType::Success
+            );
+            $this->redirectRoute('crawler.index');
+        }
+
     }
 
     public function render(): mixed

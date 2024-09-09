@@ -23,9 +23,11 @@
                 :items="$form->sitemaps"
             />
 
-            <div class="flex justify-end gap-4">
-                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
-            </div>
-          </div>
+            @if(!$inline)
+                <div class="flex justify-end gap-4">
+                    <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
+                </div>
+            @endif
+        </div>
     </form>
 </div>
