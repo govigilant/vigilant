@@ -5,13 +5,12 @@ namespace Vigilant\Crawler\Actions;
 use DOMDocument;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Services\TeamService;
+use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
 
-class CrawUrl
+class CrawlUrl
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function crawl(CrawledUrl $url): void
     {
@@ -29,15 +28,22 @@ class CrawUrl
                 'crawled' => true,
             ]);
 
+            if ($response->status() === 429 && $url->crawler !== null) {
+                $url->crawler->update([
+                    'state' => State::Ratelimited,
+                ]);
+            }
+
             return;
         }
 
         $html = $response->body();
 
-        $dom = new DOMDocument();
-        @$dom->loadHTML($html); // Suppress warnings due to malformed HTML
+        $dom = new DOMDocument;
+        @$dom->loadHTML($html); // Suppress warnings due to potential malformed HTML
 
         $links = [];
+        /** @var array $baseUrl */
         $baseUrl = parse_url($url->url);
 
         if (! array_key_exists('host', $baseUrl)) {
@@ -68,7 +74,7 @@ class CrawUrl
         foreach ($links as $link) {
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
-                'url' => $link
+                'url' => $link,
             ], [
                 'found_on_id' => $url->uuid,
             ]);
@@ -90,18 +96,18 @@ class CrawUrl
     protected function resolveRelativeUrl(string $relativeUrl, array $baseUrlParts): string
     {
         // If the relative URL starts with "//", it refers to a protocol-relative URL
-        if (strpos($relativeUrl, "//") === 0) {
-            return $baseUrlParts['scheme'].":".$relativeUrl;
+        if (strpos($relativeUrl, '//') === 0) {
+            return $baseUrlParts['scheme'].':'.$relativeUrl;
         }
 
         // If the relative URL starts with "/", it's an absolute path relative to the domain
-        if (strpos($relativeUrl, "/") === 0) {
-            return $baseUrlParts['scheme']."://".$baseUrlParts['host'].$relativeUrl;
+        if (strpos($relativeUrl, '/') === 0) {
+            return $baseUrlParts['scheme'].'://'.$baseUrlParts['host'].$relativeUrl;
         }
 
         // Otherwise, it's a relative path, resolve by appending to base path
         $basePath = isset($baseUrlParts['path']) ? dirname($baseUrlParts['path']) : '';
 
-        return $baseUrlParts['scheme']."://".$baseUrlParts['host'].$basePath."/".ltrim($relativeUrl, '/');
+        return $baseUrlParts['scheme'].'://'.$baseUrlParts['host'].$basePath.'/'.ltrim($relativeUrl, '/');
     }
 }

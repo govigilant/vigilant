@@ -34,7 +34,7 @@ class CrawlerForm extends Component
 
     public function save(): void
     {
-        $this->form->sitemaps = array_filter($this->form->sitemaps);
+        $this->form->sitemaps = $this->form->sitemaps !== null ? array_filter($this->form->sitemaps) : null;
 
         $this->validate();
 

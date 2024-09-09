@@ -4,9 +4,7 @@ namespace Vigilant\Crawler\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Enumerable;
 use Livewire\Attributes\Locked;
-use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Crawler\Enums\Status;
@@ -32,7 +30,7 @@ class IssuesTable extends LivewireTable
                 ->sortable(),
 
             Column::make(__('Status'), 'status')
-                ->displayUsing(fn (int $status): string => Status::tryFrom($status)?->label() ?? $status)
+                ->displayUsing(fn (int $status): string => Status::tryFrom($status)?->label() ?? (string) $status)
                 ->searchable()
                 ->sortable(),
 

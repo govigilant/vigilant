@@ -14,11 +14,9 @@ class StartCrawler
             'crawled' => false,
         ]);
 
-        if ($crawler->start_url !== null) {
-            $crawler->urls()->firstOrCreate([
-                'url' => $crawler->start_url,
-            ]);
-        }
+        $crawler->urls()->firstOrCreate([
+            'url' => $crawler->start_url,
+        ]);
 
         if ($crawler->sitemaps !== null && count($crawler->sitemaps) > 0) {
             ImportSitemapsJob::dispatch($crawler);

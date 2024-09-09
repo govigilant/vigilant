@@ -11,7 +11,5 @@ class CrawlerFinishedEvent
     use Dispatchable;
     use SerializesModels;
 
-    public function __construct(public Crawler $crawler)
-    {
-    }
+    public function __construct(public Crawler $crawler) {}
 }

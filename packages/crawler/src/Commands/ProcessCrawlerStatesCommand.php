@@ -20,7 +20,7 @@ class ProcessCrawlerStatesCommand extends Command
             ->withoutGlobalScopes()
             ->whereIn('state', [
                 State::Pending,
-                State::Crawling
+                State::Crawling,
             ])
             ->get()
             ->each(fn (Crawler $crawler): PendingDispatch => ProcessCrawlerStateJob::dispatch($crawler));

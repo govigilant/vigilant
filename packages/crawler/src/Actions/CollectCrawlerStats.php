@@ -8,9 +8,7 @@ use Vigilant\Crawler\Models\Crawler;
 
 class CollectCrawlerStats
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function collect(Crawler $crawler): void
     {
@@ -31,7 +29,7 @@ class CollectCrawlerStats
             'issue_count' => $crawler->urls()
                 ->where('crawled', '=', true)
                 ->where('status', '>=', 400)
-                ->count()
+                ->count(),
         ];
 
         $crawler->update([

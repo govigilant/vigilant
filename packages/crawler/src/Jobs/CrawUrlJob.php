@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Vigilant\Crawler\Actions\CrawUrl;
+use Vigilant\Crawler\Actions\CrawlUrl;
 use Vigilant\Crawler\Models\CrawledUrl;
 
 class CrawUrlJob implements ShouldBeUnique, ShouldQueue
@@ -24,7 +24,7 @@ class CrawUrlJob implements ShouldBeUnique, ShouldQueue
         $this->onQueue(config('crawler.queue'));
     }
 
-    public function handle(CrawUrl $url): void
+    public function handle(CrawlUrl $url): void
     {
         $url->crawl($this->url);
     }

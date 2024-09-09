@@ -39,8 +39,7 @@ class CrawledUrl extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'crawler_stats' => 'array',
-        'settings' => 'array',
+        'crawled' => 'bool',
     ];
 
     public function site(): BelongsTo

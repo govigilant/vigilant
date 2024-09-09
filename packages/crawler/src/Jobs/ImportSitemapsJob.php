@@ -29,7 +29,7 @@ class ImportSitemapsJob implements ShouldBeUnique, ShouldQueue
         $sitemaps->import($this->crawler);
     }
 
-    public function uniqueId(): string
+    public function uniqueId(): int
     {
         return $this->crawler->id;
     }

@@ -2,7 +2,7 @@
 
 namespace Vigilant\Crawler\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use Illuminate\Routing\Controller;
 use Vigilant\Crawler\Models\Crawler;
 
 class CrawlerController extends Controller

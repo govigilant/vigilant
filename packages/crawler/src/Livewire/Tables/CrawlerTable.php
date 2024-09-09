@@ -9,7 +9,6 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\Crawler;
-use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
@@ -25,14 +24,13 @@ class CrawlerTable extends LivewireTable
     protected function columns(): array
     {
         return [
-              Column::make(__('URL'), 'start_url')
+            Column::make(__('URL'), 'start_url')
                 ->searchable()
                 ->sortable(),
 
             Column::make(__('Status'), 'state')
                 ->displayUsing(fn (State $state): string => __($state->label()))
                 ->sortable(),
-
 
             StatusColumn::make(__('Issues'))
                 ->text(function (Crawler $crawler) {
@@ -54,13 +52,13 @@ class CrawlerTable extends LivewireTable
                         : Status::Warning;
                 }),
 
-            Column::make(__('URLs crawled'), function(Crawler $crawler): string {
-               return sprintf(
-                   '%d / %d',
-                   $crawler->urls()->where('crawled', '=', true)->count(),
-                   $crawler->urls()->count(),
-               );
-            })
+            Column::make(__('URLs crawled'), function (Crawler $crawler): string {
+                return sprintf(
+                    '%d / %d',
+                    $crawler->urls()->where('crawled', '=', true)->count(),
+                    $crawler->urls()->count(),
+                );
+            }),
         ];
     }
 

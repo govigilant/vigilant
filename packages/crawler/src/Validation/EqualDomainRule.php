@@ -30,6 +30,7 @@ class EqualDomainRule implements DataAwareRule, InvokableRule
 
                 if ($sitemapDomain !== $startUrlDomain) {
                     $fail(__('The domains of the start URL and sitemaps must be the same domain'));
+
                     return;
                 }
             }

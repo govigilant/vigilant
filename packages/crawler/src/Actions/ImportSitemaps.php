@@ -11,7 +11,7 @@ class ImportSitemaps
 {
     public function import(Crawler $crawler): void
     {
-        foreach ($crawler->sitemaps as $sitemap) {
+        foreach ($crawler->sitemaps ?? [] as $sitemap) {
 
             $response = Http::get($sitemap);
 
@@ -22,8 +22,10 @@ class ImportSitemaps
             $xml = $response->body();
 
             $sitemap = XmlToArray::convert($xml);
+            /** @var array<string, mixed> $url */
+            $url = $sitemap['url'] ?? [];
 
-            $urls = collect($sitemap['url'] ?? [])->pluck('loc');
+            $urls = collect($url)->pluck('loc');
 
             $chunks = $urls->chunk(5000);
 
