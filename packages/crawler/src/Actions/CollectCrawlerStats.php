@@ -5,10 +5,13 @@ namespace Vigilant\Crawler\Actions;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Models\Crawler;
+use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 
 class CollectCrawlerStats
 {
-    public function __construct(protected TeamService $teamService) {}
+    public function __construct(protected TeamService $teamService)
+    {
+    }
 
     public function collect(Crawler $crawler): void
     {
@@ -39,6 +42,11 @@ class CollectCrawlerStats
         $crawler
             ->urls()
             ->where('status', '=', 200)
-            ->whereDoesntHave('foundOn');
+            ->whereDoesntHave('foundOn')
+            ->delete();
+
+        if ($stats['issue_count'] > 0) {
+            UrlIssuesNotification::notify($crawler);
+        }
     }
 }

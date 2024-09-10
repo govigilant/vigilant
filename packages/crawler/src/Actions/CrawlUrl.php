@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
+use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawlUrl
 {
@@ -32,6 +33,8 @@ class CrawlUrl
                 $url->crawler->update([
                     'state' => State::Ratelimited,
                 ]);
+
+                RatelimitedNotification::notify($url->crawler);
             }
 
             return;

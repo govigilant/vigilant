@@ -9,6 +9,7 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Crawler\Enums\Status;
 use Vigilant\Crawler\Models\CrawledUrl;
+use Vigilant\Frontend\Integrations\Table\LinkColumn;
 
 class IssuesTable extends LivewireTable
 {
@@ -16,6 +17,8 @@ class IssuesTable extends LivewireTable
 
     #[Locked]
     public int $crawlerId;
+
+    protected bool $useSelection = false;
 
     public function mount(int $crawlerId): void
     {
@@ -25,7 +28,8 @@ class IssuesTable extends LivewireTable
     protected function columns(): array
     {
         return [
-            Column::make(__('URL'), 'url')
+            LinkColumn::make(__('URL'), 'url')
+                ->openInNewTab()
                 ->searchable()
                 ->sortable(),
 
@@ -34,7 +38,8 @@ class IssuesTable extends LivewireTable
                 ->searchable()
                 ->sortable(),
 
-            Column::make(__('Found On'), 'foundOn.url')
+            LinkColumn::make(__('Found On'), 'foundOn.url')
+                ->openInNewTab()
                 ->searchable()
                 ->sortable(),
         ];
@@ -45,11 +50,5 @@ class IssuesTable extends LivewireTable
         return parent::query()
             ->where('web_crawled_urls.crawler_id', '=', $this->crawlerId)
             ->where('web_crawled_urls.status', '>=', 400);
-    }
-
-    /** @param  CrawledUrl  $model */
-    protected function link(Model $model): ?string
-    {
-        return $model->url;
     }
 }

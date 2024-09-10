@@ -18,7 +18,10 @@ use Vigilant\Crawler\Livewire\CrawlerForm;
 use Vigilant\Crawler\Livewire\Crawlers;
 use Vigilant\Crawler\Livewire\Tables\CrawlerTable;
 use Vigilant\Crawler\Livewire\Tables\IssuesTable;
+use Vigilant\Crawler\Notifications\RatelimitedNotification;
+use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Sites\Conditions\SiteCondition;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -125,7 +128,16 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNotifications(): static
     {
         NotificationRegistry::registerNotification([
+            UrlIssuesNotification::class,
+            RatelimitedNotification::class,
+        ]);
 
+        NotificationRegistry::registerCondition(UrlIssuesNotification::class, [
+            SiteCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(RatelimitedNotification::class, [
+            SiteCondition::class,
         ]);
 
         return $this;
