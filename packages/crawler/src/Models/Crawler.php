@@ -19,6 +19,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?int $site_id
  * @property int $team_id
  * @property State $state
+ * @property string $schedule
  * @property string $start_url
  * @property ?array $sitemaps
  * @property ?array $crawler_stats

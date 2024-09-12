@@ -2,7 +2,9 @@
 
 namespace Vigilant\Crawler\Livewire\Tables;
 
+use Cron\CronExpression;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
@@ -25,6 +27,16 @@ class CrawlerTable extends LivewireTable
     {
         return [
             Column::make(__('URL'), 'start_url')
+                ->searchable()
+                ->sortable(),
+
+            Column::make(__('Next Run'), 'schedule')
+                ->displayUsing(function(string $schedule): string {
+                    $expression = new CronExpression($schedule);
+                    $nextRun = Carbon::parse($expression->getNextRunDate());
+
+                    return $nextRun->diffForHumans();
+                })
                 ->searchable()
                 ->sortable(),
 

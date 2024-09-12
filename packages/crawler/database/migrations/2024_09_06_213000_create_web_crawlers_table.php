@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
 
             $table->string('state')->default(State::Pending->value);
+            $table->string('schedule');
+
             $table->string('start_url');
             $table->json('sitemaps')->nullable();
 

@@ -9,6 +9,7 @@ use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Frontend\Traits\CanBeInline;
+use Vigilant\Sites\Models\Site;
 
 class CrawlerForm extends Component
 {
@@ -20,12 +21,21 @@ class CrawlerForm extends Component
     #[Locked]
     public Crawler $crawler;
 
-    public function mount(?Crawler $crawler): void
+    public function mount(?Crawler $crawler, ?int $siteId = null): void
     {
-        if ($crawler !== null) {
+        if ($crawler !== null && $crawler->exists) {
             $this->form->fill($crawler->toArray());
-            $this->crawler = $crawler;
+        } else {
+            if ($siteId !== null) {
+                /** @var Site $site */
+                $site = Site::query()->findOrFail($siteId);
+
+                $this->form->start_url = $site->url;
+                $this->form->site_id = $siteId;
+            }
         }
+
+        $this->crawler = $crawler;
     }
 
     public function addListItem(string $field): void
@@ -39,6 +49,7 @@ class CrawlerForm extends Component
     public function save(): void
     {
         $this->form->sitemaps = $this->form->sitemaps !== null ? array_filter($this->form->sitemaps) : null;
+        $this->form->schedule = $this->getCronSchedule();
 
         $this->validate();
 
@@ -57,9 +68,22 @@ class CrawlerForm extends Component
                     ['action' => $this->crawler->wasRecentlyCreated ? 'created' : 'saved']),
                 AlertType::Success
             );
-            $this->redirectRoute('crawler.index');
+            $this->redirectRoute('crawler.view', ['crawler' => $this->crawler]);
         }
+    }
 
+    protected function getCronSchedule(): string
+    {
+        $type = $this->form->settings['scheduleConfig']['type'] ?? 'montly';
+        $hour = $this->form->settings['scheduleConfig']['hour'] ?? 0;
+        $weekDay = $this->form->settings['scheduleConfig']['weekDay'] ?? 0;
+        $monthDay = $this->form->settings['scheduleConfig']['monthDay'] ?? 0;
+
+        return match ($type) {
+            'daily' => "0 $hour * * *",
+            'weekly' => "0 $hour * * $weekDay",
+            default => "0 $hour $monthDay * *",
+        };
     }
 
     public function render(): mixed

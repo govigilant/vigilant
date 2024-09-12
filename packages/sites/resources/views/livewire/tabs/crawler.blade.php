@@ -12,6 +12,7 @@
         <livewire:crawler-form
             :crawler="$this->crawler"
             :inline="true"
+            :siteId="$siteId"
         />
     @endif
 </div>
