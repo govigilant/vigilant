@@ -10,6 +10,7 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Crawler\Commands\CollectCrawlerStatsCommand;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
+use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Crawler\Commands\StartCrawlerCommand;
 use Vigilant\Crawler\Events\CrawlerFinishedEvent;
 use Vigilant\Crawler\Listeners\CrawlerFinishedListener;
@@ -76,6 +77,7 @@ class ServiceProvider extends BaseServiceProvider
                 CrawlUrlsCommand::class,
                 CollectCrawlerStatsCommand::class,
                 ProcessCrawlerStatesCommand::class,
+                ScheduleCrawlersCommand::class,
             ]);
         }
 
