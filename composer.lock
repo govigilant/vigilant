@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "028bd8d57d13ac550e9959e3b8b23c8d",
+    "content-hash": "f358b4a97c47edc4416cc4c794194739",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -401,6 +401,78 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codeat3/blade-line-awesome-icons",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeat3/blade-line-awesome-icons.git",
+                "reference": "159ca505d88a0d964d6c136b2dbd0a007387667b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeat3/blade-line-awesome-icons/zipball/159ca505d88a0d964d6c136b2dbd0a007387667b",
+                "reference": "159ca505d88a0d964d6c136b2dbd0a007387667b",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "codeat3/blade-icon-generation-helpers": "^0.8",
+                "codeat3/phpcs-styles": "^1.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codeat3\\BladeLineAwesomeIcons\\BladeLineAwesomeIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codeat3\\BladeLineAwesomeIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Swapnil Sarwe",
+                    "homepage": "https://swapnilsarwe.com"
+                },
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of Line Awesome Icons in your Laravel Blade views.",
+            "homepage": "https://github.com/codeat3/blade-line-awesome-icons",
+            "keywords": [
+                "blade",
+                "icons",
+                "laravel",
+                "line-awesome"
+            ],
+            "support": {
+                "issues": "https://github.com/codeat3/blade-line-awesome-icons/issues",
+                "source": "https://github.com/codeat3/blade-line-awesome-icons/tree/1.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/swapnilsarwe",
+                    "type": "github"
+                }
+            ],
+            "time": "2024-02-28T15:15:14+00:00"
         },
         {
             "name": "codeat3/blade-phosphor-icons",
@@ -3017,6 +3089,59 @@
                 }
             ],
             "time": "2024-04-12T21:02:21+00:00"
+        },
+        {
+            "name": "mtownsend/xml-to-array",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtownsend5512/xml-to-array.git",
+                "reference": "0734720a8462dba36d90fb8b2723bf46af0091f4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mtownsend5512/xml-to-array/zipball/0734720a8462dba36d90fb8b2723bf46af0091f4",
+                "reference": "0734720a8462dba36d90fb8b2723bf46af0091f4",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~7.0|~8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Mtownsend\\XmlToArray\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mark Townsend",
+                    "email": "mtownsend5512@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Easily convert valid xml to a php array.",
+            "keywords": [
+                "array",
+                "convert",
+                "laravel",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/mtownsend5512/xml-to-array/issues",
+                "source": "https://github.com/mtownsend5512/xml-to-array/tree/2.0.0"
+            },
+            "time": "2021-02-27T22:39:18+00:00"
         },
         {
             "name": "nesbot/carbon",
@@ -6899,7 +7024,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -6972,8 +7097,85 @@
             }
         },
         {
+            "name": "vigilant/crawler",
+            "version": "dev-feature/crawler",
+            "dist": {
+                "type": "path",
+                "url": "./packages/crawler",
+                "reference": "3c392495df990193e07edb626808e765124d7ea6"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "mtownsend/xml-to-array": "^2.0",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Crawler\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Crawler\\": "src",
+                    "Vigilant\\Crawler\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Crawler\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Crawler",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/dns",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7050,7 +7252,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7198,7 +7400,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7274,7 +7476,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -7347,7 +7549,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7424,7 +7626,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-main",
+            "version": "dev-feature/crawler",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -10290,20 +10492,22 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "bluelibraries/dns": 20,
         "vigilant/core": 20,
+        "vigilant/crawler": 20,
         "vigilant/dns": 20,
         "vigilant/frontend": 20,
         "vigilant/lighthouse": 20,
         "vigilant/notifications": 20,
         "vigilant/sites": 20,
         "vigilant/uptime": 20,
-        "vigilant/users": 20,
-        "bluelibraries/dns": 20
+        "vigilant/users": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-dom": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.6.0"

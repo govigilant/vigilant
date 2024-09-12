@@ -18,7 +18,7 @@ class Http extends UptimeMonitor
         $response = HttpClient::timeout($monitor->timeout)
             ->connectTimeout($monitor->timeout)
             ->withOptions(['verify' => false])
-            ->withUserAgent('Vigilant Uptime Bot')
+            ->withUserAgent(config('core.user_agent'))
             ->get($settings['host']);
 
         if (! $response->ok()) {

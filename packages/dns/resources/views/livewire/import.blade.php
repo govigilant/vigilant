@@ -1,10 +1,12 @@
 <div class="sm:px-6 lg:px-8 w-full ">
-    <x-slot name="header">
-        <x-page-header
-            :title="__('Import domain')"
-            :back="route('dns.index')">
-        </x-page-header>
-    </x-slot>
+    @if(!$inline)
+        <x-slot name="header">
+            <x-page-header
+                :title="__('Import domain')"
+                :back="route('dns.index')">
+            </x-page-header>
+        </x-slot>
+    @endif
 
     <div class="flex items-center gap-4">
 
