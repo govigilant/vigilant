@@ -10,7 +10,7 @@
                          field="form.url"
                          name="URL"
                          :disabled="$updating"
-                         description="The URL of the site that you want to add."
+                         description="The URL of the site that you want to add"
                          placeholder="{{ config('app.url') }}"/>
 
             @if($updating)

@@ -8,7 +8,7 @@
         </x-page-header>
     </x-slot>
 
-    <div class="space-y-8">
+    <div class="space-y-8 pb-12">
         @if(($uptimeMonitor = $site->uptimeMonitor) !== null)
             <div>
                 <div class="mb-4">
@@ -28,6 +28,17 @@
                 <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id"/>
             </div>
         @endif
+
+        @if(($crawler = $site->crawler) !== null)
+            <div>
+                <div class="mb-4">
+                    <a class="text-xl text-white"
+                       href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')</a>
+                </div>
+                <livewire:crawler-dashboard :crawlerId="$crawler->id" wire:key="crawher-dashboard"/>
+            </div>
+        @endif
+
     </div>
 
 </x-app-layout>

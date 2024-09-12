@@ -18,7 +18,8 @@
         "vigilant/notifications": "@dev",
         "vigilant/lighthouse": "@dev",
         "vigilant/dns": "@dev",
-        "vigilant/uptime": "@dev"
+        "vigilant/uptime": "@dev",
+        "vigilant/crawler": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",

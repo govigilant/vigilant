@@ -80,6 +80,10 @@ class SiteForm extends Component
                 'component' => 'sites.tabs.dns-monitors',
             ],
 
+            'crawler' => [
+                'title' => __('Link Issues'),
+                'component' => 'sites.tabs.crawler',
+            ],
         ];
     }
 }
