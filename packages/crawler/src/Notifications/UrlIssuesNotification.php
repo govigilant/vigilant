@@ -17,8 +17,11 @@ class UrlIssuesNotification extends Notification implements HasSite
 
     public function title(): string
     {
+        /** @var int $count */
+        $count = $this->crawler->crawler_stats['issue_count'] ?? 0;
+
         return __(':count URL\'s found with issues', [
-            $this->crawler->crawler_stats['issue_count'] ?? 0,
+            'count' => $count,
         ]);
     }
 

@@ -35,7 +35,9 @@ class CrawlerForm extends Component
             }
         }
 
-        $this->crawler = $crawler;
+        if ($crawler !== null) {
+            $this->crawler = $crawler;
+        }
     }
 
     public function addListItem(string $field): void

@@ -19,6 +19,7 @@ class StartCrawlerTest extends TestCase
         /** @var Crawler $crawler */
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var StartCrawler $action */
@@ -40,6 +41,7 @@ class StartCrawlerTest extends TestCase
         /** @var Crawler $crawler */
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var CrawledUrl $previousUrl */
@@ -65,6 +67,7 @@ class StartCrawlerTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'sitemaps' => ['sitemap-1'],
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var StartCrawler $action */

@@ -25,6 +25,7 @@ class ProcessCrawlerStateTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Pending,
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var ProcessCrawlerState $action */
@@ -41,6 +42,7 @@ class ProcessCrawlerStateTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
         ]);
 
         $crawler->urls()->create([

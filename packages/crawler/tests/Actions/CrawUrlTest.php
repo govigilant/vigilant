@@ -9,6 +9,7 @@ use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Tests\TestCase;
+use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawUrlTest extends TestCase
 {
@@ -29,6 +30,7 @@ class CrawUrlTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var CrawledUrl $crawledUrl */
@@ -71,6 +73,7 @@ class CrawUrlTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var CrawledUrl $crawledUrl */
@@ -91,6 +94,7 @@ class CrawUrlTest extends TestCase
     #[Test]
     public function it_handles_ratelimiting(): void
     {
+        RatelimitedNotification::fake();
         Http::fake([
             'https://govigilant.io/url-1' => Http::response('', 429),
         ])->preventStrayRequests();
@@ -99,6 +103,7 @@ class CrawUrlTest extends TestCase
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
         ]);
 
         /** @var CrawledUrl $crawledUrl */
