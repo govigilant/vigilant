@@ -9,7 +9,7 @@ use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Uptime\Commands\ScheduleCrawlersCommand;
+use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 
 class Kernel extends ConsoleKernel

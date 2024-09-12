@@ -1,6 +1,6 @@
 <?php
 
-namespace Vigilant\Uptime\Commands;
+namespace Vigilant\Crawler\Commands;
 
 use Cron\CronExpression;
 use Illuminate\Console\Command;
