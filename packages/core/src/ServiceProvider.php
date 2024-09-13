@@ -25,7 +25,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function registerSingletons(): static
     {
-        $this->app->singleton(TeamService::class);
+        $this->app->scoped(TeamService::class);
         $this->app->singleton(Navigation::class);
 
         return $this;
