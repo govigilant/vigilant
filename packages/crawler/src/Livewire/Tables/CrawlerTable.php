@@ -9,6 +9,7 @@ use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Crawler\Actions\StartCrawler;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
@@ -77,8 +78,17 @@ class CrawlerTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Start Crawler'), 'start', function (Enumerable $models): void {
+                /** @var StartCrawler $starter */
+                $starter = app(StartCrawler::class);
+
+                $models
+                    ->where('state', '!=', State::Crawling)
+                    ->each(fn (Crawler $crawler) => $starter->start($crawler));
+            }),
+
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
-                $models->each(fn (Crawler $crawler) => $crawler->delete());
+                $models->each(fn (Crawler $crawler): ?bool => $crawler->delete());
             }),
         ];
     }
