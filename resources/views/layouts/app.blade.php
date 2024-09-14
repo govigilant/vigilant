@@ -20,7 +20,7 @@
     @livewireStyles
 </head>
 <body class="font-sans antialiased dark dark:bg-black min-w-screen h-screen flex" x-data="{ sidebarOpen: false }">
-<div class="fixed h-1.5 z-40 -top-px inset-x-0 bg-gradient-to-r from-green to-red"></div>
+<div class="fixed h-1 z-40 -top-px inset-x-0 bg-gradient-to-r from-green to-red"></div>
 <x-layout.sidebar/>
 
 <main class="dark:bg-black flex flex-col overflow-hidden flex-1">

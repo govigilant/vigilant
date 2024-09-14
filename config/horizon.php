@@ -236,6 +236,20 @@ return [
             'nice' => 0,
         ],
 
+        'crawler' => [
+            'connection' => 'redis',
+            'queue' => ['crawler'],
+            'balance' => 'auto',
+            'autoScalingStrategy' => 'time',
+            'maxProcesses' => 10,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 128,
+            'tries' => 1,
+            'timeout' => 30,
+            'nice' => 0,
+        ],
+
         'notifications' => [
             'connection' => 'redis',
             'queue' => ['notifications'],
