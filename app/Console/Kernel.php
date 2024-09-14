@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
+use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
@@ -31,6 +32,7 @@ class Kernel extends ConsoleKernel
         // Crawler
         $schedule->command(ScheduleCrawlersCommand::class)->everyMinute();
         $schedule->command(CrawlUrlsCommand::class)->everyMinute();
+        $schedule->command(ProcessCrawlerStatesCommand::class)->everyMinute();
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();
