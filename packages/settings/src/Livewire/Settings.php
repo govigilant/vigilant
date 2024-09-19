@@ -14,7 +14,9 @@ class Settings extends Component
     public function mount(): void
     {
        if (blank($this->tab)) {
-           $this->tab = Arr::first(array_keys($this->tabs()));
+           /** @var string $tab */
+           $tab = Arr::first(array_keys($this->tabs()));
+           $this->tab = $tab;
        }
     }
 
