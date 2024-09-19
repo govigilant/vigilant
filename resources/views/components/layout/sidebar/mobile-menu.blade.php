@@ -93,7 +93,7 @@
                             </ul>
                         </li>
                         <li class="mt-auto">
-                            <a href="#"
+                            <a href="{{ route('settings') }}" wire:navigate
                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                                 <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                      stroke="currentColor" aria-hidden="true">
