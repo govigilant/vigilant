@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f358b4a97c47edc4416cc4c794194739",
+    "content-hash": "6e172d26bf75313aac25013d487bc071",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7024,7 +7024,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7098,7 +7098,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7175,7 +7175,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7252,7 +7252,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7400,7 +7400,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7475,18 +7475,94 @@
             }
         },
         {
+            "name": "vigilant/settings",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/settings",
+                "reference": "c80d8106d72f53b4e6d42dfe30c58fa703b5c4c8"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Settings\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Settings\\": "src",
+                    "Vigilant\\Settings\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Settings\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant settings",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/sites",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "79a17842e7ee294cf07f9851ab7e0d51a1ae9a11"
+                "reference": "bfc9939cc5c19a679a9b2cd45e7ffa905e6b51a8"
             },
             "require": {
                 "laravel/framework": "^11.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.2",
                 "vigilant/core": "@dev",
+                "vigilant/crawler": "@dev",
                 "vigilant/dns": "@dev",
                 "vigilant/lighthouse": "@dev",
                 "vigilant/notifications": "@dev",
@@ -7549,7 +7625,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7626,7 +7702,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/crawler",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",

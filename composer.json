@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "ext-dom": "*",
         "blade-ui-kit/blade-heroicons": "^2.3",
         "bluelibraries/dns": "@dev",
         "codeat3/blade-line-awesome-icons": "*",
@@ -29,10 +30,10 @@
         "vigilant/frontend": "@dev",
         "vigilant/lighthouse": "dev-main",
         "vigilant/notifications": "@dev",
+        "vigilant/settings": "dev-main",
         "vigilant/sites": "@dev",
         "vigilant/uptime": "@dev",
-        "vigilant/users": "@dev",
-        "ext-dom": "*"
+        "vigilant/users": "@dev"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
