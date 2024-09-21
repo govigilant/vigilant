@@ -19,7 +19,7 @@
             @endphp
             <div class="text-base-50 bg-base-950 text-center p-4 rounded shadow">
                 <dt class="truncate text-sm font-medium text-base-100">{{ str_replace('_', ' ', ucfirst($category)) }}</dt>
-                <dd class="mt-1 text-xl font-semibold tracking-tight {{ $color ?? 'text-base-50' }}">{{ $lastResult === null ? '-' : $percentage . '%' }}</dd>
+                <dd class="mt-1 text-xl font-semibold tracking-tight {{ $color ?? 'text-base-50' }}">{{ $lastResult === null ? '-' : ($percentage . '%') }}</dd>
             </div>
         @endforeach
 

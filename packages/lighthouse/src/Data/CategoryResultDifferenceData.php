@@ -82,14 +82,13 @@ class CategoryResultDifferenceData extends Data
 
     public function averageDifference(): float
     {
-        $differences = [
+        return collect([
             $this->performanceDifference(),
             $this->accessibilityDifference(),
             $this->bestPracticesDifference(),
             $this->seoDifference(),
-        ];
-
-        return array_sum($differences) / count($differences);
+        ])
+            ->average();
     }
 
     protected function calculateDifference(float $old, float $new): float
