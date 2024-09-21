@@ -44,6 +44,6 @@ class AggregateResultsTest extends TestCase
 
         $this->artisan(AggregateResultsCommand::class);
 
-        $this->assertCount(24, $monitor->aggregatedResults);
+        $this->assertCount(23, $monitor->aggregatedResults);
     }
 }

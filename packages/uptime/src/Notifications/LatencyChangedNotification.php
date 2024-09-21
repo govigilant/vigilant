@@ -65,6 +65,6 @@ class LatencyChangedNotification extends Notification implements HasSite
 
     public function site(): ?Site
     {
-        return $this->monitor?->site;
+        return $this->monitor->site;
     }
 }

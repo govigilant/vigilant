@@ -11,10 +11,6 @@ use Vigilant\Uptime\Models\Monitor;
 
 class CheckUptime
 {
-    public function __construct(TeamService $teamService)
-    {
-    }
-
     public function check(Monitor $monitor): void
     {
         $result = $monitor->type->monitor()->process($monitor);
