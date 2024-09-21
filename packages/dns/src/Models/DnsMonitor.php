@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
@@ -47,5 +48,13 @@ class DnsMonitor extends Model
     public function history(): HasMany
     {
         return $this->hasMany(DnsMonitorHistory::class);
+    }
+
+    public function lastHistory(): ?DnsMonitorHistory
+    {
+        /** @var ?DnsMonitorHistory $history */
+       $history = $this->history()->orderByDesc('id')->first();
+
+       return $history;
     }
 }

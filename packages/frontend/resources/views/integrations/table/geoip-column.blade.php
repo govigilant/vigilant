@@ -5,7 +5,7 @@
              {{ collect([$country_name, $region_name, $city, $isp, $org, $as])->whereNotNull()->implode(PHP_EOL) }}
          </span>
         <span class="truncate w-6">
-                <x-icon name="flag-country-{{ $country_code }}" class="h-4"/>
+            <x-icon name="flag-country-{{ $country_code }}" class="h-4"/>
         </span>
     </span>
         <span>{{ $country_name }}</span>

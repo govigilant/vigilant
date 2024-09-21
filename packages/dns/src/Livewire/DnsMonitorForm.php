@@ -15,6 +15,8 @@ class DnsMonitorForm extends Component
 
     public Forms\DnsMonitorForm $form;
 
+    public bool $resolveFailed = false;
+
     #[Locked]
     public DnsMonitor $dnsMonitor;
 
@@ -40,6 +42,9 @@ class DnsMonitorForm extends Component
 
         if ($result !== null) {
             $this->form->value = $result;
+            $this->resolveFailed = false;
+        } else {
+            $this->resolveFailed = true;
         }
     }
 

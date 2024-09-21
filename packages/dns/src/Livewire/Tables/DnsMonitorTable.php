@@ -8,6 +8,7 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
+use Vigilant\Frontend\Integrations\Table\HoverColumn;
 
 class DnsMonitorTable extends LivewireTable
 {
@@ -24,12 +25,13 @@ class DnsMonitorTable extends LivewireTable
                 ->searchable()
                 ->sortable(),
 
-            Column::make(__('Value'), 'value')
+            HoverColumn::make(__('Value'), 'value')
                 ->searchable()
                 ->sortable(),
 
-            GeoIpColumn::make(__('GeoIP'), 'geoip.country_code'),
+            Column::make(__('Last modified'), fn(DnsMonitor $monitor): string => $monitor->lastHistory()?->created_at?->toDateString() ?? '-'),
 
+            GeoIpColumn::make(__('Location'), 'geoip.country_code'),
         ];
     }
 

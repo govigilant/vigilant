@@ -31,11 +31,14 @@
                 description="Value that the record should resolve to"
             />
 
-            <div class="flex justify-end gap-4">
+            <div class="flex justify-end gap-4 items-center">
+                @if($resolveFailed )
+                    <p class="text-red">@lang('Failed to resolve record.')</p>
+                @endif
                 <x-form.button type="button" class="bg-blue" wire:click="resolve">@lang('Resolve value')</x-form.button>
 
                 <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
             </div>
-          </div>
+        </div>
     </form>
 </div>

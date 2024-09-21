@@ -52,13 +52,15 @@ class DnsImport extends Component
             })->toArray();
 
             $this->domain = Str::of($site->url)->replace(['https://', 'http://'], '')->before('/')->value();
-
         }
     }
 
     public function remove(int $index): void
     {
         $this->deleted[] = $index;
+        if (count($this->deleted) === count($this->records)) {
+            $this->records = [];
+        }
     }
 
     #[On('save')]
@@ -98,11 +100,11 @@ class DnsImport extends Component
 
     public function lookup(): void
     {
+        $this->records = [];
+
         $this->validate([
             'domain' => ['required', 'max:255', new Fqdn],
         ]);
-
-        $this->records = [];
 
         /** @var DnsClient $client */
         $client = app(DnsClient::class);
