@@ -8,6 +8,7 @@ use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
+use Vigilant\Uptime\Commands\CheckLatencyCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Http\Livewire\Charts\ColumnLatencyChart;
@@ -17,8 +18,10 @@ use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
+use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
+use Vigilant\Uptime\Notifications\LatencyChangedNotification;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -73,6 +76,7 @@ class ServiceProvider extends BaseServiceProvider
                 CheckUptimeCommand::class,
                 AggregateResultsCommand::class,
                 ScheduleUptimeChecksCommand::class,
+                CheckLatencyCommand::class,
             ]);
         }
 
@@ -124,6 +128,11 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerNotification([
             DowntimeStartNotification::class,
             DowntimeEndNotification::class,
+            LatencyChangedNotification::class,
+        ]);
+
+        NotificationRegistry::registerCondition(LatencyChangedNotification::class, [
+            LatencyPercentCondition::class,
         ]);
 
         return $this;

@@ -8,6 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\Actions\CheckUptime;
 use Vigilant\Uptime\Models\Monitor;
 
@@ -23,8 +24,9 @@ class CheckUptimeJob implements ShouldBeUnique, ShouldQueue
         $this->onQueue(config('uptime.queue'));
     }
 
-    public function handle(CheckUptime $uptime): void
+    public function handle(CheckUptime $uptime, TeamService $teamService): void
     {
+        $teamService->setTeamById($this->monitor->team_id);
         $uptime->check($this->monitor);
     }
 

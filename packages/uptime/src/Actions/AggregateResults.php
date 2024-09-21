@@ -14,6 +14,7 @@ class AggregateResults
         $resultChunks = $monitor
             ->results()
             ->select(['id'])
+            ->where('created_at', '<', now()->subHour())
             ->get()
             ->chunk(60);
 

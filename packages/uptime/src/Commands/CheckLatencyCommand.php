@@ -3,16 +3,16 @@
 namespace Vigilant\Uptime\Commands;
 
 use Illuminate\Console\Command;
-use Vigilant\Uptime\Jobs\CheckUptimeJob;
+use Vigilant\Uptime\Actions\CheckLatency;
 use Vigilant\Uptime\Models\Monitor;
 
-class CheckUptimeCommand extends Command
+class CheckLatencyCommand extends Command
 {
-    protected $signature = 'uptime:check {monitorId}';
+    protected $signature = 'uptime:check-latency {monitorId}';
 
-    protected $description = 'Check uptime for a monitor';
+    protected $description = 'Check latency results';
 
-    public function handle(): int
+    public function handle(CheckLatency $checkLatency): int
     {
         /** @var int $monitorId */
         $monitorId = $this->argument('monitorId');
@@ -20,7 +20,7 @@ class CheckUptimeCommand extends Command
         /** @var Monitor $monitor */
         $monitor = Monitor::query()->withoutGlobalScopes()->findOrFail($monitorId);
 
-        CheckUptimeJob::dispatch($monitor);
+        $checkLatency->check($monitor);
 
         return static::SUCCESS;
     }

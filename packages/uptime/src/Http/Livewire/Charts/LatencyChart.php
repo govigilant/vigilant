@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
+use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
 class LatencyChart extends BaseChart
@@ -32,21 +33,42 @@ class LatencyChart extends BaseChart
             ->where('monitor_id', '=', $this->monitorId)
             ->orderByDesc('created_at')
             ->take(10)
-            ->get();
+            ->get()
+            ->sortBy('created_at');
     }
 
     public function data(): array
     {
         $points = $this->points();
 
+        $labels = $points->pluck('created_at');
+        $data = $points->pluck('total_time');
+
+        $current = Result::query()
+            ->where('monitor_id', '=', $this->monitorId)
+            ->get();
+
+        if ($data->isEmpty()) {
+            $labels = $current->pluck('created_at');
+            $data = $current->pluck('total_time');
+        } else {
+            if ($current->isNotEmpty()) {
+                $currentTime = $current->max('created_at');
+                $currentValue = $current->average('total_time');
+
+                $labels->push($currentTime);
+                $data->push($currentValue);
+            }
+        }
+
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $points->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->format('d/m H:i')),
+                'labels' => $labels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format('d/m H:i'))->toArray(),
                 'datasets' => [
                     [
                         'label' => 'Latency',
-                        'data' => $points->pluck('total_time'),
+                        'data' => $data->toArray(),
                         'pointRadius' => 0,
                         'pointHoverRadius' => 0,
                         'borderWidth' => 2,

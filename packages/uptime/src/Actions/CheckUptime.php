@@ -2,13 +2,19 @@
 
 namespace Vigilant\Uptime\Actions;
 
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
+use Vigilant\Uptime\Events\UptimeCheckedEvent;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 
 class CheckUptime
 {
+    public function __construct(TeamService $teamService)
+    {
+    }
+
     public function check(Monitor $monitor): void
     {
         $result = $monitor->type->monitor()->process($monitor);
@@ -43,5 +49,7 @@ class CheckUptime
                 'total_time' => $result->totalTime,
             ]);
         }
+
+        event(new UptimeCheckedEvent($monitor));
     }
 }
