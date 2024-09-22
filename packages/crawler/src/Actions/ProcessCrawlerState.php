@@ -12,8 +12,7 @@ class ProcessCrawlerState
     public function __construct(
         protected TeamService $teamService,
         protected StartCrawler $starter,
-    ) {
-    }
+    ) {}
 
     public function process(Crawler $crawler): void
     {

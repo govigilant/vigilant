@@ -11,9 +11,7 @@ use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 
 class CollectCrawlerStats
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function collect(Crawler $crawler): void
     {

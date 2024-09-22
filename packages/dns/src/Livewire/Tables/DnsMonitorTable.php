@@ -29,7 +29,7 @@ class DnsMonitorTable extends LivewireTable
                 ->searchable()
                 ->sortable(),
 
-            Column::make(__('Last modified'), fn(DnsMonitor $monitor): string => $monitor->lastHistory()?->created_at?->toDateString() ?? '-'),
+            Column::make(__('Last modified'), fn (DnsMonitor $monitor): string => $monitor->lastHistory()?->created_at?->toDateString() ?? '-'),
 
             GeoIpColumn::make(__('Location'), 'geoip.country_code'),
         ];

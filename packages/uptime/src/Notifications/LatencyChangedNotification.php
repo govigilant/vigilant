@@ -31,8 +31,7 @@ class LatencyChangedNotification extends Notification implements HasSite
         public float $percent,
         public float $previousAverage,
         public float $currentAverage
-    ) {
-    }
+    ) {}
 
     public function title(): string
     {

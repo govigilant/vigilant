@@ -2,7 +2,6 @@
 
 namespace Vigilant\Uptime\Actions;
 
-use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
 use Vigilant\Uptime\Events\UptimeCheckedEvent;

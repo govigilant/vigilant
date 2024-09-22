@@ -7,9 +7,7 @@ use Vigilant\Uptime\Events\UptimeCheckedEvent;
 
 class CheckLatencyListener
 {
-    public function __construct(protected CheckLatency $checker)
-    {
-    }
+    public function __construct(protected CheckLatency $checker) {}
 
     public function handle(UptimeCheckedEvent $event): void
     {

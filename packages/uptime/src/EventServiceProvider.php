@@ -21,6 +21,6 @@ class EventServiceProvider extends ServiceProvider
         ],
         UptimeCheckedEvent::class => [
             CheckLatencyListener::class,
-        ]
+        ],
     ];
 }

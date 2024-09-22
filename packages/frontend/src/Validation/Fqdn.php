@@ -7,9 +7,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class Fqdn implements ValidationRule
 {
-    public function __construct(protected bool $allowSubdomains = true)
-    {
-    }
+    public function __construct(protected bool $allowSubdomains = true) {}
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

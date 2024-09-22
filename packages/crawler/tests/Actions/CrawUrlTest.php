@@ -8,8 +8,8 @@ use Vigilant\Crawler\Actions\CrawlUrl;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
-use Vigilant\Crawler\Tests\TestCase;
 use Vigilant\Crawler\Notifications\RatelimitedNotification;
+use Vigilant\Crawler\Tests\TestCase;
 
 class CrawUrlTest extends TestCase
 {

@@ -14,9 +14,7 @@ class UrlIssuesNotification extends Notification implements HasSite
 
     public Level $level = Level::Critical;
 
-    public function __construct(public Crawler $crawler)
-    {
-    }
+    public function __construct(public Crawler $crawler) {}
 
     public function title(): string
     {
