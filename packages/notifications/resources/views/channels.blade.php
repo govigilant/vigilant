@@ -1,7 +1,8 @@
-<div>
+<x-app-layout>
     <x-slot name="header">
         <x-page-header title="Notification Channels">
-            <x-form.button dusk="channel-add-button" class="bg-blue hover:bg-blue-light" :href="route('notifications.channel.create')">
+            <x-form.button dusk="channel-add-button" class="bg-blue hover:bg-blue-light"
+                           :href="route('notifications.channel.create')">
                 @lang('Add Channel')
             </x-form.button>
         </x-page-header>
@@ -9,4 +10,4 @@
 
     <livewire:channel-table/>
 
-</div>
+</x-app-layout>

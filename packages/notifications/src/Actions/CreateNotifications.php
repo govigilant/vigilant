@@ -23,6 +23,7 @@ class CreateNotifications
                 'name' => $notification::$name,
                 'all_channels' => true,
                 'conditions' => $notification::$defaultConditions,
+                'cooldown' => $notification::$defaultCooldown,
             ]);
         }
     }

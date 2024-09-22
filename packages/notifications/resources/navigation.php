@@ -11,4 +11,8 @@ Navigation::add(route('notifications'), 'Notifications')
             ->routeIs('notifications.channel*')
             ->sort(1001); // TODO: Fix child menu
 
+        $navigation->add(route('notifications.history'), 'Notification History')
+            ->routeIs('notifications.history')
+            ->sort(1002); // TODO: Fix child menu
+
     });

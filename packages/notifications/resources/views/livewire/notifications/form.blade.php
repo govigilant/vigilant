@@ -27,6 +27,13 @@
                 @endforeach
             </x-form.select>
 
+            <x-form.number
+                field="form.cooldown"
+                name="Cooldown"
+                description="Amount of minutes between sending notifications"
+            >
+            </x-form.number>
+
             <x-form.checkbox
                 field="form.all_channels"
                 name="Sent on all channels"
