@@ -4,6 +4,7 @@ namespace Vigilant\Notifications\Notifications;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Vigilant\Notifications\Actions\CheckCooldown;
 use Vigilant\Notifications\Concerns\NotificationFake;
 use Vigilant\Notifications\Conditions\ConditionEngine;
 use Vigilant\Notifications\Enums\Level;
@@ -22,6 +23,8 @@ abstract class Notification implements Arrayable
     public string $description = '';
 
     public Level $level = Level::Info;
+
+    public static ?int $defaultCooldown = null;
 
     public static array $defaultConditions = [];
 
@@ -50,6 +53,9 @@ abstract class Notification implements Arrayable
         /** @var ConditionEngine $conditionEngine */
         $conditionEngine = app(ConditionEngine::class);
 
+        /** @var CheckCooldown $cooldownCheck */
+        $cooldownCheck = app(CheckCooldown::class);
+
         foreach ($triggers as $trigger) {
 
             if (! $conditionEngine->checkGroup($instance, $trigger->conditions,
@@ -60,6 +66,11 @@ abstract class Notification implements Arrayable
             $channels = $trigger->all_channels ? Channel::all() : $trigger->channels;
 
             foreach ($channels as $channel) {
+
+                if ($cooldownCheck->onCooldown($trigger, $channel)) {
+                    continue;
+                }
+
                 SendNotificationJob::dispatch($instance, $channel->team_id, $channel->id, $trigger->id);
             }
         }
@@ -104,10 +115,5 @@ abstract class Notification implements Arrayable
             'description' => $this->description(),
             'level' => $this->level(),
         ];
-    }
-
-    public function defaultConditions(): array
-    {
-        return [];
     }
 }

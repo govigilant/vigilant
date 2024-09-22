@@ -21,6 +21,7 @@ use Vigilant\Users\Models\Team;
  * @property string $notification
  * @property string $name
  * @property array $conditions
+ * @property ?int $cooldown
  * @property bool $all_channels
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at

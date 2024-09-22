@@ -16,5 +16,7 @@ class CreateNotificationForm extends Form
     #[Validate('array')]
     public array $conditions = [];
 
+    public ?int $cooldown = null;
+
     public bool $all_channels = false;
 }
