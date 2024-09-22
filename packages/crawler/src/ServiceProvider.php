@@ -3,6 +3,7 @@
 namespace Vigilant\Crawler;
 
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -23,6 +24,7 @@ use Vigilant\Crawler\Notifications\RatelimitedNotification;
 use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -50,7 +52,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootEvents()
             ->bootNavigation()
-            ->bootNotifications();
+            ->bootNotifications()
+            ->bootGates();
     }
 
     protected function bootConfig(): static
@@ -141,6 +144,15 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerCondition(RatelimitedNotification::class, [
             SiteCondition::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        Gate::define('use-crawler', function (User $user): bool {
+            return ce();
+        });
 
         return $this;
     }

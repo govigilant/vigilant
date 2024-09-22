@@ -2,6 +2,7 @@
 
 namespace Vigilant\Sites\Http\Livewire\Tabs;
 
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -60,6 +61,8 @@ class LighthouseMonitors extends Component
     #[On('save')]
     public function save(): void
     {
+        abort_if(Gate::denies('use-lighthouse'), 403);
+
         $monitors = $this->validate()['monitors'] ?? [];
 
         foreach ($monitors as $monitor) {

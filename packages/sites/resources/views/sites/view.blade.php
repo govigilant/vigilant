@@ -9,15 +9,17 @@
     </x-slot>
 
     <div class="space-y-8 pb-12">
-        @if(($uptimeMonitor = $site->uptimeMonitor) !== null)
-            <div>
-                <div class="mb-4">
-                    <a class="text-xl text-white"
-                       href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')</a>
+        @can('use-uptime')
+            @if(($uptimeMonitor = $site->uptimeMonitor) !== null)
+                <div>
+                    <div class="mb-4">
+                        <a class="text-xl text-white"
+                           href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')</a>
+                    </div>
+                    <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id"/>
                 </div>
-                <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id"/>
-            </div>
-        @endif
+            @endif
+        @endcan
 
         @if(($lighthouseMonitor = $site->lighthouseMonitors->first()) !== null)
             <div>

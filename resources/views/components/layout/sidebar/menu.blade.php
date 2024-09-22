@@ -11,6 +11,7 @@
                 <li>
                     <ul role="list" class="-mx-2 space-y-1">
                         @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
+                            @continue(!$item->shouldRender())
                             @php
                                 $activeChild = false;
                                 if($item->hasChildren()) {
