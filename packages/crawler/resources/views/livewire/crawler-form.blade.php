@@ -1,11 +1,11 @@
 <div>
     @if(!$inline)
-    <x-slot name="header">
-        <x-page-header
-            :title="$updating ? __('Edit Crawler :url', ['url' => $crawler->start_url])  : __('Add Crawler')"
-            :back="route('crawler.index')">
-        </x-page-header>
-    </x-slot>
+        <x-slot name="header">
+            <x-page-header
+                :title="$updating ? __('Edit Crawler :url', ['url' => $crawler->start_url])  : __('Add Crawler')"
+                :back="route('crawler.index')">
+            </x-page-header>
+        </x-slot>
     @endif
 
     <form wire:submit="save">
@@ -57,7 +57,7 @@
                         x-show="type === 'monthly'"
                         wire:model.live="form.settings.scheduleConfig.monthDay"
                         class="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
-                        @for($i = 0; $i < 28; $i++)
+                        @for($i = 0; $i < 31; $i++)
                             <option value="{{ $i }}">Day {{ ($i+1) }}</option>
                         @endfor
                     </select>
@@ -74,7 +74,13 @@
                     </select>
 
                 </div>
-                @error('schedule') <span class="text-red">{{ $message }}</span> @enderror
+                <div class="mt-1">
+                    @error('schedule') <span class="text-red">{{ $message }}</span> @enderror
+                    @if($invalidDay)
+                        <span
+                            class="text-orange">@lang('Warning! Setting the day above 28 will cause it to NOT run montly')</span>
+                    @endif
+                </div>
 
             </div>
 

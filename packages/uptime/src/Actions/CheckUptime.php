@@ -4,6 +4,7 @@ namespace Vigilant\Uptime\Actions;
 
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
+use Vigilant\Uptime\Events\UptimeCheckedEvent;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 
@@ -43,5 +44,7 @@ class CheckUptime
                 'total_time' => $result->totalTime,
             ]);
         }
+
+        event(new UptimeCheckedEvent($monitor));
     }
 }

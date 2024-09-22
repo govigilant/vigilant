@@ -20,7 +20,7 @@ use Vigilant\Users\Models\Team;
 /**
  * @property int $id
  * @property ?int $site_id
- * @property ?int $team_id
+ * @property int $team_id
  * @property string $name
  * @property Type $type
  * @property array $settings

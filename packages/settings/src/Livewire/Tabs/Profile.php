@@ -13,7 +13,7 @@ class Profile extends Component
         $user = auth()->user();
 
         return view('settings::tabs.profile', [
-            'team' => $user->currentTeam
+            'team' => $user->currentTeam,
         ]);
     }
 }

@@ -32,7 +32,7 @@ class CrawlerTable extends LivewireTable
                 ->sortable(),
 
             Column::make(__('Next Run'), 'schedule')
-                ->displayUsing(function(string $schedule): string {
+                ->displayUsing(function (string $schedule): string {
                     $expression = new CronExpression($schedule);
                     $nextRun = Carbon::parse($expression->getNextRunDate());
 

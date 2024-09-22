@@ -7,10 +7,18 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class Fqdn implements ValidationRule
 {
+    public function __construct(protected bool $allowSubdomains = true) {}
+
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if (! preg_match('/^[a-z0-9-]+\.[a-z]{2,}$/i', $value)) {
-            $fail(__('Invalid domain name'));
+        if ($this->allowSubdomains) {
+            $pattern = '/^(?:[a-z0-9-]+\.)*[a-z0-9-]+\.[a-z]{2,}$/i';
+        } else {
+            $pattern = '/^[a-z0-9-]+\.[a-z]{2,}$/i';
+        }
+
+        if (! preg_match($pattern, $value)) {
+            $fail(__('Invalid domain name, please enter a domain name + tld. For example: govigilant.io'));
         }
     }
 }
