@@ -49,6 +49,11 @@ class LatencyChangedNotification extends Notification implements HasSite
         ]);
     }
 
+    public function viewUrl(): ?string
+    {
+        return route('uptime.monitor.view', ['monitor' => $this->monitor]);
+    }
+
     public function level(): Level
     {
         return match (true) {

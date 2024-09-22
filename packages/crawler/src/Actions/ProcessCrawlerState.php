@@ -12,7 +12,8 @@ class ProcessCrawlerState
     public function __construct(
         protected TeamService $teamService,
         protected StartCrawler $starter,
-    ) {}
+    ) {
+    }
 
     public function process(Crawler $crawler): void
     {
@@ -25,6 +26,7 @@ class ProcessCrawlerState
         }
 
         if ($crawler->state === State::Crawling && $this->finished($crawler)) {
+
             $crawler->update([
                 'state' => State::Finished,
             ]);

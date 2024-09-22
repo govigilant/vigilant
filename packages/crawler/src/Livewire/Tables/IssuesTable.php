@@ -3,7 +3,6 @@
 namespace Vigilant\Crawler\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -35,7 +34,6 @@ class IssuesTable extends LivewireTable
 
             Column::make(__('Status'), 'status')
                 ->displayUsing(fn (int $status): string => Status::tryFrom($status)?->label() ?? (string) $status)
-                ->searchable()
                 ->sortable(),
 
             LinkColumn::make(__('Found On'), 'foundOn.url')
