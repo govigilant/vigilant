@@ -21,7 +21,7 @@ class LatencyChangedNotification extends Notification implements HasSite
                 'condition' => LatencyPercentCondition::class,
                 'operator' => '>=',
                 'operand' => 'absolute',
-                'value' => 20,
+                'value' => 50,
             ],
         ],
     ];
