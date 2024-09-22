@@ -25,6 +25,7 @@ class ProcessCrawlerState
         }
 
         if ($crawler->state === State::Crawling && $this->finished($crawler)) {
+
             $crawler->update([
                 'state' => State::Finished,
             ]);

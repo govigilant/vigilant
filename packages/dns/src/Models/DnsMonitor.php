@@ -48,4 +48,12 @@ class DnsMonitor extends Model
     {
         return $this->hasMany(DnsMonitorHistory::class);
     }
+
+    public function lastHistory(): ?DnsMonitorHistory
+    {
+        /** @var ?DnsMonitorHistory $history */
+        $history = $this->history()->orderByDesc('id')->first();
+
+        return $history;
+    }
 }

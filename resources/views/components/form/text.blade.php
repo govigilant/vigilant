@@ -14,7 +14,7 @@
                    id="{{ $field }}"
                    @if($live) wire:model.blur="{{ $field }}" @else wire:model="{{ $field }}" @endif
                    wire:loading.attr="disabled"
-                   {{ $attributes->merge(['class' => 'flex-1 border-0 bg-transparent py-1.5 text-white focus:ring-0 sm:text-sm sm:leading-6']) }}
+                   {{ $attributes->merge(['class' => 'flex-1 border-0 bg-transparent py-1.5 text-white focus:ring-0 sm:text-sm sm:leading-6 disabled:bg-base-950']) }}
                    placeholder="{{ $placeholder ?? '' }}">
         </div>
 

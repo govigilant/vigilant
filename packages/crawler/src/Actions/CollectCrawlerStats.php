@@ -3,15 +3,15 @@
 namespace Vigilant\Crawler\Actions;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\LazyCollection;
 use Vigilant\Core\Services\TeamService;
+use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 
 class CollectCrawlerStats
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function collect(Crawler $crawler): void
     {
@@ -43,7 +43,10 @@ class CollectCrawlerStats
             ->urls()
             ->where('status', '=', 200)
             ->whereDoesntHave('foundOn')
-            ->delete();
+            ->select(['web_crawled_urls.uuid'])
+            ->lazy()
+            ->chunk(1000)
+            ->each(fn (LazyCollection $urls) => CrawledUrl::query()->whereIn('uuid', $urls->pluck('uuid'))->delete());
 
         if ($stats['issue_count'] > 0) {
             UrlIssuesNotification::notify($crawler);

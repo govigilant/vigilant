@@ -92,6 +92,7 @@ class CrawlerForm extends Component
     {
         return view('crawler::livewire.crawler-form', [
             'updating' => $this->crawler->exists,
+            'invalidDay' => ($this->form->settings['scheduleConfig']['monthDay'] ?? 0) > 28,
         ]);
     }
 }

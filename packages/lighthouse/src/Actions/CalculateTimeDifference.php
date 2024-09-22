@@ -9,9 +9,9 @@ use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class CalculateTimeDifference
 {
-    public function calculate(LighthouseMonitor $site, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
+    public function calculate(LighthouseMonitor $monitor, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
     {
-        $results = $site->lighthouseResults()
+        $results = $monitor->lighthouseResults()
             ->where('created_at', '>=', $from)
             ->get();
 

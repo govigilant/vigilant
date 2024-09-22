@@ -40,7 +40,6 @@ class Crawler extends Component
         return $crawler;
     }
 
-
     public function render(): mixed
     {
         return view('sites::livewire.tabs.crawler', [

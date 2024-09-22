@@ -13,11 +13,11 @@ class Settings extends Component
 
     public function mount(): void
     {
-       if (blank($this->tab)) {
-           /** @var string $tab */
-           $tab = Arr::first(array_keys($this->tabs()));
-           $this->tab = $tab;
-       }
+        if (blank($this->tab)) {
+            /** @var string $tab */
+            $tab = Arr::first(array_keys($this->tabs()));
+            $this->tab = $tab;
+        }
     }
 
     protected function tabs(): array

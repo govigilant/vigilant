@@ -6,12 +6,12 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
+use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 
 class Kernel extends ConsoleKernel

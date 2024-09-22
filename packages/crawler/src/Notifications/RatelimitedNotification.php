@@ -11,9 +11,7 @@ class RatelimitedNotification extends Notification implements HasSite
 {
     public static string $name = 'Crawler Ratelimited';
 
-    public function __construct(public Crawler $crawler)
-    {
-    }
+    public function __construct(public Crawler $crawler) {}
 
     public function title(): string
     {

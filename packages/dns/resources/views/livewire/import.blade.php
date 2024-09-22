@@ -8,19 +8,23 @@
         </x-slot>
     @endif
 
-    <div class="flex items-center gap-4">
+    <div class="gap-4 grid grid-cols-2">
 
-        <x-form.text
-            field="domain"
-            name="Domain"
-            description="Domain to lookup DNS records for"
-            :live="false"
-        />
+        <div>
+            <x-form.text
+                field="domain"
+                name="Domain"
+                description="Domain to lookup DNS records for"
+                :live="false"
+            />
+        </div>
 
-        <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
-                       type="button" wire:click="lookup">
-            @lang('Import')
-        </x-form.button>
+        <div class="pt-2">
+            <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
+                           type="button" wire:click="lookup">
+                @lang('Import')
+            </x-form.button>
+        </div>
 
     </div>
 
