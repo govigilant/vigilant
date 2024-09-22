@@ -9,7 +9,6 @@ enum State: string
     case Finished = 'finished';
 
     case Ratelimited = 'ratelimited';
-    case Errors = 'errors';
 
     public function label(): string
     {
