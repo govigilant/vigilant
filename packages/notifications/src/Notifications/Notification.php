@@ -67,7 +67,7 @@ abstract class Notification implements Arrayable
 
             foreach ($channels as $channel) {
 
-                if ($cooldownCheck->onCooldown($trigger, $channel)) {
+                if ($cooldownCheck->onCooldown($trigger, $channel, $instance)) {
                     continue;
                 }
 

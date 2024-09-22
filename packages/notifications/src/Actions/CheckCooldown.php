@@ -9,14 +9,11 @@ use Vigilant\Notifications\Notifications\Notification;
 
 class CheckCooldown
 {
-    public function onCooldown(Trigger $trigger, Channel $channel): bool
+    public function onCooldown(Trigger $trigger, Channel $channel, Notification $notification): bool
     {
         $cooldown = $trigger->cooldown;
 
         if ($cooldown === null) {
-            /** @var class-string<Notification> $notification */
-            $notification = $trigger->notification;
-
             $cooldown = $notification::$defaultCooldown;
         }
 
