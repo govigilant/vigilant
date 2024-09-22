@@ -2,6 +2,7 @@
 
 namespace Vigilant\Dns;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -15,6 +16,7 @@ use Vigilant\Dns\Livewire\DnsMonitors;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
 use Vigilant\Dns\Notifications\RecordChangedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -41,7 +43,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
-            ->bootNotifications();
+            ->bootNotifications()
+            ->bootGates();
     }
 
     protected function bootConfig(): static
@@ -112,6 +115,15 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerNotification([
             RecordChangedNotification::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        Gate::define('use-dns', function (User $user): bool {
+            return ce();
+        });
 
         return $this;
     }

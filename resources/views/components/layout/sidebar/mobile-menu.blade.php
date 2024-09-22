@@ -54,6 +54,7 @@
                         <li>
                             <ul role="list" class="-mx-2 space-y-1">
                                 @foreach(\Vigilant\Core\Facades\Navigation::items() as $item)
+                                    @continue(!$item->shouldRender())
                                     <li>
                                         <a href="{{ $item->url }}"
                                            wire:navigate
@@ -64,8 +65,7 @@
                                             ])
                                         >
                                             @if($item->icon !== null)
-                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' :
-                                                ''))
+                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' : ''))
                                             @endif
                                             {{ __($item->name)  }}
                                         </a>
