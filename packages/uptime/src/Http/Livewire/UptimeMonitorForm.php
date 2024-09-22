@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Http\Livewire;
 
+use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -32,6 +33,8 @@ class UptimeMonitorForm extends Component
     #[On('save')]
     public function save(): void
     {
+        abort_if(Gate::denies('use-uptime'), 403);
+
         $this->validate();
 
         if ($this->monitor->exists) {
@@ -45,7 +48,8 @@ class UptimeMonitorForm extends Component
         if (! $this->inline) {
             $this->alert(
                 __('Saved'),
-                __('Uptime monitor was successfully :action', ['action' => $this->monitor->wasRecentlyCreated ? 'created' : 'saved']),
+                __('Uptime monitor was successfully :action',
+                    ['action' => $this->monitor->wasRecentlyCreated ? 'created' : 'saved']),
                 AlertType::Success
             );
             $this->redirectRoute('uptime');

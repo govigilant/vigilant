@@ -2,6 +2,7 @@
 
 namespace Vigilant\Lighthouse;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -29,6 +30,7 @@ use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoPercentPercentScore
 use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -55,7 +57,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
-            ->bootNotifications();
+            ->bootNotifications()
+            ->bootGates();
     }
 
     protected function bootConfig(): static
@@ -147,6 +150,15 @@ class ServiceProvider extends BaseServiceProvider
             AuditPercentCondition::class,
             AuditTypeCondition::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        Gate::define('use-lighthouse', function (User $user): bool {
+            return ce();
+        });
 
         return $this;
     }

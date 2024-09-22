@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -22,6 +23,7 @@ use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 use Vigilant\Uptime\Notifications\LatencyChangedNotification;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -50,7 +52,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
-            ->bootNotifications();
+            ->bootNotifications()
+            ->bootGates();
     }
 
     protected function bootConfig(): static
@@ -134,6 +137,15 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerCondition(LatencyChangedNotification::class, [
             LatencyPercentCondition::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        Gate::define('use-uptime', function (User $user) {
+            return ce();
+        });
 
         return $this;
     }

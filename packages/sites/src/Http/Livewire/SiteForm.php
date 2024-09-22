@@ -2,6 +2,7 @@
 
 namespace Vigilant\Sites\Http\Livewire;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -55,9 +56,13 @@ class SiteForm extends Component
 
     public function render(): View
     {
+        $tabs = collect($this->tabs())
+            ->filter(fn (array $tab) => ! array_key_exists('gate', $tab) || Gate::check($tab['gate']))
+            ->toArray();
+
         return view('sites::livewire.form', [
             'updating' => $this->site->exists,
-            'tabs' => $this->tabs(),
+            'tabs' => $tabs,
         ]);
     }
 
@@ -68,21 +73,25 @@ class SiteForm extends Component
             'uptime' => [
                 'title' => __('Uptime Monitoring'),
                 'component' => 'sites.tabs.uptime-monitor',
+                'gate' => 'use-uptime',
             ],
 
             'lighthouse' => [
                 'title' => __('Lighthouse Monitoring'),
                 'component' => 'sites.tabs.lighthouse-monitor',
+                'gate' => 'use-lighthouse',
             ],
 
             'dns' => [
                 'title' => __('DNS Monitoring'),
                 'component' => 'sites.tabs.dns-monitors',
+                'gate' => 'use-dns',
             ],
 
             'crawler' => [
                 'title' => __('Link Issues'),
                 'component' => 'sites.tabs.crawler',
+                'gate' => 'use-crawler',
             ],
         ];
     }

@@ -3,6 +3,7 @@
 namespace Vigilant\Core\Navigation;
 
 use Closure;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 class NavigationItem
@@ -15,7 +16,9 @@ class NavigationItem
         public ?string $icon = null,
         public int $sort = 0,
         public ?string $routeIs = null,
-    ) {}
+        public ?string $gate = null,
+    ) {
+    }
 
     public function active(): bool
     {
@@ -24,6 +27,15 @@ class NavigationItem
         }
 
         return request()->url() === $this->url;
+    }
+
+    public function shouldRender(): bool
+    {
+        if ($this->gate === null) {
+            return true;
+        }
+
+        return Gate::check($this->gate);
     }
 
     public function name(string $name): static
@@ -50,6 +62,13 @@ class NavigationItem
     public function icon(string $icon): static
     {
         $this->icon = $icon;
+
+        return $this;
+    }
+
+    public function gate(string $gate): static
+    {
+        $this->gate = $gate;
 
         return $this;
     }
