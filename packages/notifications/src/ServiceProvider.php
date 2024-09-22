@@ -25,6 +25,7 @@ use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
 use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
+use Vigilant\Notifications\Http\Livewire\Tables\HistoryTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Notifications\Jobs\CreateNotificationsJob;
 use Vigilant\Users\Models\Team;
@@ -111,13 +112,13 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootLivewire(): static
     {
-        Livewire::component('notifications', Notifications::class);
         Livewire::component('notification-table', NotificationTable::class);
         Livewire::component('notification-form', NotificationForm::class);
 
+        Livewire::component('notification-history-table', HistoryTable::class);
+
         Livewire::component('notification-condition-builder', Notifications\Conditions\ConditionBuilder::class);
 
-        Livewire::component('channels', Channels::class);
         Livewire::component('channel-table', ChannelTable::class);
         Livewire::component('channel-form', ChannelForm::class);
 
