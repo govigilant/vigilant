@@ -24,6 +24,12 @@ class LighthouseSiteForm extends Component
     public function mount(?LighthouseMonitor $monitor): void
     {
         if ($monitor !== null) {
+            if ($monitor->exists) {
+                $this->authorize('edit', $monitor);
+            } else {
+                $this->authorize('create', $monitor);
+            }
+
             $this->form->fill($monitor->toArray());
             $this->lighthouseMonitor = $monitor;
         }
@@ -35,8 +41,12 @@ class LighthouseSiteForm extends Component
         $this->validate();
 
         if ($this->lighthouseMonitor->exists) {
+            $this->authorize('update', $this->lighthouseMonitor);
+
             $this->lighthouseMonitor->update($this->form->all());
         } else {
+            $this->authorize('create', $this->lighthouseMonitor);
+
             $this->lighthouseMonitor = LighthouseMonitor::query()->create(
                 $this->form->all()
             );
@@ -45,7 +55,8 @@ class LighthouseSiteForm extends Component
         if (! $this->inline) {
             $this->alert(
                 __('Saved'),
-                __('Lighthouse monitor was successfully :action', ['action' => $this->lighthouseMonitor->wasRecentlyCreated ? 'created' : 'saved']),
+                __('Lighthouse monitor was successfully :action',
+                    ['action' => $this->lighthouseMonitor->wasRecentlyCreated ? 'created' : 'saved']),
                 AlertType::Success
             );
             $this->redirectRoute('lighthouse.index', ['monitor' => $this->lighthouseMonitor]);
