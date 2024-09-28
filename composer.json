@@ -27,7 +27,6 @@
         "vigilant/frontend": "@dev",
         "vigilant/lighthouse": "dev-main",
         "vigilant/notifications": "@dev",
-        "vigilant/saas": "@dev",
         "vigilant/settings": "dev-main",
         "vigilant/sites": "@dev",
         "vigilant/uptime": "@dev",
@@ -58,8 +57,7 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi",
-            "@php artisan filament:upgrade"
+            "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -98,10 +96,6 @@
         {
             "type": "vcs",
             "url": "git@github.com:VincentBean/dns.git"
-        },
-        {
-            "type": "path",
-            "url": "/Users/vincent/sites2/vigilant-saas"
         }
     ]
 }
