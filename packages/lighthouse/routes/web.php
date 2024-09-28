@@ -9,9 +9,9 @@ use Vigilant\Lighthouse\Livewire\LighthouseSites;
 Route::prefix('lighthouse')
     ->middleware('can:use-lighthouse')
     ->group(function(): void {
-        Route::get('lighthouse', LighthouseSites::class)->name('lighthouse');
-        Route::get('lighthouse/create', LighthouseSiteForm::class)->name('lighthouse.create');
-        Route::get('lighthouse/{monitor}', [LighthouseMonitorController::class, 'index'])->name('lighthouse.index');
-        Route::get('lighthouse/{monitor}/edit', LighthouseSiteForm::class)->name('lighthouse.edit');
-        Route::get('lighthouse/ressult/{result}', [LighthouseResultController::class, 'index'])->name('lighthouse.result.index');
+        Route::get('/', LighthouseSites::class)->name('lighthouse');
+        Route::get('/create', LighthouseSiteForm::class)->name('lighthouse.create');
+        Route::get('/{monitor}', [LighthouseMonitorController::class, 'index'])->name('lighthouse.index')->middleware('can:view,monitor');
+        Route::get('/{monitor}/edit', LighthouseSiteForm::class)->name('lighthouse.edit');
+        Route::get('/ressult/{result}', [LighthouseResultController::class, 'index'])->name('lighthouse.result.index');
     });

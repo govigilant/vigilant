@@ -24,8 +24,12 @@ class CrawlerForm extends Component
     public function mount(?Crawler $crawler, ?int $siteId = null): void
     {
         if ($crawler !== null && $crawler->exists) {
+            $this->authorize('edit', $crawler);
+
             $this->form->fill($crawler->toArray());
         } else {
+            $this->authorize('create', Crawler::class);
+
             if ($siteId !== null) {
                 /** @var Site $site */
                 $site = Site::query()->findOrFail($siteId);
@@ -56,8 +60,12 @@ class CrawlerForm extends Component
         $this->validate();
 
         if ($this->crawler->exists) {
+            $this->authorize('update', $this->crawler);
+
             $this->crawler->update($this->form->all());
         } else {
+            $this->authorize('create', $this->crawler);
+
             $this->crawler = Crawler::query()->create(
                 $this->form->all()
             );

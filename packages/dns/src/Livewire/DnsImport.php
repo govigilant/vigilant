@@ -66,6 +66,8 @@ class DnsImport extends Component
     #[On('save')]
     public function save(): void
     {
+        $this->authorize('create', DnsMonitor::class);
+
         foreach ($this->records as $index => $record) {
             if (in_array($index, $this->deleted)) {
                 if (array_key_exists('monitor_id', $record)) {

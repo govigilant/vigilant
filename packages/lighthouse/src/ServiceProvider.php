@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
@@ -19,6 +20,7 @@ use Vigilant\Lighthouse\Livewire\Monitor\Dashboard;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditTypeCondition;
@@ -58,7 +60,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootNavigation()
             ->bootNotifications()
-            ->bootGates();
+            ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -156,9 +159,20 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootGates(): static
     {
-        Gate::define('use-lighthouse', function (User $user): bool {
-            return ce();
-        });
+        if (ce()) {
+            Gate::define('use-lighthouse', function (User $user): bool {
+                return ce();
+            });
+        }
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(LighthouseMonitor::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }
