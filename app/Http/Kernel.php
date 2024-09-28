@@ -3,15 +3,14 @@
 namespace App\Http;
 
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Support\Arr;
 use Vigilant\Core\Http\Middleware\TeamMiddleware;
 
 class Kernel extends HttpKernel
 {
     /**
      * The application's global HTTP middleware stack.
-     *
      * These middleware are run during every request to your application.
-     *
      * @var array<int, class-string|string>
      */
     protected $middleware = [
@@ -26,7 +25,6 @@ class Kernel extends HttpKernel
 
     /**
      * The application's route middleware groups.
-     *
      * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
@@ -49,9 +47,7 @@ class Kernel extends HttpKernel
 
     /**
      * The application's middleware aliases.
-     *
      * Aliases may be used instead of class names to conveniently assign middleware to routes and groups.
-     *
      * @var array<string, class-string|string>
      */
     protected $middlewareAliases = [
@@ -67,4 +63,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     ];
+
+    public function addMiddlewareToGroup(string $group, string|array $middleware): void
+    {
+        $this->middlewareGroups[$group] = array_merge($this->middlewareGroups[$group], Arr::wrap($middleware));
+    }
 }

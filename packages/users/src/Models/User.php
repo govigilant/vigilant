@@ -5,6 +5,7 @@ namespace Vigilant\Users\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Carbon;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
@@ -13,8 +14,18 @@ use Vigilant\Users\Database\Factories\UserFactory;
 
 /**
  * @property int $id
- * @property string $email
  * @property string $name
+ * @property string $email
+ * @property ?Carbon $email_verified_at
+ * @property string $password
+ * @property string $two_factor_secret
+ * @property string $two_factor_recovery_codes
+ * @property ?Carbon $two_factor_confirmed_at
+ * @property string $remember_token
+ * @property ?int $current_team_id
+ * @property ?string $profile_photo_path
+ * @property ?Carbon $created_at
+ * @property ?Carbon $updated_at
  * @property ?Team $currentTeam
  */
 class User extends Authenticatable
