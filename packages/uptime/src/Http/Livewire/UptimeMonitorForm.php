@@ -25,6 +25,12 @@ class UptimeMonitorForm extends Component
     public function mount(?Monitor $monitor): void
     {
         if ($monitor !== null) {
+            if ($monitor->exists) {
+                $this->authorize('edit', $monitor);
+            } else {
+                $this->authorize('create', $monitor);
+            }
+
             $this->form->fill($monitor->toArray());
             $this->monitor = $monitor;
         }
@@ -33,13 +39,15 @@ class UptimeMonitorForm extends Component
     #[On('save')]
     public function save(): void
     {
-        abort_if(Gate::denies('use-uptime'), 403);
-
         $this->validate();
 
         if ($this->monitor->exists) {
+            $this->authorize('update', $this->monitor);
+
             $this->monitor->update($this->form->all());
         } else {
+            $this->authorize('create', $this->monitor);
+
             $this->monitor = Monitor::query()->create(
                 $this->form->all()
             );

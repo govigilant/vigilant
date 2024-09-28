@@ -1,9 +1,9 @@
 <div>
     <x-slot name="header">
         <x-page-header title="Uptime Monitoring">
-            <x-form.button dusk="monitor-add-button" class="bg-blue hover:bg-blue-light" :href="route('uptime.monitor.create')">
+            <x-create-button dusk="monitor-add-button" :href="route('uptime.monitor.create')" model="Vigilant\Uptime\Models\Monitor">
                 @lang('Add Uptime Monitor')
-            </x-form.button>
+            </x-create-button>
         </x-page-header>
     </x-slot>
 

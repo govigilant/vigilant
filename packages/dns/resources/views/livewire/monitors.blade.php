@@ -2,13 +2,12 @@
     <x-slot name="header">
         <x-page-header title="DNS Monitoring">
             <div class="space-x-4">
-                <x-form.button dusk="dns-import-button" class="bg-green hover:bg-green-light"
-                               :href="route('dns.import')">
+                <x-create-button dusk="dns-import-button" :href="route('dns.import')" model="Vigilant\Dns\Models\DnsMonitor">
                     @lang('Import domain')
-                </x-form.button>
-                <x-form.button dusk="dns-add-button" class="bg-blue hover:bg-blue-light" :href="route('dns.create')">
+                </x-create-button>
+                <x-create-button dusk="dns-add-button" :href="route('dns.create')" model="Vigilant\Dns\Models\DnsMonitor">
                     @lang('Add DNS Monitor')
-                </x-form.button>
+                </x-create-button>
             </div>
         </x-page-header>
     </x-slot>

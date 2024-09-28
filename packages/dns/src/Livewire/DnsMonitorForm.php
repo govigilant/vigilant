@@ -23,6 +23,12 @@ class DnsMonitorForm extends Component
     public function mount(?DnsMonitor $monitor): void
     {
         if ($monitor !== null) {
+            if ($monitor->exists) {
+                $this->authorize('edit', $monitor);
+            } else {
+                $this->authorize('create', $monitor);
+            }
+
             $this->form->fill($monitor->toArray());
             $this->dnsMonitor = $monitor;
         }
@@ -53,8 +59,12 @@ class DnsMonitorForm extends Component
         $this->validate();
 
         if ($this->dnsMonitor->exists) {
+            $this->authorize('update', $this->dnsMonitor);
+
             $this->dnsMonitor->update($this->form->all());
         } else {
+            $this->authorize('create', $this->dnsMonitor);
+
             $this->dnsMonitor = DnsMonitor::query()->create(
                 $this->form->all()
             );
