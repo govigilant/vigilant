@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Crawler\Commands\CollectCrawlerStatsCommand;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
@@ -20,6 +21,7 @@ use Vigilant\Crawler\Livewire\CrawlerForm;
 use Vigilant\Crawler\Livewire\Crawlers;
 use Vigilant\Crawler\Livewire\Tables\CrawlerTable;
 use Vigilant\Crawler\Livewire\Tables\IssuesTable;
+use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Notifications\RatelimitedNotification;
 use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
@@ -53,7 +55,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootEvents()
             ->bootNavigation()
             ->bootNotifications()
-            ->bootGates();
+            ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -153,6 +156,15 @@ class ServiceProvider extends BaseServiceProvider
         Gate::define('use-crawler', function (User $user): bool {
             return ce();
         });
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(Crawler::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }
