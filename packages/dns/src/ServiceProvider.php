@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
 use Vigilant\Dns\Commands\CheckDnsRecordCommand;
 use Vigilant\Dns\Commands\ResolveGeoIpCommand;
@@ -14,6 +15,7 @@ use Vigilant\Dns\Livewire\DnsImport;
 use Vigilant\Dns\Livewire\DnsMonitorForm;
 use Vigilant\Dns\Livewire\DnsMonitors;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
+use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Dns\Notifications\RecordChangedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Users\Models\User;
@@ -44,7 +46,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootNavigation()
             ->bootNotifications()
-            ->bootGates();
+            ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -124,6 +127,15 @@ class ServiceProvider extends BaseServiceProvider
         Gate::define('use-dns', function (User $user): bool {
             return ce();
         });
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(DnsMonitor::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }

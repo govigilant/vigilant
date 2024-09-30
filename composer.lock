@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6e172d26bf75313aac25013d487bc071",
+    "content-hash": "bf03ee65bdf60327bc87adab05044629",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -6941,7 +6941,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7015,7 +7015,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7092,7 +7092,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7169,7 +7169,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7317,7 +7317,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7387,6 +7387,79 @@
                 }
             ],
             "description": "Vigilant Notifications",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
+            "name": "vigilant/onboarding",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "./packages/onboarding",
+                "reference": "4186867bbfb2fe41a04ca82b54b84bf4904210e7"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^11.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.2",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.5",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^9.0",
+                "phpstan/phpstan-mockery": "^1.1",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\OnBoarding\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\OnBoarding\\": "src"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\OnBoarding\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Onboarding",
             "transport-options": {
                 "relative": true
             }
@@ -7468,7 +7541,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -7542,7 +7615,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7619,7 +7692,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/policies",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -10566,6 +10639,7 @@
         "vigilant/frontend": 20,
         "vigilant/lighthouse": 20,
         "vigilant/notifications": 20,
+        "vigilant/onboarding": 20,
         "vigilant/settings": 20,
         "vigilant/sites": 20,
         "vigilant/uptime": 20,

@@ -5,6 +5,7 @@ namespace App\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Arr;
 use Vigilant\Core\Http\Middleware\TeamMiddleware;
+use Vigilant\OnBoarding\Http\Middleware\RedirectToOnboard;
 
 class Kernel extends HttpKernel
 {
@@ -36,6 +37,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             TeamMiddleware::class,
+            RedirectToOnboard::class,
         ],
 
         'api' => [

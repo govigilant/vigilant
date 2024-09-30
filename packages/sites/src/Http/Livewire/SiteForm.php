@@ -5,15 +5,18 @@ namespace Vigilant\Sites\Http\Livewire;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
+use Vigilant\Frontend\Traits\CanBeInline;
 use Vigilant\Sites\Http\Livewire\Forms\CreateSiteForm;
 use Vigilant\Sites\Models\Site;
 
 class SiteForm extends Component
 {
     use DisplaysAlerts;
+    use CanBeInline;
 
     public CreateSiteForm $form;
 
@@ -28,6 +31,7 @@ class SiteForm extends Component
         }
     }
 
+    #[On('save')]
     public function save(): void
     {
         // Save tabs
@@ -43,6 +47,11 @@ class SiteForm extends Component
             $this->site = Site::query()->create(
                 $this->form->all()
             );
+        }
+
+        if ($this->inline) {
+            $this->dispatch('siteSaved', $this->site->id);
+            return;
         }
 
         $this->alert(

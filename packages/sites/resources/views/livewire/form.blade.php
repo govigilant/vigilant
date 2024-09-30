@@ -1,7 +1,10 @@
 <div>
-    <x-slot name="header">
-        <x-page-header :title="$updating ? 'Edit Site ' . $site->url : 'Add Site'" :back="$updating ? route('site.view', ['site' => $site]) : route('sites')"></x-page-header>
-    </x-slot>
+    @if(!$inline)
+        <x-slot name="header">
+            <x-page-header :title="$updating ? 'Edit Site ' . $site->url : 'Add Site'"
+                           :back="$updating ? route('site.view', ['site' => $site]) : route('sites')"></x-page-header>
+        </x-slot>
+    @endif
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
@@ -56,7 +59,9 @@
 
             @endif
 
-            <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
+            @if(!$inline)
+                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'"/>
+            @endif
 
         </div>
     </form>

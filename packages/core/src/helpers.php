@@ -9,8 +9,7 @@ if (! function_exists('teamTimezone')) {
         /** @var TeamService $teamService */
         $teamService = app(TeamService::class);
 
-        return $carbon
-            ->timezone($teamService->team()?->timezone ?? 'UTC');
+        return $carbon->timezone($teamService->team()->timezone ?? 'UTC');
     }
 }
 
