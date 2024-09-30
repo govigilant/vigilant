@@ -14,8 +14,6 @@ class MonitorObserver
 
         $team = $teamService->team();
 
-        throw_if($team === null, 'No team set');
-
         $monitor->team_id = $team->id;
     }
 }
