@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckLatencyCommand;
@@ -19,6 +20,7 @@ use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
+use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
@@ -53,7 +55,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootNavigation()
             ->bootNotifications()
-            ->bootGates();
+            ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -146,6 +149,15 @@ class ServiceProvider extends BaseServiceProvider
         Gate::define('use-uptime', function (User $user) {
             return ce();
         });
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(Monitor::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }

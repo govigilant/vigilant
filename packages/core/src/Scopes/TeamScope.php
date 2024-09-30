@@ -15,8 +15,6 @@ class TeamScope implements Scope
         $teamService = app(TeamService::class);
         $team = $teamService->team();
 
-        abort_if($team === null, 401);
-
         $builder->where($model->qualifyColumn('team_id'), '=', $team->id);
     }
 }
