@@ -5,11 +5,13 @@
 
     <div class="max-w-7xl mx-auto mb-6">
         <p class="text-md text-base-100">
-            @lang('Welcome to Vigilant! To get started monitoring your website enter it below.')
+            @lang('Welcome to Vigilant!')
+            <br/>
+            @lang('To get started monitoring your website enter it below.')
         </p>
     </div>
 
-    <livewire:sites.create :inline="true" />
+    <livewire:sites.create :inline="true"/>
 
     <div class="max-w-7xl mx-auto mt-6 flex justify-end">
         <x-form.button class="bg-red hover:bg-red-light" wire:click="save">

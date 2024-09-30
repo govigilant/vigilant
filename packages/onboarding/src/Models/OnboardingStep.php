@@ -20,6 +20,8 @@ class OnboardingStep extends Model
 {
     protected $table = 'team_onboarding_step';
 
+    protected $guarded = [];
+
     public function team(): BelongsTo
     {
        return $this->belongsTo(Team::class);
