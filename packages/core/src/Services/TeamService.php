@@ -36,11 +36,13 @@ class TeamService
         $this->setTeam($team);
     }
 
-    public function team(): ?Team
+    public function team(): Team
     {
         if ($this->team === null) {
             $this->fromAuth();
         }
+
+        throw_if($this->team === null, 'No team');
 
         return $this->team;
     }

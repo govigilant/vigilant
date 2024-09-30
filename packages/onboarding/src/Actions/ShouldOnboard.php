@@ -15,8 +15,6 @@ class ShouldOnboard
 
     public function shouldOnboard(): bool
     {
-
-
         /** @var TeamService $teamService */
         $teamService = app(TeamService::class);
 
