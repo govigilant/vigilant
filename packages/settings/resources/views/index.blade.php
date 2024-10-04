@@ -16,16 +16,15 @@
                     @endforeach
                 </select>
             </div>
-            <div class="hidden sm:block">
-                <nav class="flex border-b border-white/10 py-4">
-                    <ul role="list"
-                        class="flex min-w-full flex-none gap-x-6 px-2 text-sm font-semibold leading-6 text-gray-400">
+            <div class="hidden sm:block max-w-7xl w-full">
+                <nav class="flex border-b border-base-700">
+                    <ul class="flex min-w-full gap-x-2 text-sm font-semibold text-gray-400">
                         @foreach($tabs as $key => $data)
-                            <li>
-                                    <span
-                                        x-on:click="selectedTab = '{{ $key }}'"
-                                        :class="{ 'text-red': selectedTab == '{{ $key }}'}"
-                                        class="cursor-pointer select-none">{{$data['title'] }}</span>
+                            <li
+                                x-on:click="selectedTab = '{{ $key }}'"
+                                :class="{ 'text-red bg-base-800 rounded-t-lg': selectedTab == '{{ $key }}'}"
+                                class="cursor-pointer select-none px-2.5 py-1.5 hover:bg-base-800 hover:rounded-t-lg">
+                                {{$data['title'] }}
                             </li>
                         @endforeach
                     </ul>
