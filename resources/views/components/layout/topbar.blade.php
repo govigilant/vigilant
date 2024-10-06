@@ -21,7 +21,7 @@
                         <x-slot name="trigger">
                                 <span class="inline-flex rounded-md">
                                     <button type="button"
-                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none focus:bg-gray-50 dark:focus:bg-gray-700 active:bg-gray-50 dark:active:bg-gray-700 transition ease-in-out duration-150">
+                                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md dark:text-base-100 dark:bg-base-950 hover:text-base-50 dark:hover:text-base-50 focus:outline-none focus:bg-base-900 dark:focus:bg-base-900 active:bg-base-900 dark:active:bg-base-900 transition ease-in-out duration-150">
                                         {{ Auth::user()->currentTeam->name }}
 
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -35,7 +35,7 @@
 
                         <x-slot name="content">
                             <div class="w-60">
-                                <div class="block px-4 py-2 text-xs text-gray-400">
+                                <div class="block px-4 py-2 text-xs text-base-50">
                                     {{ __('Manage Team') }}
                                 </div>
 
@@ -50,9 +50,9 @@
                                 @endcan
 
                                 @if (Auth::user()->allTeams()->count() > 1)
-                                    <div class="border-t border-gray-200 dark:border-gray-600"></div>
+                                    <div class="border-t dark:border-base-900"></div>
 
-                                    <div class="block px-4 py-2 text-xs text-gray-400">
+                                    <div class="block px-4 py-2 text-xs text-base-50">
                                         {{ __('Switch Teams') }}
                                     </div>
 
@@ -74,8 +74,6 @@
                           d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"/>
                 </svg>
             </a>
-
-            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true"></div>
 
             <div class="relative"
                  x-data="{ open: false }"
@@ -105,15 +103,15 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="transform opacity-100 scale-100"
                     x-transition:leave-end="transform opacity-0 scale-95"
-                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-black py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                    <a href="{{ route('settings') }}" class="block px-3 py-1 text-sm leading-6 text-gray-900"
+                    <a href="{{ route('settings') }}" class="block px-3 py-1 text-sm leading-6 text-white hover:bg-red"
                        role="menuitem"
-                       tabindex="-1" id="user-menu-item-0">@lang('Settings')</a>
-                    <form action="{{ route('logout') }}" method="POST">
+                       tabindex="1" >@lang('Settings')</a>
+                    <form action="{{ route('logout') }}" method="POST" class="w-full">
                         {{ csrf_field() }}
-                        <button type="submit" class="block px-3 py-1 text-sm leading-6 text-gray-900" role="menuitem"
-                                tabindex="-1" id="user-menu-item-1">@lang('Sign out')
+                        <button type="submit" class="block px-3 py-1 text-sm leading-6 text-white hover:bg-red w-full text-left" role="menuitem"
+                                tabindex="2">@lang('Sign out')
                         </button>
                     </form>
 
