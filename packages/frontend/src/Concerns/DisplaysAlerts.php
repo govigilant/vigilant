@@ -14,11 +14,13 @@ trait DisplaysAlerts
         session()->flash('alert-type', $type);
     }
 
-    protected function alertNow(string $title, string $message = '', AlertType $type = AlertType::Info): void
+    protected function alertBrowser(string $title, string $message = '', AlertType $type = AlertType::Info): void
     {
-        session()->now('alert', true);
-        session()->now('alert-title', $title);
-        session()->now('alert-message', $message);
-        session()->now('alert-type', $type);
+        $this->dispatch('alert', [
+            'id' => uniqid(),
+            'title' => $title,
+            'message' => $message,
+            'type' => $type->value,
+        ]);
     }
 }

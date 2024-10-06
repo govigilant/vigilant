@@ -8,17 +8,19 @@
     </x-slot>
 
     <x-slot name="content">
-        <div class="max-w-xl text-sm text-gray-600">
+        <div class="max-w-xl text-sm text-base-100">
             {{ __('Once a team is deleted, all of its resources and data will be permanently deleted. Before deleting this team, please download any data or information regarding this team that you wish to retain.') }}
+            <br/>
+            <span class="text-red text-md">{{ __('This action is non-reverable, all data will be lost.') }}</span>
         </div>
 
         <div class="mt-5">
+
             <x-danger-button wire:click="$toggle('confirmingTeamDeletion')" wire:loading.attr="disabled">
                 {{ __('Delete Team') }}
             </x-danger-button>
         </div>
 
-        <!-- Delete Team Confirmation Modal -->
         <x-confirmation-modal wire:model.live="confirmingTeamDeletion">
             <x-slot name="title">
                 {{ __('Delete Team') }}
@@ -29,9 +31,9 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-secondary-button wire:click="$toggle('confirmingTeamDeletion')" wire:loading.attr="disabled">
+                <x-button wire:click="$toggle('confirmingTeamDeletion')" wire:loading.attr="disabled">
                     {{ __('Cancel') }}
-                </x-secondary-button>
+                </x-button>
 
                 <x-danger-button class="ms-3" wire:click="deleteTeam" wire:loading.attr="disabled">
                     {{ __('Delete Team') }}

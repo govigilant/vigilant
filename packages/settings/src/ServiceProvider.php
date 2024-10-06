@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Settings\Livewire\Tabs\Profile;
+use Vigilant\Settings\Livewire\Tabs\Security;
 use Vigilant\Settings\Livewire\Tabs\Team;
 
 class ServiceProvider extends BaseServiceProvider
@@ -72,6 +73,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('settings-tab-profile', Profile::class);
         Livewire::component('settings-tab-team', Team::class);
+        Livewire::component('settings-tab-security', Security::class);
 
         return $this;
     }

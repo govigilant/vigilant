@@ -27,13 +27,14 @@ class Settings extends Component
                 'title' => 'Profile',
                 'component' => 'settings-tab-profile',
             ],
+            'security' => [
+                'title' => 'Account Security',
+                'component' => 'settings-tab-security',
+            ],
             'team' => [
-                'title' => 'Team',
+                'title' => 'Team Settings',
                 'component' => 'settings-tab-team',
             ],
-            //[
-            //    'title' => 'Data Retention',
-            //],
         ];
     }
 
