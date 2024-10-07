@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Arr;
 use Vigilant\Core\Http\Middleware\TeamMiddleware;
 use Vigilant\OnBoarding\Http\Middleware\RedirectToOnboard;
+use Vigilant\Users\Http\Middleware\EnsureEmailIsVerified;
 
 class Kernel extends HttpKernel
 {
@@ -38,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             TeamMiddleware::class,
             RedirectToOnboard::class,
+            EnsureEmailIsVerified::class,
         ],
 
         'api' => [
@@ -63,7 +65,7 @@ class Kernel extends HttpKernel
         'precognitive' => \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'verified' => EnsureEmailIsVerified::class,
     ];
 
     public function addMiddlewareToGroup(string $group, string|array $middleware): void
