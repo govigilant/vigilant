@@ -23,9 +23,7 @@ class EnsureEmailIsVerified extends \Illuminate\Auth\Middleware\EnsureEmailIsVer
             return $next($request);
         }
 
-        if (! $request->user() ||
-            ($request->user() instanceof MustVerifyEmail &&
-                ! $request->user()->hasVerifiedEmail())) {
+        if ($request->user() instanceof MustVerifyEmail && ! $request->user()->hasVerifiedEmail()) {
             if ($request->expectsJson()) {
                 abort(403, 'Your email address is not verified.');
             } else {
