@@ -2,6 +2,8 @@
 
 namespace Vigilant\Users\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,6 +13,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Vigilant\Users\Database\Factories\UserFactory;
+use Vigilant\Users\Observers\UserObserver;
 
 /**
  * @property int $id
@@ -28,7 +31,8 @@ use Vigilant\Users\Database\Factories\UserFactory;
  * @property ?Carbon $updated_at
  * @property ?Team $currentTeam
  */
-class User extends Authenticatable
+#[ObservedBy(UserObserver::class)]
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
     use HasFactory;

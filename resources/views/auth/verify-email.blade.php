@@ -24,14 +24,9 @@
             </form>
 
             <div>
-                <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    {{ __('Edit Profile') }}</a>
 
                 <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
+                    {{ csrf_field() }}
 
                     <x-form.submit-button submitText="Log Out"/>
                 </form>

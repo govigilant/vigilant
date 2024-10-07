@@ -1,6 +1,6 @@
 name: Package Quality
 
-on: ['push', 'pull_request']
+on: ['pull_request']
 
 jobs:
   package_quality:
