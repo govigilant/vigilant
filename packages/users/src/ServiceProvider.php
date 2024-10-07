@@ -2,6 +2,7 @@
 
 namespace Vigilant\Users;
 
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Vigilant\Core\Services\TeamService;
 
@@ -10,8 +11,7 @@ class ServiceProvider extends BaseServiceProvider
     public function register(): void
     {
         $this
-            ->registerConfig()
-            ->registerPolicies();
+            ->registerConfig();
     }
 
     protected function registerConfig(): static
@@ -21,16 +21,11 @@ class ServiceProvider extends BaseServiceProvider
         return $this;
     }
 
-    protected function registerPolicies(): static
-    {
-
-        return $this;
-    }
-
     public function boot(): void
     {
         $this
             ->bootServices()
+            ->bootRoutes()
             ->bootConfig()
             ->bootMigrations()
             ->bootCommands();
@@ -39,6 +34,16 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootServices(): static
     {
         app()->singleton(TeamService::class);
+
+        return $this;
+    }
+
+    protected function bootRoutes(): static
+    {
+        if (! $this->app->routesAreCached()) {
+            Route::middleware(['web', 'auth'])
+                ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
+        }
 
         return $this;
     }
