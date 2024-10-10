@@ -16,30 +16,38 @@
             @csrf
 
             <div>
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                <x-label for="email" value="{{ __('Email') }}"/>
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required
+                         autofocus autocomplete="username"/>
             </div>
 
             <div class="mt-4">
-                <x-label for="password" value="{{ __('Password') }}" />
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" />
+                <x-label for="password" value="{{ __('Password') }}"/>
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required
+                         autocomplete="current-password"/>
             </div>
 
-            <div class="block mt-4">
+            <div class="mt-4 flex justify-between items-center">
                 <label for="remember_me" class="flex items-center">
-                    <x-checkbox id="remember_me" name="remember" />
+                    <x-checkbox id="remember_me" name="remember"/>
                     <span class="ms-2 text-sm text-white">{{ __('Remember me') }}</span>
                 </label>
+
+                <x-form.submit-button class="ms-4" submitText="Log in"/>
             </div>
 
-            <div class="flex items-center justify-end mt-4">
+            <div class="flex justify-end items-center mt-4 gap-1">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red" href="{{ route('password.request') }}">
+                    <a class="hover:underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red"
+                       href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
 
-                <x-form.submit-button class="ms-4" submitText="Log in"/>
+                <a class="hover:underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red"
+                   href="{{ route('register') }}">
+                    {{ __('Or create an account') }}
+                </a>
             </div>
         </form>
     </x-authentication-card>
