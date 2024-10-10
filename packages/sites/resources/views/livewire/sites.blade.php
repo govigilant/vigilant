@@ -1,9 +1,9 @@
 <div>
     <x-slot name="header">
         <x-page-header title="Sites">
-            <x-form.button class="bg-blue hover:bg-blue-light" :href="route('site.create')" dusk="site-add-button">
+            <x-create-button dusk="site-add-button" :href="route('lighthouse.create')" model="Vigilant\Sites\Models\Site">
                 @lang('Add Site')
-            </x-form.button>
+            </x-create-button>
         </x-page-header>
     </x-slot>
 
