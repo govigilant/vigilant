@@ -2,10 +2,12 @@
 
 namespace Vigilant\Sites;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Sites\Http\Livewire\SiteForm;
@@ -15,6 +17,7 @@ use Vigilant\Sites\Http\Livewire\Tabs\Crawler;
 use Vigilant\Sites\Http\Livewire\Tabs\DnsMonitors;
 use Vigilant\Sites\Http\Livewire\Tabs\LighthouseMonitors;
 use Vigilant\Sites\Http\Livewire\Tabs\UptimeMonitor;
+use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 
 class ServiceProvider extends BaseServiceProvider
@@ -49,7 +52,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
-            ->bootNotifications();
+            ->bootNotifications()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -122,6 +126,15 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerCondition(DowntimeStartNotification::class, [
             SiteCondition::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(Site::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }
