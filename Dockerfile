@@ -1,10 +1,10 @@
 FROM dunglas/frankenphp:latest-php8.3-alpine
 
-RUN apk add --no-cache bash git linux-headers libzip-dev libxml2-dev supervisor nodejs npm chromium
+RUN apk add --no-cache bash git linux-headers libzip-dev libxml2-dev supervisor nodejs npm chromium icu-dev
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN docker-php-ext-install pdo pdo_mysql sockets pcntl zip exif bcmath
+RUN docker-php-ext-install pdo pdo_mysql sockets pcntl zip exif bcmath intl
 
 # Redis
 RUN apk --no-cache add pcre-dev ${PHPIZE_DEPS} \
