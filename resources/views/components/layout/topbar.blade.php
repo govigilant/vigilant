@@ -22,7 +22,7 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button"
                                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md dark:text-base-100 dark:bg-base-950 hover:text-base-50 dark:hover:text-base-50 focus:outline-none focus:bg-base-900 dark:focus:bg-base-900 active:bg-base-900 dark:active:bg-base-900 transition ease-in-out duration-150">
-                                        {{ Auth::user()->currentTeam->name }}
+                                        {{ Auth::user()?->currentTeam?->name ?? '-' }}
 
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                                              viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
