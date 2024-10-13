@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Vigilant\Core\Facades\Navigation;
 
@@ -21,5 +22,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Navigation::path(resource_path('navigation.php'));
+
+        $url = config("app.url");
+        if (str_starts_with('https', $url)) {
+            URL::forceRootUrl($url);
+            URL::forceScheme('https');
+        }
+
     }
 }

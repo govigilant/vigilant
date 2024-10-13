@@ -15,7 +15,7 @@
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <div class="flex-1"></div>
         <div class="flex items-center gap-x-4">
-            @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
+            @if (Laravel\Jetstream\Jetstream::hasTeamFeatures() && Auth::user() !== null)
                 <div class="ms-3 relative">
                     <x-dropdown align="right" width="60">
                         <x-slot name="trigger">
