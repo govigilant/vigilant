@@ -23,8 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Navigation::path(resource_path('navigation.php'));
 
-        $url = config("app.url");
-        if (str_starts_with('https', $url)) {
+        $url = config('app.url', '');
+
+        if (str_starts_with($url, 'https')) {
             URL::forceRootUrl($url);
             URL::forceScheme('https');
         }
