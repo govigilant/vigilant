@@ -33,11 +33,13 @@
                             <nav class="flex border-b border-base-700">
                                 <ul class="flex min-w-full gap-x-2 text-sm font-semibold text-gray-400">
                                     @foreach($tabs as $key => $data)
-                                        <li x-on:click="selectedTab = '{{ $key }}'"
-                                            :class="{ 'text-red bg-base-800 rounded-t-lg': selectedTab == '{{ $key }}'}"
-                                            class="cursor-pointer select-none px-2.5 py-1.5 hover:bg-base-800 hover:rounded-t-lg">
-                                            {{$data['title'] }}
-                                        </li>
+                                        @can('create', $data['model'])
+                                            <li x-on:click="selectedTab = '{{ $key }}'"
+                                                :class="{ 'text-red bg-base-800 rounded-t-lg': selectedTab == '{{ $key }}'}"
+                                                class="cursor-pointer select-none px-2.5 py-1.5 hover:bg-base-800 hover:rounded-t-lg">
+                                                {{$data['title'] }}
+                                            </li>
+                                        @endcan
                                     @endforeach
                                 </ul>
                             </nav>
@@ -46,11 +48,13 @@
 
                     <div>
                         @foreach($tabs as $key => $data)
-                            <div x-show="selectedTab == '{{ $key }}'">
-                                <livewire:dynamic-component :is="$data['component']"
-                                                            :site="$site"
-                                                            wire:key="{{ $key }}"/>
-                            </div>
+                            @can('create', $data['model'])
+                                <div x-show="selectedTab == '{{ $key }}'">
+                                    <livewire:dynamic-component :is="$data['component']"
+                                                                :site="$site"
+                                                                wire:key="{{ $key }}"/>
+                                </div>
+                            @endcan
                         @endforeach
                     </div>
                 </div>

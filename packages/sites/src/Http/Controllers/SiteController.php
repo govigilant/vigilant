@@ -9,8 +9,17 @@ class SiteController extends Controller
 {
     public function view(Site $site): mixed
     {
-        return view('sites::sites.view', [
+        $monitors = [
+            'uptimeMonitor' => $site->uptimeMonitor,
+            'lighthouseMonitor' => $site->lighthouseMonitors->first(),
+            'crawler' => $site->crawler,
+        ];
+
+        $data = array_merge([
             'site' => $site,
-        ]);
+            'empty' => collect($monitors)->filter()->isEmpty(),
+        ], $monitors);
+
+        return view('sites::sites.view', $data);
     }
 }

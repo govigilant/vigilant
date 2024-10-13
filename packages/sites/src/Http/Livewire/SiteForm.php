@@ -7,11 +7,15 @@ use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Crawler\Models\Crawler;
+use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Frontend\Traits\CanBeInline;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Http\Livewire\Forms\CreateSiteForm;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
 
 class SiteForm extends Component
 {
@@ -83,24 +87,28 @@ class SiteForm extends Component
                 'title' => __('Uptime Monitoring'),
                 'component' => 'sites.tabs.uptime-monitor',
                 'gate' => 'use-uptime',
+                'model' => UptimeMonitor::class,
             ],
 
             'lighthouse' => [
                 'title' => __('Lighthouse Monitoring'),
                 'component' => 'sites.tabs.lighthouse-monitor',
                 'gate' => 'use-lighthouse',
+                'model' => LighthouseMonitor::class,
             ],
 
             'dns' => [
                 'title' => __('DNS Monitoring'),
                 'component' => 'sites.tabs.dns-monitors',
                 'gate' => 'use-dns',
+                'model' => DnsMonitor::class,
             ],
 
             'crawler' => [
                 'title' => __('Link Issues'),
                 'component' => 'sites.tabs.crawler',
                 'gate' => 'use-crawler',
+                'model' => Crawler::class,
             ],
         ];
     }

@@ -8,9 +8,29 @@
         </x-page-header>
     </x-slot>
 
+    @if($empty)
+        <div class="text-center">
+            @svg('tni-folder-plus-o', 'mx-auto h-12 w-12 text-red')
+
+            <h3 class="mt-2 text-sm font-semibold text-white">@lang('No Monitors Configured')</h3>
+
+            <p class="mt-1 text-sm text-base-100">
+                @lang('Get started by adding monitors for this site')
+            </p>
+            <div class="mt-6">
+                <x-form.button class="bg-blue hover:bg-blue-light" :href="route('site.edit', ['site' => $site])">
+                   @lang('Configure Monitors')
+                </x-form.button>
+            </div>
+        </div>
+
+    @endif
+
     <div class="space-y-8 pb-12">
+
+
         @can('use-uptime')
-            @if(($uptimeMonitor = $site->uptimeMonitor) !== null)
+            @if($uptimeMonitor !== null)
                 <div>
                     <div class="mb-4">
                         <a class="text-xl text-white"
