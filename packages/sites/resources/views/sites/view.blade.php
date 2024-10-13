@@ -23,7 +23,6 @@
                 </x-form.button>
             </div>
         </div>
-
     @endif
 
     <div class="space-y-8 pb-12">

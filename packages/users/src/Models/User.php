@@ -3,7 +3,6 @@
 namespace Vigilant\Users\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +12,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 use Vigilant\Users\Database\Factories\UserFactory;
-use Vigilant\Users\Observers\UserObserver;
+use Vigilant\Users\Notifications\VerifyEmail;
 
 /**
  * @property int $id
@@ -31,7 +30,6 @@ use Vigilant\Users\Observers\UserObserver;
  * @property ?Carbon $updated_at
  * @property ?Team $currentTeam
  */
-#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens;
@@ -79,6 +77,16 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function sendEmailVerificationNotification(): void
+    {
+        if (ce()) {
+            $this->markEmailAsVerified();
+            return;
+        }
+
+        $this->notify(new VerifyEmail);
+    }
 
     protected static function newFactory(): UserFactory
     {
