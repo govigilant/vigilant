@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime;
 
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
@@ -13,6 +14,9 @@ use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckLatencyCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
+use Vigilant\Uptime\Events\DowntimeEndEvent;
+use Vigilant\Uptime\Events\DowntimeStartEvent;
+use Vigilant\Uptime\Events\UptimeCheckedEvent;
 use Vigilant\Uptime\Http\Livewire\Charts\ColumnLatencyChart;
 use Vigilant\Uptime\Http\Livewire\Charts\LatencyChart;
 use Vigilant\Uptime\Http\Livewire\Monitor\Dashboard;
@@ -20,6 +24,9 @@ use Vigilant\Uptime\Http\Livewire\Tables\DowntimeTable;
 use Vigilant\Uptime\Http\Livewire\Tables\MonitorTable;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitorForm;
 use Vigilant\Uptime\Http\Livewire\UptimeMonitors;
+use Vigilant\Uptime\Listeners\CheckLatencyListener;
+use Vigilant\Uptime\Listeners\DowntimeEndNotificationListener;
+use Vigilant\Uptime\Listeners\DowntimeStartNotificationListener;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
@@ -31,8 +38,6 @@ class ServiceProvider extends BaseServiceProvider
 {
     public function register(): void
     {
-        $this->app->register(EventServiceProvider::class);
-
         $this
             ->registerConfig();
     }
@@ -53,6 +58,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootViews()
             ->bootLivewire()
             ->bootRoutes()
+            ->bootEvents()
             ->bootNavigation()
             ->bootNotifications()
             ->bootGates()
@@ -118,6 +124,17 @@ class ServiceProvider extends BaseServiceProvider
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
         }
+
+        return $this;
+    }
+
+    protected function bootEvents(): static
+    {
+        Event::listen(DowntimeStartEvent::class, DowntimeStartNotificationListener::class);
+
+        Event::listen(DowntimeEndEvent::class, DowntimeEndNotificationListener::class);
+
+        Event::listen(UptimeCheckedEvent::class, CheckLatencyListener::class);
 
         return $this;
     }
