@@ -3,6 +3,7 @@
 namespace Vigilant\Settings\Livewire;
 
 use Illuminate\Support\Arr;
+use Laravel\Jetstream\Jetstream;
 use Livewire\Attributes\Url;
 use Livewire\Component;
 
@@ -22,20 +23,26 @@ class Settings extends Component
 
     protected function tabs(): array
     {
-        return [
-            'profile' => [
-                'title' => 'Profile',
-                'component' => 'settings-tab-profile',
-            ],
-            'security' => [
-                'title' => 'Account Security',
-                'component' => 'settings-tab-security',
-            ],
-            'team' => [
+        $tabs = [];
+
+        $tabs['profile'] = [
+            'title' => 'Profile',
+            'component' => 'settings-tab-profile',
+        ];
+
+        $tabs['security'] = [
+            'title' => 'Account Security',
+            'component' => 'settings-tab-security',
+        ];
+
+        if (Jetstream::hasTeamFeatures()) {
+            $tabs['team'] = [
                 'title' => 'Team Settings',
                 'component' => 'settings-tab-team',
-            ],
-        ];
+            ];
+        }
+
+        return $tabs;
     }
 
     public function render(): mixed
