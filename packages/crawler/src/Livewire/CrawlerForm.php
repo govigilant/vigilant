@@ -24,7 +24,7 @@ class CrawlerForm extends Component
     public function mount(?Crawler $crawler, ?int $siteId = null): void
     {
         if ($crawler !== null && $crawler->exists) {
-            $this->authorize('edit', $crawler);
+            $this->authorize('update', $crawler);
 
             $this->form->fill($crawler->toArray());
         } else {

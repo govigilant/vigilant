@@ -2,7 +2,6 @@
 
 namespace Vigilant\Uptime\Http\Livewire;
 
-use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -26,7 +25,7 @@ class UptimeMonitorForm extends Component
     {
         if ($monitor !== null) {
             if ($monitor->exists) {
-                $this->authorize('edit', $monitor);
+                $this->authorize('update', $monitor);
             } else {
                 $this->authorize('create', $monitor);
             }
