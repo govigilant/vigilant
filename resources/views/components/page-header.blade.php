@@ -2,7 +2,7 @@
 <div class="md:flex md:items-center md:justify-between">
     <div class="min-w-0 flex-1 flex items-center gap-4">
         @if(isset($back))
-            <a href="{{ $back }}" wire:navigate>
+            <a href="{{ $back }}" wire:navigate.hover>
                 @svg('tni-arrow-left-circle-o', 'w-6 h-6')
             </a>
         @endif

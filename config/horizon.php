@@ -199,6 +199,7 @@ return [
             'queue' => ['uptime'],
             'balance' => 'auto',
             'autoScalingStrategy' => 'time',
+            'minProcesses' => 2,
             'maxProcesses' => 4,
             'maxTime' => 0,
             'maxJobs' => 0,

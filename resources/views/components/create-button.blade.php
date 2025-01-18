@@ -1,6 +1,6 @@
 @props(['model'])
 @can('create', $model)
-    <x-form.button {{ $attributes->merge(['class' => 'bg-blue hover:bg-blue-light']) }}>
+    <x-form.button {{ $attributes->merge(['class' => 'bg-blue hover:bg-blue-light']) }} wire:navigate.hover>
         {{ $slot }}
     </x-form.button>
 @else

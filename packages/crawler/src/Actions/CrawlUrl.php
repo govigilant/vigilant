@@ -77,7 +77,7 @@ class CrawlUrl
         foreach ($links as $link) {
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
-                'url' => $link,
+                'url' => str($link)->limit(8192)->toString(),
             ], [
                 'found_on_id' => $url->uuid,
             ]);
