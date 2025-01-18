@@ -11,7 +11,9 @@ use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawlUrl
 {
-    public function __construct(protected TeamService $teamService) {}
+    public function __construct(protected TeamService $teamService)
+    {
+    }
 
     public function crawl(CrawledUrl $url): void
     {
@@ -19,9 +21,12 @@ class CrawlUrl
 
         $response = Http::timeout(config('crawler.timeout'))
             ->connectTimeout(config('crawler.timeout'))
-            ->withOptions(['verify' => false])
+            ->withOptions(['verify' => false, 'allow_redirects' => false])
             ->withUserAgent(config('core.user_agent'))
             ->get($url->url);
+
+        /** @var array $baseUrl */
+        $baseUrl = parse_url($url->url);
 
         if (! $response->successful()) {
             $url->update([
@@ -37,6 +42,26 @@ class CrawlUrl
                 RatelimitedNotification::notify($url->crawler);
             }
 
+            if ($response->redirect()) {
+
+                $redirectUrl = $response->header('Location');
+
+                if (! $this->isSameDomain($redirectUrl, $baseUrl['host'])) {
+                    return;
+                }
+
+                if (! filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
+                    $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url));
+                }
+
+                CrawledUrl::query()->firstOrCreate([
+                    'crawler_id' => $url->crawler_id,
+                    'url' => str($redirectUrl)->limit(8192)->toString(),
+                ], [
+                    'found_on_id' => $url->uuid,
+                ]);
+
+            }
             return;
         }
 
@@ -46,8 +71,6 @@ class CrawlUrl
         @$dom->loadHTML($html); // Suppress warnings due to potential malformed HTML
 
         $links = [];
-        /** @var array $baseUrl */
-        $baseUrl = parse_url($url->url);
 
         if (! array_key_exists('host', $baseUrl)) {
             return;
