@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Tests\Unit;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
@@ -16,7 +17,7 @@ class CalculateUptimePercentageTest extends TestCase
         Carbon::setTestNow(Carbon::parse('2024-02-24 10:00:00'));
 
         /** @var Monitor $monitor */
-        $monitor = Monitor::withoutEvents(fn (): Monitor => Monitor::factory()->create());
+        $monitor = Monitor::withoutEvents(fn (): Model => Monitor::factory()->create());
 
         ResultAggregate::query()->create([
             'monitor_id' => $monitor->id,
