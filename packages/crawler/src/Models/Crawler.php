@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Users\Models\Team;
 use Vigilant\Users\Observers\TeamObserver;
 
 /**
@@ -27,6 +28,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
+ * @property ?Team $team
  * @property Collection<int, CrawledUrl> $urls
  */
 #[ObservedBy([TeamObserver::class])]
@@ -61,6 +63,11 @@ class Crawler extends Model
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function urls(): HasMany

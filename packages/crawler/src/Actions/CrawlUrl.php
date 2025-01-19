@@ -20,7 +20,7 @@ class CrawlUrl
     {
         $this->teamService->setTeamById($url->team_id);
 
-        if (! Gate::check('create-crawled-url', $url->team)) {
+        if (! Gate::check('create-crawled-url', $url->crawler)) {
             $url->crawler->update([
                 'state' => State::Limited,
             ]);
@@ -63,7 +63,7 @@ class CrawlUrl
                     $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url));
                 }
 
-                if (Gate::check('create-crawled-url', $url->team)) {
+                if (! Gate::check('create-crawled-url', $url->crawler)) {
                     CrawledUrl::query()->firstOrCreate([
                         'crawler_id' => $url->crawler_id,
                         'url' => str($redirectUrl)->limit(8192)->toString(),
@@ -108,7 +108,7 @@ class CrawlUrl
         }
 
         foreach ($links as $link) {
-            if (! Gate::check('create-crawled-url', $url->team)) {
+            if (! Gate::check('create-crawled-url', $url->crawler)) {
                 break;
             }
 

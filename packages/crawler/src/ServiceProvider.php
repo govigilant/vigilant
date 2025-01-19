@@ -28,6 +28,7 @@ use Vigilant\Crawler\Notifications\RatelimitedNotification;
 use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Users\Models\Team;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
@@ -167,7 +168,7 @@ class ServiceProvider extends BaseServiceProvider
         if (ce()) {
             Gate::policy(Crawler::class, AllowAllPolicy::class);
 
-            Gate::define('create-crawled-url', function(Team $team) {
+            Gate::define('create-crawled-url', function(?User $user, Crawler $crawler): bool {
                 return true;
             });
         }
