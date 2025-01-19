@@ -2,6 +2,7 @@
 
 namespace Vigilant\Crawler\Models;
 
+use App\Models\Team;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -25,6 +26,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Site $site
  * @property ?Crawler $crawler
  * @property ?CrawledUrl $foundOn
+ * @property ?Team $team
  */
 #[ObservedBy([TeamObserver::class])]
 #[ScopedBy(TeamScope::class)]
@@ -45,6 +47,11 @@ class CrawledUrl extends Model
     public function site(): BelongsTo
     {
         return $this->belongsTo(Site::class);
+    }
+
+    public function team(): BelongsTo
+    {
+        return $this->belongsTo(Team::class);
     }
 
     public function crawler(): BelongsTo

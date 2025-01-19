@@ -3,6 +3,7 @@
 namespace Vigilant\Crawler\Actions;
 
 use DOMDocument;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
@@ -18,6 +19,14 @@ class CrawlUrl
     public function crawl(CrawledUrl $url): void
     {
         $this->teamService->setTeamById($url->team_id);
+
+        if (! Gate::check('create-crawled-url', $url->team)) {
+            $url->crawler->update([
+                'state' => State::Limited,
+            ]);
+
+            return;
+        }
 
         $response = Http::timeout(config('crawler.timeout'))
             ->connectTimeout(config('crawler.timeout'))
@@ -54,13 +63,14 @@ class CrawlUrl
                     $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url));
                 }
 
-                CrawledUrl::query()->firstOrCreate([
-                    'crawler_id' => $url->crawler_id,
-                    'url' => str($redirectUrl)->limit(8192)->toString(),
-                ], [
-                    'found_on_id' => $url->uuid,
-                ]);
-
+                if (Gate::check('create-crawled-url', $url->team)) {
+                    CrawledUrl::query()->firstOrCreate([
+                        'crawler_id' => $url->crawler_id,
+                        'url' => str($redirectUrl)->limit(8192)->toString(),
+                    ], [
+                        'found_on_id' => $url->uuid,
+                    ]);
+                }
             }
             return;
         }
@@ -98,6 +108,10 @@ class CrawlUrl
         }
 
         foreach ($links as $link) {
+            if (! Gate::check('create-crawled-url', $url->team)) {
+                break;
+            }
+
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
                 'url' => str($link)->limit(8192)->toString(),

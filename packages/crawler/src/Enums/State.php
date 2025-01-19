@@ -9,6 +9,7 @@ enum State: string
     case Finished = 'finished';
 
     case Ratelimited = 'ratelimited';
+    case Limited = 'limited';
 
     public function label(): string
     {
@@ -18,6 +19,7 @@ enum State: string
             State::Finished => 'Finished',
 
             State::Ratelimited => 'Rate Limited',
+            State::Limited => 'Limited',
         };
     }
 }

@@ -25,7 +25,7 @@
                             @endphp
                             <li x-data="{ showChildren: {{ $item->active() || $activeChild ? 'true' : 'false' }} }">
                                 <a href="{{ $item->url }}"
-                                   wire:navigate
+                                   wire:navigate.hover
                                         @class([
                                              'group flex items-center gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold' ,
                                              'bg-gray-800 text-white' => $item->active() || $activeChild,
