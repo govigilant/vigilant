@@ -2,7 +2,6 @@
 
 namespace Vigilant\Crawler\Models;
 
-use App\Models\Team;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -11,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Sites\Models\Site;
+use Vigilant\Users\Models\Team;
 use Vigilant\Users\Observers\TeamObserver;
 
 /**
