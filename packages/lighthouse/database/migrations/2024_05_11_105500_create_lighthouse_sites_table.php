@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('lighthouse_sites', function (Blueprint $table) {
+        Schema::create('lighthouse_monitors', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Site::class)->nullable()->constrained()->onDelete('cascade');
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
@@ -26,6 +26,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('lighthouse_sites');
+        Schema::dropIfExists('lighthouse_monitors');
     }
 };
