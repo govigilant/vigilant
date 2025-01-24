@@ -9,11 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('dns_monitors', function (Blueprint $table): void {
-            $table->string('type', 4096)->change();
+            $table->string('value', 4096)->change();
         });
 
         Schema::table('dns_monitor_histories', function (Blueprint $table): void {
-            $table->string('type', 4096)->change();
+            $table->string('value', 4096)->change();
         });
     }
 };
