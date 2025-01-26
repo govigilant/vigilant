@@ -42,6 +42,13 @@ class Settings extends Component
             ];
         }
 
+        if (!ce()) {
+            $tabs['billing'] = [
+                'title' => 'Billing',
+                'component' => 'settings-tab-billing',
+            ];
+        }
+
         return $tabs;
     }
 
