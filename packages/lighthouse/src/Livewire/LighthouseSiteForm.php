@@ -2,7 +2,6 @@
 
 namespace Vigilant\Lighthouse\Livewire;
 
-use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;

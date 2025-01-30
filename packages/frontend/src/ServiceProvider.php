@@ -22,7 +22,7 @@ class ServiceProvider extends BaseServiceProvider
 
     protected function bootLivewire(): static
     {
-        //Livewire::component('sites', Sites::class);
+        // Livewire::component('sites', Sites::class);
 
         return $this;
     }

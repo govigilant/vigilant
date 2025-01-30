@@ -8,10 +8,7 @@ use Vigilant\Sites\Models\Site;
 
 class ShouldOnboard
 {
-
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function shouldOnboard(): bool
     {

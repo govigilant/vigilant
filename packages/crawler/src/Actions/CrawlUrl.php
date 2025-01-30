@@ -12,9 +12,7 @@ use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawlUrl
 {
-    public function __construct(protected TeamService $teamService)
-    {
-    }
+    public function __construct(protected TeamService $teamService) {}
 
     public function crawl(CrawledUrl $url): void
     {
@@ -72,6 +70,7 @@ class CrawlUrl
                     ]);
                 }
             }
+
             return;
         }
 

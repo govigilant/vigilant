@@ -10,7 +10,7 @@ class DnsClient
 {
     public function get(string $record, int|array $type): array
     {
-        $dnsHandler = (new TCP())
+        $dnsHandler = (new TCP)
             ->setNameserver(config('dns.nameserver'));
 
         $dnsRecordsService = new DnsRecords($dnsHandler);

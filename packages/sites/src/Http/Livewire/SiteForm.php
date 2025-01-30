@@ -19,8 +19,8 @@ use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
 
 class SiteForm extends Component
 {
-    use DisplaysAlerts;
     use CanBeInline;
+    use DisplaysAlerts;
 
     public CreateSiteForm $form;
 
@@ -55,6 +55,7 @@ class SiteForm extends Component
 
         if ($this->inline) {
             $this->dispatch('siteSaved', $this->site->id);
+
             return;
         }
 

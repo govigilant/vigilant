@@ -9,7 +9,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
-use Vigilant\Core\Policies\AllowAllTeamPolicy;
 use Vigilant\Crawler\Commands\CollectCrawlerStatsCommand;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
@@ -22,13 +21,11 @@ use Vigilant\Crawler\Livewire\CrawlerForm;
 use Vigilant\Crawler\Livewire\Crawlers;
 use Vigilant\Crawler\Livewire\Tables\CrawlerTable;
 use Vigilant\Crawler\Livewire\Tables\IssuesTable;
-use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Notifications\RatelimitedNotification;
 use Vigilant\Crawler\Notifications\UrlIssuesNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
-use Vigilant\Users\Models\Team;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
@@ -168,7 +165,7 @@ class ServiceProvider extends BaseServiceProvider
         if (ce()) {
             Gate::policy(Crawler::class, AllowAllPolicy::class);
 
-            Gate::define('create-crawled-url', function(?User $user, Crawler $crawler): bool {
+            Gate::define('create-crawled-url', function (?User $user, Crawler $crawler): bool {
                 return true;
             });
         }

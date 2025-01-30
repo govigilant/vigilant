@@ -16,7 +16,6 @@ use Vigilant\Notifications\Commands\RenameConditionClassesCommand;
 use Vigilant\Notifications\Commands\TestNotificationCommand;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
-use Vigilant\Notifications\Http\Livewire\Channels;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Discord;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Mail;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
