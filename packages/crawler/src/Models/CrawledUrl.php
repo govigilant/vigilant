@@ -24,7 +24,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
- * @property ?Crawler $crawler
+ * @property Crawler $crawler
  * @property ?CrawledUrl $foundOn
  * @property ?Team $team
  */

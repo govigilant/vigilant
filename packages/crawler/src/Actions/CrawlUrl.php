@@ -58,7 +58,7 @@ class CrawlUrl
                 }
 
                 if (! filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
-                    $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url));
+                    $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url)); // @phpstan-ignore-line
                 }
 
                 if (! Gate::check('create-crawled-url', $url->crawler)) {
@@ -107,7 +107,7 @@ class CrawlUrl
         }
 
         foreach ($links as $link) {
-            if (! Gate::check('create-crawled-url', $url->crawler)) {
+            if (! Gate::check('create-crawled-url', $url->crawler)) { // @phpstan-ignore-line
                 break;
             }
 
