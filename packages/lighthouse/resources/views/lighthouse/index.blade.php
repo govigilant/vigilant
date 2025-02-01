@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-header :back="route('lighthouse')" title="Lighthouse Monitor - {{ $lighthouseMonitor->url }}">
+        <x-page-header :back="route('lighthouse')" :title="'Lighthouse Monitor - ' . $lighthouseMonitor->url . ($lighthouseMonitor->enabled ? '' : ' (Disabled)')">
             <x-form.button dusk="lighthouse-edit-button"
                            href="{{ route('lighthouse.edit', ['monitor' => $lighthouseMonitor]) }}"
                            class="bg-blue hover:bg-blue-light">

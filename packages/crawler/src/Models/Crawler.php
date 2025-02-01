@@ -17,6 +17,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
+ * @property boolean $enabled
  * @property ?int $site_id
  * @property int $team_id
  * @property State $state
@@ -40,6 +41,7 @@ class Crawler extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'boolean',
         'state' => State::class,
         'crawler_stats' => 'array',
         'sitemaps' => 'array',

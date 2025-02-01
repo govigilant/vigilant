@@ -6,7 +6,9 @@ use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Vigilant\Core\Validation\CanEnableRule;
 use Vigilant\Uptime\Enums\Type;
+use Vigilant\Uptime\Models\Monitor;
 
 class CreateUptimeMonitorForm extends Form
 {
@@ -15,6 +17,8 @@ class CreateUptimeMonitorForm extends Form
 
     #[Validate('required|max:255')]
     public string $name = '';
+
+    public bool $enabled = true;
 
     public string $type = Type::Http->value;
 
@@ -38,6 +42,7 @@ class CreateUptimeMonitorForm extends Form
                 'type' => ['required', Rule::enum(Type::class)],
                 'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
                 'settings.host' => ['required_if:type,ping,http'],
+                'enabled' => ['boolean', new CanEnableRule(Monitor::class)],
             ]);
     }
 }

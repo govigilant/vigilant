@@ -17,6 +17,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
+ * @property bool $enabled
  * @property ?int $site_id
  * @property int $team_id
  * @property Type $type
@@ -35,6 +36,7 @@ class DnsMonitor extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'bool',
         'type' => Type::class,
         'geoip' => 'array',
     ];

@@ -19,7 +19,7 @@ use Vigilant\Lighthouse\Livewire\LighthouseSites;
 use Vigilant\Lighthouse\Livewire\Monitor\Dashboard;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
-use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
+use Vigilant\Lighthouse\Livewire\Tables\LighthouseMonitorsTable;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
@@ -104,7 +104,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootLivewire(): static
     {
         Livewire::component('lighthouse', LighthouseSites::class);
-        Livewire::component('lighthouse-sites-table', LighthouseSitesTable::class);
+        Livewire::component('lighthouse-sites-table', LighthouseMonitorsTable::class);
         Livewire::component('lighthouse-results-table', LighthouseResultsTable::class);
         Livewire::component('lighthouse-site-form', LighthouseSiteForm::class);
         Livewire::component('lighthouse-categories-chart', LighthouseCategoriesChart::class);

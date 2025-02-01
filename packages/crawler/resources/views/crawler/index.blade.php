@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-header :back="route('crawler.index')" title="Crawler - {{ $crawler->start_url }}">
+        <x-page-header :back="route('crawler.index')" :title="'Crawler - ' .$crawler->start_url . ($crawler->enabled ? '' : ' (Disabled)')">
             <x-form.button dusk="crawler-edit-button" class="bg-blue hover:bg-blue-light"
                            :href="route('crawler.edit', ['crawler' => $crawler])">
                 @lang('Edit')

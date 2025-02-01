@@ -10,15 +10,25 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\Enums\Status;
+use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
-class LighthouseSitesTable extends LivewireTable
+class LighthouseMonitorsTable extends LivewireTable
 {
     protected string $model = LighthouseMonitor::class;
 
     protected function columns(): array
     {
         return [
+            StatusColumn::make(__('Status'))
+                ->text(function (LighthouseMonitor $monitor): string {
+                    return $monitor->enabled ? __('Enabled') : __('Disabled');
+                })
+                ->status(function (LighthouseMonitor $monitor): Status {
+                    return $monitor->enabled ? Status::Success : Status::Danger;
+                }),
+
             Column::make(__('URL'), 'url'),
 
             Column::make(__('Performance'), 'performance')
