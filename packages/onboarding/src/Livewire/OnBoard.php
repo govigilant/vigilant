@@ -24,7 +24,7 @@ class OnBoard extends Component
         OnboardingStep::query()->updateOrCreate([
             'team_id' => $teamService->team()->id,
         ], [
-            'finished_at' => now()
+            'finished_at' => now(),
         ]);
 
         /** @var Site $site */

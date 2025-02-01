@@ -17,8 +17,7 @@ class NavigationItem
         public int $sort = 0,
         public ?string $routeIs = null,
         public ?string $gate = null,
-    ) {
-    }
+    ) {}
 
     public function active(): bool
     {
@@ -98,7 +97,7 @@ class NavigationItem
             return [];
         }
 
-        $navigation = new Navigation();
+        $navigation = new Navigation;
 
         call_user_func($this->childrenCallback, $navigation);
 

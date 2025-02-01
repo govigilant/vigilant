@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('web_crawlers', function (Blueprint $table) {
+        Schema::table('web_crawlers', function (Blueprint $table): void {
             $table->boolean('enabled')->default(true)->after('id');
         });
     }

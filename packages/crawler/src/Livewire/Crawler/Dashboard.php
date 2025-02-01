@@ -28,7 +28,7 @@ class Dashboard extends Component
         return view('crawler::livewire.crawler.dashboard', [
             'total_url_count' => $crawler->totalUrlCount(),
             'issue_count' => $crawler->issueCount(),
-            'nextRun' => $crawler->enabled ? $nextRun->diffForHumans() : __('Crawler disabled')
+            'nextRun' => $crawler->enabled ? $nextRun->diffForHumans() : __('Crawler disabled'),
         ]);
     }
 }

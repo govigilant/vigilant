@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('uptime_monitors', function (Blueprint $table) {
+        Schema::table('uptime_monitors', function (Blueprint $table): void {
             $table->boolean('enabled')->after('id')->default(true);
         });
     }

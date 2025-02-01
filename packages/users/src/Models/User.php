@@ -41,6 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The attributes that are mass assignable.
+     *
      * @var array<int, string>
      */
     protected $fillable = [
@@ -49,6 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The attributes that should be hidden for serialization.
+     *
      * @var array<int, string>
      */
     protected $hidden = [
@@ -60,6 +62,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The attributes that should be cast.
+     *
      * @var array<string, string>
      */
     protected $casts = [
@@ -68,6 +71,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * The accessors to append to the model's array form.
+     *
      * @var array<int, string>
      */
     protected $appends = [
@@ -78,6 +82,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         if (ce()) {
             $this->markEmailAsVerified();
+
             return;
         }
 

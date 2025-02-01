@@ -2,7 +2,6 @@
 
 namespace Vigilant\Sites\Http\Livewire\Tabs;
 
-use Illuminate\Support\Facades\Gate;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;

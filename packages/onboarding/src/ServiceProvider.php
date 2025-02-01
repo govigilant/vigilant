@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\OnBoarding\Livewire\OnBoard;
-use Vigilant\onboarding\Livewire\Tabs\Profile;
-use Vigilant\onboarding\Livewire\Tabs\Team;
 
 class ServiceProvider extends BaseServiceProvider
 {

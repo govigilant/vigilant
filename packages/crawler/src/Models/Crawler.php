@@ -17,7 +17,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
- * @property boolean $enabled
+ * @property bool $enabled
  * @property ?int $site_id
  * @property int $team_id
  * @property State $state

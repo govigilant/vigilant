@@ -17,6 +17,7 @@ class HistoryTable extends LivewireTable
     protected string $model = History::class;
 
     public string $sortColumn = 'created_at';
+
     public string $sortDirection = 'desc';
 
     protected function columns(): array
@@ -50,9 +51,9 @@ class HistoryTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            //Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            // Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
             //    $models->each(fn (Channel $channel) => $channel->delete());
-            //}),
+            // }),
         ];
     }
 }

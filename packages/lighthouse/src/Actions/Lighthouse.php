@@ -12,7 +12,7 @@ class Lighthouse
 
     public function run(LighthouseMonitor $site): void
     {
-        $process = Process::run('lighthouse ' . $site->url . ' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')
+        $process = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')
             ->throw();
 
         $result = json_decode($process->output(), true);

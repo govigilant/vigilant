@@ -41,7 +41,7 @@ class CrawlerTable extends LivewireTable
 
             Column::make(__('Next Run'), 'schedule')
                 ->displayUsing(function (string $schedule, Crawler $crawler): ?string {
-                    if (!$crawler->enabled) {
+                    if (! $crawler->enabled) {
                         return null;
                     }
 

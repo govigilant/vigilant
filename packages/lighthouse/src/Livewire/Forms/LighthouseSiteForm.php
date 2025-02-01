@@ -30,6 +30,7 @@ class LighthouseSiteForm extends Form
         return array_merge(parent::getRules(),
             [
                 'enabled' => ['boolean', new CanEnableRule(LighthouseMonitor::class)],
-            ]);
+            ]
+        );
     }
 }
