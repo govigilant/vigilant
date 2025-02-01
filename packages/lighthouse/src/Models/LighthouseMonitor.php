@@ -15,6 +15,7 @@ use Vigilant\Users\Observers\TeamObserver;
 
 /**
  * @property int $id
+ * @property bool $enabled
  * @property ?int $site_id
  * @property int $team_id
  * @property string $url
@@ -32,6 +33,7 @@ class LighthouseMonitor extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'bool',
         'settings' => 'array',
     ];
 

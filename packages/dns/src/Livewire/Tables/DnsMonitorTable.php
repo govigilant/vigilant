@@ -7,8 +7,10 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Models\DnsMonitor;
+use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
+use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
 class DnsMonitorTable extends LivewireTable
 {
@@ -17,6 +19,14 @@ class DnsMonitorTable extends LivewireTable
     protected function columns(): array
     {
         return [
+            StatusColumn::make(__('Status'))
+                ->text(function (DnsMonitor $monitor): string {
+                    return $monitor->enabled ? __('Enabled') : __('Disabled due to resource limits');
+                })
+                ->status(function (DnsMonitor $monitor): Status {
+                    return $monitor->enabled ? Status::Success : Status::Danger;
+                }),
+
             Column::make(__('Type'), 'type')
                 ->searchable()
                 ->sortable(),

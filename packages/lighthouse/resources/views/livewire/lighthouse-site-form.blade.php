@@ -3,13 +3,18 @@
         <x-slot name="header">
             <x-page-header
                 :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseMonitor->url : 'Add Lighthouse Monitor'"
-                :back="route('lighthouse')">
+                :back="route('lighthouse.index', ['monitor' => $lighthouseMonitor])">
             </x-page-header>
         </x-slot>
     @endif
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
+            <x-form.checkbox
+                field="form.enabled"
+                name="Enabled"
+                description="Enable or disable this lighthouse monitor"
+            />
 
             <x-form.text
                 field="form.url"

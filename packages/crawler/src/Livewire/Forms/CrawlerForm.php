@@ -4,6 +4,8 @@ namespace Vigilant\Crawler\Livewire\Forms;
 
 use Livewire\Attributes\Locked;
 use Livewire\Form;
+use Vigilant\Core\Validation\CanEnableRule;
+use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Validation\EqualDomainRule;
 use Vigilant\Frontend\Validation\CronExpression;
 
@@ -11,6 +13,8 @@ class CrawlerForm extends Form
 {
     #[Locked]
     public ?int $site_id;
+
+    public bool $enabled = true;
 
     public string $schedule = '0 0 * * *';
 
@@ -35,6 +39,7 @@ class CrawlerForm extends Form
             'sitemaps' => ['required_without:start_url', 'array', new EqualDomainRule],
             'sitemaps.*' => ['required', 'url'],
             'settings' => ['array'],
+            'enabled' => ['boolean', new CanEnableRule(Crawler::class)],
         ];
     }
 }

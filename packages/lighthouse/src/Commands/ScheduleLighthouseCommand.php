@@ -17,6 +17,7 @@ class ScheduleLighthouseCommand extends Command
     {
         LighthouseMonitor::query()
             ->withoutGlobalScopes()
+            ->where('enabled', '=', true)
             ->get()
             ->each(function (LighthouseMonitor $site) {
 

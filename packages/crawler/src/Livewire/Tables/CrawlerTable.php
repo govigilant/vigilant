@@ -27,12 +27,24 @@ class CrawlerTable extends LivewireTable
     protected function columns(): array
     {
         return [
+            StatusColumn::make(__('Status'))
+                ->text(function (Crawler $crawler): string {
+                    return $crawler->enabled ? __('Enabled') : __('Disabled');
+                })
+                ->status(function (Crawler $crawler): Status {
+                    return $crawler->enabled ? Status::Success : Status::Danger;
+                }),
+
             Column::make(__('URL'), 'start_url')
                 ->searchable()
                 ->sortable(),
 
             Column::make(__('Next Run'), 'schedule')
-                ->displayUsing(function (string $schedule): string {
+                ->displayUsing(function (string $schedule, Crawler $crawler): ?string {
+                    if (! $crawler->enabled) {
+                        return null;
+                    }
+
                     $expression = new CronExpression($schedule);
                     $nextRun = Carbon::parse($expression->getNextRunDate());
 

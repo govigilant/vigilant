@@ -34,6 +34,10 @@ class MonitorTable extends LivewireTable
 
             StatusColumn::make(__('Status'))
                 ->text(function (Monitor $monitor): string {
+                    if (! $monitor->enabled) {
+                        return __('Disabled');
+                    }
+
                     $downtime = $monitor->currentDowntime();
 
                     if ($downtime !== null) {
@@ -60,7 +64,7 @@ class MonitorTable extends LivewireTable
                 ->status(function (Monitor $monitor): Status {
                     $downtime = $monitor->currentDowntime();
 
-                    if ($downtime !== null) {
+                    if ($downtime !== null || ! $monitor->enabled) {
                         return Status::Danger;
                     }
 

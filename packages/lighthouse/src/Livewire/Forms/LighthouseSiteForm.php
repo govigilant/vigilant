@@ -5,6 +5,8 @@ namespace Vigilant\Lighthouse\Livewire\Forms;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
+use Vigilant\Core\Validation\CanEnableRule;
+use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseSiteForm extends Form
 {
@@ -14,10 +16,21 @@ class LighthouseSiteForm extends Form
     #[Validate('required|url|max:255')]
     public string $url = '';
 
+    public bool $enabled = true;
+
     public array $settings = [
         'host' => '',
     ];
 
     #[Validate('required')]
     public string $interval = '0 */3 * * *';
+
+    public function getRules(): array
+    {
+        return array_merge(parent::getRules(),
+            [
+                'enabled' => ['boolean', new CanEnableRule(LighthouseMonitor::class)],
+            ]
+        );
+    }
 }

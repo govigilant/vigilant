@@ -24,7 +24,7 @@ class DnsMonitorForm extends Component
     {
         if ($monitor !== null) {
             if ($monitor->exists) {
-                $this->authorize('edit', $monitor);
+                $this->authorize('update', $monitor);
             } else {
                 $this->authorize('create', $monitor);
             }

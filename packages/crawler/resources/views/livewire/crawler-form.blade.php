@@ -3,13 +3,19 @@
         <x-slot name="header">
             <x-page-header
                 :title="$updating ? __('Edit Crawler :url', ['url' => $crawler->start_url])  : __('Add Crawler')"
-                :back="route('crawler.index')">
+                :back="route('crawler.view', ['crawler' => $crawler])">
             </x-page-header>
         </x-slot>
     @endif
 
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
+
+            <x-form.checkbox
+                field="form.enabled"
+                name="Enabled"
+                description="Enable or disable the crawler"
+            />
 
             <x-form.text
                 field="form.start_url"

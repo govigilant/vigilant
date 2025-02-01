@@ -19,6 +19,7 @@ use Vigilant\Users\Models\Team;
 
 /**
  * @property int $id
+ * @property bool $enabled
  * @property ?int $site_id
  * @property int $team_id
  * @property string $name
@@ -46,6 +47,7 @@ class Monitor extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'boolean',
         'type' => Type::class,
         'settings' => 'array',
     ];

@@ -17,6 +17,7 @@ class ScheduleCrawlersCommand extends Command
     {
         Crawler::query()
             ->withoutGlobalScopes()
+            ->where('enabled', '=', true)
             ->get()
             ->each(function (Crawler $crawler) use ($starter) {
                 if (CronExpression::isValidExpression($crawler->schedule)) {

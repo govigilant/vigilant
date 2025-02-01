@@ -7,7 +7,7 @@ use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
-use Vigilant\Lighthouse\Livewire\Tables\LighthouseSitesTable;
+use Vigilant\Lighthouse\Livewire\Tables\LighthouseMonitorsTable;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Sites\Models\Site;
@@ -52,7 +52,7 @@ class SiteTable extends LivewireTable
 
                     $score = array_sum($scores) / count($scores);
 
-                    return LighthouseSitesTable::scoreDisplay($score);
+                    return LighthouseMonitorsTable::scoreDisplay($score);
                 })
                 ->asHtml(),
 

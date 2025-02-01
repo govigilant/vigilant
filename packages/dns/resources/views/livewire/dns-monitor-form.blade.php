@@ -9,6 +9,12 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
+            <x-form.text
+                field="form.enabled"
+                name="Enabled"
+                description="Enable or disable this DNS monitor"
+            />
+
             <x-form.select
                 field="form.type"
                 name="Type"

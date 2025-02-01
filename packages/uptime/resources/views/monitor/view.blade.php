@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <x-page-header :back="route('uptime')" title="Uptime Monitor - {{ $monitor->name }}">
+        <x-page-header :back="route('uptime')" :title="'Uptime Monitor - '. $monitor->name . (!$monitor->enabled ? ' (Disabled)' : '')">
             <x-form.button dusk="monitor-edit-button" class="bg-blue hover:bg-blue-light"
                            :href="route('uptime.monitor.edit', ['monitor' => $monitor])">
                 @lang('Edit')
