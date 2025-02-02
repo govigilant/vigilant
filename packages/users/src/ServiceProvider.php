@@ -2,9 +2,12 @@
 
 namespace Vigilant\Users;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Vigilant\Core\Services\TeamService;
+use Vigilant\Users\Models\Team;
+use Vigilant\Users\Policies\TeamPolicy;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -28,7 +31,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootConfig()
             ->bootMigrations()
-            ->bootCommands();
+            ->bootCommands()
+            ->bootPolicies();
     }
 
     protected function bootServices(): static
@@ -70,6 +74,16 @@ class ServiceProvider extends BaseServiceProvider
             $this->commands([
 
             ]);
+        }
+
+        return $this;
+    }
+
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(Team::class, TeamPolicy::class);
         }
 
         return $this;
