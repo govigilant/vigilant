@@ -51,5 +51,9 @@ class Lighthouse
         }
 
         $this->lighthouseResult->check($result);
+
+        $site->update([
+            'next_run' => now()->addMinutes($site->interval),
+        ]);
     }
 }
