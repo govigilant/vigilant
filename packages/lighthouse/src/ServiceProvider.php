@@ -61,7 +61,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootNavigation()
             ->bootNotifications()
             ->bootGates()
-            ->bootPolicies();
+            ->bootPolicies()
+            ->bootConfig();
     }
 
     protected function bootConfig(): static
@@ -69,6 +70,17 @@ class ServiceProvider extends BaseServiceProvider
         $this->publishes([
             __DIR__.'/../config/lighthouse.php' => config_path('lighthouse.php'),
         ], 'config');
+
+        if (ce()) {
+            config()->set('lighthouse.intervals', [
+                60 => 'Hourly',
+                60 * 3 => 'Every 3 hours',
+                60 * 6 => 'Every 6 hours',
+                60 * 12 => 'Every 12 hours',
+                60 * 24 => 'Daily',
+                60 * 24 * 7 => 'Weekly',
+            ]);
+        }
 
         return $this;
     }

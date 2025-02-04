@@ -2,4 +2,6 @@
 
 return [
     'queue' => 'lighthouse',
+
+    'intervals' => [],
 ];
