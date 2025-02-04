@@ -27,7 +27,9 @@ class LighthouseSiteForm extends Component
                 $this->authorize('update', $monitor);
             } else {
                 $this->authorize('create', $monitor);
-                $this->form->interval = collect(config('lighthouse.intervals'))->keys()->first();
+                /** @var int $defaultInterval */
+                $defaultInterval = collect(config('lighthouse.intervals'))->keys()->first() ?? 60 * 24; // @phpstan-ignore-line
+                $this->form->interval = $defaultInterval;
             }
 
             $this->form->fill($monitor->toArray());

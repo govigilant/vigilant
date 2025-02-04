@@ -61,8 +61,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootNavigation()
             ->bootNotifications()
             ->bootGates()
-            ->bootPolicies()
-            ->bootConfig();
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
