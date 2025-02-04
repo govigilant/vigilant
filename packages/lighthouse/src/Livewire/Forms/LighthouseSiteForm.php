@@ -22,14 +22,14 @@ class LighthouseSiteForm extends Form
         'host' => '',
     ];
 
-    #[Validate('required')]
-    public string $interval = '0 */3 * * *';
+    public int $interval = 60 * 24;
 
     public function getRules(): array
     {
         return array_merge(parent::getRules(),
             [
                 'enabled' => ['boolean', new CanEnableRule(LighthouseMonitor::class)],
+                'interval' => ['required', 'integer', 'in:' . implode(',', array_keys(config('lighthouse.intervals')))],
             ]
         );
     }
