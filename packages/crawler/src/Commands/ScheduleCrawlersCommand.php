@@ -5,6 +5,7 @@ namespace Vigilant\Crawler\Commands;
 use Cron\CronExpression;
 use Illuminate\Console\Command;
 use Vigilant\Crawler\Actions\StartCrawler;
+use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\Crawler;
 
 class ScheduleCrawlersCommand extends Command
@@ -18,6 +19,7 @@ class ScheduleCrawlersCommand extends Command
         Crawler::query()
             ->withoutGlobalScopes()
             ->where('enabled', '=', true)
+            ->where('state', '!=', State::Crawling)
             ->get()
             ->each(function (Crawler $crawler) use ($starter) {
                 if (CronExpression::isValidExpression($crawler->schedule)) {
