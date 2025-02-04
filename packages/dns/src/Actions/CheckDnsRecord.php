@@ -25,7 +25,7 @@ class CheckDnsRecord
 
         $previous = $monitor->history()->create([
             'type' => $monitor->type,
-            'value' => $monitor->value,
+            'value' => $monitor->value ?? '',
             'geoip' => $monitor->geoip,
         ]);
 

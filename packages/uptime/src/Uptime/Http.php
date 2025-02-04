@@ -2,6 +2,7 @@
 
 namespace Vigilant\Uptime\Uptime;
 
+use GuzzleHttp\Exception\ConnectException;
 use Illuminate\Support\Facades\Http as HttpClient;
 use Illuminate\Support\Facades\Validator;
 use Vigilant\Uptime\Data\UptimeResult;
@@ -15,11 +16,20 @@ class Http extends UptimeMonitor
             'host' => ['required', 'url'],
         ]);
 
-        $response = HttpClient::timeout($monitor->timeout)
-            ->connectTimeout($monitor->timeout)
-            ->withOptions(['verify' => false])
-            ->withUserAgent(config('core.user_agent'))
-            ->get($settings['host']);
+        try {
+            $response = HttpClient::timeout($monitor->timeout)
+                ->connectTimeout($monitor->timeout)
+                ->withOptions(['verify' => false])
+                ->withUserAgent(config('core.user_agent'))
+                ->get($settings['host']);
+        } catch (ConnectException $e) {
+            return new UptimeResult(
+                false,
+                data: [
+                    'message' => $e->getMessage(),
+                ],
+            );
+        }
 
         if (! $response->ok()) {
             return new UptimeResult(
