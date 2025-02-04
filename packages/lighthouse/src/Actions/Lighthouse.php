@@ -12,6 +12,10 @@ class Lighthouse
 
     public function run(LighthouseMonitor $site): void
     {
+        $site->update([
+            'next_run' => now()->addMinutes($site->interval),
+        ]);
+
         $process = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')
             ->throw();
 
@@ -51,9 +55,5 @@ class Lighthouse
         }
 
         $this->lighthouseResult->check($result);
-
-        $site->update([
-            'next_run' => now()->addMinutes($site->interval),
-        ]);
     }
 }

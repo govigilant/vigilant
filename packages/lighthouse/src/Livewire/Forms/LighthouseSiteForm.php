@@ -23,7 +23,7 @@ class LighthouseSiteForm extends Form
     ];
 
     #[Validate('required')]
-    public string $interval = '0 */3 * * *';
+    public int $interval = 60 * 24;
 
     public function getRules(): array
     {

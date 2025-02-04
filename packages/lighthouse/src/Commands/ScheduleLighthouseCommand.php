@@ -2,8 +2,9 @@
 
 namespace Vigilant\Lighthouse\Commands;
 
-use Cron\CronExpression;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Foundation\Bus\PendingDispatch;
 use Vigilant\Lighthouse\Jobs\LighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
@@ -18,18 +19,13 @@ class ScheduleLighthouseCommand extends Command
         LighthouseMonitor::query()
             ->withoutGlobalScopes()
             ->where('enabled', '=', true)
-            ->where('next_run', '<=', now())
+            ->where(function (Builder $query): void {
+                $query
+                    ->whereNull('next_run')
+                    ->orWhere('next_run', '<=', now());
+            })
             ->get()
-            ->each(function (LighthouseMonitor $site) {
-
-                if (CronExpression::isValidExpression($site->interval)) {
-                    $expression = new CronExpression($site->interval);
-
-                    if ($expression->isDue(now())) {
-                        LighthouseJob::dispatch($site);
-                    }
-                }
-            });
+            ->each(fn (LighthouseMonitor $monitor): PendingDispatch => LighthouseJob::dispatch($monitor));
 
         return static::SUCCESS;
     }

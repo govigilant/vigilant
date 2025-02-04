@@ -1,6 +1,6 @@
 <div>
     @if(!$inline)
-        <:q-slot name="header">
+        <x-slot name="header">
             <x-page-header
                 :title="$updating ? 'Edit Lighthouse Monitor - ' . $lighthouseMonitor->url : 'Add Lighthouse Monitor'"
                 :back="$updating ? route('lighthouse.index', ['monitor' => $lighthouseMonitor]) : route('lighthouse')">
@@ -27,6 +27,9 @@
                 name="Interval"
                 description="Choose how often this monitor should check the lighthouse scores"
             >
+                @foreach(config('lighthouse.intervals') as $interval => $label)
+                    <option value="{{ $interval }}">@lang($label)</option>
+                @endforeach
             </x-form.select>
 
             @if(!$inline)
