@@ -2,11 +2,11 @@
 
 namespace Vigilant\Lighthouse\Tests\Actions;
 
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Process;
-use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
-use Vigilant\Lighthouse\Actions\CheckLighthouseResult;
 use Vigilant\Lighthouse\Actions\Lighthouse;
+use Vigilant\Lighthouse\Jobs\LighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Tests\TestCase;
@@ -16,9 +16,7 @@ class LighthouseTest extends TestCase
     #[Test]
     public function it_runs_lighthouse(): void
     {
-        $this->mock(CheckLighthouseResult::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('check')->once();
-        });
+        Bus::fake();
 
         $output = json_encode([
             'categories' => [
@@ -67,7 +65,7 @@ class LighthouseTest extends TestCase
             'interval' => '0 * * * *',
         ]);
 
-        $action->run($site);
+        $action->run($site, null);
 
         /** @var ?LighthouseResult $result */
         $result = $site->lighthouseResults()->first();
@@ -79,5 +77,7 @@ class LighthouseTest extends TestCase
         $this->assertEquals(1, $result->seo);
 
         $this->assertEquals(1, $result->audits()->count());
+
+        Bus::assertDispatched(LighthouseJob::class);
     }
 }
