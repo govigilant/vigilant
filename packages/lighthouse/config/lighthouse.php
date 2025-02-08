@@ -11,4 +11,6 @@ return [
         60 * 24 => 'Daily',
         60 * 24 * 7 => 'Weekly',
     ],
+
+    'runs' => env('LIGHTHOUSE_RUNS', 3),
 ];

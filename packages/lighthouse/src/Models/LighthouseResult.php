@@ -23,7 +23,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property bool $aggregated
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
- * @property ?LighthouseMonitor $lighthouseSite
+ * @property LighthouseMonitor $lighthouseSite
  * @property Collection<int, LighthouseResultAudit> $audits
  */
 #[ObservedBy([TeamObserver::class])]
