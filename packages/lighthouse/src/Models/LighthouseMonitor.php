@@ -18,6 +18,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property bool $enabled
  * @property ?int $site_id
  * @property int $team_id
+ * @property ?string $batch_id
  * @property string $url
  * @property array $settings
  * @property int $interval

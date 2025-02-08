@@ -3,6 +3,8 @@
 namespace Vigilant\Lighthouse\Actions;
 
 use Illuminate\Support\Facades\Process;
+use Vigilant\Lighthouse\Jobs\AggregateLighthouseBatchJob;
+use Vigilant\Lighthouse\Jobs\LighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 
@@ -10,14 +12,17 @@ class Lighthouse
 {
     public function __construct(protected CheckLighthouseResult $lighthouseResult) {}
 
-    public function run(LighthouseMonitor $site): void
+    public function run(LighthouseMonitor $monitor, ?string $batchId): void
     {
-        $site->update([
-            'next_run' => now()->addMinutes($site->interval),
-        ]);
+        if ($batchId === null) {
+            $batchId = str()->uuid();
 
-        $process = Process::run('lighthouse '.$site->url.' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')
-            ->throw();
+            $monitor->update([
+                'next_run' => now()->addMinutes($monitor->interval),
+            ]);
+        }
+
+        $process = Process::run('lighthouse '.$monitor->url.' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')->throw();
 
         $result = json_decode($process->output(), true);
 
@@ -34,7 +39,7 @@ class Lighthouse
             ->toArray();
 
         /** @var LighthouseResult $result */
-        $result = $site->lighthouseResults()->create($categories);
+        $result = $monitor->lighthouseResults()->create(array_merge(['batch_id' => $batchId], $categories));
 
         foreach ($audits as $audit) {
             $result->audits()->create([
@@ -54,6 +59,17 @@ class Lighthouse
             ]);
         }
 
-        $this->lighthouseResult->check($result);
+        $batchCount = $monitor->lighthouseResults()
+            ->where('batch_id', $batchId)
+            ->count();
+
+        /** @var int $lighthouseRuns */
+        $lighthouseRuns = config('lighthouse.runs');
+
+        if ($batchCount >= $lighthouseRuns) {
+            AggregateLighthouseBatchJob::dispatch($monitor, $batchId);
+        } else {
+            LighthouseJob::dispatch($monitor, $batchId);
+        }
     }
 }

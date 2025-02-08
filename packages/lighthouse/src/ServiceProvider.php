@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
+use Vigilant\Lighthouse\Commands\AggregateLighthouseBatchCommand;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\CheckLighthouseCommand;
 use Vigilant\Lighthouse\Commands\LighthouseCommand;
@@ -88,6 +89,7 @@ class ServiceProvider extends BaseServiceProvider
                 ScheduleLighthouseCommand::class,
                 CheckLighthouseCommand::class,
                 AggregateLighthouseResultsCommand::class,
+                AggregateLighthouseBatchCommand::class,
             ]);
         }
 

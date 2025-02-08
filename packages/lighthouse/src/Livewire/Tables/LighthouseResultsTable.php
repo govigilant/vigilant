@@ -81,6 +81,7 @@ class LighthouseResultsTable extends LivewireTable
     protected function query(): Builder
     {
         return parent::query()
-            ->where('lighthouse_monitor_id', '=', $this->monitorId);
+            ->where('lighthouse_monitor_id', '=', $this->monitorId)
+            ->whereNull('batch_id');
     }
 }
