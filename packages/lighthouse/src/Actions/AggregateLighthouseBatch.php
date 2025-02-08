@@ -13,12 +13,24 @@ class AggregateLighthouseBatch
     {
         $results = $monitor->lighthouseResults()->where('batch_id', '=', $batchId)->get();
 
+        if ($results->isEmpty()) {
+            return;
+        }
+
+        if ($results->count() === 1) {
+            CheckLighthouseResultJob::dispatch($results->first());
+
+            return;
+        }
+
+        /** @var LighthouseResult $resultAverages */
         $resultAverages = $monitor->lighthouseResults()
             ->where('batch_id', '=', $batchId)
             ->groupBy('batch_id')
             ->selectRaw('AVG(performance) as performance, AVG(accessibility) as accessibility, AVG(best_practices) as best_practices, AVG(seo) as seo')
             ->first();
 
+        /** @var LighthouseResult $newResult */
         $newResult = $monitor->lighthouseResults()->create([
             'performance' => $resultAverages->performance,
             'accessibility' => $resultAverages->accessibility,
@@ -40,11 +52,15 @@ class AggregateLighthouseBatch
                 ->selectRaw('AVG(score) as score, AVG(numericValue) as numericValue')
                 ->first();
 
-            /** @var ?LighthouseResultAudit $newAuditResult */
+            /** @var ?LighthouseResultAudit $allValues */
             $allValues = LighthouseResultAudit::query()
                 ->whereIn('lighthouse_result_id', $results->pluck('id'))
                 ->where('audit', '=', $audit)
                 ->first();
+
+            if ($averages === null || $allValues === null) {
+                continue;
+            }
 
             $newResult->audits()->create(array_merge([
                 'audit' => $audit,

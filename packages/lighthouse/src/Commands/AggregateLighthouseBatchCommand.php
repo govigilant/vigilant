@@ -19,11 +19,15 @@ class AggregateLighthouseBatchCommand extends Command
         $resultId = (int) $this->argument('resultId');
 
         /** @var LighthouseResult $result */
-        $result = LighthouseResult::query()->withoutGlobalScopes()->findOrFail($resultId);
+        $result = LighthouseResult::query()
+            ->withoutGlobalScopes()
+            ->whereNotNull('batch_id')
+            ->where('id', '=', $resultId)
+            ->firstOrFail();
 
         $teamService->setTeamById($result->team_id);
 
-        $aggregator->aggregateBatch($result->lighthouseSite, $result->batch_id);
+        $aggregator->aggregateBatch($result->lighthouseSite, $result->batch_id); // @phpstan-ignore-line
 
         return static::SUCCESS;
     }
