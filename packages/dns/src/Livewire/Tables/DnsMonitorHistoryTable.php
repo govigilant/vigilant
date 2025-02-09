@@ -15,6 +15,10 @@ class DnsMonitorHistoryTable extends LivewireTable
 
     public DnsMonitor $monitor;
 
+    public string $sortColumn = 'created_at';
+
+    public string $sortDirection = 'desc';
+
     public function mount(DnsMonitor $monitor): void
     {
         $this->monitor = $monitor;
