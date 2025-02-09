@@ -33,6 +33,7 @@ class LighthouseCategoriesChart extends BaseChart
     {
         $results = LighthouseResult::query()
             ->where('lighthouse_monitor_id', '=', $this->lighthouseMonitorId)
+            ->whereNull('batch_id')
             ->get();
 
         $labels = $results->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->toDateTimeString());
@@ -42,52 +43,34 @@ class LighthouseCategoriesChart extends BaseChart
             'data' => [
                 'labels' => $labels,
                 'datasets' => [
-                    [
+                    $this->dataset([
                         'label' => 'Performance',
                         'data' => $results->pluck('performance')->map(fn (float $value): float => $value * 100),
-                        'pointRadius' => 0,
-                        'pointHoverRadius' => 0,
-                        'borderWidth' => 2,
                         'borderColor' => '#205EA6',
-                        'tension' => 0.4,
-                    ],
-                    [
+                    ]),
+                    $this->dataset([
                         'label' => 'Accessibility',
                         'data' => $results->pluck('accessibility')->map(fn (float $value): float => $value * 100),
-                        'pointRadius' => 0,
-                        'pointHoverRadius' => 0,
-                        'borderWidth' => 2,
                         'borderColor' => '#5E409D',
-                        'tension' => 0.4,
-                    ],
-                    [
+                    ]),
+                    $this->dataset([
                         'label' => 'Best Practices',
                         'data' => $results->pluck('best_practices')->map(fn (float $value): float => $value * 100),
-                        'pointRadius' => 0,
-                        'pointHoverRadius' => 0,
-                        'borderWidth' => 2,
                         'borderColor' => '#A02F6F',
-                        'tension' => 0.4,
-                    ],
-                    [
+                    ]),
+                    $this->dataset([
                         'label' => 'SEO',
                         'data' => $results->pluck('seo')->map(fn (float $value): float => $value * 100),
-                        'pointRadius' => 0,
-                        'pointHoverRadius' => 0,
-                        'borderWidth' => 2,
                         'borderColor' => '#24837B',
-                        'tension' => 0.4,
-                    ],
-
+                    ]),
                 ],
             ],
             'options' => [
                 'plugins' => [
                     'legend' => [
-                        'display' => true,
-                    ],
-                    'tooltip' => [
                         'enabled' => true,
+                        'position' => 'left',
+                        'align' => 'start',
                     ],
                 ],
                 'scales' => [

@@ -64,26 +64,14 @@ class NumericLighthouseChart extends BaseChart
             'data' => [
                 'labels' => $audits->map(fn (LighthouseResultAudit $audit): string => $audit->created_at?->toDateTimeString('minute') ?? '-')->toArray(),
                 'datasets' => [
-                    [
+                    $this->dataSet([
                         'label' => $title.' (s)',
                         'data' => $audits->map(fn (LighthouseResultAudit $audit): string => $formatter($audit['numericValue']))->toArray(),
-                        'pointRadius' => 0,
-                        'pointHoverRadius' => 0,
-                        'borderWidth' => 2,
                         'borderColor' => '#205EA6',
-                        'tension' => 0.4,
-                    ],
+                    ]),
                 ],
             ],
             'options' => [
-                'plugins' => [
-                    'legend' => [
-                        'display' => true,
-                    ],
-                    'tooltip' => [
-                        'enabled' => true,
-                    ],
-                ],
                 'scales' => [
                     'y' => [
                         'display' => true,
