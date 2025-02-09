@@ -10,7 +10,7 @@ class DnsMonitorHistory extends Component
 {
     public DnsMonitor $monitor;
 
-    public function mount(DnsMonitor $monitor)
+    public function mount(DnsMonitor $monitor): void
     {
         $this->monitor = $monitor;
     }

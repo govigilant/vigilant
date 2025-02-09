@@ -15,7 +15,7 @@ class DnsMonitorHistoryTable extends LivewireTable
 
     public DnsMonitor $monitor;
 
-    public function mount(DnsMonitor $monitor)
+    public function mount(DnsMonitor $monitor): void
     {
         $this->monitor = $monitor;
     }
