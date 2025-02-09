@@ -17,7 +17,7 @@ abstract class BaseChart extends Component
         $data = cache()->remember(
             $this->getCacheKey(),
             now()->addHour(),
-            fn () => array_merge_recursive($this->defaultOptions(), $this->data())
+            fn () => array_replace_recursive($this->defaultOptions(), $this->data())
         );
 
         $this->dispatch($this->getIdentifier().'-update-chart', $data);
@@ -44,18 +44,18 @@ abstract class BaseChart extends Component
             'options' => [
                 'maintainAspectRatio' => false,
                 'responsive' => true,
-                'scaleShowValues' => true,
-                'borderWidth' => 4,
-                'borderJoinStyle' => 'round',
-                'tension' => 0.4,
-                'pointRadius' => .5,
-                'pointHitRadius' => 10,
                 'plugins' => [
                     'legend' => [
-                        'position' => 'bottom',
+                        'position' => 'top',
+                        'align' => 'center',
                     ],
                     'title' => [
                         'display' => false,
+                    ],
+                    'tooltip' => [
+                        'position' => 'average',
+                        'mode' => 'index',
+                        'intersect' => false,
                     ],
                 ],
                 'scales' => [
@@ -78,6 +78,18 @@ abstract class BaseChart extends Component
                 ],
             ],
         ];
+    }
+
+    protected function dataset(array $dataset): array
+    {
+        return array_merge([
+            'pointRadius' => 0,
+            'pointHoverRadius' => 1,
+            'borderCapStyle' => 'round',
+            'borderJoinStyle' => 'round',
+            'borderWidth' => 4,
+            'tension' => 0.6,
+        ], $dataset);
     }
 
     protected function getIdentifier(): string
