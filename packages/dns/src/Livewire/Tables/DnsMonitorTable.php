@@ -2,6 +2,7 @@
 
 namespace Vigilant\Dns\Livewire\Tables;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
@@ -43,6 +44,11 @@ class DnsMonitorTable extends LivewireTable
 
             GeoIpColumn::make(__('Location'), 'geoip.country_code'),
         ];
+    }
+
+    protected function link(Model $record): string
+    {
+        return route('dns.history', ['monitor' => $record]);
     }
 
     protected function actions(): array
