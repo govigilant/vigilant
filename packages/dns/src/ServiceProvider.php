@@ -17,6 +17,7 @@ use Vigilant\Dns\Livewire\DnsMonitors;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Dns\Notifications\RecordChangedNotification;
+use Vigilant\Dns\Notifications\RecordNotResolvedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Users\Models\User;
 
@@ -117,6 +118,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         NotificationRegistry::registerNotification([
             RecordChangedNotification::class,
+            RecordNotResolvedNotification::class,
         ]);
 
         return $this;

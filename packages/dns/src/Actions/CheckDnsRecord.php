@@ -5,6 +5,7 @@ namespace Vigilant\Dns\Actions;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Dns\Notifications\RecordChangedNotification;
+use Vigilant\Dns\Notifications\RecordNotResolvedNotification;
 
 class CheckDnsRecord
 {
@@ -22,6 +23,16 @@ class CheckDnsRecord
         }
 
         $this->teamService->setTeamById($monitor->team_id);
+
+        if ($resolved === null) {
+            $monitor->update([
+                'value' => null,
+            ]);
+
+            RecordNotResolvedNotification::notify($monitor, $monitor->history()->latest());
+
+            return;
+        }
 
         $previous = $monitor->history()->create([
             'type' => $monitor->type,
