@@ -14,6 +14,8 @@ class RecordChangedNotification extends Notification implements HasSite
 {
     public static string $name = 'DNS Record Changed';
 
+    public Level $level = Level::Warning;
+
     public function __construct(public DnsMonitor $monitor, public DnsMonitorHistory $previous) {}
 
     public function title(): string

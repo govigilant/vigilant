@@ -16,6 +16,10 @@ class ResolveRecord
             ->map(fn (AbstractRecord $record): array => $record->toArray())
             ->toArray();
 
+        if (count($result) === 0) {
+            return null;
+        }
+
         if (count($result) === 1) {
             $result = $result[0];
         }
