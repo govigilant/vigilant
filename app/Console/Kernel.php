@@ -8,6 +8,7 @@ use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
+use Vigilant\Dns\Models\DnsMonitorHistory;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
@@ -36,6 +37,12 @@ class Kernel extends ConsoleKernel
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();
+
+        $schedule->command('model:prune', [
+            '--model' => [
+                DnsMonitorHistory::class,
+            ],
+        ])->daily();
     }
 
     protected function commands(): void

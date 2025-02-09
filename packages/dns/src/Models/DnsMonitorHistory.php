@@ -4,7 +4,9 @@ namespace Vigilant\Dns\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Vigilant\Core\Scopes\TeamScope;
@@ -26,6 +28,8 @@ use Vigilant\Users\Observers\TeamObserver;
 #[ScopedBy(TeamScope::class)]
 class DnsMonitorHistory extends Model
 {
+    use Prunable;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -35,6 +39,11 @@ class DnsMonitorHistory extends Model
 
     public function monitor(): BelongsTo
     {
-        return $this->belongsTo(DnsMonitor::class);
+        return $this->belongsTo(DnsMonitor::class, 'dns_monitor_id');
+    }
+
+    public function prunable(): Builder
+    {
+        return static::where('created_at', '<=', now()->subYear());
     }
 }
