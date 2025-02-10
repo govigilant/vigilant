@@ -8,6 +8,8 @@ class ColumnLatencyChart extends LatencyChart
 {
     public int $height = 40;
 
+    public bool $addStyle = false;
+
     public function data(): array
     {
         $points = $this->points()->pluck('total_time');

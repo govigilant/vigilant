@@ -10,6 +10,8 @@ abstract class BaseChart extends Component
 {
     public int $height = 200;
 
+    public bool $addStyle = true;
+
     abstract public function data(): array;
 
     public function loadChart(): void
