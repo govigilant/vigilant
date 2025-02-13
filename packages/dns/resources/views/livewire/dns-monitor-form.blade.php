@@ -28,9 +28,10 @@
                 @if ($resolveFailed)
                     <p class="text-red">@lang('Failed to resolve record.')</p>
                 @endif
-                <x-form.button type="button" class="bg-blue" wire:click="resolve">@lang('Resolve value')</x-form.button>
+                <x-form.button type="button" class="bg-blue disabled:opacity-50" wire:loading.attr="disabled"
+                    wire:click="resolve">@lang('Resolve value')</x-form.button>
 
-                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
+                <x-form.submit-button dusk="submit-button" wire:loading.attr="disabled" :submitText="$updating ? 'Save' : 'Create'" />
             </div>
         </div>
     </form>

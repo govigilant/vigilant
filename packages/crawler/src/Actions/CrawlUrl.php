@@ -82,6 +82,8 @@ class CrawlUrl
         $links = [];
 
         if (! array_key_exists('host', $baseUrl)) {
+            $url->update(['crawled' => true]);
+
             return;
         }
 

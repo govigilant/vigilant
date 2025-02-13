@@ -65,6 +65,17 @@ class DnsMonitorForm extends Component
         } else {
             $this->authorize('create', $this->dnsMonitor);
 
+            $exists = DnsMonitor::query()
+                ->where('record', '=', $this->form->record)
+                ->where('type', '=', $this->form->type)
+                ->exists();
+
+            if ($exists) {
+                $this->addError('form.record', __('DNS monitor with this record and type already exists'));
+
+                return;
+            }
+
             $this->dnsMonitor = DnsMonitor::query()->create(
                 $this->form->all()
             );
