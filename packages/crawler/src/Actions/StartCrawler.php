@@ -10,9 +10,7 @@ class StartCrawler
 {
     public function start(Crawler $crawler): void
     {
-        $crawler->urls()->update([
-            'crawled' => false,
-        ]);
+        $crawler->urls()->delete();
 
         $crawler->urls()->firstOrCreate([
             'url' => $crawler->start_url,

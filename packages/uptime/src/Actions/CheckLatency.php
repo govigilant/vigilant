@@ -11,10 +11,16 @@ class CheckLatency
     {
         $currentAverage = $monitor->results()->average('total_time');
 
-        $aggregatedAverage = $monitor->aggregatedResults()
+        $averages = $monitor->aggregatedResults()
             ->orderByDesc('created_at')
-            ->take(12) // Past 12 hours
-            ->average('total_time');
+            ->take(12); // Past 12 hours
+
+        // Skip if we don't have enough data
+        if ($averages->count() < 10) {
+            return;
+        }
+
+        $aggregatedAverage = $averages->average('total_time');
 
         if ($currentAverage > 0 && $aggregatedAverage > 0) {
             $percentageDifference = round((($currentAverage - $aggregatedAverage) / $aggregatedAverage) * 100);

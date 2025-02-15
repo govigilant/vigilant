@@ -26,7 +26,7 @@ class CheckLighthouseResultJob implements ShouldBeUnique, ShouldQueue
 
     public function handle(CheckLighthouseResult $checker, TeamService $teamService): void
     {
-        $teamService->setTeamById($this->result->lighthouseSite->team_id);
+        $teamService->setTeamById($this->result->team_id);
         $checker->check($this->result);
     }
 
