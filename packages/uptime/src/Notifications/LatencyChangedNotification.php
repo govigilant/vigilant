@@ -13,6 +13,8 @@ class LatencyChangedNotification extends Notification implements HasSite
 {
     public static string $name = 'Latency Changed';
 
+    public static int $defaultCooldown = 60 * 24;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [

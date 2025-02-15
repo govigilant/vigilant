@@ -32,6 +32,6 @@ button:disabled {
     font-variation-settings: "wdth" 100;
 }
 
-select option {
+select:not([multiple]) option {
     @apply bg-gray-950;
 }

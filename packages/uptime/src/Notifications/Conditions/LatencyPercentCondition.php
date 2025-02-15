@@ -8,6 +8,8 @@ use Vigilant\Uptime\Notifications\LatencyChangedNotification;
 
 class LatencyPercentCondition extends Condition
 {
+    public static string $name = 'Percent change';
+
     public function operands(): array
     {
         return [

@@ -8,6 +8,8 @@ use Vigilant\Notifications\Notifications\Notification;
 
 abstract class ScoreCondition extends Condition
 {
+    public static string $name = 'Score';
+
     public function operands(): array
     {
         return [
