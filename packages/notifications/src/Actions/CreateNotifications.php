@@ -15,6 +15,10 @@ class CreateNotifications
 
         /** @var class-string<Notification> $notification */
         foreach ($notifications as $notification) {
+            if (! $notification::$autoCreate) {
+                continue;
+            }
+
             Trigger::query()->firstOrCreate([
                 'team_id' => $team->id,
                 'notification' => $notification,

@@ -74,6 +74,7 @@ class LatencyChart extends BaseChart
                         'borderWidth' => 2,
                         'borderColor' => '#337F1F',
                         'tension' => 0.4,
+                        'unit' => 's',
                     ],
                 ],
             ],

@@ -56,6 +56,7 @@ class ConditionBuilder extends Component
     public function deletePath(string $path): void
     {
         Arr::forget($this->children, $path);
+        $this->children = array_values($this->children);
 
         $this->updated();
     }

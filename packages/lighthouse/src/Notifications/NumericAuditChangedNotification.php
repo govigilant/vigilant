@@ -12,6 +12,8 @@ class NumericAuditChangedNotification extends Notification implements HasSite
 {
     public static string $name = 'Lighthouse numeric audit changed';
 
+    public static bool $autoCreate = false;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [

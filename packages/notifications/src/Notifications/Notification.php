@@ -28,6 +28,8 @@ abstract class Notification implements Arrayable
 
     public static array $defaultConditions = [];
 
+    public static bool $autoCreate = true;
+
     public static function make(mixed ...$args): static
     {
         return new static(...$args);
