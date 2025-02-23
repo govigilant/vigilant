@@ -62,6 +62,7 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './packages/*/resources/views/**/*.blade.php',
+        './packages/**/resources/views/**/*.blade.php',
         './vendor/ramonrietdijk/livewire-tables/resources/**/*.blade.php',
         './vendor/vigilant/*/resources/views/**/*.blade.php'
     ],
