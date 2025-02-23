@@ -5,6 +5,7 @@ namespace Vigilant\Lighthouse\Notifications;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
 use Vigilant\Notifications\Contracts\HasSite;
+use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 
@@ -13,6 +14,8 @@ class NumericAuditChangedNotification extends Notification implements HasSite
     public static string $name = 'Lighthouse numeric audit changed';
 
     public static bool $autoCreate = false;
+
+    public Level $level = Level::Info;
 
     public static array $defaultConditions = [
         'type' => 'group',

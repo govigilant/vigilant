@@ -2,11 +2,15 @@
 
 namespace Vigilant\Notifications\Http\Livewire\Tables;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Enumerable;
+use Illuminate\Support\Facades\DB;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\BooleanColumn;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Filters\BooleanFilter;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -40,6 +44,13 @@ class NotificationTable extends LivewireTable
                     return $trigger->all_channels
                         ? __('All Channels')
                         : __(':count Channel(s)', ['count' => $trigger->channels()->count()]);
+                }),
+
+            Column::make(__('Notifications Sent'), 'total_notification_history')
+                ->sortable(function (Builder $builder, Direction $direction): void {
+                    $builder->orderBy(function (QueryBuilder $query): void {
+                        $query->selectRaw('COUNT(*)')->from('notification_history')->where('trigger_id', '=', DB::raw('notification_triggers.id'));
+                    }, $direction->value);
                 }),
         ];
     }
@@ -86,5 +97,16 @@ class NotificationTable extends LivewireTable
     public function link(Model $model): ?string
     {
         return route('notifications.trigger.edit', ['trigger' => $model]);
+    }
+
+    protected function applySelect(Builder $builder): static
+    {
+        parent::applySelect($builder);
+
+        $builder->addSelect(
+            DB::raw('(SELECT COUNT(`notification_history`.`id`) FROM `notification_history` WHERE `notification_history`.`trigger_id` = `notification_triggers`.`id` GROUP BY `notification_history`.`trigger_id`) AS total_notification_history')
+        );
+
+        return $this;
     }
 }

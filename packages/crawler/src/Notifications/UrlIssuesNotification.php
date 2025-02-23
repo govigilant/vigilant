@@ -12,7 +12,7 @@ class UrlIssuesNotification extends Notification implements HasSite
 {
     public static string $name = 'URLs with issues found';
 
-    public Level $level = Level::Critical;
+    public Level $level = Level::Warning;
 
     public function __construct(public Crawler $crawler) {}
 

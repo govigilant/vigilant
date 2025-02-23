@@ -7,10 +7,12 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
+            <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable this lighthouse monitor" />
+
             <x-form.text field="form.name" name="Name" description="Name this notification">
             </x-form.text>
 
-            <x-form.select field="form.notification" name="Trigger"
+            <x-form.select field="form.notification" name="Trigger" :disabled="$updating"
                 description="Choose the event that triggers this notification">
                 <option value="" disabled selected>--- Select ---</option>
 

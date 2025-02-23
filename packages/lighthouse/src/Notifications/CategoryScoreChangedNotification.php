@@ -14,6 +14,8 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
 {
     public static string $name = 'Lighthouse score changed';
 
+    public Level $level = Level::Warning;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [

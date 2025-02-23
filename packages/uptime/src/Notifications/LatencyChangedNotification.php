@@ -15,6 +15,8 @@ class LatencyChangedNotification extends Notification implements HasSite
 
     public static ?int $defaultCooldown = 60 * 24;
 
+    public Level $level = Level::Warning;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [

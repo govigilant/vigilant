@@ -2,9 +2,8 @@
 
 namespace Vigilant\Notifications\Http\Livewire\Tables;
 
-use Illuminate\Support\Enumerable;
-use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Notifications\Channels\NotificationChannel;
@@ -48,12 +47,24 @@ class HistoryTable extends LivewireTable
         ];
     }
 
-    protected function actions(): array
+    protected function filters(): array
     {
         return [
-            // Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
-            //    $models->each(fn (Channel $channel) => $channel->delete());
-            // }),
+            SelectFilter::make(__('Level'), 'data->level')
+                ->options(
+                    collect(Level::cases())
+                        ->mapWithKeys(fn (Level $level) => [$level->value => $level->name])
+                        ->toArray()
+                ),
+
+            SelectFilter::make(__('Channel'), 'channel_id')
+                ->options(
+                    Channel::query()
+                        ->select(['id', 'channel'])
+                        ->get()
+                        ->mapwithKeys(fn (Channel $channel) => [$channel->id => $channel->channel::$name])
+                        ->toArray()
+                ),
         ];
     }
 }

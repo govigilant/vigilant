@@ -1,5 +1,5 @@
 <div class="w-full border border-base-200 rounded px-2 pt-2 pb-4" x-data="{ deleteHover: false, addGroupHover: false, addConditionHover: false }"
-    :class="deleteHover ? 'bg-red-light/10' : ''">
+    :class="deleteHover ? 'bg-red-light/20' : ''">
     <div class="flex space-x-4 items-center">
         <div class="mt-1 flex gap-2 items-center">
             <label for="group-operator{{ $path }}" class="text-sm text-white">

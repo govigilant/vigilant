@@ -7,6 +7,8 @@ use Livewire\Form;
 
 class CreateNotificationForm extends Form
 {
+    public bool $enabled = true;
+
     #[Validate('required|max:255')]
     public string $name = '';
 

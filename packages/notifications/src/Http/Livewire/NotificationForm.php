@@ -43,7 +43,8 @@ class NotificationForm extends Component
         $this->validate();
 
         if ($this->trigger->exists) {
-            $this->trigger->update($this->form->all());
+            // Never update the notification because of the linked conditions
+            $this->trigger->update($this->form->except(['notification']));
         } else {
             $this->trigger = Trigger::query()->create(
                 $this->form->all()
