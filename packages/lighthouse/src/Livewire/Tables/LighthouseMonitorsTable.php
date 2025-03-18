@@ -29,7 +29,9 @@ class LighthouseMonitorsTable extends LivewireTable
                     return $monitor->enabled ? Status::Success : Status::Danger;
                 }),
 
-            Column::make(__('URL'), 'url'),
+            Column::make(__('URL'), 'url')
+                ->sortable()
+                ->searchable(),
 
             Column::make(__('Performance'), 'performance')
                 ->displayUsing(fn (?float $value): string => static::scoreDisplay($value))
@@ -97,6 +99,20 @@ class LighthouseMonitorsTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+                foreach ($models as $model) {
+                    if (! $this->authorize('create', $model)) {
+                        break;
+                    }
+
+                    $model->update(['enabled' => true]);
+                }
+            }),
+
+            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+                $models->each(fn (LighthouseMonitor $monitor) => $monitor->update(['enabled' => false]));
+            }),
+
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
                 $models->each(fn (LighthouseMonitor $site): ?bool => $site->delete());
             }),

@@ -31,7 +31,6 @@ class MonitorTable extends LivewireTable
         $calculateUptime = app(CalculateUptimePercentage::class);
 
         return [
-
             StatusColumn::make(__('Status'))
                 ->text(function (Monitor $monitor): string {
                     if (! $monitor->enabled) {
@@ -78,7 +77,9 @@ class MonitorTable extends LivewireTable
                     return Status::Success;
                 }),
 
-            Column::make(__('Name'), 'name'),
+            Column::make(__('Name'), 'name')
+                ->searchable()
+                ->sortable(),
 
             ChartColumn::make(__('Latency'))
                 ->component('monitor-column-latency-chart')
@@ -116,7 +117,6 @@ class MonitorTable extends LivewireTable
                     }
 
                     return teamTimezone($lastDowntime->start)->diffForHumans();
-
                 }),
         ];
     }
@@ -124,6 +124,20 @@ class MonitorTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+                foreach ($models as $model) {
+                    if (! $this->authorize('create', $model)) {
+                        break;
+                    }
+
+                    $model->update(['enabled' => true]);
+                }
+            }),
+
+            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+                $models->each(fn (Monitor $monitor) => $monitor->update(['enabled' => false]));
+            }),
+
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
                 $models->each(fn (Monitor $monitor) => $monitor->delete());
             }),

@@ -22,7 +22,7 @@ class DnsMonitorTable extends LivewireTable
         return [
             StatusColumn::make(__('Status'))
                 ->text(function (DnsMonitor $monitor): string {
-                    return $monitor->enabled ? __('Enabled') : __('Disabled due to resource limits');
+                    return $monitor->enabled ? __('Enabled') : __('Disabled');
                 })
                 ->status(function (DnsMonitor $monitor): Status {
                     return $monitor->enabled ? Status::Success : Status::Danger;
@@ -54,6 +54,20 @@ class DnsMonitorTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+                foreach ($models as $model) {
+                    if (! $this->authorize('create', $model)) {
+                        break;
+                    }
+
+                    $model->update(['enabled' => true]);
+                }
+            }),
+
+            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+                $models->each(fn (DnsMonitor $monitor) => $monitor->update(['enabled' => false]));
+            }),
+
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => $monitor->delete());
             }),

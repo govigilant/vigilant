@@ -11,7 +11,8 @@ Route::prefix('lighthouse')
     ->group(function (): void {
         Route::get('/', LighthouseSites::class)->name('lighthouse');
         Route::get('/create', LighthouseSiteForm::class)->name('lighthouse.create');
-        Route::get('/{monitor}', [LighthouseMonitorController::class, 'index'])->name('lighthouse.index')->middleware('can:view,monitor');
+        Route::get('/{monitor}', [LighthouseMonitorController::class, 'index'])->name('lighthouse.index')->can('view,monitor');
+        Route::delete('/{monitor}', [LighthouseMonitorController::class, 'delete'])->name('lighthouse.delete')->can('delete,monitor');
         Route::get('/{monitor}/edit', LighthouseSiteForm::class)->name('lighthouse.edit');
         Route::get('/ressult/{result}', [LighthouseResultController::class, 'index'])->name('lighthouse.result.index');
     });
