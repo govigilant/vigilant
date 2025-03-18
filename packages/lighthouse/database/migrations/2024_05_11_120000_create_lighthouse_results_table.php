@@ -23,7 +23,7 @@ return new class extends Migration
 
             $table->foreign('lighthouse_site_id')
                 ->references('id')
-                ->on('lighthouse_sites')
+                ->on('lighthouse_monitors')
                 ->onDelete('cascade');
         });
     }
