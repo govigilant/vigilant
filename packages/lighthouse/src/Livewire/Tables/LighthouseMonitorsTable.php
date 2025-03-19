@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Enumerable;
+use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
@@ -101,11 +102,11 @@ class LighthouseMonitorsTable extends LivewireTable
         return [
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
-                    if (! $this->authorize('create', $model)) {
+                    if (! Gate::allows('create', $model)) {
                         break;
                     }
-
                     $model->update(['enabled' => true]);
+
                 }
             }),
 

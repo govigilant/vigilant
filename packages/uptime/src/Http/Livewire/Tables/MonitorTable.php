@@ -4,6 +4,7 @@ namespace Vigilant\Uptime\Http\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Enumerable;
+use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -126,7 +127,7 @@ class MonitorTable extends LivewireTable
         return [
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
-                    if (! $this->authorize('create', $model)) {
+                    if (! Gate::allows('create', $model)) {
                         break;
                     }
 
