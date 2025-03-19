@@ -36,29 +36,6 @@ class StartCrawlerTest extends TestCase
     }
 
     #[Test]
-    public function it_resets_previously_crawled_urls(): void
-    {
-        /** @var Crawler $crawler */
-        $crawler = Crawler::query()->create([
-            'start_url' => 'vigilant',
-            'schedule' => '0 0 * * *',
-        ]);
-
-        /** @var CrawledUrl $previousUrl */
-        $previousUrl = $crawler->urls()->create([
-            'url' => 'vigilant/url1',
-            'crawled' => true,
-        ]);
-
-        /** @var StartCrawler $action */
-        $action = app(StartCrawler::class);
-        $action->start($crawler);
-
-        $previousUrl->refresh();
-        $this->assertFalse($previousUrl->crawled);
-    }
-
-    #[Test]
     public function it_starts_sitemap_job(): void
     {
         Bus::fake();

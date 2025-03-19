@@ -6,6 +6,7 @@ use Cron\CronExpression;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Enumerable;
+use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -90,6 +91,20 @@ class CrawlerTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+                foreach ($models as $model) {
+                    if (! Gate::allows('create', $model)) {
+                        break;
+                    }
+
+                    $model->update(['enabled' => true]);
+                }
+            }),
+
+            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+                $models->each(fn (Crawler $crawler) => $crawler->update(['enabled' => false]));
+            }),
+
             Action::make(__('Start Crawler'), 'start', function (Enumerable $models): void {
                 /** @var StartCrawler $starter */
                 $starter = app(StartCrawler::class);

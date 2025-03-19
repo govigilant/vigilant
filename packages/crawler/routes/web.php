@@ -11,5 +11,6 @@ Route::prefix('crawler')
         Route::get('', Crawlers::class)->name('crawler.index');
         Route::get('/create', CrawlerForm::class)->name('crawler.create');
         Route::get('/{crawler}', [CrawlerController::class, 'index'])->name('crawler.view');
+        Route::delete('/{crawler}', [CrawlerController::class, 'delete'])->name('crawler.delete')->can('delete,crawler');
         Route::get('/{crawler}/edit', CrawlerForm::class)->name('crawler.edit');
     });

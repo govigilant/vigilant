@@ -3,12 +3,16 @@
 namespace Vigilant\Lighthouse\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Vigilant\Frontend\Concerns\DisplaysAlerts;
+use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 
 class LighthouseMonitorController extends Controller
 {
+    use DisplaysAlerts;
+
     public function index(LighthouseMonitor $monitor): mixed
     {
         $lastResults = $monitor->lighthouseResults()->get();
@@ -69,5 +73,18 @@ class LighthouseMonitorController extends Controller
 
             ],
         ]);
+    }
+
+    public function delete(LighthouseMonitor $monitor): mixed
+    {
+        $monitor->delete();
+
+        $this->alert(
+            __('Deleted'),
+            __('Lighthouse monitor was successfully deleted'),
+            AlertType::Success
+        );
+
+        return response()->redirectToRoute('lighthouse');
     }
 }
