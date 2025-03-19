@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Vigilant\Lighthouse\Http\Controllers\LighthouseCallbackController;
 use Vigilant\Lighthouse\Http\Controllers\LighthouseMonitorController;
 use Vigilant\Lighthouse\Http\Controllers\LighthouseResultController;
 use Vigilant\Lighthouse\Livewire\LighthouseSiteForm;

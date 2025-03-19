@@ -19,6 +19,7 @@ class ScheduleLighthouseCommand extends Command
         LighthouseMonitor::query()
             ->withoutGlobalScopes()
             ->where('enabled', '=', true)
+            ->whereNull('run_started_at')
             ->where(function (Builder $query): void {
                 $query
                     ->whereNull('next_run')

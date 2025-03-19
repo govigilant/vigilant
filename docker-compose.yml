@@ -69,6 +69,11 @@ services:
         healthcheck:
             test: [ "CMD", "redis-cli", "ping" ]
 
+    lighthouse:
+        image: ghcr.io/govigilant/lighthouse-server:latest
+        networks:
+            - vigilant
+
 networks:
     vigilant:
 

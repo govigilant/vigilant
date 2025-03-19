@@ -9,10 +9,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Vigilant\Core\Services\TeamService;
-use Vigilant\Lighthouse\Actions\Lighthouse;
+use Vigilant\Lighthouse\Actions\RunLighthouse;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
-class LighthouseJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
+class RunLighthouseJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -24,7 +24,7 @@ class LighthouseJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
         $this->onQueue(config('lighthouse.queue'));
     }
 
-    public function handle(Lighthouse $lighthouse, TeamService $teamService): void
+    public function handle(RunLighthouse $lighthouse, TeamService $teamService): void
     {
         $teamService->setTeamById($this->site->team_id);
         $lighthouse->run($this->site, $this->batchId);

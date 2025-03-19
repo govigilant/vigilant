@@ -123,6 +123,9 @@ class ServiceProvider extends BaseServiceProvider
         if (! $this->app->routesAreCached()) {
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
+
+            Route::prefix('api/v1/lighthouse')
+                ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/api.php'));
         }
 
         return $this;
