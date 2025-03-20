@@ -5,7 +5,7 @@ namespace Vigilant\Lighthouse\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Bus\PendingDispatch;
-use Vigilant\Lighthouse\Jobs\LighthouseJob;
+use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class ScheduleLighthouseCommand extends Command
@@ -26,7 +26,7 @@ class ScheduleLighthouseCommand extends Command
                     ->orWhere('next_run', '<=', now());
             })
             ->get()
-            ->each(fn (LighthouseMonitor $monitor): PendingDispatch => LighthouseJob::dispatch($monitor));
+            ->each(fn (LighthouseMonitor $monitor): PendingDispatch => RunLighthouseJob::dispatch($monitor));
 
         return static::SUCCESS;
     }
