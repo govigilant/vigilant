@@ -62,7 +62,12 @@ class HistoryTable extends LivewireTable
                     Channel::query()
                         ->select(['id', 'channel'])
                         ->get()
-                        ->mapwithKeys(fn (Channel $channel) => [$channel->id => $channel->channel::$name])
+                        ->mapwithKeys(function (Channel $channel): array {
+                            /** @var class-string<NotificationChannel> $class */
+                            $class = $channel->channel;
+
+                            return [$channel->id => $class::$name];
+                        })
                         ->toArray()
                 ),
         ];
