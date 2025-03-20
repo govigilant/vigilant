@@ -49,6 +49,8 @@ class Http extends UptimeMonitor
             }
         }
 
+        throw_if(! isset($response), 'Failed to check uptime for monitor');
+
         if (! $response->ok()) {
             return new UptimeResult(
                 false,

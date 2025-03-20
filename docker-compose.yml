@@ -62,12 +62,23 @@ services:
 
     redis:
         image: redis:7
+        restart: always
         volumes:
             - redis:/data
         networks:
             - vigilant
         healthcheck:
             test: [ "CMD", "redis-cli", "ping" ]
+
+    lighthouse:
+        image: ghcr.io/govigilant/lighthouse-server:latest
+        restart: always
+        deploy:
+            resources:
+                reservations:
+                    memory: 2G
+        networks:
+            - vigilant
 
 networks:
     vigilant:

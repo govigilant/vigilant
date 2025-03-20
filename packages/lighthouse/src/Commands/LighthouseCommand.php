@@ -3,7 +3,7 @@
 namespace Vigilant\Lighthouse\Commands;
 
 use Illuminate\Console\Command;
-use Vigilant\Lighthouse\Jobs\LighthouseJob;
+use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseCommand extends Command
@@ -22,7 +22,7 @@ class LighthouseCommand extends Command
             ->withoutGlobalScopes()
             ->findOrFail($siteId);
 
-        LighthouseJob::dispatch($site);
+        RunLighthouseJob::dispatch($site);
 
         return static::SUCCESS;
     }

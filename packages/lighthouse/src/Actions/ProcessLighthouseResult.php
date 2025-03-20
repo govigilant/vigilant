@@ -2,30 +2,15 @@
 
 namespace Vigilant\Lighthouse\Actions;
 
-use Illuminate\Support\Facades\Process;
 use Vigilant\Lighthouse\Jobs\AggregateLighthouseBatchJob;
-use Vigilant\Lighthouse\Jobs\LighthouseJob;
+use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 
-class Lighthouse
+class ProcessLighthouseResult
 {
-    public function __construct(protected CheckLighthouseResult $lighthouseResult) {}
-
-    public function run(LighthouseMonitor $monitor, ?string $batchId): void
+    public function process(LighthouseMonitor $monitor, string $batchId, array $result): void
     {
-        if ($batchId === null) {
-            $batchId = str()->uuid();
-
-            $monitor->update([
-                'next_run' => now()->addMinutes($monitor->interval),
-            ]);
-        }
-
-        $process = Process::run('lighthouse '.$monitor->url.' --output json --quiet --chrome-flags="--headless --no-sandbox --disable-dev-shm-usage --disable-gpu"')->throw();
-
-        $result = json_decode($process->output(), true);
-
         /** @var array<string, array> $categoriesResult */
         $categoriesResult = $result['categories'] ?? [];
 
@@ -69,7 +54,7 @@ class Lighthouse
         if ($batchCount >= $lighthouseRuns) {
             AggregateLighthouseBatchJob::dispatch($monitor, $batchId);
         } else {
-            LighthouseJob::dispatch($monitor, $batchId);
+            RunLighthouseJob::dispatch($monitor, $batchId);
         }
     }
 }

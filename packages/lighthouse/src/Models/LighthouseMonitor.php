@@ -23,6 +23,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property array $settings
  * @property int $interval
  * @property ?Carbon $next_run
+ * @property ?Carbon $run_started_at
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
@@ -38,6 +39,7 @@ class LighthouseMonitor extends Model
         'enabled' => 'bool',
         'settings' => 'array',
         'next_run' => 'datetime',
+        'run_started_at' => 'datetime',
     ];
 
     public function site(): BelongsTo
