@@ -27,6 +27,8 @@ class Ping extends UptimeMonitor
             }
         }
 
+        throw_if(! isset($latency), 'Failed to ping host');
+
         return new UptimeResult(true, $latency);
     }
 }
