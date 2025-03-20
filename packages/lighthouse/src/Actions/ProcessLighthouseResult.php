@@ -5,6 +5,7 @@ namespace Vigilant\Lighthouse\Actions;
 use Vigilant\Lighthouse\Jobs\AggregateLighthouseBatchJob;
 use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Lighthouse\Models\LighthouseResult;
 
 class ProcessLighthouseResult
 {
