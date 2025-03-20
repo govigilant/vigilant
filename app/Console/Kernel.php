@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(ScheduleUptimeChecksCommand::class)->everyMinute();
 
         // Lighthouse
-        $schedule->command(ScheduleLighthouseCommand::class)->everyMinute();
+        $schedule->command(ScheduleLighthouseCommand::class)->everySecond();
         $schedule->command(AggregateLighthouseResultsCommand::class)->daily();
 
         // Dns
