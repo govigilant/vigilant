@@ -53,6 +53,11 @@ class ProcessLighthouseResult
 
         if ($batchCount >= $lighthouseRuns) {
             AggregateLighthouseBatchJob::dispatch($monitor, $batchId);
+
+            $monitor->update([
+                'run_started_at' => null,
+            ]);
+
         } else {
             RunLighthouseJob::dispatch($monitor, $batchId);
         }
