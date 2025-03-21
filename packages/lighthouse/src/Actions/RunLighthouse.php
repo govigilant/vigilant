@@ -12,35 +12,20 @@ class RunLighthouse
 
     public function run(LighthouseMonitor $monitor, ?string $batchId): void
     {
+        $worker = $this->getAvailableWorker();
+
+        if ($worker === null) {
+            logger()->warning('No available workers to run Lighthouse job');
+
+            return;
+        }
+
         if ($batchId === null) {
             $batchId = str()->uuid();
 
             $monitor->update([
                 'next_run' => now()->addMinutes($monitor->interval),
             ]);
-        }
-
-        $workers = config()->array('lighthouse.workers');
-        $worker = null;
-
-        foreach ($workers as $worker) {
-            $lockKey = 'lighthouse:worker:'.$worker;
-
-            if (cache()->has($lockKey)) {
-                continue;
-            }
-
-            $worker = $worker;
-
-            cache()->put($lockKey, true, now()->addMinutes(5));
-
-            break;
-        }
-
-        if ($worker === null) {
-            logger()->warning('No available workers to run Lighthouse job');
-
-            return;
         }
 
         $vigilantUrl = config()->string('lighthouse.lighthouse_app_url');
@@ -55,5 +40,35 @@ class RunLighthouse
         $monitor->update([
             'run_started_at' => now(),
         ]);
+    }
+
+    public function getAvailableWorker(): ?string
+    {
+        $lockKey = 'lighthouse:worker:lock';
+        $workers = config()->array('lighthouse.workers');
+
+        $lock = cache()->lock($lockKey, 5);
+
+        if (! $lock->get()) {
+            return null; // Another process is selecting a worker
+        }
+
+        try {
+            foreach ($workers as $worker) {
+                $workerCacheKey = 'lighthouse:worker:'.$worker;
+
+                if (cache()->has($workerCacheKey)) {
+                    continue;
+                }
+
+                cache()->put($workerCacheKey, true, now()->addMinutes(5));
+
+                return $worker;
+            }
+        } finally {
+            $lock->release();
+        }
+
+        return null;
     }
 }
