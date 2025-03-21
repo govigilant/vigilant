@@ -15,4 +15,7 @@ return [
     'runs' => env('LIGHTHOUSE_RUNS', 3),
 
     'workers' => explode(',', env('LIGHTHOUSE_WORKERS', 'lighthouse')),
+
+    /* URL to Vigilant */
+    'lighthouse_app_url' => env('LIGHTHOUSE_APP_URL', 'http://app:8000'),
 ];

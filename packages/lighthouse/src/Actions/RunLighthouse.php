@@ -43,10 +43,12 @@ class RunLighthouse
             return;
         }
 
+        $vigilantUrl = config()->string('lighthouse.lighthouse_app_url');
+
         Http::baseUrl($worker)
             ->post('lighthouse', [
                 'website' => $monitor->url,
-                'callback_url' => url('/').URL::signedRoute('lighthouse.callback', ['monitorId' => $monitor->id, 'batch' => $batchId, 'worker' => $worker], absolute: false),
+                'callback_url' => $vigilantUrl.URL::signedRoute('lighthouse.callback', ['monitorId' => $monitor->id, 'batch' => $batchId, 'worker' => $worker], absolute: false),
             ])
             ->throw();
 
