@@ -1,14 +1,20 @@
 <div>
     <x-slot name="header">
         <x-page-header title="Crawlers">
-            <div class="space-x-4">
-                <x-create-button dusk="crawler-add-button" class="bg-blue hover:bg-blue-light" :href="route('crawler.create')" model="Vigilant\Crawler\Models\Crawler">
+            <x-frontend::page-header.actions>
+                <x-create-button dusk="crawler-add-button" class="bg-blue hover:bg-blue-light" :href="route('crawler.create')"
+                    model="Vigilant\Crawler\Models\Crawler">
                     @lang('Add Crawler')
                 </x-create-button>
-            </div>
+            </x-frontend::page-header.actions>
+            <x-frontend::page-header.mobile-actions>
+                <x-create-button-dropdown :href="route('crawler.create')" model="Vigilant\Crawler\Models\Crawler">
+                    @lang('Add Crawler')
+                </x-create-button-dropdown>
+            </x-frontend::page-header.mobile-actions>
         </x-page-header>
     </x-slot>
 
-    <livewire:crawler-table/>
+    <livewire:crawler-table />
 
 </div>

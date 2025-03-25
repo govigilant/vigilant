@@ -1,14 +1,22 @@
 <x-app-layout>
     <x-slot name="header">
         <x-page-header :back="route('sites')" title="Site - {{ $site->url }}">
-            <x-form.button dusk="site-edit-button" class="bg-blue hover:bg-blue-light"
-                           :href="route('site.edit', ['site' => $site])">
-                @lang('Edit')
-            </x-form.button>
+            <x-frontend::page-header.actions>
+                <x-form.button dusk="site-edit-button" class="bg-blue hover:bg-blue-light" :href="route('site.edit', ['site' => $site])">
+                    @lang('Edit')
+                </x-form.button>
+            </x-frontend::page-header.actions>
+
+            <x-frontend::page-header.mobile-actions>
+                <x-form.dropdown-button dusk="site-edit-button" :href="route('site.edit', ['site' => $site])">
+                    @lang('Edit')
+                </x-form.dropdown-button>
+            </x-frontend::page-header.mobile-actions>
+
         </x-page-header>
     </x-slot>
 
-    @if($empty)
+    @if ($empty)
         <div class="text-center">
             @svg('tni-folder-plus-o', 'mx-auto h-12 w-12 text-red')
 
@@ -19,7 +27,7 @@
             </p>
             <div class="mt-6">
                 <x-form.button class="bg-blue hover:bg-blue-light" :href="route('site.edit', ['site' => $site])">
-                   @lang('Configure Monitors')
+                    @lang('Configure Monitors')
                 </x-form.button>
             </div>
         </div>
@@ -29,34 +37,34 @@
 
 
         @can('use-uptime')
-            @if($uptimeMonitor !== null)
+            @if ($uptimeMonitor !== null)
                 <div>
                     <div class="mb-4">
                         <a class="text-xl text-white"
-                           href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')</a>
+                            href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')</a>
                     </div>
-                    <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id"/>
+                    <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id" />
                 </div>
             @endif
         @endcan
 
-        @if(($lighthouseMonitor = $site->lighthouseMonitors->first()) !== null)
+        @if (($lighthouseMonitor = $site->lighthouseMonitors->first()) !== null)
             <div>
                 <div class="mb-4">
                     <a class="text-xl text-white"
-                       href="{{ route('lighthouse.index', ['monitor' => $lighthouseMonitor]) }}">@lang('Lighthouse')</a>
+                        href="{{ route('lighthouse.index', ['monitor' => $lighthouseMonitor]) }}">@lang('Lighthouse')</a>
                 </div>
-                <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id"/>
+                <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id" />
             </div>
         @endif
 
-        @if(($crawler = $site->crawler) !== null)
+        @if (($crawler = $site->crawler) !== null)
             <div>
                 <div class="mb-4">
                     <a class="text-xl text-white"
-                       href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')</a>
+                        href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')</a>
                 </div>
-                <livewire:crawler-dashboard :crawlerId="$crawler->id" wire:key="crawher-dashboard"/>
+                <livewire:crawler-dashboard :crawlerId="$crawler->id" wire:key="crawher-dashboard" />
             </div>
         @endif
 

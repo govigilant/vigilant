@@ -28,6 +28,7 @@
         "vigilant/lighthouse": "dev-main",
         "vigilant/notifications": "@dev",
         "vigilant/onboarding": "@dev",
+        "vigilant/saas": "@dev",
         "vigilant/settings": "dev-main",
         "vigilant/sites": "@dev",
         "vigilant/uptime": "@dev",
