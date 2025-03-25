@@ -2,20 +2,35 @@
     <x-slot name="header">
         <x-page-header :back="route('lighthouse')" :title="'Lighthouse Monitor - ' .
             $lighthouseMonitor->url .
-            ($lighthouseMonitor->enabled ? '' : ' (Disabled)')">
+            ($lighthouseMonitor->enabled ? '' : ' (Disabled)')" x-data="{ submitForm() { if (confirm('Are you sure you want to delete this monitor?')) { $refs.form.submit(); } } }">
             <form action="{{ route('lighthouse.delete', ['monitor' => $lighthouseMonitor]) }}" method="POST" wire:ignore
-                onsubmit="return confirm('Are you sure you want to delete this monitor?');">
+                x-ref="form" onsubmit="return confirm('Are you sure you want to delete this monitor?');">
                 @csrf
                 @method('DELETE')
-                <x-form.button class="bg-red hover:bg-red-light" type="submit">
+            </form>
+
+            <x-frontend::page-header.actions>
+                <x-form.button dusk="lighthouse-edit-button"
+                    href="{{ route('lighthouse.edit', ['monitor' => $lighthouseMonitor]) }}"
+                    class="bg-blue hover:bg-blue-light">
+                    @lang('Edit')
+                </x-form.button>
+                <x-form.button class="bg-red hover:bg-red-light" x-on:click="submitForm">
                     @lang('Delete')
                 </x-form.button>
-            </form>
-            <x-form.button dusk="lighthouse-edit-button"
-                href="{{ route('lighthouse.edit', ['monitor' => $lighthouseMonitor]) }}"
-                class="bg-blue hover:bg-blue-light">
-                @lang('Edit')
-            </x-form.button>
+            </x-frontend::page-header.actions>
+            <x-frontend::page-header.mobile-actions>
+                <x-form.dropdown-button href="{{ route('lighthouse.edit', ['monitor' => $lighthouseMonitor]) }}"
+                    class="bg-blue hover:bg-blue-light">
+                    @lang('Edit')
+                    </x-form.button>
+                    <x-form.dropdown-button class="bg-red hover:bg-red-light" x-on:click="submitForm">
+                        @lang('Delete')
+                        </x-form.button>
+
+
+            </x-frontend::page-header.mobile-actions>
+
         </x-page-header>
     </x-slot>
 
