@@ -1,12 +1,13 @@
 {
     "name": "laravel/laravel",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "Vigilant: All-in-one website monitoring",
     "keywords": [
+        "monitoring",
         "laravel",
-        "framework"
+        "vigilant"
     ],
-    "license": "MIT",
+    "license": "AGPL-3.0",
     "require": {
         "php": "^8.2",
         "ext-dom": "*",

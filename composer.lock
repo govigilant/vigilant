@@ -7173,7 +7173,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7247,7 +7247,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7324,7 +7324,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7401,7 +7401,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7549,7 +7549,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7625,7 +7625,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -7773,7 +7773,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -7847,7 +7847,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -7924,7 +7924,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/responsive-buttons",
+            "version": "dev-main",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
