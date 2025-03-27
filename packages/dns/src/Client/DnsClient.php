@@ -4,7 +4,8 @@ namespace Vigilant\Dns\Client;
 
 use BlueLibraries\Dns\DnsRecords;
 use BlueLibraries\Dns\Handlers\DnsHandlerException;
-use BlueLibraries\Dns\Handlers\Types\TCP;
+use BlueLibraries\Dns\Handlers\Types\Dig;
+use BlueLibraries\Dns\Handlers\Types\UDP;
 
 class DnsClient
 {
@@ -17,7 +18,7 @@ class DnsClient
             return [];
         }
 
-        $dnsHandler = (new TCP)
+        $dnsHandler = (new UDP)
             ->setNameserver($this->getNameserver())
             ->setTimeout(3);
 

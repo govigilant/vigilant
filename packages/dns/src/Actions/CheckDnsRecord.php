@@ -29,7 +29,7 @@ class CheckDnsRecord
                 'value' => null,
             ]);
 
-            RecordNotResolvedNotification::notify($monitor, $monitor->history()->latest());
+            RecordNotResolvedNotification::notify($monitor, $monitor->history()->latest()->first());
 
             return;
         }
