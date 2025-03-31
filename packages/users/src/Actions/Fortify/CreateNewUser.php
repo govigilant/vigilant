@@ -20,7 +20,7 @@ class CreateNewUser implements CreatesNewUsers
      *
      * @param  array<string, string>  $input
      */
-    public function create(array $input, bool $terms = true): User
+    public function create(array $input, array $optional = []): User
     {
         $rules = [
             'name' => ['required', 'string', 'max:255'],
@@ -29,8 +29,10 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['accepted', 'required'] : '',
         ];
 
-        if (! $terms) {
-            unset($rules['terms']);
+        if ($optional !== []) {
+            foreach ($optional as $key) {
+                unset($rules[$key]);
+            }
         }
 
         Validator::make($input, $rules)->validate();

@@ -27,7 +27,7 @@ class SocialiteController extends Controller
             'name' => $socialiteUser->getName(),
             'email' => $socialiteUser->getEmail(),
             'password' => str()->random(32),
-        ], false);
+        ], ['terms', 'password']);
 
         Auth::login($user);
 
