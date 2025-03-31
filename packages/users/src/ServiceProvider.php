@@ -47,6 +47,9 @@ class ServiceProvider extends BaseServiceProvider
         if (! $this->app->routesAreCached()) {
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
+
+            Route::middleware(['web'])
+                ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/auth.php'));
         }
 
         return $this;
@@ -78,7 +81,6 @@ class ServiceProvider extends BaseServiceProvider
 
         return $this;
     }
-
 
     protected function bootPolicies(): static
     {
