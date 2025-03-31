@@ -7,6 +7,7 @@ use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Socialite\Facades\Socialite;
+use Vigilant\Users\Models\User;
 
 class SocialiteController extends Controller
 {
@@ -23,11 +24,17 @@ class SocialiteController extends Controller
 
         $socialiteUser = Socialite::driver($provider)->user();
 
-        $user = $creator->create([
-            'name' => $socialiteUser->getName(),
-            'email' => $socialiteUser->getEmail(),
-            'password' => str()->random(32),
-        ], ['terms', 'password']);
+        $user = User::query()
+            ->where('email', '=', $socialiteUser->getEmail())
+            ->first();
+
+        if ($user === null) {
+            $user = $creator->create([
+                'name' => $socialiteUser->getName(),
+                'email' => $socialiteUser->getEmail(),
+                'password' => str()->random(32),
+            ], ['terms', 'password']);
+        }
 
         Auth::login($user);
 
