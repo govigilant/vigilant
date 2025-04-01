@@ -22,6 +22,11 @@ class CheckDnsRecord
             return;
         }
 
+        logger()->debug('DNS Record Changed', [
+            'monitor' => $monitor->id,
+            'resolved' => $resolved,
+        ]);
+
         $this->teamService->setTeamById($monitor->team_id);
 
         if ($resolved === null) {
@@ -36,7 +41,7 @@ class CheckDnsRecord
 
         $previous = $monitor->history()->create([
             'type' => $monitor->type,
-            'value' => $monitor->value ?? '',
+            'value' => $monitor->value,
             'geoip' => $monitor->geoip,
         ]);
 
