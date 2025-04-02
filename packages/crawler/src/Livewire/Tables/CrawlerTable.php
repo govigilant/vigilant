@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
+use InvalidArgumentException;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -46,12 +47,15 @@ class CrawlerTable extends LivewireTable
                         return null;
                     }
 
-                    $expression = new CronExpression($schedule);
+                    try {
+                        $expression = new CronExpression($schedule);
+                    } catch (InvalidArgumentException) {
+                        return null;
+                    }
                     $nextRun = Carbon::parse($expression->getNextRunDate());
 
                     return $nextRun->diffForHumans();
                 })
-                ->searchable()
                 ->sortable(),
 
             Column::make(__('Status'), 'state')
@@ -91,6 +95,15 @@ class CrawlerTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Start Crawler'), 'start', function (Enumerable $models): void {
+                /** @var StartCrawler $starter */
+                $starter = app(StartCrawler::class);
+
+                $models
+                    ->where('state', '!=', State::Crawling)
+                    ->each(fn (Crawler $crawler) => $starter->start($crawler));
+            }),
+
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
@@ -103,15 +116,6 @@ class CrawlerTable extends LivewireTable
 
             Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
                 $models->each(fn (Crawler $crawler) => $crawler->update(['enabled' => false]));
-            }),
-
-            Action::make(__('Start Crawler'), 'start', function (Enumerable $models): void {
-                /** @var StartCrawler $starter */
-                $starter = app(StartCrawler::class);
-
-                $models
-                    ->where('state', '!=', State::Crawling)
-                    ->each(fn (Crawler $crawler) => $starter->start($crawler));
             }),
 
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {

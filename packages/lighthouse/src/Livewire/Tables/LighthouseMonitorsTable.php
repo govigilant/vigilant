@@ -13,6 +13,7 @@ use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class LighthouseMonitorsTable extends LivewireTable
@@ -100,6 +101,10 @@ class LighthouseMonitorsTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Run Lighthouse'), 'run', function (Enumerable $models): void {
+                $models->each(fn (LighthouseMonitor $monitor) => RunLighthouseJob::dispatch($monitor));
+            }),
+
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {

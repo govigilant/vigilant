@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Dns\Jobs\CheckDnsRecordJob;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
@@ -55,6 +56,10 @@ class DnsMonitorTable extends LivewireTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Check'), 'check', function (Enumerable $models): void {
+                $models->each(fn (DnsMonitor $monitor) => CheckDnsRecordJob::dispatch($monitor));
+            }),
+
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
