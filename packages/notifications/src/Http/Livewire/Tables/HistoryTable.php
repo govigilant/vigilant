@@ -2,6 +2,7 @@
 
 namespace Vigilant\Notifications\Http\Livewire\Tables;
 
+use Illuminate\Database\Eloquent\Builder;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
@@ -33,14 +34,17 @@ class HistoryTable extends LivewireTable
                 }),
 
             Column::make(__('Level'), 'data.level')
-                ->searchable()
                 ->displayUsing(fn (string $level) => Level::tryFrom($level)?->name ?? $level),
 
             Column::make(__('Notification'), 'data.title')
-                ->searchable(),
+                ->searchable(function (Builder $builder, mixed $search) {
+                    $builder->where('data->title', 'LIKE', '%'.$search.'%');
+                }),
 
             Column::make(__('Details'), 'data.description')
-                ->searchable(),
+                ->searchable(function (Builder $builder, mixed $search) {
+                    $builder->where('data->description', 'LIKE', '%'.$search.'%');
+                }),
 
             DateColumn::make(__('Notified At'), 'created_at')
                 ->sortable(),

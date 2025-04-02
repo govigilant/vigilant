@@ -9,7 +9,9 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
-            <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable the crawler" />
+            @if (!$inline)
+                <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable the crawler" />
+            @endif
 
             <x-form.text field="form.start_url" name="Start URL" description="Enter the URL to start crawling" />
 

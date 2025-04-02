@@ -5,8 +5,8 @@ namespace Vigilant\Users\Http\Controllers;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Socialite\Facades\Socialite;
+use Vigilant\Users\Actions\Fortify\CreateNewUser;
 use Vigilant\Users\Models\User;
 
 class SocialiteController extends Controller
@@ -15,14 +15,14 @@ class SocialiteController extends Controller
     {
         abort_if(! in_array($provider, ['google']), 404);
 
-        return Socialite::driver($provider)->redirect();
+        return Socialite::driver($provider)->redirect(); // @phpstan-ignore-line
     }
 
-    public function callback(string $provider, CreatesNewUsers $creator): RedirectResponse
+    public function callback(string $provider, CreateNewUser $creator): RedirectResponse
     {
         abort_if(! in_array($provider, ['google']), 404);
 
-        $socialiteUser = Socialite::driver($provider)->user();
+        $socialiteUser = Socialite::driver($provider)->user(); // @phpstan-ignore-line
 
         $user = User::query()
             ->where('email', '=', $socialiteUser->getEmail())
