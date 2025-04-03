@@ -31,7 +31,7 @@ class DnsMonitorForm extends Form
                 Rule::enum(Type::class),
             ],
             'record' => ['required', 'max:255', new Fqdn],
-            'value' => ['required', 'max:255'],
+            'value' => ['nullable', 'max:255'],
             'enabled' => ['boolean', new CanEnableRule(DnsMonitor::class)],
         ];
     }

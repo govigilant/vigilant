@@ -29,7 +29,7 @@ class CreateUptimeMonitorForm extends Form
     #[Validate('required')]
     public string $interval = '* * * * *';
 
-    #[Validate('required|integer|max:3')]
+    #[Validate('required|integer|min:1|max:3')]
     public ?int $retries = 1;
 
     #[Validate('required|integer|max:10')]

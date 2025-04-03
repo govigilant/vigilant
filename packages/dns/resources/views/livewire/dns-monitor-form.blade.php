@@ -12,7 +12,9 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
-            <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable this DNS monitor" />
+            @if (!$inline)
+                <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable this DNS monitor" />
+            @endif
 
             <x-form.select field="form.type" name="Type" description="DNS Record Type">
                 @foreach (\Vigilant\Dns\Enums\Type::cases() as $type)

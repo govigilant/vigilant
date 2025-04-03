@@ -9,8 +9,9 @@
     <form wire:submit="save">
         <div class="flex flex-col gap-4 max-w-7xl mx-auto">
 
-            <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable this monitor" />
-
+            @if (!$inline)
+                <x-form.checkbox field="form.enabled" name="Enabled" description="Enable or disable this monitor" />
+            @endif
             <x-form.text field="form.name" name="Name" description="Friendly name for this monitor" />
 
             <x-form.select field="form.type" name="Monitor Type"
