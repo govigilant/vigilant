@@ -17,11 +17,6 @@ class ResolveRecord
             ->toArray();
 
         if (count($result) === 0) {
-            logger()->debug('DNS Resolver: Record Not Found', [
-                'type' => $type->name,
-                'record' => $record,
-            ]);
-
             return null;
         }
 

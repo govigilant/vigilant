@@ -25,12 +25,18 @@ class DnsClient
         $dnsRecordsService = new DnsRecords($dnsHandler);
 
         try {
-            return $dnsRecordsService->get($record, $type);
+            $result = $dnsRecordsService->get($record, $type);
         } catch (DnsHandlerException $e) {
             logger()->error("Failed to retrieve DNS record $record on attempt $attempt with nameserer $nameServer: ".$e->getMessage().' '.$e->getTraceAsString());
 
             return $this->get($record, $type, $attempt + 1);
         }
+
+        if (count($result) === 0 && $attempt < $maxAttempts) {
+            return $this->get($record, $type, $attempt + 1);
+        }
+
+        return $result;
     }
 
     protected function getNameserver(): string

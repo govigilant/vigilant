@@ -22,11 +22,6 @@ class CheckDnsRecord
             return;
         }
 
-        logger()->debug('DNS Record Changed', [
-            'monitor' => $monitor->id,
-            'resolved' => $resolved,
-        ]);
-
         $this->teamService->setTeamById($monitor->team_id);
 
         if ($resolved === null) {
