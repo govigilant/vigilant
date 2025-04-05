@@ -40,8 +40,9 @@
             @if ($uptimeMonitor !== null)
                 <div>
                     <div class="mb-4">
-                        <a class="text-xl text-white"
-                            href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')</a>
+                        <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                            href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')
+                            @svg('tni-right-o', 'size-4')</a>
                     </div>
                     <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id" />
                 </div>
@@ -51,8 +52,9 @@
         @if (($lighthouseMonitor = $site->lighthouseMonitors->first()) !== null)
             <div>
                 <div class="mb-4">
-                    <a class="text-xl text-white"
-                        href="{{ route('lighthouse.index', ['monitor' => $lighthouseMonitor]) }}">@lang('Lighthouse')</a>
+                    <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                        href="{{ route('lighthouse.index', ['monitor' => $lighthouseMonitor]) }}">@lang('Lighthouse')
+                        @svg('tni-right-o', 'size-4')</a>
                 </div>
                 <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id" />
             </div>
@@ -61,13 +63,24 @@
         @if (($crawler = $site->crawler) !== null)
             <div>
                 <div class="mb-4">
-                    <a class="text-xl text-white"
-                        href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')</a>
+                    <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                        href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')
+                        @svg('tni-right-o', 'size-4')</a>
                 </div>
                 <livewire:crawler-dashboard :crawlerId="$crawler->id" wire:key="crawher-dashboard" />
             </div>
         @endif
 
+        @if ($site->dnsMonitors->count() > 0)
+            <div>
+                <div class="mb-4">
+                    <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                        href="{{ route('dns.index') }}">@lang('DNS Records')
+                        @svg('tni-right-o', 'size-4')</a>
+                </div>
+                <livewire:dns-monitor-dashboard :siteId="$site->id" wire:key="dns-dashboard" />
+            </div>
+        @endif
     </div>
 
 </x-app-layout>
