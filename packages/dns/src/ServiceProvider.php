@@ -14,6 +14,7 @@ use Vigilant\Dns\Commands\ResolveGeoIpCommand;
 use Vigilant\Dns\Livewire\DnsImport;
 use Vigilant\Dns\Livewire\DnsMonitorForm;
 use Vigilant\Dns\Livewire\DnsMonitors;
+use Vigilant\Dns\Livewire\Monitor\Dashboard;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorHistoryTable;
 use Vigilant\Dns\Livewire\Tables\DnsMonitorTable;
 use Vigilant\Dns\Models\DnsMonitor;
@@ -97,6 +98,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('dns-monitor-table', DnsMonitorTable::class);
         Livewire::component('dns-monitor-history-table', DnsMonitorHistoryTable::class);
         Livewire::component('dns-monitor-import', DnsImport::class);
+        Livewire::component('dns-monitor-dashboard', Dashboard::class);
 
         return $this;
     }
