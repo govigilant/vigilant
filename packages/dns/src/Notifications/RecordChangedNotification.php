@@ -20,14 +20,17 @@ class RecordChangedNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        return __('DNS Record :type :record has been changed', ['type' => $this->monitor->type->name,'record' => $this->monitor->record]);
+        return __('DNS Record :type :record has been changed', ['type' => $this->monitor->type->name, 'record' => $this->monitor->record]);
     }
 
     public function description(): string
     {
-        return __('From: :old, To: :new', [
+        return __('The :type record for :record has been changed from :old to :new at :changedate', [
+            'type' => $this->monitor->type->name,
+            'record' => $this->monitor->record,
             'old' => $this->previous->value ?? '?',
             'new' => $this->monitor->value ?? '?',
+            'changedate' => $this->previous->created_at?->toDateString() ?? '?',
         ]);
     }
 
