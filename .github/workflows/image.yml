@@ -25,10 +25,11 @@ jobs:
 
       - name: Set image tag
         id: tag
+        shell: bash
         run: |
-          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+          if [ "${GITHUB_REF}" = "refs/heads/main" ]; then
             echo "tag=latest" >> "$GITHUB_OUTPUT"
-          else [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+          else
             echo "tag=dev" >> "$GITHUB_OUTPUT"
           fi
 
