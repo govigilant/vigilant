@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - 'develop'
       - 'main'
 
 jobs:
@@ -22,8 +23,18 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set image tag
+        id: tag
+        run: |
+          if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "tag=latest" >> "$GITHUB_OUTPUT"
+          else [[ "${{ github.ref }}" == "refs/heads/develop" ]]; then
+            echo "tag=dev" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: ghcr.io/govigilant/vigilant:latest
+          tags: ghcr.io/govigilant/vigilant:${{ steps.tag.outputs.tag }}
+
