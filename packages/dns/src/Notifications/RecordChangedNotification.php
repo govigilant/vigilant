@@ -30,7 +30,7 @@ class RecordChangedNotification extends Notification implements HasSite
             'record' => $this->monitor->record,
             'old' => $this->previous->value ?? '?',
             'new' => $this->monitor->value ?? '?',
-            'changedate' => $this->previous->created_at->toDateString(),
+            'changedate' => $this->previous->created_at?->toDateString() ?? '?',
         ]);
     }
 
