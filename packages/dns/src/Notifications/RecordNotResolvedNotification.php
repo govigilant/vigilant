@@ -24,9 +24,9 @@ class RecordNotResolvedNotification extends Notification implements HasSite
 
     public function description(): string
     {
-        return __('From: :old, To: :new', [
+        return __('The DNS record for :record was not resolved. The previous value was :old', [
             'old' => $this->previous?->value ?? 'None',
-            'new' => $this->monitor->value ?? 'None',
+            'record' => $this->monitor->record,
         ]);
     }
 
