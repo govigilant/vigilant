@@ -11,9 +11,9 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^11.0",
+        "laravel/framework": "^12.0",
         "livewire/livewire": "^3.4",
         "vigilant/core": "@dev",
         "vigilant/sites": "@dev",
@@ -22,9 +22,9 @@
     },
     "require-dev": {
         "laravel/pint": "^1.6",
-        "larastan/larastan": "^2.5",
-        "orchestra/testbench": "^9.0",
-        "phpstan/phpstan-mockery": "^1.1",
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^10.0",
+        "phpstan/phpstan-mockery": "^2.0",
         "phpunit/phpunit": "^11.0"
     },
     "autoload": {

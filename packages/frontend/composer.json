@@ -11,18 +11,18 @@
         }
     ],
     "require": {
-        "php": "^8.2",
-        "laravel/framework": "^11.0",
-        "ramonrietdijk/livewire-tables": "^4.0",
+        "php": "^8.3",
+        "laravel/framework": "^12.0",
+        "ramonrietdijk/livewire-tables": "^5.0",
         "livewire/livewire": "^3.4",
         "vigilant/core": "@dev",
         "outhebox/blade-flags": "^1.5"
     },
     "require-dev": {
         "laravel/pint": "^1.6",
-        "larastan/larastan": "^2.5",
-        "orchestra/testbench": "^9.0",
-        "phpstan/phpstan-mockery": "^1.1",
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^10.0",
+        "phpstan/phpstan-mockery": "^2.0",
         "phpunit/phpunit": "^11.0"
     },
     "autoload": {
@@ -65,5 +65,4 @@
             "url": "../*"
         }
     ]
-
 }

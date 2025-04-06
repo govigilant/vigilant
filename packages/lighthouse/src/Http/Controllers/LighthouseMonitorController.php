@@ -30,7 +30,10 @@ class LighthouseMonitorController extends Controller
             }
         }
 
-        return view('lighthouse::lighthouse.index', [
+        /** @var view-string $view */
+        $view = 'lighthouse::lighthouse.index';
+
+        return view($view, [
             'lighthouseMonitor' => $monitor,
             'screenshots' => $screenshots ?? [],
             'charts' => [

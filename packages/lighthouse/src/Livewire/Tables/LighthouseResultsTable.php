@@ -14,8 +14,6 @@ class LighthouseResultsTable extends LivewireTable
 {
     protected string $model = LighthouseResult::class;
 
-    protected bool $useSelection = false;
-
     public string $sortColumn = 'created_at';
 
     public string $sortDirection = 'desc';

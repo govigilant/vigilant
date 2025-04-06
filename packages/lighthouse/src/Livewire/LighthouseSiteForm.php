@@ -67,7 +67,10 @@ class LighthouseSiteForm extends Component
 
     public function render(): mixed
     {
-        return view('lighthouse::livewire.lighthouse-site-form', [
+        /** @var view-string $view */
+        $view = 'lighthouse::livewire.lighthouse-site-form';
+
+        return view($view, [
             'updating' => $this->lighthouseMonitor->exists,
         ]);
     }

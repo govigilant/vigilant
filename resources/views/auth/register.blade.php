@@ -44,13 +44,13 @@
                                     'terms_of_service' =>
                                         '<a target="_blank" href="' .
                                         route('terms.show') .
-                                        '" class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red">' .
+                                        '" class="underline text-sm text-white hover:text-red rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red">' .
                                         __('Terms of Service') .
                                         '</a>',
                                     'privacy_policy' =>
                                         '<a target="_blank" href="' .
                                         route('policy.show') .
-                                        '" class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red">' .
+                                        '" class="underline text-sm text-white hover:text-red rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red">' .
                                         __('Privacy Policy') .
                                         '</a>',
                                 ]) !!}
@@ -61,7 +61,7 @@
             @endif
 
             <div class="flex items-center justify-end mt-4">
-                <a class="underline text-sm text-white hover:text-red rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red"
+                <a class="underline text-sm text-white hover:text-red rounded-md focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red"
                     href="{{ route('login') }}">
                     {{ __('Already registered?') }}
                 </a>
@@ -74,7 +74,7 @@
                     <hr />
                     <div class="mt-4">
                         <a href="{{ route('login.socialite', ['provider' => 'google']) }}"
-                            class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-md bg-blue text-white hover:bg-blue-light focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
+                            class="flex items-center justify-center gap-2 w-full py-2 px-4 rounded-md bg-blue text-white hover:bg-blue-light focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-gray-800">
                             @svg('tni-google-o', 'size-6')
                             <span>Sign in with Google</span>
                         </a>

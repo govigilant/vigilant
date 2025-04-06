@@ -1,6 +1,6 @@
 <div class="rounded-md bg-blue-light p-4" x-data="{ show: true }" x-show="show">
     <div class="flex">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
             <x-tni-info-circle-o class="size-6 text-base-200" />
         </div>
         <div class="ml-3 flex-1 text-light/20">

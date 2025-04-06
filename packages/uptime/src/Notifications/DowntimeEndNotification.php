@@ -22,7 +22,7 @@ class DowntimeEndNotification extends Notification implements HasSite
     {
         $monitor = $this->downtime->monitor;
 
-        $site = $monitor->site?->url ?? $monitor->settings['host'] ?? '';
+        $site = $monitor->site->url ?? $monitor->settings['host'] ?? '';
 
         return __(':site is back up!', ['site' => $site]);
     }

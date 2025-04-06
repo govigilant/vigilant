@@ -17,8 +17,6 @@ class IssuesTable extends LivewireTable
     #[Locked]
     public int $crawlerId;
 
-    protected bool $useSelection = false;
-
     public function mount(int $crawlerId): void
     {
         $this->crawlerId = $crawlerId;

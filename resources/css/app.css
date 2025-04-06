@@ -1,6 +1,78 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/laravel/jetstream/**/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../../vendor/ramonrietdijk/livewire-tables/resources/**/*.blade.php';
+@source '../../vendor/vigilant/*/resources/views/**/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-base-50: #f2f0e5;
+  --color-base-100: #e6e4d9;
+  --color-base-150: #dad8ce;
+  --color-base-200: #cecdc3;
+  --color-base-300: #b7b5ac;
+  --color-base-500: #878580;
+  --color-base-600: #6f6e69;
+  --color-base-700: #575653;
+  --color-base-800: #403e3c;
+  --color-base-850: #343331;
+  --color-base-900: #282726;
+  --color-base-950: #1c1b1a;
+  --color-base-black: #100f0f;
+  --color-base-paper: #fffcf0;
+
+  --color-red: #af3029;
+  --color-red-light: #d14d41;
+
+  --color-orange: #bc5215;
+  --color-orange-light: #da702c;
+
+  --color-yellow: #ad8301;
+  --color-yellow-light: #d0a215;
+
+  --color-green: #0d5413;
+  --color-green-light: #337f1f;
+
+  --color-cyan: #24837b;
+  --color-cyan-light: #3aa99f;
+
+  --color-blue: #205ea6;
+  --color-blue-light: #4385be;
+
+  --color-purple: #5e409d;
+  --color-purple-light: #8b7ec8;
+
+  --color-magenta: #a02f6f;
+  --color-magenta-light: #ce5d97;
+
+  --font-sans:
+    Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 [x-cloak] {
     display: none;

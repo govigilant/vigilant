@@ -18,7 +18,7 @@
     @livewireStyles
 </head>
 <body class="font-sans antialiased dark dark:bg-black min-w-screen h-screen flex">
-    <div class="fixed h-1.5 z-40 -top-px inset-x-0 bg-gradient-to-r from-green to-red"></div>
+    <div class="fixed h-1.5 z-40 -top-px inset-x-0 bg-linear-to-r from-green to-red"></div>
     <main class="dark:bg-black flex flex-col overflow-hidden flex-1">
         <div
             class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-col flex-1 pt-px">

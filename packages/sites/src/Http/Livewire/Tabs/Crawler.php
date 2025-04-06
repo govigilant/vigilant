@@ -42,7 +42,10 @@ class Crawler extends Component
 
     public function render(): mixed
     {
-        return view('sites::livewire.tabs.crawler', [
+        /** @var view-string $view */
+        $view = 'sites::livewire.tabs.crawler';
+
+        return view($view, [
             'siteId' => $this->siteId,
         ]);
     }

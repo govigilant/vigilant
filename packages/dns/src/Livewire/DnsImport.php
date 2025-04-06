@@ -146,6 +146,9 @@ class DnsImport extends Component
 
     public function render(): View
     {
-        return view('dns::livewire.import');
+        /** @var view-string $view */
+        $view = 'dns::livewire.import';
+
+        return view($view);
     }
 }

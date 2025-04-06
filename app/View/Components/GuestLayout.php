@@ -12,6 +12,9 @@ class GuestLayout extends Component
      */
     public function render(): View
     {
-        return view('layouts.guest');
+        /** @var view-string $view */
+        $view = 'layouts.guest';
+
+        return view($view);
     }
 }

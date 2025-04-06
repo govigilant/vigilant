@@ -34,7 +34,7 @@ class HistoryTable extends LivewireTable
                 }),
 
             Column::make(__('Level'), 'data.level')
-                ->displayUsing(fn (string $level) => Level::tryFrom($level)?->name ?? $level),
+                ->displayUsing(fn (string $level) => Level::tryFrom($level)->name ?? $level),
 
             Column::make(__('Notification'), 'data.title')
                 ->searchable(function (Builder $builder, mixed $search) {

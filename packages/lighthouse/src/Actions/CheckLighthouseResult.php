@@ -46,9 +46,10 @@ class CheckLighthouseResult
 
         CategoryScoreChangedNotification::notify($result, $data);
 
-        $result->audits()
-            ->get()
-            ->each(fn (LighthouseResultAudit $audit) => $this->checkLighthouseResultAudit->check($audit));
+        /** @var Collection<int, LighthouseResultAudit> $audits */
+        $audits = $result->audits()->get();
+
+        $audits->each(fn (LighthouseResultAudit $audit) => $this->checkLighthouseResultAudit->check($audit));
     }
 
     protected function averageResults(int $lighthouseSiteId, int $count, int $skip): Collection

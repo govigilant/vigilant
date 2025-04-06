@@ -1,6 +1,6 @@
 <div class="rounded-md bg-red-light p-4" x-data="{ show: true }" x-show="show">
     <div class="flex">
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
             <x-heroicon-o-exclamation-circle class="size-6 text-white" />
         </div>
         <div class="ml-3 flex-1">

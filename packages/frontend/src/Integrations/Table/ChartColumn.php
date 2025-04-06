@@ -6,6 +6,9 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
+/**
+ * @property view-string $view
+ */
 class ChartColumn extends BaseColumn
 {
     protected string $view = 'frontend::integrations.table.chart-column';

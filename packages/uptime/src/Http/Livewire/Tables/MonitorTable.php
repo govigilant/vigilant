@@ -51,7 +51,7 @@ class MonitorTable extends LivewireTable
                         $lastResult = $monitor->aggregatedResults()->orderByDesc('created_at')->first();
                     }
 
-                    if ($lastResult === null) {
+                    if ($lastResult === null || ! isset($lastResult->created_at)) {
                         return __('Unknown');
                     }
 

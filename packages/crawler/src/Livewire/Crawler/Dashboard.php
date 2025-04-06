@@ -25,7 +25,10 @@ class Dashboard extends Component
 
         $nextRun = Carbon::parse((new CronExpression($crawler->schedule))->getNextRunDate());
 
-        return view('crawler::livewire.crawler.dashboard', [
+        /** @var view-string $view */
+        $view = 'crawler::livewire.crawler.dashboard';
+
+        return view($view, [
             'total_url_count' => $crawler->totalUrlCount(),
             'issue_count' => $crawler->issueCount(),
             'nextRun' => $crawler->enabled ? $nextRun->diffForHumans() : __('Crawler disabled'),

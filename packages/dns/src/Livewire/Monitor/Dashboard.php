@@ -28,7 +28,10 @@ class Dashboard extends Component
             ->orderByDesc('created_at')
             ->first();
 
-        return view('dns::livewire.monitor.dashboard', [
+        /** @var view-string $view */
+        $view = 'dns::livewire.monitor.dashboard';
+
+        return view($view, [
             'count' => $dnsMonitors->count(),
             'lastChange' => $latestChange,
         ]);

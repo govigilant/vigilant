@@ -18,6 +18,9 @@ class DnsMonitors extends Component
 
     public function render(): mixed
     {
-        return view('sites::livewire.tabs.dns-monitors');
+        /** @var view-string $view */
+        $view = 'sites::livewire.tabs.dns-monitors';
+
+        return view($view);
     }
 }

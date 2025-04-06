@@ -12,7 +12,10 @@ class Team extends Component
         /** @var User $user */
         $user = auth()->user();
 
-        return view('settings::tabs.team', [
+        /** @var view-string $view */
+        $view = 'settings::tabs.team';
+
+        return view($view, [
             'team' => $user->currentTeam,
         ]);
     }
