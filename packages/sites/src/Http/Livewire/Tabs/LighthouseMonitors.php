@@ -7,7 +7,6 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
-use Vigilant\Frontend\Validation\CronExpression;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Models\Site;
 
@@ -28,7 +27,7 @@ class LighthouseMonitors extends Component
         return [
             'monitors.*.id' => ['nullable'],
             'monitors.*.url' => ['required', 'url'],
-            'monitors.*.interval' => ['required', new CronExpression],
+            'monitors.*.interval' => ['required', 'in:'.implode(',', array_keys(config('lighthouse.intervals')))],
         ];
     }
 
@@ -89,9 +88,11 @@ class LighthouseMonitors extends Component
         /** @var Site $site */
         $site = Site::query()->findOrFail($this->siteId);
 
+        $defaultInterval = collect(config('lighthouse.intervals'))->keys()->first() ?? 60 * 24; // @phpstan-ignore-line
+
         $this->monitors[] = [
             'url' => $site->url,
-            'interval' => '0 */3 * * *',
+            'interval' => $defaultInterval,
         ];
     }
 
