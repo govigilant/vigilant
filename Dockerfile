@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:latest-php8.3-alpine
+FROM dunglas/frankenphp:latest-php8.4-alpine
 
 RUN apk add --no-cache bash git linux-headers libzip-dev libxml2-dev supervisor nodejs npm icu-dev
 
