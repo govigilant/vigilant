@@ -9,7 +9,7 @@
                 message = event.detail.message;
                 show = true;
             ">
-    <div class="max-w-screen-xl mx-auto py-2 px-3 sm:px-6 lg:px-8">
+    <div class="max-w-(--breakpoint-xl) mx-auto py-2 px-3 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between flex-wrap">
             <div class="w-0 flex-1 flex items-center min-w-0">
                 <span class="flex p-2 rounded-lg" :class="{ 'bg-red': style == 'success', 'bg-red-600': style == 'danger' }">
@@ -30,7 +30,7 @@
             <div class="shrink-0 sm:ms-3">
                 <button
                     type="button"
-                    class="-me-1 flex p-2 rounded-md focus:outline-none sm:-me-2 transition"
+                    class="-me-1 flex p-2 rounded-md focus:outline-hidden sm:-me-2 transition"
                     :class="{ 'hover:bg-red focus:bg-red': style == 'success', 'hover:bg-red-600 focus:bg-red-600': style == 'danger' }"
                     aria-label="Dismiss"
                     x-on:click="show = false">

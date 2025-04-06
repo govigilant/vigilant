@@ -20,7 +20,7 @@
                     };
 
                 @endphp
-                <div class="text-base-50 bg-base-950 text-center p-4 rounded shadow">
+                <div class="text-base-50 bg-base-950 text-center p-4 rounded-sm shadow-sm">
                     <dt class="truncate text-sm font-medium text-base-100">{{ str_replace('_', ' ', ucfirst($category)) }}</dt>
                     <dd class="mt-1 text-xl font-semibold tracking-tight {{ $color ?? 'text-base-50' }}">{{  $percentage . '%' }}</dd>
                 </div>
