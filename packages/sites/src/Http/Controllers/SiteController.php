@@ -20,6 +20,9 @@ class SiteController extends Controller
             'empty' => collect($monitors)->filter()->isEmpty(),
         ], $monitors);
 
-        return view('sites::sites.view', $data);
+        /** @var view-string $view */
+        $view = 'sites::sites.view';
+
+        return view($view, $data);
     }
 }

@@ -10,7 +10,10 @@ class LighthouseResultController extends Controller
 {
     public function index(LighthouseResult $result): View
     {
-        return view('lighthouse::result.index', [
+        /** @var view-string $view */
+        $view = 'lighthouse::result.index';
+
+        return view($view, [
             'result' => $result,
         ]);
     }

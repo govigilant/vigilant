@@ -13,7 +13,10 @@ class CrawlerController extends Controller
 
     public function index(Crawler $crawler): mixed
     {
-        return view('crawler::crawler.index', [
+        /** @var view-string $view */
+        $view = 'crawler::crawler.index';
+
+        return view($view, [
             'crawler' => $crawler,
         ]);
     }

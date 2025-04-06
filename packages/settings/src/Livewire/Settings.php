@@ -55,7 +55,10 @@ class Settings extends Component
     public function render(): mixed
     {
 
-        return view('settings::index', [
+        /** @var view-string $view */
+        $view = 'settings::index';
+
+        return view($view, [
             'tabs' => $this->tabs(),
             'tab' => $this->tab,
         ]);

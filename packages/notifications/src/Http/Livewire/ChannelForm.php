@@ -105,7 +105,10 @@ class ChannelForm extends Component
 
     public function render(): mixed
     {
-        return view('notifications::livewire.channels.form', [
+        /** @var view-string $view */
+        $view = 'notifications::livewire.channels.form';
+
+        return view($view, [
             'updating' => $this->channelModel->exists,
         ]);
     }

@@ -9,6 +9,9 @@ class Sites extends Component
 {
     public function render(): View
     {
-        return view('sites::livewire.sites');
+        /** @var view-string $view */
+        $view = 'sites::livewire.sites';
+
+        return view($view);
     }
 }

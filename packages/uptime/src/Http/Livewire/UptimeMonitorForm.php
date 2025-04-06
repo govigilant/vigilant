@@ -65,7 +65,10 @@ class UptimeMonitorForm extends Component
 
     public function render(): mixed
     {
-        return view('uptime::livewire.monitor.form', [
+        /** @var view-string $view */
+        $view = 'uptime::livewire.monitor.form';
+
+        return view($view, [
             'updating' => $this->monitor->exists,
         ]);
     }

@@ -98,7 +98,10 @@ class CrawlerForm extends Component
 
     public function render(): mixed
     {
-        return view('crawler::livewire.crawler-form', [
+        /** @var view-string $view */
+        $view = 'crawler::livewire.crawler-form';
+
+        return view($view, [
             'updating' => $this->crawler->exists,
             'invalidDay' => ($this->form->settings['scheduleConfig']['monthDay'] ?? 0) > 28,
         ]);

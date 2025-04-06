@@ -20,7 +20,7 @@ class DowntimeStartNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $host = $this->monitor->site?->url ?? $this->monitor->settings['host'] ?? '';
+        $host = $this->monitor->site->url ?? $this->monitor->settings['host'] ?? '';
 
         return __(':host is down!', ['host' => $host]);
     }

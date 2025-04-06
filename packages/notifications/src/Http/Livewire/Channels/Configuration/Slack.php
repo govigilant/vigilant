@@ -8,6 +8,9 @@ class Slack extends ChannelConfiguration
 {
     public function render(): View
     {
-        return view('notifications::livewire.channels.configuration.slack');
+        /** @var view-string $view */
+        $view = 'notifications::livewire.channels.configuration.slack';
+
+        return view($view);
     }
 }

@@ -87,7 +87,7 @@ class NotificationTest extends TestCase
             'all_channels' => false,
         ]);
 
-        $trigger->channels()->sync([Channel::query()->first()?->id ?? 1]);
+        $trigger->channels()->sync([Channel::query()->first()->id ?? 1]);
 
         FakeNotification::notify(1);
 

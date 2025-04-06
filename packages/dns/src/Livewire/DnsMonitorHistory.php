@@ -17,7 +17,10 @@ class DnsMonitorHistory extends Component
 
     public function render(): View
     {
-        return view('dns::livewire.monitor-history', [
+        /** @var view-string $view */
+        $view = 'dns::livewire.monitor-history';
+
+        return view($view, [
             'monitor' => $this->monitor,
         ]);
     }

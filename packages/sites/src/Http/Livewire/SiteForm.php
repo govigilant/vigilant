@@ -74,7 +74,10 @@ class SiteForm extends Component
             ->filter(fn (array $tab) => ! array_key_exists('gate', $tab) || Gate::check($tab['gate']))
             ->toArray();
 
-        return view('sites::livewire.form', [
+        /** @var view-string $view */
+        $view = 'sites::livewire.form';
+
+        return view($view, [
             'updating' => $this->site->exists,
             'tabs' => $tabs,
         ]);

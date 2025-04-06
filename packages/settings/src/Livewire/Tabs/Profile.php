@@ -41,6 +41,9 @@ class Profile extends Component
 
     public function render(): mixed
     {
-        return view('settings::tabs.profile');
+        /** @var view-string $view */
+        $view = 'settings::tabs.profile';
+
+        return view($view);
     }
 }

@@ -14,8 +14,6 @@ class DowntimeTable extends LivewireTable
 {
     protected string $model = Downtime::class;
 
-    protected bool $useSelection = false;
-
     #[Locked]
     public int $monitorId = 0;
 

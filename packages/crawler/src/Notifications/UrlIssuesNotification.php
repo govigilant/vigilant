@@ -23,7 +23,7 @@ class UrlIssuesNotification extends Notification implements HasSite
 
         return __(':count URL\'s found with issues on :site', [
             'count' => $count,
-            'site' => $this->site()?->url ?? $this->crawler->start_url,
+            'site' => $this->site()->url ?? $this->crawler->start_url,
         ]);
     }
 

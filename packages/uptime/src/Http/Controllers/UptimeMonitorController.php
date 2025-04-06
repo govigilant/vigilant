@@ -13,7 +13,10 @@ class UptimeMonitorController extends Controller
 
     public function index(Monitor $monitor): mixed
     {
-        return view('uptime::monitor.view', [
+        /** @var view-string $view */
+        $view = 'uptime::monitor.view';
+
+        return view($view, [
             'monitor' => $monitor,
         ]);
     }

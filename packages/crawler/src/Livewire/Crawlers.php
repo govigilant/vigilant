@@ -9,6 +9,9 @@ class Crawlers extends Component
 {
     public function render(): View
     {
-        return view('crawler::crawlers');
+        /** @var view-string $view */
+        $view = 'crawler::crawlers';
+
+        return view($view);
     }
 }

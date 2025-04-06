@@ -35,6 +35,9 @@ class OnBoard extends Component
 
     public function render(): mixed
     {
-        return view('onboarding::setup');
+        /** @var view-string $view */
+        $view = 'onboarding::setup';
+
+        return view($view);
     }
 }
