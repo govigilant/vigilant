@@ -12,38 +12,31 @@
         <span></span>
 
 
-        @foreach($monitors as $index => $monitor)
+        @foreach ($monitors as $index => $monitor)
             <div class="pr-4">
-                <input type="text"
-                       wire:model.live="monitors.{{$index}}.url"
-                       class="mt-2 w-full block rounded-md border-0 py-1.5 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red"
-                >
-                @error("monitors.$index.url") <span class="text-red">{{ $message }}</span> @enderror
+                <input type="text" wire:model.live="monitors.{{ $index }}.url"
+                    class="mt-2 w-full block rounded-md border-0 py-1.5 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
+                @error("monitors.$index.url")
+                    <span class="text-red">{{ $message }}</span>
+                @enderror
             </div>
             <div>
-                <select
-                    wire:model.live="monitors.{{$index}}.interval"
+                <select wire:model.live="monitors.{{ $index }}.interval"
                     class="mt-2 block rounded-md border-0 py-1.5 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
-                    <option value="0 * * * *">@lang('Hourly')</option>
-                    <option value="0 */3 * * *">@lang('Every three hours')</option>
-                    <option value="0 0 * * *">@lang('Daily')</option>
-                    <option value="0 0 0 * *">@lang('Weekly')</option>
+                    @foreach (config('lighthouse.intervals') as $interval => $label)
+                        <option value="{{ $interval }}">@lang($label)</option>
+                    @endforeach
                 </select>
             </div>
 
             @if (!blank($monitor['id'] ?? null))
                 <div class="flex justify-end items-center">
-                    <x-form.button
-                        href="{{ route('lighthouse.index', ['monitor' => $monitor['id']]) }}"
-                        target="_blank"
-                        class="bg-green"
-                    >@lang('View')</x-form.button>
+                    <x-form.button href="{{ route('lighthouse.index', ['monitor' => $monitor['id']]) }}" target="_blank"
+                        class="bg-green">@lang('View')</x-form.button>
                 </div>
-
             @else
                 <span></span>
             @endif
-
         @endforeach
 
     </div>
