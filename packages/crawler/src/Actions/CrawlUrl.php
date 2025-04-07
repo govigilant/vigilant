@@ -3,6 +3,7 @@
 namespace Vigilant\Crawler\Actions;
 
 use DOMDocument;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Services\TeamService;
@@ -26,11 +27,20 @@ class CrawlUrl
             return;
         }
 
-        $response = Http::timeout(config('crawler.timeout'))
-            ->connectTimeout(config('crawler.timeout'))
-            ->withOptions(['verify' => false, 'allow_redirects' => false])
-            ->withUserAgent(config('core.user_agent'))
-            ->get($url->url);
+        try {
+            $response = Http::timeout(config()->integer('crawler.timeout'))
+                ->connectTimeout(config()->integer('crawler.timeout'))
+                ->withOptions(['verify' => false, 'allow_redirects' => false])
+                ->withUserAgent(config('core.user_agent'))
+                ->get($url->url);
+        } catch (ConnectionException) {
+            $url->update([
+                'status' => 0,
+                'crawled' => true,
+            ]);
+
+            return;
+        }
 
         /** @var array $baseUrl */
         $baseUrl = parse_url($url->url);
@@ -62,10 +72,13 @@ class CrawlUrl
                 }
 
                 if (! Gate::check('create-crawled-url', $url->crawler)) {
+                    $redirectUrl = str($redirectUrl)->limit(8192)->toString();
+
                     CrawledUrl::query()->firstOrCreate([
                         'crawler_id' => $url->crawler_id,
-                        'url' => str($redirectUrl)->limit(8192)->toString(),
+                        'url_hash' => md5($redirectUrl),
                     ], [
+                        'url' => $redirectUrl,
                         'found_on_id' => $url->uuid,
                     ]);
                 }
@@ -113,10 +126,13 @@ class CrawlUrl
                 break;
             }
 
+            $pageUrl = str($link)->limit(8192)->toString();
+
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
-                'url' => str($link)->limit(8192)->toString(),
+                'url_hash' => md5($pageUrl),
             ], [
+                'url' => str($link)->limit(8192)->toString(),
                 'found_on_id' => $url->uuid,
             ]);
         }

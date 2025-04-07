@@ -7544,7 +7544,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7618,7 +7618,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7695,7 +7695,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7772,7 +7772,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7843,7 +7843,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -7920,7 +7920,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7996,7 +7996,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8069,7 +8069,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8144,7 +8144,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -8218,7 +8218,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -8295,7 +8295,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/laravel-12",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",

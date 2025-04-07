@@ -20,6 +20,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property int $found_on_id
  * @property bool $crawled
  * @property string $url
+ * @property string $url_hash
  * @property int $status
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
