@@ -32,7 +32,7 @@
     @livewireScripts
 
     @if (!ce())
-        <x-impersonate::banner />
+        <x-dynamic-component component="impersonate::banner" />
     @endif
 </body>
 
