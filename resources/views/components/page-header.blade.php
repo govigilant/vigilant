@@ -1,4 +1,6 @@
 @props(['title', 'back'])
+@section('title', $title)
+
 <div {{ $attributes->merge(['class' => 'flex items-center justify-between']) }}>
     <div class="min-w-0 flex items-center gap-4">
         @if (isset($back))
@@ -7,7 +9,8 @@
             </a>
         @endif
         <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100">
-            {{ __($title) }}</h2>
+            {{ __($title) }}
+        </h2>
     </div>
     <div class="md:ml-4 gap-4">
         {{ $slot }}
