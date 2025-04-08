@@ -11,6 +11,11 @@ class CalculateTimeDifference
 {
     public function calculate(LighthouseMonitor $monitor, Carbon $from, float $sampleSize = 0.1): ?CategoryResultDifferenceData
     {
+        // Ensure that there are enough results to compare
+        if ($monitor->lighthouseResults()->where('created_at', '<=', $from)->count() === 0) {
+            return null;
+        }
+
         $results = $monitor->lighthouseResults()
             ->where('created_at', '>=', $from)
             ->get();

@@ -3,11 +3,11 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+@source '../../packages/**/resources/views/**/*.blade.php';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/laravel/jetstream/**/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source '../../vendor/ramonrietdijk/livewire-tables/resources/**/*.blade.php';
-@source '../../vendor/vigilant/*/resources/views/**/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
 
