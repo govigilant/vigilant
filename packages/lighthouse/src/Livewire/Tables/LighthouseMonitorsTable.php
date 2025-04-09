@@ -120,7 +120,7 @@ class LighthouseMonitorsTable extends LivewireTable
             }),
 
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
-                $models->each(fn (LighthouseMonitor $site): ?bool => $site->delete());
+                $models->each(fn (LighthouseMonitor $monitor): ?bool => $monitor->delete());
             }),
         ];
     }

@@ -2,9 +2,22 @@
 
 namespace Vigilant\Certificates;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Livewire\Livewire;
+use Vigilant\Certificates\Commands\CheckCertificateCommand;
 use Vigilant\Certificates\Commands\CheckCertificatesCommand;
+use Vigilant\Certificates\Livewire\Tables\CertificateMonitorsTable;
+use Vigilant\Certificates\Models\CertificateMonitor;
+use Vigilant\Certificates\Notifications\CertificateExpiredNotification;
+use Vigilant\Certificates\Notifications\CertificateExpiresInDaysNotification;
+use Vigilant\Certificates\Notifications\Conditions\DaysCondition;
+use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
+use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -27,7 +40,13 @@ class ServiceProvider extends BaseServiceProvider
             ->bootRoutes()
             ->bootConfig()
             ->bootMigrations()
-            ->bootCommands();
+            ->bootCommands()
+            ->bootViews()
+            ->bootLivewire()
+            ->bootNavigation()
+            ->bootNotifications()
+        ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootRoutes(): static
@@ -60,9 +79,70 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                CheckCertificateCommand::class,
                 CheckCertificatesCommand::class,
 
             ]);
+        }
+
+        return $this;
+    }
+
+    protected function bootViews(): static
+    {
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'certificates');
+
+        return $this;
+    }
+
+    protected function bootLivewire(): static
+    {
+        Livewire::component('certificate-monitor-table', CertificateMonitorsTable::class);
+
+        return $this;
+    }
+
+    protected function bootNavigation(): static
+    {
+        Navigation::path(__DIR__.'/../resources/navigation.php');
+
+        return $this;
+    }
+
+    protected function bootNotifications(): static
+    {
+        NotificationRegistry::registerNotification([
+            CertificateExpiresInDaysNotification::class,
+            CertificateExpiredNotification::class,
+        ]);
+
+        NotificationRegistry::registerCondition(CertificateExpiresInDaysNotification::class, [
+            SiteCondition::class,
+            DaysCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(CertificateExpiredNotification::class, [
+            SiteCondition::class,
+        ]);
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        if (ce()) {
+            Gate::define('use-certificates', function (User $user): bool {
+                return ce();
+            });
+        }
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(CertificateMonitor::class, AllowAllPolicy::class);
         }
 
         return $this;

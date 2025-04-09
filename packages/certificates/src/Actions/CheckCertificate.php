@@ -28,6 +28,7 @@ class CheckCertificate
 
         if ($client === false) {
             dd($errno, $errstr);
+            // TODO: Unable to resolve notification
 
             return;
         }
@@ -39,20 +40,33 @@ class CheckCertificate
 
         $fingerprint = openssl_x509_fingerprint($contParams['options']['ssl']['peer_certificate'], 'sha256');
 
+        $validTo = Carbon::createFromTimestampUTC(data_get($certificate, 'validTo_time_t'));
+
+        if ($validTo->isAfter(now()->addDays(30))) {
+            $nextCheck = now()->addDays(30);
+        } elseif ($validTo->isAfter(now()->addDays(7))) {
+            $nextCheck = now()->addDays(7);
+        } else {
+            $nextCheck = $validTo->subDay();
+
+            if ($nextCheck->isPast()) {
+                $nextCheck = now()->addHours(3);
+            }
+        }
+
         $monitor->update([
-            /* 'next_check' => now()->addDays(30), */
+            'next_check' => $nextCheck,
             'serial_number' => data_get($certificate, 'serialNumber'),
             'protocol' => data_get($metadata, 'crypto.protocol'),
             'fingerprint' => $fingerprint,
             'valid_from' => Carbon::createFromTimestampUTC(data_get($certificate, 'validFrom_time_t')),
-            'valid_to' => Carbon::createFromTimestampUTC(data_get($certificate, 'validTo_time_t')),
+            'valid_to' => $validTo,
             'data' => array_merge(
                 $certificate,
                 [
                     'metadata' => $metadata,
                 ]
             ),
-
         ]);
 
     }

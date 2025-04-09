@@ -10,7 +10,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('certificate_monitors', function (Blueprint $table) {
+        Schema::create('certificate_monitors', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Site::class)->nullable()->constrained()->onDelete('cascade');
             $table->foreignIdFor(Team::class)->constrained()->onDelete('cascade');
