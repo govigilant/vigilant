@@ -2,9 +2,11 @@
 
 namespace Vigilant\Notifications\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vigilant\Notifications\Scopes\HistoryTeamScope;
 
 /**
  * @property int $id
@@ -18,6 +20,7 @@ use Illuminate\Support\Carbon;
  * @property ?Trigger $trigger
  * @property ?Channel $channel
  */
+#[ScopedBy([HistoryTeamScope::class])]
 class History extends Model
 {
     protected $table = 'notification_history';
