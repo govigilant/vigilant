@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8e3683016f27c572db4e8cdb69e4386d",
+    "content-hash": "61b2ebe47b53421c87bc1ec2ba1c104e",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7543,8 +7543,84 @@
             "time": "2024-12-21T16:25:41+00:00"
         },
         {
+            "name": "vigilant/certificates",
+            "version": "dev-feature/cert-monitor",
+            "dist": {
+                "type": "path",
+                "url": "./packages/certificates",
+                "reference": "fb55626b564596595fd595ec3495390930f699f5"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^12.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.3",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^10.0",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Certificates\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Certificates\\": "src",
+                    "Vigilant\\Certificates\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Certificates\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant Certificate Monitor",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/core",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7618,7 +7694,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7695,7 +7771,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7772,7 +7848,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7843,7 +7919,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -7920,7 +7996,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -7996,7 +8072,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8069,7 +8145,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8144,7 +8220,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -8218,7 +8294,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -8295,7 +8371,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-develop",
+            "version": "dev-feature/cert-monitor",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -11305,6 +11381,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "bluelibraries/dns": 20,
+        "vigilant/certificates": 20,
         "vigilant/core": 20,
         "vigilant/crawler": 20,
         "vigilant/dns": 20,

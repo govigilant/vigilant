@@ -251,6 +251,20 @@ return [
             'nice' => 0,
         ],
 
+        'certificates' => [
+            'connection' => 'redis',
+            'queue' => ['certificates'],
+            'balance' => 'auto',
+            'autoScalingStrategy' => 'time',
+            'maxProcesses' => 5,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 128,
+            'tries' => 1,
+            'timeout' => 30,
+            'nice' => 0,
+        ],
+
         'notifications' => [
             'connection' => 'redis',
             'queue' => ['notifications'],
