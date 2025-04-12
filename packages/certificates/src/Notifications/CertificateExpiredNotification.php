@@ -22,7 +22,7 @@ class CertificateExpiredNotification extends Notification implements HasSite
     {
         return __('The certificate on :domain expired on :validTo', [
             'domain' => $this->monitor->domain,
-            'validto' => $this->monitor->valid_to->toDateString(),
+            'validto' => $this->monitor->valid_to?->toDateString() ?? '?',
         ]);
     }
 

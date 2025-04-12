@@ -34,7 +34,7 @@ class CertificateExpiresInDaysNotification extends Notification implements HasSi
     {
         return __('The certificate on :domain will expire in :difference', [
             'domain' => $this->monitor->domain,
-            'difference' => $this->monitor->valid_to->shortAbsoluteDiffForHumans(),
+            'difference' => $this->monitor->valid_to?->shortAbsoluteDiffForHumans() ?? '?',
         ]);
     }
 
@@ -42,8 +42,8 @@ class CertificateExpiresInDaysNotification extends Notification implements HasSi
     {
         return __('The certificate on :domain will expire on :date which is :difference', [
             'domain' => $this->monitor->domain,
-            'validto' => $this->monitor->valid_to->shortAbsoluteDiffForHumans(),
-            'date' => $this->monitor->valid_to->toDateString(),
+            'validto' => $this->monitor->valid_to?->shortAbsoluteDiffForHumans() ?? '?',
+            'date' => $this->monitor->valid_to?->toDateString() ?? '?',
         ]);
     }
 

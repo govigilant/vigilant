@@ -64,7 +64,10 @@ class CertificateMonitorForm extends Component
 
     public function render(): mixed
     {
-        return view('certificates::livewire.certificate-monitor-form', [
+        /** @var view-string $view */
+        $view = 'certificates::livewire.certificate-monitor-form';
+
+        return view($view, [
             'updating' => $this->certificateMonitor->exists,
         ]);
     }

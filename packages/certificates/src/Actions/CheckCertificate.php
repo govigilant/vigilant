@@ -41,6 +41,12 @@ class CheckCertificate
         $contParams = stream_context_get_params($client);
         $certificate = openssl_x509_parse($contParams['options']['ssl']['peer_certificate']);
 
+        if ($certificate === false) {
+            UnableToResolveCertificateNotification::notify($monitor, 'Unable to parse certificate');
+
+            return;
+        }
+
         $fingerprint = openssl_x509_fingerprint($contParams['options']['ssl']['peer_certificate'], 'sha256');
 
         $validTo = Carbon::createFromTimestampUTC(data_get($certificate, 'validTo_time_t'));

@@ -14,7 +14,10 @@ class CertificateMonitorController extends Controller
 
     public function index(CertificateMonitor $monitor): mixed
     {
-        return view('certificates::monitor.index', [
+        /** @var view-string $view */
+        $view = 'certificates::monitor.index';
+
+        return view($view, [
             'monitor' => $monitor,
         ]);
     }

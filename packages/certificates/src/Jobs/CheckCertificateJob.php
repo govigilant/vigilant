@@ -31,7 +31,7 @@ class CheckCertificateJob implements ShouldBeUnique, ShouldQueue
         $certificate->check($this->monitor);
     }
 
-    public function uniqueId(): string
+    public function uniqueId(): int
     {
         return $this->monitor->id;
     }

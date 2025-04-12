@@ -28,8 +28,8 @@ class CertificateChangedNotification extends Notification implements HasSite
     {
         return __('The certificate on :domain has been updated. The new expiration date is :validto, old expiration date was :oldvalidto', [
             'domain' => $this->monitor->domain,
-            'validto' => $this->monitor->valid_to->toDateString(),
-            'oldvalidto' => $this->old->valid_to->toDateString(),
+            'validto' => $this->monitor->valid_to?->toDateString() ?? '?',
+            'oldvalidto' => $this->old->valid_to?->toDateString() ?? '?',
         ]);
     }
 

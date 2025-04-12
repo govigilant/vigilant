@@ -7,7 +7,7 @@ use Vigilant\Notifications\Notifications\Notification;
 
 class TrueCondition extends Condition
 {
-    public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool
+    public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         return true;
     }

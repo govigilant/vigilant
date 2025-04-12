@@ -18,10 +18,12 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property int $id
  * @property int $site_id
  * @property int $team_id
+ * @property bool $enabled
  * @property ?Carbon $next_check
  * @property string $domain
  * @property int $port
  * @property ?string $serial_number
+ * @property ?string $fingerprint
  * @property ?string $protocol
  * @property ?Carbon $valid_from
  * @property ?Carbon $valid_to
@@ -39,6 +41,7 @@ class CertificateMonitor extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'enabled' => 'boolean',
         'next_check' => 'datetime',
         'valid_from' => 'datetime',
         'valid_to' => 'datetime',
