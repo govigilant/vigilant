@@ -28,7 +28,11 @@ class HistoryTable extends LivewireTable
 
             Column::make(__('Channel'), 'channel.channel')
                 ->searchable()
-                ->displayUsing(function (string $channel) {
+                ->displayUsing(function (?string $channel) {
+                    if ($channel === null) {
+                        return null;
+                    }
+
                     /** @var class-string<NotificationChannel> $channel */
                     return $channel::$name;
                 }),
