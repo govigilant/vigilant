@@ -13,7 +13,7 @@ class DaysCondition extends Condition
     public ConditionType $type = ConditionType::Number;
 
     /** @param CertificateExpiredNotification $notification */
-    public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool
+    public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         $value = (int) $value;
 

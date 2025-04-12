@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Vigilant\Certificates\Commands\CheckCertificatesCommand;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
@@ -34,6 +35,9 @@ class Kernel extends ConsoleKernel
         $schedule->command(ScheduleCrawlersCommand::class)->everyMinute();
         $schedule->command(CrawlUrlsCommand::class)->everyMinute();
         $schedule->command(ProcessCrawlerStatesCommand::class)->everyMinute();
+
+        // Certificates
+        $schedule->command(CheckCertificatesCommand::class)->everyMinute();
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();

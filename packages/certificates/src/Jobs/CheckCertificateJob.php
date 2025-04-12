@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Vigilant\Certificates\Actions\CheckCertificate;
 use Vigilant\Certificates\Models\CertificateMonitor;
+use Vigilant\Core\Services\TeamService;
 
 class CheckCertificateJob implements ShouldBeUnique, ShouldQueue
 {
@@ -24,8 +25,9 @@ class CheckCertificateJob implements ShouldBeUnique, ShouldQueue
         $this->onQueue(config()->string('certificates.queue'));
     }
 
-    public function handle(CheckCertificate $certificate): void
+    public function handle(CheckCertificate $certificate, TeamService $teamService): void
     {
+        $teamService->setTeamById($this->monitor->team_id);
         $certificate->check($this->monitor);
     }
 

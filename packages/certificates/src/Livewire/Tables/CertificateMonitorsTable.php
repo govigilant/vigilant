@@ -11,6 +11,8 @@ use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Certificates\Jobs\CheckCertificateJob;
 use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
+use Vigilant\Frontend\Integrations\Table\Enums\Status;
+use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class CertificateMonitorsTable extends LivewireTable
@@ -24,13 +26,48 @@ class CertificateMonitorsTable extends LivewireTable
                 ->sortable()
                 ->searchable(),
 
-            Column::make(__('Port'), 'port')
+            StatusColumn::make(__('Expires In'), 'valid_to', 'expires_in')
                 ->sortable()
-                ->searchable(),
+                ->text(function (CertificateMonitor $monitor): string {
+                    if (! $monitor->enabled) {
+                        return __('Disabled');
+                    }
 
-            Column::make(__('Protocol'), 'protocol')
-                ->sortable()
-                ->searchable(),
+                    if ($monitor->valid_to === null) {
+                        return __('Unknown');
+                    }
+
+                    if ($monitor->valid_to->isPast()) {
+                        return __('Expired');
+                    }
+
+                    return $monitor->valid_to->longRelativeDiffForHumans();
+
+                })
+                ->status(function (CertificateMonitor $monitor): Status {
+                    if (! $monitor->enabled) {
+                        return Status::Danger;
+                    }
+
+                    if ($monitor->valid_to === null) {
+                        return Status::Danger;
+                    }
+
+                    if ($monitor->valid_to->isPast()) {
+                        return Status::Danger;
+                    }
+
+                    if ($monitor->valid_to->greaterThan(now()->addWeek())) {
+                        return Status::Success;
+                    }
+
+                    return Status::Warning;
+                }),
+
+            Column::make(__('Issuer'))
+                ->displayUsing(function (CertificateMonitor $monitor): string {
+                    return data_get($monitor->data ?? [], 'issuer.CN', __('Unknown'));
+                }),
 
             DateColumn::make(__('Valid From'), 'valid_from')
                 ->sortable()
@@ -40,6 +77,10 @@ class CertificateMonitorsTable extends LivewireTable
                 ->sortable()
                 ->searchable(),
 
+            Column::make(__('Protocol'), 'protocol')
+                ->hide()
+                ->sortable()
+                ->searchable(),
         ];
     }
 

@@ -15,7 +15,9 @@ class CheckCertificateCommand extends Command
         /** @var int $id */
         $id = $this->argument('id');
 
-        $monitor = CertificateMonitor::query()->findOrFail($id);
+        $monitor = CertificateMonitor::query()
+            ->withoutGlobalScopes()
+            ->findOrFail($id);
 
         CheckCertificateJob::dispatch($monitor);
 

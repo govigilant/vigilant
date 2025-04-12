@@ -8,6 +8,9 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Certificates\Commands\CheckCertificateCommand;
 use Vigilant\Certificates\Commands\CheckCertificatesCommand;
+use Vigilant\Certificates\Livewire\CertificateMonitorForm;
+use Vigilant\Certificates\Livewire\Monitor\Dashboard;
+use Vigilant\Certificates\Livewire\Tables\CertificateMonitorHistoryTable;
 use Vigilant\Certificates\Livewire\Tables\CertificateMonitorsTable;
 use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Certificates\Notifications\CertificateExpiredNotification;
@@ -45,7 +48,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootNavigation()
             ->bootNotifications()
-        ->bootGates()
+            ->bootGates()
             ->bootPolicies();
     }
 
@@ -98,6 +101,9 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootLivewire(): static
     {
         Livewire::component('certificate-monitor-table', CertificateMonitorsTable::class);
+        Livewire::component('certificate-monitor-history-table', CertificateMonitorHistoryTable::class);
+        Livewire::component('certificate-monitor-form', CertificateMonitorForm::class);
+        Livewire::component('certificate-monitor-dashboard', Dashboard::class);
 
         return $this;
     }

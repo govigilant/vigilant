@@ -4,6 +4,10 @@ namespace Vigilant\Certificates\Actions;
 
 use Illuminate\Support\Carbon;
 use Vigilant\Certificates\Models\CertificateMonitor;
+use Vigilant\Certificates\Notifications\CertificateChangedNotification;
+use Vigilant\Certificates\Notifications\CertificateExpiredNotification;
+use Vigilant\Certificates\Notifications\CertificateExpiresInDaysNotification;
+use Vigilant\Certificates\Notifications\UnableToResolveCertificateNotification;
 
 class CheckCertificate
 {
@@ -27,8 +31,7 @@ class CheckCertificate
         );
 
         if ($client === false) {
-            dd($errno, $errstr);
-            // TODO: Unable to resolve notification
+            UnableToResolveCertificateNotification::notify($monitor, $errstr);
 
             return;
         }
@@ -54,6 +57,30 @@ class CheckCertificate
             }
         }
 
+        if ($validTo->isPast()) {
+            CertificateExpiredNotification::notify($monitor);
+        } else {
+
+        }
+
+        if ($monitor->fingerprint !== $fingerprint) {
+            $history = $monitor->history()->create([
+                'serial_number' => data_get($certificate, 'serialNumber'),
+                'protocol' => data_get($metadata, 'crypto.protocol'),
+                'fingerprint' => $fingerprint,
+                'valid_from' => Carbon::createFromTimestampUTC(data_get($certificate, 'validFrom_time_t')),
+                'valid_to' => $validTo,
+                'data' => array_merge(
+                    $certificate,
+                    [
+                        'metadata' => $metadata,
+                    ]
+                ),
+            ]);
+
+            CertificateChangedNotification::notify($monitor, $history);
+        }
+
         $monitor->update([
             'next_check' => $nextCheck,
             'serial_number' => data_get($certificate, 'serialNumber'),
@@ -69,5 +96,8 @@ class CheckCertificate
             ),
         ]);
 
+        if ($validTo->isFuture()) {
+            CertificateExpiresInDaysNotification::notify($monitor);
+        }
     }
 }
