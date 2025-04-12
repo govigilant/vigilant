@@ -39,5 +39,6 @@ jobs:
 
       - name: Run quality check script
         run: |
+          chmod +x ./scripts/package-quality.sh
           ./scripts/package-quality.sh "${{ matrix.package }}"
         shell: bash
