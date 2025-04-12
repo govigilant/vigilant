@@ -24,9 +24,9 @@
                     class="bg-blue hover:bg-blue-light">
                     @lang('Edit')
                     </x-form.button>
-                    <x-form.dropdown-button class="bg-red hover:bg-red-light" x-on:click="submitForm">
+                    <x-form.button class="bg-red hover:bg-red-light" x-on:click="submitForm">
                         @lang('Delete')
-                        </x-form.button>
+                    </x-form.button>
 
 
             </x-frontend::page-header.mobile-actions>

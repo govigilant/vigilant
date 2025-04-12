@@ -13,6 +13,7 @@ use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
+use Vigilant\Sites\Http\Livewire\Tabs\CertificateMonitor;
 use Vigilant\Sites\Http\Livewire\Tabs\Crawler;
 use Vigilant\Sites\Http\Livewire\Tabs\DnsMonitors;
 use Vigilant\Sites\Http\Livewire\Tabs\LighthouseMonitors;
@@ -100,6 +101,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('sites.tabs.lighthouse-monitor', LighthouseMonitors::class);
         Livewire::component('sites.tabs.dns-monitors', DnsMonitors::class);
         Livewire::component('sites.tabs.crawler', Crawler::class);
+        Livewire::component('sites.tabs.certificate-monitor', CertificateMonitor::class);
 
         return $this;
     }

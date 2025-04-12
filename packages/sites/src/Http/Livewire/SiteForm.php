@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
@@ -113,6 +114,13 @@ class SiteForm extends Component
                 'component' => 'sites.tabs.crawler',
                 'gate' => 'use-crawler',
                 'model' => Crawler::class,
+            ],
+
+            'certificate' => [
+                'title' => __('Certificate Monitoring'),
+                'component' => 'sites.tabs.certificate-monitor',
+                'gate' => 'use-certificates',
+                'model' => CertificateMonitor::class,
             ],
         ];
     }

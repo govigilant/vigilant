@@ -10,9 +10,9 @@ use Vigilant\Notifications\Models\History;
 
 class HistoryTeamScope implements Scope
 {
-    /** @var History */
     public function apply(Builder $builder, Model $model): void
     {
+        /** @var History $model */
         /** @var TeamService $teamService */
         $teamService = app(TeamService::class);
         $team = $teamService->team();

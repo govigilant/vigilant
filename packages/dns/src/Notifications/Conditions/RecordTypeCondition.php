@@ -27,7 +27,7 @@ class RecordTypeCondition extends SelectCondition
         ];
     }
 
-    public function applies(Notification $notification, ?string $operand, string $operator, mixed $value, ?array $meta): bool
+    public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var RecordChangedNotification|RecordNotResolvedNotification $notification */
         $selectedType = Type::tryFrom($value);
