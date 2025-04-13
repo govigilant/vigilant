@@ -43,12 +43,10 @@
 
                     <div>
                         @foreach ($tabs as $key => $data)
-                            @can('create', $data['model'])
-                                <div x-show="selectedTab == '{{ $key }}'">
-                                    <livewire:dynamic-component :is="$data['component']" :site="$site"
-                                        wire:key="{{ $key }}" />
-                                </div>
-                            @endcan
+                            <div x-show="selectedTab == '{{ $key }}'">
+                                <livewire:dynamic-component :is="$data['component']" :site="$site"
+                                    wire:key="{{ $key }}" />
+                            </div>
                         @endforeach
                     </div>
                 </div>
