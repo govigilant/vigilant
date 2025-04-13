@@ -13,7 +13,6 @@ use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
-use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
 class CertificateMonitorsTable extends LivewireTable
 {
@@ -96,13 +95,13 @@ class CertificateMonitorsTable extends LivewireTable
                     if (! Gate::allows('create', $model)) {
                         break;
                     }
-                    $model->update(['enabled' => true]);
 
+                    $model->update(['enabled' => true]);
                 }
             }),
 
             Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
-                $models->each(fn (LighthouseMonitor $monitor) => $monitor->update(['enabled' => false]));
+                $models->each(fn (CertificateMonitor $monitor) => $monitor->update(['enabled' => false]));
             }),
 
             Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
