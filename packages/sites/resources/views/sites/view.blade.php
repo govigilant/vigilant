@@ -83,4 +83,18 @@
         @endif
     </div>
 
+    @can('use-certificates')
+        @if ($certificateMonitor !== null)
+            <div>
+                <div class="mb-4">
+                    <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                        href="{{ route('certificates.index', ['monitor' => $certificateMonitor]) }}">@lang('Certificate')
+                        @svg('tni-right-o', 'size-4')</a>
+                </div>
+                <livewire:certificate-monitor-dashboard :monitorId="$certificateMonitor->id" />
+            </div>
+        @endif
+    @endcan
+
+
 </x-app-layout>

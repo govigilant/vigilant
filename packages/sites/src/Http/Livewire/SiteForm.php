@@ -116,7 +116,7 @@ class SiteForm extends Component
                 'model' => Crawler::class,
             ],
 
-            'certificate' => [
+            'certificates' => [
                 'title' => __('Certificate Monitoring'),
                 'component' => 'sites.tabs.certificate-monitor',
                 'gate' => 'use-certificates',

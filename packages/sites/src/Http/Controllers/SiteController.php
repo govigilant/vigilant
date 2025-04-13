@@ -13,6 +13,7 @@ class SiteController extends Controller
             'uptimeMonitor' => $site->uptimeMonitor,
             'lighthouseMonitor' => $site->lighthouseMonitors->first(),
             'crawler' => $site->crawler,
+            'certificateMonitor' => $site->certificateMonitor,
         ];
 
         $data = array_merge([

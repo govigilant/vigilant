@@ -7,6 +7,8 @@ use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\Enums\Status;
+use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseMonitorsTable;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
@@ -18,6 +20,9 @@ class SiteTable extends LivewireTable
 {
     protected string $model = Site::class;
 
+    /**
+     * @return array<int, \RamonRietdijk\LivewireTables\Columns\BaseColumn>
+     */
     protected function columns(): array
     {
         /** @var CalculateUptimePercentage $calculateUptime */
@@ -33,7 +38,7 @@ class SiteTable extends LivewireTable
                     $monitor = $site->lighthouseMonitors()->first();
 
                     if ($monitor === null) {
-                        return __('Not Monitored');
+                        return null;
                     }
 
                     /** @var ?LighthouseResult $result */
@@ -62,7 +67,7 @@ class SiteTable extends LivewireTable
                     $monitor = $site->uptimeMonitor;
 
                     if ($monitor === null) {
-                        return __('Not Monitored');
+                        return null;
                     }
 
                     $percentage = $calculateUptime->calculate($monitor);
@@ -86,7 +91,7 @@ class SiteTable extends LivewireTable
                     $monitor = $site->uptimeMonitor;
 
                     if ($monitor === null) {
-                        return __('Not Monitored');
+                        return null;
                     }
 
                     /** @var ?Downtime $lastDowntime */
@@ -101,6 +106,70 @@ class SiteTable extends LivewireTable
 
                     return teamTimezone($lastDowntime->start)->diffForHumans();
 
+                }),
+
+            StatusColumn::make(__('Link Issues'))
+                ->text(function (Site $site) {
+                    $crawler = $site->crawler;
+                    if ($crawler === null) {
+                        return null;
+                    }
+
+                    return __(':count issues', ['count' => $crawler->issueCount() ?? '0']);
+                })
+                ->status(function (Site $site): ?Status {
+                    $crawler = $site->crawler;
+
+                    if ($crawler === null) {
+                        return null;
+                    }
+
+                    $count = $crawler->issueCount();
+
+                    if ($count === null || $count === 0) {
+                        return Status::Success;
+                    }
+
+                    $total = $crawler->totalUrlCount();
+
+                    $threshold = $total * 0.05;
+
+                    return $count > $threshold
+                        ? Status::Danger
+                        : Status::Warning;
+                }),
+
+            StatusColumn::make(__('Certificate'))
+                ->text(function (Site $site) {
+                    $certificate = $site->certificateMonitor;
+
+                    if ($certificate === null || $certificate->valid_to === null) {
+                        return null;
+                    }
+
+                    return __('Expires in :diff', [
+                        'diff' => teamTimezone($certificate->valid_to)->longAbsoluteDiffForHumans(),
+                    ]);
+                })
+                ->status(function (Site $site): ?Status {
+                    $certificate = $site->certificateMonitor;
+
+                    if ($certificate === null || $certificate->valid_to === null) {
+                        return null;
+                    }
+
+                    $validTo = $certificate->valid_to;
+                    $diff = now()->diffInDays($validTo);
+
+                    if ($diff > 30) {
+                        return Status::Success;
+                    }
+
+                    if ($diff > 7) {
+                        return Status::Warning;
+                    }
+
+                    return Status::Danger;
                 }),
 
         ];

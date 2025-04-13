@@ -27,6 +27,7 @@ use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
  * @property ?Crawler $crawler
  * @property Collection<int, LighthouseMonitor> $lighthouseMonitors
  * @property Collection<int, DnsMonitor> $dnsMonitors
+ * @property ?CertificateMonitor $certificateMonitor
  */
 #[ObservedBy([SiteObserver::class])]
 #[ScopedBy([TeamScope::class])]
