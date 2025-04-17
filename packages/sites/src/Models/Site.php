@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Dns\Models\DnsMonitor;
@@ -26,6 +27,7 @@ use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
  * @property ?Crawler $crawler
  * @property Collection<int, LighthouseMonitor> $lighthouseMonitors
  * @property Collection<int, DnsMonitor> $dnsMonitors
+ * @property ?CertificateMonitor $certificateMonitor
  */
 #[ObservedBy([SiteObserver::class])]
 #[ScopedBy([TeamScope::class])]
@@ -51,5 +53,10 @@ class Site extends Model
     public function crawler(): HasOne
     {
         return $this->hasOne(Crawler::class);
+    }
+
+    public function certificateMonitor(): HasOne
+    {
+        return $this->hasOne(CertificateMonitor::class);
     }
 }

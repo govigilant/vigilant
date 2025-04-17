@@ -25,7 +25,10 @@ class Dashboard extends Component
         /** @var Monitor $monitor */
         $monitor = Monitor::query()->findOrFail($this->monitorId);
 
-        return view('uptime::livewire.monitor.dashboard', [
+        /** @var view-string $view */
+        $view = 'uptime::livewire.monitor.dashboard';
+
+        return view($view, [
             'monitor' => $monitor,
             'lastDowntime' => $monitor->downtimes()
                 ->whereNotNull('end')

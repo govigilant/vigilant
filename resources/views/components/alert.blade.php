@@ -3,7 +3,7 @@
 {{--    Same alerts as the components just rendered via a JS event --}}
     <div class="rounded-md bg-green-light p-4" x-show="currentAlert.type == 'success'">
         <div class="flex">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
                 <x-heroicon-o-check-circle class="h-5 w-5 text-white"/>
             </div>
             <div class="ml-3 flex-1">
@@ -22,7 +22,7 @@
 
     <div class="rounded-md bg-red-light p-4" x-show="currentAlert.type == 'danger'">
         <div class="flex">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
                 <x-heroicon-o-exclamation-circle class="h5 w-5 text-white"/>
             </div>
             <div class="ml-3 flex-1">
@@ -41,7 +41,7 @@
 
     <div class="rounded-md bg-blue-light p-4" x-show="currentAlert.type == 'info'">
         <div class="flex">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
                 <x-tni-info-circle-o class="h5 w-5 text-white"/>
             </div>
             <div class="ml-3 flex-1">
@@ -60,7 +60,7 @@
 
     <div class="rounded-md bg-yellow-light p-4" x-show="currentAlert.type == 'warning'">
         <div class="flex">
-            <div class="flex-shrink-0">
+            <div class="shrink-0">
                 <x-heroicon-o-exclamation-triangle class="h5 w-5 text-white"/>
             </div>
             <div class="ml-3 flex-1">

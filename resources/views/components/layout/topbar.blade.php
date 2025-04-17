@@ -1,5 +1,5 @@
 <div
-    class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-black px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+    class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-black px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
     <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" x-on:click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
@@ -18,7 +18,7 @@
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
                                 <button type="button"
-                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md dark:text-base-100 dark:bg-base-950 hover:text-base-50 dark:hover:text-base-50 focus:outline-none focus:bg-base-900 dark:focus:bg-base-900 active:bg-base-900 dark:active:bg-base-900 transition ease-in-out duration-150">
+                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md dark:text-base-100 dark:bg-base-950 hover:text-base-50 dark:hover:text-base-50 focus:outline-hidden focus:bg-base-900 dark:focus:bg-base-900 active:bg-base-900 dark:active:bg-base-900 transition ease-in-out duration-150">
                                     {{ Auth::user()?->currentTeam?->name ?? '-' }}
 
                                     <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -95,7 +95,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="transform opacity-100 scale-100"
                     x-transition:leave-end="transform opacity-0 scale-95"
-                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-black py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none"
+                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-black py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
                     <a href="{{ route('settings') }}" class="block px-3 py-1 text-sm leading-6 text-white hover:bg-red"
                         role="menuitem" tabindex="1">@lang('Settings')</a>

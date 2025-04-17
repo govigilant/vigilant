@@ -7,6 +7,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
@@ -74,7 +75,10 @@ class SiteForm extends Component
             ->filter(fn (array $tab) => ! array_key_exists('gate', $tab) || Gate::check($tab['gate']))
             ->toArray();
 
-        return view('sites::livewire.form', [
+        /** @var view-string $view */
+        $view = 'sites::livewire.form';
+
+        return view($view, [
             'updating' => $this->site->exists,
             'tabs' => $tabs,
         ]);
@@ -110,6 +114,13 @@ class SiteForm extends Component
                 'component' => 'sites.tabs.crawler',
                 'gate' => 'use-crawler',
                 'model' => Crawler::class,
+            ],
+
+            'certificates' => [
+                'title' => __('Certificate Monitoring'),
+                'component' => 'sites.tabs.certificate-monitor',
+                'gate' => 'use-certificates',
+                'model' => CertificateMonitor::class,
             ],
         ];
     }

@@ -10,7 +10,10 @@ Route::get('/email/verify', function () {
 
     abort_if($user->hasVerifiedEmail(), 401, 'E-mail already verified');
 
-    return view('auth.verify-email');
+    /** @var view-string $view */
+    $view = 'auth.verify-email';
+
+    return view($view);
 })->middleware('auth')->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

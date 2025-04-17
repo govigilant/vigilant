@@ -1,21 +1,44 @@
-name: Package Quality
+name: Package quality
 
-on: ['pull_request']
+on:
+  push:
+    branches: [main]
+  pull_request:
 
 jobs:
-  package_quality:
+  get-packages:
     runs-on: ubuntu-latest
-    name: Package Quality
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v3
+
+      - id: set-matrix
+        run: |
+          packages=$(ls -d packages/*/ | sed 's|packages/||; s|/||' | jq -R -s -c 'split("\n")[:-1]')
+          echo "Detected packages: $packages"
+          echo "matrix=$packages" >> $GITHUB_OUTPUT
+
+  quality:
+    needs: get-packages
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        package: ${{ fromJson(needs.get-packages.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.3
+          php-version: '8.4'
           extensions: dom, curl, libxml, mbstring, zip, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, fileinfo
           coverage: none
 
-      - name: Check package quality
-        run: sh ./scripts/package-quality.sh
+      - name: Run quality check script
+        run: |
+          chmod +x ./scripts/package-quality.sh
+          ./scripts/package-quality.sh "${{ matrix.package }}"
+        shell: bash

@@ -13,6 +13,7 @@ class SiteController extends Controller
             'uptimeMonitor' => $site->uptimeMonitor,
             'lighthouseMonitor' => $site->lighthouseMonitors->first(),
             'crawler' => $site->crawler,
+            'certificateMonitor' => $site->certificateMonitor,
         ];
 
         $data = array_merge([
@@ -20,6 +21,9 @@ class SiteController extends Controller
             'empty' => collect($monitors)->filter()->isEmpty(),
         ], $monitors);
 
-        return view('sites::sites.view', $data);
+        /** @var view-string $view */
+        $view = 'sites::sites.view';
+
+        return view($view, $data);
     }
 }

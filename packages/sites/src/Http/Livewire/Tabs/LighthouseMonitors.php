@@ -98,7 +98,10 @@ class LighthouseMonitors extends Component
 
     public function render(): mixed
     {
-        return view('sites::livewire.tabs.lighthouse-monitor', [
+        /** @var view-string $view */
+        $view = 'sites::livewire.tabs.lighthouse-monitor';
+
+        return view($view, [
             'monitors' => $this->monitors,
         ]);
     }

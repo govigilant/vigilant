@@ -11,7 +11,7 @@
                 <select name="tabs"
                         id="tabs"
                         x-model="selectedTab"
-                        class="block w-full rounded-md border-none bg-white/5 py-2 pl-3 pr-10 text-base text-white shadow-sm ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm">
+                        class="block w-full rounded-md border-none bg-white/5 py-2 pl-3 pr-10 text-base text-white shadow-xs ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm">
                     @foreach($tabs as $key => $data)
                         <option value="{{ $key }}">{{ $data['title']  }}</option>
                     @endforeach

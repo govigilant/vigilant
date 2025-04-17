@@ -8,6 +8,9 @@ class Mail extends ChannelConfiguration
 {
     public function render(): View
     {
-        return view('notifications::livewire.channels.configuration.mail');
+        /** @var view-string $view */
+        $view = 'notifications::livewire.channels.configuration.mail';
+
+        return view($view);
     }
 }

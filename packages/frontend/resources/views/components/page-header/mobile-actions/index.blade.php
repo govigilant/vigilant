@@ -5,7 +5,7 @@
         @svg('tni-menu-o', 'size-5 text-base-200')
     </button>
     <ul role="menu"
-        class="absolute z-40 min-w-[180px] overflow-auto rounded-lg bg-black py-1 shadow-lg shadow-sm focus:outline-none"
+        class="absolute z-40 min-w-[180px] overflow-auto rounded-lg bg-black py-1 shadow-lg shadow-xs focus:outline-hidden"
         x-show="open" @click.away="open = false" x-cloak style="right: 30px;">
         {{ $slot }}
     </ul>

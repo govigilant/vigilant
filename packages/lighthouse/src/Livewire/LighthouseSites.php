@@ -8,6 +8,9 @@ class LighthouseSites extends Component
 {
     public function render(): mixed
     {
-        return view('lighthouse::livewire.lighthouse-sites');
+        /** @var view-string $view */
+        $view = 'lighthouse::livewire.lighthouse-sites';
+
+        return view($view);
     }
 }

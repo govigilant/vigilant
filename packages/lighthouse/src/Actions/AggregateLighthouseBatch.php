@@ -2,6 +2,7 @@
 
 namespace Vigilant\Lighthouse\Actions;
 
+use Illuminate\Support\Collection;
 use Vigilant\Lighthouse\Jobs\CheckLighthouseResultJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Models\LighthouseResult;
@@ -11,6 +12,7 @@ class AggregateLighthouseBatch
 {
     public function aggregateBatch(LighthouseMonitor $monitor, string $batchId): void
     {
+        /** @var Collection<int, LighthouseResult> $results */
         $results = $monitor->lighthouseResults()->where('batch_id', '=', $batchId)->get();
 
         if ($results->isEmpty()) {

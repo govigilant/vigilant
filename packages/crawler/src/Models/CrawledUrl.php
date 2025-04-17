@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Vigilant\Core\Scopes\TeamScope;
+use Vigilant\Crawler\Observers\CrawledUrlObserver;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Users\Models\Team;
 use Vigilant\Users\Observers\TeamObserver;
@@ -20,6 +21,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property int $found_on_id
  * @property bool $crawled
  * @property string $url
+ * @property string $url_hash
  * @property int $status
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
@@ -28,7 +30,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?CrawledUrl $foundOn
  * @property ?Team $team
  */
-#[ObservedBy([TeamObserver::class])]
+#[ObservedBy([TeamObserver::class, CrawledUrlObserver::class])]
 #[ScopedBy(TeamScope::class)]
 class CrawledUrl extends Model
 {

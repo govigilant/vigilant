@@ -8,6 +8,9 @@ class Discord extends ChannelConfiguration
 {
     public function render(): View
     {
-        return view('notifications::livewire.channels.configuration.discord');
+        /** @var view-string $view */
+        $view = 'notifications::livewire.channels.configuration.discord';
+
+        return view($view);
     }
 }

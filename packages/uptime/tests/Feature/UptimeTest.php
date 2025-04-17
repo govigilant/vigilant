@@ -30,8 +30,6 @@ class UptimeTest extends TestCase
             'timeout' => 1,
         ]);
 
-        $this->assertNotNull($monitor);
-
         Http::fake([
             'http://service' => Http::response(),
         ]);
@@ -65,8 +63,6 @@ class UptimeTest extends TestCase
             'retries' => 1,
             'timeout' => 1,
         ]);
-
-        $this->assertNotNull($monitor);
 
         $pingMock = $this->partialMock(Ping::class, function (MockInterface $mock) {
             $mock->shouldReceive('ping')->andReturn(10);

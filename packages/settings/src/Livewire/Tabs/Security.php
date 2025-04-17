@@ -37,6 +37,9 @@ class Security extends Component
 
     public function render(): mixed
     {
-        return view('settings::tabs.security');
+        /** @var view-string $view */
+        $view = 'settings::tabs.security';
+
+        return view($view);
     }
 }

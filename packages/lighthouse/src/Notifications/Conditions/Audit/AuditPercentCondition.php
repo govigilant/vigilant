@@ -33,7 +33,7 @@ class AuditPercentCondition extends Condition
     public function applies(
         Notification $notification,
         ?string $operand,
-        string $operator,
+        ?string $operator,
         mixed $value,
         ?array $meta
     ): bool {

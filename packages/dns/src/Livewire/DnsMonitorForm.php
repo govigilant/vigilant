@@ -92,7 +92,10 @@ class DnsMonitorForm extends Component
 
     public function render(): mixed
     {
-        return view('dns::livewire.dns-monitor-form', [
+        /** @var view-string $view */
+        $view = 'dns::livewire.dns-monitor-form';
+
+        return view($view, [
             'updating' => $this->dnsMonitor->exists,
         ]);
     }

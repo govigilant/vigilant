@@ -28,13 +28,17 @@ class HistoryTable extends LivewireTable
 
             Column::make(__('Channel'), 'channel.channel')
                 ->searchable()
-                ->displayUsing(function (string $channel) {
+                ->displayUsing(function (?string $channel) {
+                    if ($channel === null) {
+                        return null;
+                    }
+
                     /** @var class-string<NotificationChannel> $channel */
                     return $channel::$name;
                 }),
 
             Column::make(__('Level'), 'data.level')
-                ->displayUsing(fn (string $level) => Level::tryFrom($level)?->name ?? $level),
+                ->displayUsing(fn (string $level) => Level::tryFrom($level)->name ?? $level),
 
             Column::make(__('Notification'), 'data.title')
                 ->searchable(function (Builder $builder, mixed $search) {

@@ -86,7 +86,10 @@ class ConditionBuilder extends Component
 
     public function render(): mixed
     {
-        return view('notifications::livewire.notifications.condition-builder', [
+        /** @var view-string $view */
+        $view = 'notifications::livewire.notifications.condition-builder';
+
+        return view($view, [
             'conditions' => $this->conditions(),
         ]);
     }

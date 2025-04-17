@@ -4,6 +4,7 @@ namespace Vigilant\Frontend\Concerns;
 
 use Vigilant\Frontend\Enums\AlertType;
 
+// @phpstan-ignore-next-line
 trait DisplaysAlerts
 {
     protected function alert(string $title, string $message = '', AlertType $type = AlertType::Info): void

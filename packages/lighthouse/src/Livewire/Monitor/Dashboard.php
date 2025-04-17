@@ -25,9 +25,15 @@ class Dashboard extends Component
         /** @var LighthouseMonitor $monitor */
         $monitor = LighthouseMonitor::query()->findOrFail($this->monitorId);
 
-        $lastResults = $monitor->lighthouseResults()->get();
+        $lastResults = $monitor
+            ->lighthouseResults()
+            ->take(10)
+            ->get();
 
-        return view('lighthouse::livewire.monitor.dashboard', [
+        /** @var view-string $view */
+        $view = 'lighthouse::livewire.monitor.dashboard';
+
+        return view($view, [
             'lighthouseMonitor' => $monitor,
             'lastResult' => [
                 'performance' => $lastResults->average('performance'),

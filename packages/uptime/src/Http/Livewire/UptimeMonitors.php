@@ -9,6 +9,9 @@ class UptimeMonitors extends Component
 {
     public function render(): View
     {
-        return view('uptime::livewire.uptime-monitors');
+        /** @var view-string $view */
+        $view = 'uptime::livewire.uptime-monitors';
+
+        return view($view);
     }
 }

@@ -14,8 +14,6 @@ class LighthouseResultAuditsTable extends LivewireTable
 {
     protected string $model = LighthouseResultAudit::class;
 
-    protected bool $useSelection = false;
-
     #[Locked]
     public int $resultId = 0;
 

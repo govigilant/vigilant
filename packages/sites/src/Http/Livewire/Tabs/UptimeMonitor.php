@@ -56,6 +56,9 @@ class UptimeMonitor extends Component
 
     public function render(): mixed
     {
-        return view('sites::livewire.tabs.uptime-monitor');
+        /** @var view-string $view */
+        $view = 'sites::livewire.tabs.uptime-monitor';
+
+        return view($view);
     }
 }

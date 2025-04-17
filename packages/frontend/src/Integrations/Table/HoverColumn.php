@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
+/**
+ * @property view-string $view
+ */
 class HoverColumn extends BaseColumn
 {
     protected string $view = 'frontend::integrations.table.hover-column';

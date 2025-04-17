@@ -64,7 +64,10 @@ class NotificationForm extends Component
 
     public function render(): mixed
     {
-        return view('notifications::livewire.notifications.form', [
+        /** @var view-string $view */
+        $view = 'notifications::livewire.notifications.form';
+
+        return view($view, [
             'updating' => $this->trigger->exists,
         ]);
     }

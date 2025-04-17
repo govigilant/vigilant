@@ -7,7 +7,8 @@ parameters:
         - src
         - tests
     level: 8
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
     ignoreErrors:
         - '#Unsafe usage of new static#'
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
+        - '#return type contains unknown class Vigilant\\Notifications\\Facades\\Notification#'

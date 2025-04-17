@@ -39,7 +39,7 @@ class LatencyChangedNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $site = $this->site()?->url ?? $this->monitor->settings['host'] ?? '';
+        $site = $this->site()->url ?? $this->monitor->settings['host'] ?? '';
 
         return __(':site latency changed by :percent %', ['site' => $site, 'percent' => $this->percent]);
     }
