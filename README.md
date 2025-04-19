@@ -10,7 +10,7 @@
 <div align="center">
   <strong>
   <h2>Your All-in-One Web Monitoring Tool</h2><br />
-  <a href="https://govigilant.io">Vigilant</a>: An applcation to monitor all aspects of your website<br /><br />
+  <a href="https://govigilant.io">Vigilant</a>: An application to monitor all aspects of your website<br /><br />
   </strong>
   Monitor all aspects of your website, uptime, DNS, Lighthouse, broken links...<br/>
   Get notified exactly where and when you want with Vigilant's customizable notifications.
