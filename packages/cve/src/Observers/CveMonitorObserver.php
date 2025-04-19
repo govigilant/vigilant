@@ -11,4 +11,10 @@ class CveMonitorObserver
     {
         MatchExistingCvesJob::dispatch($monitor);
     }
+
+    public function updated(CveMonitor $monitor): void
+    {
+        $monitor->matches()->delete();
+        MatchExistingCvesJob::dispatch($monitor);
+    }
 }

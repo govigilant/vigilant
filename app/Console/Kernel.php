@@ -8,6 +8,7 @@ use Vigilant\Certificates\Commands\CheckCertificatesCommand;
 use Vigilant\Crawler\Commands\CrawlUrlsCommand;
 use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
+use Vigilant\Cve\Commands\ImportCvesCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
 use Vigilant\Dns\Models\DnsMonitorHistory;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
@@ -38,6 +39,9 @@ class Kernel extends ConsoleKernel
 
         // Certificates
         $schedule->command(CheckCertificatesCommand::class)->everyMinute();
+
+        // CVE
+        $schedule->command(ImportCvesCommand::class, ['from' => 'now - 1 hour'])->everyThirtyMinutes();
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();

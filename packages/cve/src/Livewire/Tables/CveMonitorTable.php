@@ -12,6 +12,7 @@ use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Cve\Actions\ImportAllCves;
 use Vigilant\Cve\Models\CveMonitor;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
@@ -54,14 +55,12 @@ class CveMonitorTable extends LivewireTable
 
     protected function link(Model $record): string
     {
-        return '#';
-
-        return route('dns.history', ['monitor' => $record]);
+        return route('cve.monitor.view', ['monitor' => $record]);
     }
 
     protected function actions(): array
     {
-        return [
+        $actions = [
             Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
@@ -80,6 +79,15 @@ class CveMonitorTable extends LivewireTable
                 $models->each(fn (CveMonitor $monitor) => $monitor->delete());
             }),
         ];
+
+        if (ce()) {
+            $actions[] = Action::make(__('Import all CVE\'s'), 'import', function (): void {
+                $importer = app(ImportAllCves::class);
+                $importer->import();
+            })->standalone();
+        }
+
+        return $actions;
     }
 
     protected function applySelect(Builder $builder): static

@@ -13,6 +13,7 @@ use Vigilant\Cve\Commands\ImportCvesCommand;
 use Vigilant\Cve\Commands\MatchCveCommand;
 use Vigilant\Cve\Commands\MatchExistingCvesCommand;
 use Vigilant\Cve\Livewire\CveMonitorForm;
+use Vigilant\Cve\Livewire\Tables\CveMonitorMatchesTable;
 use Vigilant\Cve\Livewire\Tables\CveMonitorTable;
 use Vigilant\Cve\Models\CveMonitor;
 use Vigilant\Cve\Notifications\Conditions\KeywordCondition;
@@ -103,6 +104,8 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('cve-monitor-table', CveMonitorTable::class);
         Livewire::component('cve-monitor-form', CveMonitorForm::class);
+
+        Livewire::component('cve-monitor-matches-table', CveMonitorMatchesTable::class);
 
         return $this;
     }

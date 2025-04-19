@@ -3,9 +3,7 @@
 namespace Vigilant\Cve\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Bus;
-use Vigilant\Cve\Jobs\ImportCvesJob;
+use Vigilant\Cve\Actions\ImportAllCves;
 
 class ImportAllCvesCommand extends Command
 {
@@ -13,25 +11,9 @@ class ImportAllCvesCommand extends Command
 
     protected $description = 'Import all CVEs';
 
-    public function handle(): int
+    public function handle(ImportAllCves $action): int
     {
-        $startDate = Carbon::parse('1999-09-01');
-
-        $index = 0;
-
-        while ($startDate->isBefore(now())) {
-            $jobs[] = (new ImportCvesJob($startDate->clone()))
-                ->delay(now()->addSeconds($index * 10));
-
-            $this->info("Added import job for {$startDate->format('Y-m-d')}");
-
-            $startDate->addDays(30);
-            $index++;
-        }
-
-        Bus::chain($jobs)
-            ->onQueue(config()->string('cve.queue'))
-            ->dispatch();
+        $action->import();
 
         return static::SUCCESS;
     }

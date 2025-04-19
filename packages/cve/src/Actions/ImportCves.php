@@ -65,7 +65,7 @@ class ImportCves
             ]);
 
             if ($model->wasRecentlyCreated && $model->published_at->isAfter(now()->subWeek())) {
-                MatchCveMonitorsJob::dispatch($model)
+                MatchCveMonitorsJob::dispatch($model);
             }
         }
     }
