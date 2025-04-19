@@ -38,6 +38,12 @@ services:
         networks:
             - vigilant
         entrypoint: ["php", "artisan", "horizon"]
+        healthcheck:
+            test: ["CMD", "php", "artisan", "horizon:status"]
+            interval: 30s
+            timeout: 10s
+            start_period: 10s
+            retries: 3
         depends_on:
             mysql:
                 condition: service_healthy
