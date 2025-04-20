@@ -18,9 +18,9 @@ class ImportCvesJob implements ShouldBeUnique, ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $tries = 3;
+    public int $tries = 3;
 
-    public $backoff = 30;
+    public int $backoff = 30;
 
     public function __construct(protected ?Carbon $from = null)
     {

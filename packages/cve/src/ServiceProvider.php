@@ -20,7 +20,6 @@ use Vigilant\Cve\Notifications\Conditions\KeywordCondition;
 use Vigilant\Cve\Notifications\Conditions\ScoreCondition;
 use Vigilant\Cve\Notifications\CveMatchedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
-use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
@@ -124,7 +123,6 @@ class ServiceProvider extends BaseServiceProvider
         ]);
 
         NotificationRegistry::registerCondition(CveMatchedNotification::class, [
-            SiteCondition::class,
             ScoreCondition::class,
             KeywordCondition::class,
         ]);

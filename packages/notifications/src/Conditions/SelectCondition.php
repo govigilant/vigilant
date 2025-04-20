@@ -8,6 +8,6 @@ abstract class SelectCondition extends Condition
 {
     public ConditionType $type = ConditionType::Select;
 
-    /** @return array<string, string> */
+    /** @return array<int|string, int|string> */
     abstract public function options(): array;
 }

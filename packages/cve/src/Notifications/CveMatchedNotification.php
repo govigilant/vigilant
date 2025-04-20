@@ -57,11 +57,11 @@ class CveMatchedNotification extends Notification implements HasSite
 
     public function level(): Level
     {
-        if ($this->cve->cvss_score >= 7) {
+        if ($this->cve->score >= 7) {
             return Level::Critical;
         }
 
-        if ($this->cve->cvss_score >= 4) {
+        if ($this->cve->score >= 4) {
             return Level::Warning;
         }
 

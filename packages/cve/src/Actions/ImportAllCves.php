@@ -13,6 +13,7 @@ class ImportAllCves
         $startDate = Carbon::parse('1999-09-01');
 
         $index = 0;
+        $jobs = [];
 
         while ($startDate->isBefore(now())) {
             $jobs[] = (new ImportCvesJob($startDate->clone()))

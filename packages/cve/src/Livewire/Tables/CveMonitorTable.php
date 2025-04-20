@@ -44,7 +44,7 @@ class CveMonitorTable extends LivewireTable
                             ->whereColumn('cve_monitor_matches.cve_monitor_id', 'cve_monitors.id');
                     }, $direction->value);
                 })->searchable(function (Builder $builder, mixed $value): void {
-                    $builder->where(function (Query $query): void {
+                    $builder->where(function (Builder $query): void {
                         $query->selectRaw('COUNT(*)')
                             ->from('cve_monitor_matches')
                             ->whereColumn('cve_monitor_matches.cve_monitor_id', 'cve_monitors.id');

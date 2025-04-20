@@ -11,7 +11,10 @@ class CveController extends Controller
 {
     public function view(CveMonitor $monitor, Cve $cve): View
     {
-        return view('cve::cve', [
+        /** @var view-string $view */
+        $view = 'cve::cve';
+
+        return view($view, [
             'monitor' => $monitor,
             'cve' => $cve,
         ]);
