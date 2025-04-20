@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "61b2ebe47b53421c87bc1ec2ba1c104e",
+    "content-hash": "d881e07f16f1a355e2c130dcfd24a5e3",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7544,7 +7544,7 @@
         },
         {
             "name": "vigilant/certificates",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/certificates",
@@ -7620,7 +7620,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7694,7 +7694,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7770,8 +7770,84 @@
             }
         },
         {
+            "name": "vigilant/cve",
+            "version": "dev-feature/cve-monitoring",
+            "dist": {
+                "type": "path",
+                "url": "./packages/cve",
+                "reference": "8b73fd193beb51c328ca863729c6045e43ed188a"
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.8",
+                "laravel/framework": "^12.0",
+                "livewire/livewire": "^3.4",
+                "php": "^8.3",
+                "vigilant/core": "@dev",
+                "vigilant/frontend": "@dev",
+                "vigilant/notifications": "@dev",
+                "vigilant/sites": "@dev",
+                "vigilant/users": "@dev"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.6",
+                "orchestra/testbench": "^10.0",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpunit/phpunit": "^11.0"
+            },
+            "type": "package",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\Cve\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\Cve\\": "src",
+                    "Vigilant\\Cve\\Database\\Factories\\": "database/factories",
+                    "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Vigilant\\Cve\\Tests\\": "tests"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "analyse": [
+                    "phpstan"
+                ],
+                "style": [
+                    "pint --test"
+                ],
+                "quality": [
+                    "@test",
+                    "@analyse"
+                ]
+            },
+            "license": [
+                "AGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Boon",
+                    "email": "info@vincentbean.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Vigilant CVE Monitor",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vigilant/dns",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7848,7 +7924,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7919,7 +7995,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -7996,7 +8072,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -8072,7 +8148,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8145,7 +8221,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8220,16 +8296,17 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "1f10f9baab136052125903eb9aafa9bcdebd340f"
+                "reference": "d93acf551e668c2056b591b7de6a744b154e23a3"
             },
             "require": {
                 "laravel/framework": "^12.0",
                 "livewire/livewire": "^3.4",
                 "php": "^8.3",
+                "vigilant/certificates": "@dev",
                 "vigilant/core": "@dev",
                 "vigilant/crawler": "@dev",
                 "vigilant/dns": "@dev",
@@ -8294,7 +8371,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -8371,7 +8448,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/cert-monitor",
+            "version": "dev-feature/cve-monitoring",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
@@ -11384,6 +11461,7 @@
         "vigilant/certificates": 20,
         "vigilant/core": 20,
         "vigilant/crawler": 20,
+        "vigilant/cve": 20,
         "vigilant/dns": 20,
         "vigilant/frontend": 20,
         "vigilant/lighthouse": 20,

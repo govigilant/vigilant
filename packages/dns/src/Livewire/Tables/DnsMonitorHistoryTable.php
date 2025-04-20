@@ -3,6 +3,7 @@
 namespace Vigilant\Dns\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
+use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Models\DnsMonitor;
@@ -13,6 +14,7 @@ class DnsMonitorHistoryTable extends LivewireTable
 {
     protected string $model = DnsMonitorHistory::class;
 
+    #[Locked]
     public DnsMonitor $monitor;
 
     public string $sortColumn = 'created_at';

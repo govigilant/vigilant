@@ -29,6 +29,7 @@
         "vigilant/certificates": "@dev",
         "vigilant/core": "@dev",
         "vigilant/crawler": "@dev",
+        "vigilant/cve": "@dev",
         "vigilant/dns": "@dev",
         "vigilant/frontend": "@dev",
         "vigilant/lighthouse": "@dev",
