@@ -2,24 +2,23 @@
 
 namespace Vigilant\Cve\Actions;
 
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Bus;
-use Vigilant\Cve\Jobs\ImportCvesJob;
+use Vigilant\Cve\Jobs\ImportCveYearJob;
 
 class ImportAllCves
 {
     public function import(): void
     {
-        $startDate = Carbon::parse('1999-09-01');
+        $year = 2002;
 
         $index = 0;
         $jobs = [];
 
-        while ($startDate->isBefore(now())) {
-            $jobs[] = (new ImportCvesJob($startDate->clone()))
+        while ($year <= now()->year) {
+            $jobs[] = (new ImportCveYearJob($year))
                 ->delay(now()->addSeconds($index * 10));
 
-            $startDate->addDays(30);
+            $year++;
             $index++;
         }
 

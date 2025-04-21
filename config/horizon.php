@@ -268,7 +268,7 @@ return [
         'cve' => [
             'connection' => 'redis',
             'queue' => ['cve'],
-            'balance' => 'simple',
+            'balance' => 'auto',
             'autoScalingStrategy' => 'time',
             'minProcesses' => 1,
             'maxProcesses' => 2,
@@ -276,7 +276,7 @@ return [
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 1,
-            'timeout' => 30,
+            'timeout' => 120,
             'nice' => 0,
         ],
 
