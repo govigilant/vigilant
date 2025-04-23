@@ -8,9 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Vigilant\Cve\Actions\ImportCveYear;
+use Vigilant\Cve\Actions\ImportAllCves;
 
-class ImportCveYearJob implements ShouldBeUnique, ShouldQueue
+class ImportAllCvesJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
@@ -21,25 +21,25 @@ class ImportCveYearJob implements ShouldBeUnique, ShouldQueue
 
     public int $backoff = 30;
 
-    public function __construct(protected int $year)
+    public function __construct(protected int $page = 0)
     {
         $this->onQueue(config()->string('cve.queue'));
     }
 
-    public function handle(ImportCveYear $importer): void
+    public function handle(ImportAllCves $importer): void
     {
-        $importer->import($this->year);
+        $importer->import($this->page);
     }
 
     public function uniqueId(): int
     {
-        return $this->year;
+        return $this->page;
     }
 
     public function tags(): array
     {
         return [
-            $this->year,
+            $this->page,
         ];
     }
 }

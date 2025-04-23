@@ -4,6 +4,7 @@ namespace Vigilant\Cve\Commands;
 
 use Illuminate\Console\Command;
 use Vigilant\Cve\Actions\ImportAllCves;
+use Vigilant\Cve\Jobs\ImportAllCvesJob;
 
 class ImportAllCvesCommand extends Command
 {
@@ -11,9 +12,9 @@ class ImportAllCvesCommand extends Command
 
     protected $description = 'Import all CVEs';
 
-    public function handle(ImportAllCves $action): int
+    public function handle(): int
     {
-        $action->import();
+        ImportAllCvesJob::dispatch();
 
         return static::SUCCESS;
     }
