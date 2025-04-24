@@ -15,7 +15,7 @@ class ImportAllCves
     {
         $endpoint = 'https://services.nvd.nist.gov/rest/json/cves/2.0';
 
-        $pageSize = 2000;
+        $pageSize = 500;
 
         $response = Http::get($endpoint, [
             'resultsPerPage' => $pageSize,
@@ -29,7 +29,7 @@ class ImportAllCves
         }
 
         if (count($cves) === 2000) {
-            ImportAllCvesJob::dispatch($page + 1)->delay(now()->addSeconds(10));
+            ImportAllCvesJob::dispatch($page + 1)->delay(now()->addSeconds(30));
         }
     }
 }
