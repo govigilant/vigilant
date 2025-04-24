@@ -28,7 +28,7 @@ class ImportAllCves
             $this->importCve->import($cve, false);
         }
 
-        if (count($cves) === 2000) {
+        if (count($cves) === $pageSize) {
             ImportAllCvesJob::dispatch($page + 1)->delay(now()->addSeconds(30));
         }
     }
