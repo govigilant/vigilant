@@ -23,7 +23,7 @@ class Kernel extends ConsoleKernel
     {
         // Uptime
         $schedule->command(AggregateResultsCommand::class)->hourly();
-        $schedule->command(ScheduleUptimeChecksCommand::class)->everyMinute();
+        $schedule->command(ScheduleUptimeChecksCommand::class)->everySecond();
 
         // Lighthouse
         $schedule->command(ScheduleLighthouseCommand::class)->everySecond();

@@ -15,19 +15,11 @@ class Ping extends UptimeMonitor
         $ping->setPort($monitor->settings['port']);
         $ping->setTimeout($monitor->timeout);
 
-        for ($i = 0; $i < $monitor->retries; $i++) {
-            $latency = $ping->ping();
+        $latency = $ping->ping();
 
-            if ($latency) {
-                break;
-            }
-
-            if ($i === $monitor->retries - 1) {
-                return new UptimeResult(false, data: ['message' => 'Failed to ping host']);
-            }
+        if (! $latency) {
+            return new UptimeResult(false, data: ['message' => 'Failed to ping host']);
         }
-
-        throw_if(! isset($latency), 'Failed to ping host');
 
         return new UptimeResult(true, $latency);
     }

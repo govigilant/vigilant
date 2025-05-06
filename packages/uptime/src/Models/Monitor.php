@@ -13,6 +13,7 @@ use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Database\Factories\MonitorFactory;
+use Vigilant\Uptime\Enums\State;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Observers\MonitorObserver;
 use Vigilant\Users\Models\Team;
@@ -23,9 +24,12 @@ use Vigilant\Users\Models\Team;
  * @property ?int $site_id
  * @property int $team_id
  * @property string $name
+ * @property State $state
+ * @property int $try
  * @property Type $type
  * @property array $settings
- * @property string $interval
+ * @property ?Carbon $next_run
+ * @property int $interval
  * @property int $retries
  * @property int $timeout
  * @property ?Carbon $created_at
@@ -50,6 +54,9 @@ class Monitor extends Model
         'enabled' => 'boolean',
         'type' => Type::class,
         'settings' => 'array',
+        'next_run' => 'datetime',
+        'state' => State::class,
+        'interval' => 'integer',
     ];
 
     public function site(): BelongsTo
