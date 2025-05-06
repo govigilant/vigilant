@@ -39,7 +39,8 @@ class CreateUptimeMonitorForm extends Form
         return array_merge(parent::getRules(),
             [
                 'type' => ['required', Rule::enum(Type::class)],
-                'name' => ['required', 'integer', 'in:'.implode(',', array_keys(config('uptime.intervals')))],
+                'name' => ['required', 'string', 'max:255'],
+                'interval' => ['required', 'integer', 'in:'.implode(',', array_keys(config('uptime.intervals')))],
                 'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
                 'settings.host' => ['required_if:type,ping,http'],
                 'enabled' => ['boolean', new CanEnableRule(Monitor::class)],
