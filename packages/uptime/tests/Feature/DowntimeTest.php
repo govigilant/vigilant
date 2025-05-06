@@ -31,7 +31,7 @@ class DowntimeTest extends TestCase
                     'host' => 'http://service',
                 ],
                 'interval' => '* * * * *',
-                'retries' => 1,
+                'retries' => 0,
                 'timeout' => 1,
             ]);
         });
@@ -69,7 +69,7 @@ class DowntimeTest extends TestCase
                     'host' => 'http://service',
                 ],
                 'interval' => '* * * * *',
-                'retries' => 1,
+                'retries' => 0,
                 'timeout' => 1,
             ]);
         });

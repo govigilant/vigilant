@@ -2,8 +2,8 @@
 
 namespace Vigilant\Uptime\Commands;
 
-use Cron\CronExpression;
 use Illuminate\Console\Command;
+use Illuminate\Database\Eloquent\Builder;
 use Vigilant\Uptime\Jobs\CheckUptimeJob;
 use Vigilant\Uptime\Models\Monitor;
 
@@ -18,15 +18,13 @@ class ScheduleUptimeChecksCommand extends Command
         Monitor::query()
             ->withoutGlobalScopes()
             ->where('enabled', '=', true)
+            ->where(function (Builder $builder): void {
+                $builder->where('next_run', '<=', now())
+                    ->orWhereNull('next_run');
+            })
             ->get()
-            ->each(function (Monitor $monitor) {
-                if (CronExpression::isValidExpression($monitor->interval)) {
-                    $expression = new CronExpression($monitor->interval);
-
-                    if ($expression->isDue(now())) {
-                        CheckUptimeJob::dispatch($monitor);
-                    }
-                }
+            ->each(function (Monitor $monitor): void {
+                CheckUptimeJob::dispatch($monitor);
             });
 
         return static::SUCCESS;
