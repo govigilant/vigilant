@@ -26,8 +26,7 @@ class CreateUptimeMonitorForm extends Form
         'host' => '',
     ];
 
-    #[Validate('required')]
-    public string $interval = '* * * * *';
+    public int $interval = 60;
 
     #[Validate('required|integer|min:0|max:3')]
     public ?int $retries = 0;
@@ -40,6 +39,7 @@ class CreateUptimeMonitorForm extends Form
         return array_merge(parent::getRules(),
             [
                 'type' => ['required', Rule::enum(Type::class)],
+                'name' => ['required', 'integer', 'in:'.implode(',', array_keys(config('uptime.intervals')))],
                 'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
                 'settings.host' => ['required_if:type,ping,http'],
                 'enabled' => ['boolean', new CanEnableRule(Monitor::class)],
