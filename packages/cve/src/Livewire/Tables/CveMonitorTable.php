@@ -83,7 +83,7 @@ class CveMonitorTable extends LivewireTable
         if (ce()) {
             $actions[] = Action::make(__('Import all CVE\'s'), 'import', function (): void {
                 $importer = app(ImportAllCves::class);
-                $importer->import();
+                $importer->import(0);
             })->standalone();
         }
 
