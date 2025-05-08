@@ -6,7 +6,7 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
-use Vigilant\Sites\Jobs\ImportSitesJob;
+use Vigilant\Sites\Jobs\ImportSiteJob;
 use Vigilant\Users\Models\User;
 
 class ImportSites extends Component
@@ -51,7 +51,7 @@ class ImportSites extends Component
         abort_if($user->current_team_id === null, 403);
 
         foreach ($this->validatedDomains as $domain) {
-            ImportSitesJob::dispatch(
+            ImportSiteJob::dispatch(
                 teamId: $user->current_team_id,
                 domain: $domain,
                 monitors: $this->monitors,

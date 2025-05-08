@@ -29,8 +29,12 @@ class ImportSite
     public function import(int $teamId, string $domain, array $monitors): void
     {
         $this->teamService->setTeamById($teamId);
+        $team = $this->teamService->team();
+        $firstUser = $team->users()->first();
 
-        if (Gate::denies('create', Site::class)) {
+        throw_if($firstUser === null, 'User not found');
+
+        if (Gate::forUser($firstUser)->denies('create', Site::class)) {
             return;
         }
 

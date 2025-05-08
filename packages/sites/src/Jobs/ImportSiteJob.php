@@ -8,7 +8,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Vigilant\Sites\Actions\ImportSite;
 
-class ImportSitesJob implements ShouldQueue
+class ImportSiteJob implements ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
