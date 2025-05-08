@@ -3,12 +3,13 @@
 namespace Vigilant\Sites\Jobs;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Vigilant\Sites\Actions\ImportSite;
 
-class ImportSiteJob implements ShouldQueue
+class ImportSiteJob implements ShouldBeUnique, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;
