@@ -14,6 +14,7 @@ class ImportSitesJob implements ShouldQueue
     use InteractsWithQueue;
     use Queueable;
 
+    /** @param array<string, bool> $monitors */
     public function __construct(
         public int $teamId,
         public string $domain,
@@ -36,6 +37,7 @@ class ImportSitesJob implements ShouldQueue
         return $this->teamId.'-'.$this->domain;
     }
 
+    /** @return array<int, string> */
     public function tags(): array
     {
         return [

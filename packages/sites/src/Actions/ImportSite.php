@@ -2,6 +2,7 @@
 
 namespace Vigilant\Sites\Actions;
 
+use BlueLibraries\Dns\Records\AbstractRecord;
 use BlueLibraries\Dns\Records\RecordTypes;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +25,7 @@ class ImportSite
         protected DnsClient $dnsClient
     ) {}
 
+    /** @param array<string, bool> $monitors */
     public function import(int $teamId, string $domain, array $monitors): void
     {
         $this->teamService->setTeamById($teamId);
@@ -63,7 +65,6 @@ class ImportSite
             'interval' => 60,
             'retries' => 1,
             'timeout' => 5,
-            'retries' => 3,
             'settings' => [
                 'host' => $site->url,
             ],

@@ -15,17 +15,19 @@ class ImportSites extends Component
 
     public string $urls = '';
 
+    /** @var array<int, string> */
     public array $validatedDomains = [];
 
+    /** @var array<string, bool> */
     public array $monitors = [];
 
     public function confirm(): void
     {
         $this->validatedDomains = str($this->urls)
             ->explode("\n")
-            ->map(fn ($url) => trim($url))
-            ->filter(fn ($url) => ! blank($url))
-            ->filter(fn ($url) => preg_match('/^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/', $url))
+            ->map(fn (string $url): string => trim($url))
+            ->filter(fn (string $url): bool => ! blank($url))
+            ->filter(fn (string $url): mixed => preg_match('/^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/', $url) === 1)
             ->all();
 
         $this->urls = implode(PHP_EOL, $this->validatedDomains);
@@ -45,6 +47,8 @@ class ImportSites extends Component
     {
         /** @var User $user */
         $user = auth()->user();
+
+        abort_if($user->current_team_id === null, 403);
 
         foreach ($this->validatedDomains as $domain) {
             ImportSitesJob::dispatch(
