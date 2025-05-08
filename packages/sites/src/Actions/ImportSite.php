@@ -17,6 +17,7 @@ use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Users\Models\User;
 
 class ImportSite
 {
@@ -29,12 +30,11 @@ class ImportSite
     public function import(int $teamId, string $domain, array $monitors): void
     {
         $this->teamService->setTeamById($teamId);
-        $team = $this->teamService->team();
-        $firstUser = $team->users()->first();
+        $user = User::query()->firstWhere('current_team_id', $teamId);
 
-        throw_if($firstUser === null, 'User not found');
+        throw_if($user === null, 'User not found');
 
-        if (Gate::forUser($firstUser)->denies('create', Site::class)) {
+        if (Gate::forUser($user)->denies('create', Site::class)) {
             return;
         }
 
