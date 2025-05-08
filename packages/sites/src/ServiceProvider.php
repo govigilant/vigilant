@@ -10,6 +10,7 @@ use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Sites\Http\Livewire\ImportSites;
 use Vigilant\Sites\Http\Livewire\SiteForm;
 use Vigilant\Sites\Http\Livewire\Sites;
 use Vigilant\Sites\Http\Livewire\Tables\SiteTable;
@@ -96,6 +97,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('sites', Sites::class);
         Livewire::component('sites.create', SiteForm::class);
         Livewire::component('sites.table', SiteTable::class);
+        Livewire::component('sites.import', ImportSites::class);
 
         Livewire::component('sites.tabs.uptime-monitor', UptimeMonitor::class);
         Livewire::component('sites.tabs.lighthouse-monitor', LighthouseMonitors::class);
