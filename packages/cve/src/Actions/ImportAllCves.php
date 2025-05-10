@@ -2,29 +2,34 @@
 
 namespace Vigilant\Cve\Actions;
 
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Bus;
-use Vigilant\Cve\Jobs\ImportCvesJob;
+use Illuminate\Support\Facades\Http;
+use Vigilant\Cve\Jobs\ImportAllCvesJob;
 
 class ImportAllCves
 {
-    public function import(): void
+    public function __construct(
+        protected ImportCve $importCve,
+    ) {}
+
+    public function import(int $page): void
     {
-        $startDate = Carbon::parse('1999-09-01');
+        $endpoint = 'https://services.nvd.nist.gov/rest/json/cves/2.0';
 
-        $index = 0;
-        $jobs = [];
+        $pageSize = 500;
 
-        while ($startDate->isBefore(now())) {
-            $jobs[] = (new ImportCvesJob($startDate->clone()))
-                ->delay(now()->addSeconds($index * 10));
+        $response = Http::get($endpoint, [
+            'resultsPerPage' => $pageSize,
+            'startIndex' => $page * $pageSize,
+        ])->throw();
 
-            $startDate->addDays(30);
-            $index++;
+        $cves = $response->json('vulnerabilities', []);
+
+        foreach ($cves as $cve) {
+            $this->importCve->import($cve, false);
         }
 
-        Bus::chain($jobs)
-            ->onQueue(config()->string('cve.queue'))
-            ->dispatch();
+        if (count($cves) === $pageSize) {
+            ImportAllCvesJob::dispatch($page + 1)->delay(now()->addSeconds(30));
+        }
     }
 }

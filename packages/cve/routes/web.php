@@ -11,7 +11,7 @@ Route::prefix('cve')
         Route::get('/create', CveMonitorForm::class)->name('cve.monitor.create');
         Route::get('/edit/{monitor}', CveMonitorForm::class)->name('cve.monitor.edit');
         Route::get('/{monitor}', [CveMonitorController::class, 'view'])->name('cve.monitor.view');
-        Route::delete('/monitor', [CveMonitorController::class, 'delete'])->name('cve.monitor.delete')->can('delete,monitor');
+        Route::delete('/{monitor}', [CveMonitorController::class, 'delete'])->name('cve.monitor.delete')->can('delete,monitor');
 
         Route::get('/{monitor}/{cve}', [CveController::class, 'view'])->name('cve.view');
     });

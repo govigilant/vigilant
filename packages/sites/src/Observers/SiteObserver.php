@@ -2,19 +2,15 @@
 
 namespace Vigilant\Sites\Observers;
 
-use Illuminate\Support\Facades\Auth;
+use Vigilant\Core\Services\TeamService;
 use Vigilant\Sites\Models\Site;
-use Vigilant\Users\Models\User;
 
 class SiteObserver
 {
     public function creating(Site $site): void
     {
-        /** @var ?User $user */
-        $user = Auth::user();
+        $teamService = app(TeamService::class);
 
-        if ($user !== null && $user->currentTeam !== null) {
-            $site->team_id = $user->currentTeam->id;
-        }
+        $site->team_id = $teamService->team()->id;
     }
 }
