@@ -41,7 +41,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(CheckCertificatesCommand::class)->everyMinute();
 
         // CVE
-        $schedule->command(ImportCvesCommand::class, ['from' => 'now - 1 hour'])->everyThirtyMinutes();
+        $schedule->command(ImportCvesCommand::class, ['now - 1 hour'])->everyThirtyMinutes();
 
         // Notifications
         $schedule->command(CreateNotificationsCommand::class)->daily();

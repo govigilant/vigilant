@@ -26,6 +26,12 @@ class ImportSites extends Component
         $this->validatedDomains = str($this->urls)
             ->explode("\n")
             ->map(fn (string $url): string => trim($url))
+            ->map(function (string $url): string {
+                $url = preg_replace('#^https?://#', '', $url) ?? '';
+                $url = preg_replace('#/.*$#', '', $url) ?? '';
+
+                return $url;
+            })
             ->filter(fn (string $url): bool => ! blank($url))
             ->filter(fn (string $url): mixed => preg_match('/^(?!:\/\/)([a-zA-Z0-9-_]+\.)+[a-zA-Z]{2,}$/', $url) === 1)
             ->all();
