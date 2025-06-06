@@ -33,6 +33,13 @@ class UptimeMonitorForm extends Component
             $this->form->fill($monitor->toArray());
             $this->monitor = $monitor;
         }
+
+        /** @var array<int, int> $availableIntervals */
+        $availableIntervals = array_keys(config('uptime.intervals', []));
+
+        if (! in_array($this->form->interval, $availableIntervals) && count($availableIntervals) > 0) {
+            $this->form->interval = $availableIntervals[0];
+        }
     }
 
     #[On('save')]
