@@ -41,15 +41,18 @@ class ImportSitemaps
         $root = $parsed['@root'] ?? 'urlset';
 
         if ($root === 'urlset') {
-            /** @var Collection<int, string> $urls */
-            $urls = collect($parsed['url'])->pluck('loc')->filter();
+            /** @var array<int, string> $urls */
+            $urls = $parsed['url'] ?? [];
+            $urls = collect($urls)->pluck('loc')->filter();
 
             $this->storeUrls($crawler, $urls);
         }
 
         if ($root === 'sitemapindex') {
-            /** @var Collection<int, string> $nested */
-            $nested = collect($parsed['sitemap'])->pluck('loc')->filter();
+            /** @var array<int, string> $sitemaps */
+            $sitemaps = $parsed['sitemap'] ?? [];
+
+            $nested = collect($sitemaps)->pluck('loc')->filter();
 
             foreach ($nested as $nestedSitemapUrl) {
                 $this->processSitemap($crawler, $nestedSitemapUrl);
