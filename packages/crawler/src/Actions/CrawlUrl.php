@@ -116,6 +116,10 @@ class CrawlUrl
                 continue;
             }
 
+            if (str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:'))) {
+                continue;
+            }
+
             $href = rtrim($href, '/#');
 
             $links[] = $href;
