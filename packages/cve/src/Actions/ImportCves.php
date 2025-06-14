@@ -33,8 +33,8 @@ class ImportCves
         }
 
         $response = Http::get($endpoint, [
-            'lastModStartDate' => $from->format('Y-m-d\TH:i:s\Z'),
-            'lastModEndDate' => $to->format('Y-m-d\TH:i:s\Z'),
+            'pubStartDate' => $from->format('Y-m-d\TH:i:s\Z'),
+            'pubEndDate' => $to->format('Y-m-d\TH:i:s\Z'),
         ])->throw();
 
         $cves = $response->json('vulnerabilities', []);
