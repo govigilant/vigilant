@@ -1,3 +1,4 @@
+@props(['dnsMonitor' => null, 'inline' => false])
 <div>
     <x-slot name="header">
         <x-page-header :title="$updating

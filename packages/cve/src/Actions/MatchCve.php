@@ -21,6 +21,5 @@ class MatchCve
         ]);
 
         CveMatchedNotification::notify($monitor, $cve);
-        dd('notified');
     }
 }
