@@ -15,7 +15,7 @@ class ImportSites extends Component
     use CanBeInline;
     use DisplaysAlerts;
 
-    public string $urls = 'google.com';
+    public string $urls = '';
 
     /** @var array<int, string> */
     public array $validatedDomains = [];
