@@ -6,20 +6,28 @@ use Illuminate\View\View;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
+use Vigilant\Frontend\Traits\CanBeInline;
 use Vigilant\Sites\Jobs\ImportSiteJob;
 use Vigilant\Users\Models\User;
 
 class ImportSites extends Component
 {
+    use CanBeInline;
     use DisplaysAlerts;
 
-    public string $urls = '';
+    public string $urls = 'google.com';
 
     /** @var array<int, string> */
     public array $validatedDomains = [];
 
     /** @var array<string, bool> */
-    public array $monitors = [];
+    public array $monitors = [
+        'uptime' => true,
+        'lighthouse' => true,
+        'dns' => true,
+        'certificate' => true,
+        'crawler' => true,
+    ];
 
     public function confirm(): void
     {
@@ -62,6 +70,12 @@ class ImportSites extends Component
                 domain: $domain,
                 monitors: $this->monitors,
             );
+        }
+
+        if ($this->inline) {
+            $this->dispatch('sites-imported');
+
+            return;
         }
 
         $this->alert(

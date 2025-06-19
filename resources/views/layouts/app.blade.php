@@ -23,7 +23,7 @@
     @livewireStyles
 </head>
 
-<body class="font-sans antialiased dark dark:bg-black min-w-screen h-screen flex" x-data="{ sidebarOpen: false }">
+<body class="font-text antialiased dark dark:bg-black min-w-screen h-screen flex" x-data="{ sidebarOpen: false }">
     <div class="fixed h-1 z-40 -top-px inset-x-0 bg-linear-to-r from-green to-red"></div>
     <x-layout.sidebar />
 
