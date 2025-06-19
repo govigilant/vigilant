@@ -15,7 +15,7 @@
                         <div>
                             <label for="urls"
                                 class="block text-sm font-medium leading-6 text-white">@lang('Domains')</label>
-                            <span class="text-neutral-400 text-xs">@lang('Add domains or URL\'s to import, one per line')</span>
+                            <span class="text-neutral-400 text-xs">@lang('Add domains or URLs to import, one per line')</span>
                         </div>
                         <div class="mt-2">
                             <div
