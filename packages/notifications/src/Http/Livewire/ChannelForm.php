@@ -7,6 +7,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
+use Vigilant\Frontend\Traits\CanBeInline;
 use Vigilant\Notifications\Http\Livewire\Forms\CreateChannelForm;
 use Vigilant\Notifications\Jobs\SendNotificationJob;
 use Vigilant\Notifications\Models\Channel;
@@ -14,6 +15,7 @@ use Vigilant\Notifications\Notifications\TestNotification;
 
 class ChannelForm extends Component
 {
+    use CanBeInline;
     use DisplaysAlerts;
 
     public CreateChannelForm $form;
@@ -47,6 +49,8 @@ class ChannelForm extends Component
             return;
         }
 
+        $this->form->settings = [];
+
         $this->settingsComponent = $this->form->channel::$component ?? null;
     }
 
@@ -76,6 +80,14 @@ class ChannelForm extends Component
             $this->channelModel = Channel::query()->create(
                 $this->form->all()
             );
+        }
+
+        if ($this->inline) {
+            $this->dispatch('channel-saved', [
+                'channel' => $this->channelModel,
+            ]);
+
+            return;
         }
 
         if ($redirect) {

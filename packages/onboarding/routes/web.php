@@ -2,8 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Vigilant\OnBoarding\Http\Middleware\OnlyOnboarding;
-use Vigilant\OnBoarding\Livewire\OnBoard;
+use Vigilant\OnBoarding\Livewire\ImportDomains;
+use Vigilant\OnBoarding\Livewire\NotificationChannel;
 
-Route::get('setup', OnBoard::class)
-    ->middleware(OnlyOnboarding::class)
-    ->name('onboard');
+Route::middleware(OnlyOnboarding::class)->group(function () {
+    Route::get('setup', ImportDomains::class)
+        ->name('onboard');
+
+    Route::get('setup/notifications', NotificationChannel::class)
+        ->name('onboard.notifications');
+});
