@@ -85,5 +85,6 @@
         <x-dynamic-component :component="$type->component()"
                              :title="session('alert-title')"
                              :message="session('alert-message')"
-        /> @endif
+        />
+    @endif
     </div>
