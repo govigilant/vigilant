@@ -2,22 +2,30 @@
 
 namespace Vigilant\Core\Navigation;
 
-use Closure;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 
 class NavigationItem
 {
-    protected ?Closure $childrenCallback;
+    public array $children = [];
 
     public function __construct(
         public string $name,
-        public string $url,
+        public ?string $url,
         public ?string $icon = null,
         public int $sort = 0,
         public ?string $routeIs = null,
         public ?string $gate = null,
-    ) {}
+        public ?string $code = null,
+        public ?string $parent = null
+    ) {
+        if ($code === null) {
+            $this->code = str($name)
+                ->slug()
+                ->replace('-', '_')
+                ->toString();
+        }
+    }
 
     public function active(): bool
     {
@@ -79,28 +87,27 @@ class NavigationItem
         return $this;
     }
 
-    public function children(Closure $children): static
+    public function code(string $code): static
     {
-        $this->childrenCallback = $children;
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function parent(string $parent): static
+    {
+        $this->parent = $parent;
 
         return $this;
     }
 
     public function hasChildren(): bool
     {
-        return isset($this->childrenCallback);
+        return count($this->children) > 0;
     }
 
     public function getChildren(): array
     {
-        if ($this->childrenCallback === null) {
-            return [];
-        }
-
-        $navigation = new Navigation;
-
-        call_user_func($this->childrenCallback, $navigation);
-
-        return $navigation->items();
+        return $this->children;
     }
 }

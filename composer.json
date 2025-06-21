@@ -13,6 +13,7 @@
         "ext-dom": "*",
         "blade-ui-kit/blade-heroicons": "^2.3",
         "bluelibraries/dns": "@dev",
+        "codeat3/blade-carbon-icons": "^2.35",
         "codeat3/blade-line-awesome-icons": "*",
         "codeat3/blade-phosphor-icons": "^2.2",
         "codeat3/blade-teeny-icons": "^1.9",

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d881e07f16f1a355e2c130dcfd24a5e3",
+    "content-hash": "28acc4239d4695117d31122f5189df55",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -401,6 +401,78 @@
                 }
             ],
             "time": "2024-02-09T16:56:22+00:00"
+        },
+        {
+            "name": "codeat3/blade-carbon-icons",
+            "version": "2.35.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/codeat3/blade-carbon-icons.git",
+                "reference": "9583abc2c5f9893d3460c9e69c80c7bd4d743a48"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/codeat3/blade-carbon-icons/zipball/9583abc2c5f9893d3460c9e69c80c7bd4d743a48",
+                "reference": "9583abc2c5f9893d3460c9e69c80c7bd4d743a48",
+                "shasum": ""
+            },
+            "require": {
+                "blade-ui-kit/blade-icons": "^1.1",
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "codeat3/blade-icon-generation-helpers": "^0.10",
+                "codeat3/phpcs-styles": "^1.0",
+                "orchestra/testbench": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "phpunit/phpunit": "^9.0|^10.5|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Codeat3\\BladeCarbonIcons\\BladeCarbonIconsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Codeat3\\BladeCarbonIcons\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Swapnil Sarwe",
+                    "homepage": "https://swapnilsarwe.com"
+                },
+                {
+                    "name": "Dries Vints",
+                    "homepage": "https://driesvints.com"
+                }
+            ],
+            "description": "A package to easily make use of Carbon Icons in your Laravel Blade views.",
+            "homepage": "https://github.com/codeat3/blade-carbon-icons",
+            "keywords": [
+                "blade",
+                "carbon-icons",
+                "icons",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/codeat3/blade-carbon-icons/issues",
+                "source": "https://github.com/codeat3/blade-carbon-icons/tree/2.35.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/swapnilsarwe",
+                    "type": "github"
+                }
+            ],
+            "time": "2025-05-27T07:02:44+00:00"
         },
         {
             "name": "codeat3/blade-line-awesome-icons",
@@ -2614,16 +2686,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.6.1",
+            "version": "2.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "d990688c91cedfb69753ffc2512727ec646df2ad"
+                "reference": "6fbb36d44824ed4091adbcf4c7d4a3923cdb3405"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/d990688c91cedfb69753ffc2512727ec646df2ad",
-                "reference": "d990688c91cedfb69753ffc2512727ec646df2ad",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/6fbb36d44824ed4091adbcf4c7d4a3923cdb3405",
+                "reference": "6fbb36d44824ed4091adbcf4c7d4a3923cdb3405",
                 "shasum": ""
             },
             "require": {
@@ -2660,7 +2732,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "2.7-dev"
+                    "dev-main": "2.8-dev"
                 }
             },
             "autoload": {
@@ -2717,7 +2789,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-29T14:10:59+00:00"
+            "time": "2025-05-05T12:20:28+00:00"
         },
         {
             "name": "league/config",
@@ -7544,7 +7616,7 @@
         },
         {
             "name": "vigilant/certificates",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/certificates",
@@ -7620,7 +7692,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -7694,7 +7766,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -7771,7 +7843,7 @@
         },
         {
             "name": "vigilant/cve",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/cve",
@@ -7847,7 +7919,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -7924,7 +7996,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -7995,7 +8067,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -8072,7 +8144,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -8148,7 +8220,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8221,7 +8293,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8296,7 +8368,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -8371,7 +8443,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -8448,7 +8520,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/cve-monitoring",
+            "version": "dev-feature/adjust-styling",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
