@@ -18,7 +18,7 @@ class Navigation
     }
 
     public function add(
-        string $url,
+        ?string $url,
         string $name,
     ): NavigationItem {
         $item = new NavigationItem($name, $url);
@@ -39,6 +39,22 @@ class Navigation
         }
 
         return collect($this->items)
+            ->map(function (NavigationItem $item) {
+
+                if ($item->parent !== null) {
+                    return null;
+                }
+
+                $children = collect($this->items)
+                    ->filter(fn (NavigationItem $child) => $child->parent === $item->code)
+                    ->sortBy('sort')
+                    ->toArray();
+
+                $item->children = $children;
+
+                return $item;
+            })
+            ->whereNotNull()
             ->sortBy('sort')
             ->toArray();
     }

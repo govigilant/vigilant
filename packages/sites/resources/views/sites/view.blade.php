@@ -35,14 +35,13 @@
 
     <div class="space-y-8 pb-12">
 
-
         @can('use-uptime')
             @if ($uptimeMonitor !== null)
                 <div>
                     <div class="mb-4">
                         <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
                             href="{{ route('uptime.monitor.view', ['monitor' => $site->uptimeMonitor]) }}">@lang('Uptime')
-                            @svg('tni-right-o', 'size-4')</a>
+                            @svg('tni-right-o', 'size-3 text-base-800')</a>
                     </div>
                     <livewire:monitor-dashboard :monitorId="$uptimeMonitor->id" />
                 </div>
@@ -54,7 +53,7 @@
                 <div class="mb-4">
                     <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
                         href="{{ route('lighthouse.index', ['monitor' => $lighthouseMonitor]) }}">@lang('Lighthouse')
-                        @svg('tni-right-o', 'size-4')</a>
+                        @svg('tni-right-o', 'size-3 text-base-800')</a>
                 </div>
                 <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id" />
             </div>
@@ -65,7 +64,7 @@
                 <div class="mb-4">
                     <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
                         href="{{ route('crawler.view', ['crawler' => $crawler]) }}">@lang('URL Issues')
-                        @svg('tni-right-o', 'size-4')</a>
+                        @svg('tni-right-o', 'size-3 text-base-800')</a>
                 </div>
                 <livewire:crawler-dashboard :crawlerId="$crawler->id" wire:key="crawher-dashboard" />
             </div>
@@ -76,25 +75,24 @@
                 <div class="mb-4">
                     <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
                         href="{{ route('dns.index') }}">@lang('DNS Records')
-                        @svg('tni-right-o', 'size-4')</a>
+                        @svg('tni-right-o', 'size-3 text-base-800')</a>
                 </div>
                 <livewire:dns-monitor-dashboard :siteId="$site->id" wire:key="dns-dashboard" />
             </div>
         @endif
-    </div>
 
-    @can('use-certificates')
-        @if ($certificateMonitor !== null)
-            <div>
-                <div class="mb-4">
-                    <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
-                        href="{{ route('certificates.index', ['monitor' => $certificateMonitor]) }}">@lang('Certificate')
-                        @svg('tni-right-o', 'size-4')</a>
+        @can('use-certificates')
+            @if ($certificateMonitor !== null)
+                <div>
+                    <div class="mb-4">
+                        <a class="text-xl text-white flex items-center gap-2 hover:text-red font-bold"
+                            href="{{ route('certificates.index', ['monitor' => $certificateMonitor]) }}">@lang('Certificate')
+                            @svg('tni-right-o', 'size-3 text-base-800')</a>
+                    </div>
+                    <livewire:certificate-monitor-dashboard :monitorId="$certificateMonitor->id" />
                 </div>
-                <livewire:certificate-monitor-dashboard :monitorId="$certificateMonitor->id" />
-            </div>
-        @endif
-    @endcan
-
+            @endif
+        @endcan
+    </div>
 
 </x-app-layout>

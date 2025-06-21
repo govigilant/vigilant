@@ -1,4 +1,5 @@
-<div x-data="{currentAlert: {}}" @alert.window="currentAlert = $event.detail[0] ?? {}" x-cloak>
+<div x-data="{ currentAlert: {} }"
+    @alert.window="currentAlert = $event.detail[0] ?? {}" x-cloak class="mb-3">
 
 {{--    Same alerts as the components just rendered via a JS event --}}
     <div class="rounded-md bg-green-light p-4" x-show="currentAlert.type == 'success'">
@@ -78,7 +79,7 @@
     </div>
 
 
-    @if(session('alert'))
+    @if (session('alert'))
         @php($type = session('alert-type'))
 
         <x-dynamic-component :component="$type->component()"
@@ -86,6 +87,4 @@
                              :message="session('alert-message')"
         />
     @endif
-
-</div>
-
+    </div>
