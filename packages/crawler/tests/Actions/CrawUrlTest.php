@@ -23,6 +23,8 @@ class CrawUrlTest extends TestCase
             <a href="http://govigilant.io/unsecure-url"></a>
             <a href="#"></a>
             <a href="/"></a>
+            <a href="tel:+123"></a>
+            <a href="mailto:vincent@govigilant.io"></a>
            </html>'),
         ])->preventStrayRequests();
 
