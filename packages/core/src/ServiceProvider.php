@@ -4,6 +4,7 @@ namespace Vigilant\Core;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Vigilant\Core\Facades\Navigation as NavigationFacade;
 use Vigilant\Core\Navigation\Navigation;
 use Vigilant\Core\Services\TeamService;
 
@@ -38,7 +39,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootMigrations()
             ->bootCommands()
             ->bootViews()
-            ->bootRoutes();
+            ->bootRoutes()
+            ->bootNavigation();
     }
 
     protected function bootConfig(): static
@@ -81,6 +83,13 @@ class ServiceProvider extends BaseServiceProvider
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
         }
+
+        return $this;
+    }
+
+    protected function bootNavigation(): static
+    {
+        NavigationFacade::path(__DIR__.'/../resources/navigation.php');
 
         return $this;
     }

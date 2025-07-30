@@ -1,4 +1,6 @@
-<div wire:init="loadChart" x-data="{ show: false, loading: true }" @class(['bg-base-950 py-4 px-2 rounded-md' => $addStyle])>
+<div wire:init="loadChart" x-data="{ show: false, loading: true }" @class([
+    'bg-base-950 py-4 px-2 rounded-md border border-base-800' => $addStyle,
+])>
     <div style="height: {{ $height }}px;" wire:ignore x-init="() => {
         Livewire.on('{{ $identifier }}-update-chart', params => {
             config = params[0]

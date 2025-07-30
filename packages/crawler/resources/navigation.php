@@ -3,7 +3,8 @@
 use Vigilant\Core\Facades\Navigation;
 
 Navigation::add(route('crawler.index'), 'Link Issues')
-    ->icon('lineawesome-spider-solid')
+    ->parent('health')
+    ->icon('carbon-text-link')
     ->gate('use-crawler')
     ->routeIs('crawler*')
-    ->sort(500);
+    ->sort(3);

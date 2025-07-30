@@ -2,17 +2,24 @@
 
 use Vigilant\Core\Facades\Navigation;
 
-Navigation::add(route('notifications'), 'Notifications')
+Navigation::add(null, 'Notifications')
+    ->code('notifications')
     ->icon('tni-exclamation-circle-o')
-    ->sort(1000)
-    ->children(function (\Vigilant\Core\Navigation\Navigation $navigation): void {
+    ->sort(1000);
 
-        $navigation->add(route('notifications.channels'), 'Notification Channels')
-            ->routeIs('notifications.channel*')
-            ->sort(1001); // TODO: Fix child menu
+Navigation::add(route('notifications'), 'Notification Types')
+    ->parent('notifications')
+    ->icon('phosphor-list-heart-duotone')
+    ->sort(1);
 
-        $navigation->add(route('notifications.history'), 'Notification History')
-            ->routeIs('notifications.history')
-            ->sort(1002); // TODO: Fix child menu
+Navigation::add(route('notifications.channels'), 'Notification Channels')
+    ->parent('notifications')
+    ->icon('phosphor-chat-centered-dots-bold')
+    ->routeIs('notifications.channel*')
+    ->sort(2);
 
-    });
+Navigation::add(route('notifications.history'), 'Notification History')
+    ->parent('notifications')
+    ->icon('tni-history-o')
+    ->routeIs('notifications.history')
+    ->sort(3);
