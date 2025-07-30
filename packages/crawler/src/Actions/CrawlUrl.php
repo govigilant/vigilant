@@ -108,15 +108,15 @@ class CrawlUrl
                 continue;
             }
 
+            if (str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:')) {
+                continue;
+            }
+
             if (! filter_var($href, FILTER_VALIDATE_URL)) {
                 $href = $this->resolveRelativeUrl($href, $baseUrl);
             }
 
             if (! $this->isSameDomain($href, $baseUrl['host']) || ! filter_var($href, FILTER_VALIDATE_URL)) {
-                continue;
-            }
-
-            if (str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:')) {
                 continue;
             }
 
@@ -168,6 +168,10 @@ class CrawlUrl
 
         // Otherwise, it's a relative path, resolve by appending to base path
         $basePath = isset($baseUrlParts['path']) ? dirname($baseUrlParts['path']) : '';
+
+        if ($basePath === '/') {
+            $basePath = '';
+        }
 
         return $baseUrlParts['scheme'].'://'.$baseUrlParts['host'].$basePath.'/'.ltrim($relativeUrl, '/');
     }
