@@ -3,5 +3,5 @@
 return [
     'queue' => 'crawler',
 
-    'timeout' => env('CRAWLER_TIMEOUT', 2),
+    'timeout' => env('CRAWLER_TIMEOUT', 5),
 ];
