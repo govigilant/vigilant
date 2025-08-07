@@ -15,7 +15,7 @@ class CrawlUrl
 {
     public function __construct(protected TeamService $teamService) {}
 
-    public function crawl(CrawledUrl $url): void
+    public function crawl(CrawledUrl $url, int $try = 0): void
     {
         $this->teamService->setTeamById($url->team_id);
 
@@ -34,6 +34,12 @@ class CrawlUrl
                 ->withUserAgent(config('core.user_agent'))
                 ->get($url->url);
         } catch (ConnectionException) {
+            if ($try < 3) {
+                $this->crawl($url, $try + 1);
+
+                return;
+            }
+
             $url->update([
                 'status' => 0,
                 'crawled' => true,
@@ -112,7 +118,7 @@ class CrawlUrl
                 continue;
             }
 
-            if (! filter_var($href, FILTER_VALIDATE_URL)) {
+            if (! filter_var($href, FILTER_VALIDATE_URL) && $href !== '#') {
                 $href = $this->resolveRelativeUrl($href, $baseUrl);
             }
 
