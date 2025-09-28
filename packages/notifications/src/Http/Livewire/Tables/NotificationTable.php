@@ -34,8 +34,12 @@ class NotificationTable extends LivewireTable
 
             Column::make(__('Type'), 'notification')
                 ->displayUsing(function (string $notification) {
-                    /** @var class-string<Notification> $notification */
 
+                    if (! class_exists($notification)) {
+                        return $notification;
+                    }
+
+                    /** @var class-string<Notification> $notification */
                     return $notification::$name;
                 }),
 
