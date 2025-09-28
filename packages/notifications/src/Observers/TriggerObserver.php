@@ -10,7 +10,7 @@ class TriggerObserver
 {
     public function creating(Trigger $trigger): void
     {
-        if ($trigger->team_id === null) { // @phpstan-ignore-line
+        if ($trigger->team_id === null) {
             /** @var ?User $user */
             $user = Auth::user();
 

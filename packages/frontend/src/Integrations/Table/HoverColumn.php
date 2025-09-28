@@ -6,13 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
-/**
- * @property view-string $view
- */
 class HoverColumn extends BaseColumn
 {
-    protected string $view = 'frontend::integrations.table.hover-column';
-
     protected int $maxLength = 60;
 
     public function length(int $length): static
@@ -26,7 +21,7 @@ class HoverColumn extends BaseColumn
     {
         $value = $this->resolveValue($model);
 
-        return view($this->view, [
+        return view('frontend::integrations.table.hover-column', [
             'value' => $value,
             'preview' => strip_tags(Str::limit($value, $this->maxLength)),
             'raw' => $this->raw,

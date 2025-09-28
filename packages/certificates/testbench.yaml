@@ -1,0 +1,2 @@
+providers:
+  - Vigilant\Certificates\ServiceProvider

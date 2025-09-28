@@ -6,13 +6,8 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
-/**
- * @property view-string $view
- */
 class StatusColumn extends BaseColumn
 {
-    protected string $view = 'frontend::integrations.table.status-column';
-
     public Closure $statusCallback;
 
     public Closure $textCallback;
@@ -33,7 +28,7 @@ class StatusColumn extends BaseColumn
 
     public function render(Model $model): mixed
     {
-        return view($this->view, [
+        return view('frontend::integrations.table.status-column', [
             'text' => ($this->textCallback)($model),
             'status' => ($this->statusCallback)($model),
         ]);
