@@ -55,7 +55,7 @@ class MonitorTable extends LivewireTable
                         return __('Unknown');
                     }
 
-                    if ($lastResult->created_at !== null && $lastResult->created_at->lessThan(now()->subMinutes(5))) {
+                    if ($lastResult->created_at->lessThan(now()->subMinutes(5))) {
                         return __('Last check: :time', ['time' => $lastResult->created_at->diffForHumans()]);
                     }
 
