@@ -6,13 +6,8 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
-/**
- * @property view-string $view
- */
 class LinkColumn extends BaseColumn
 {
-    protected string $view = 'frontend::integrations.table.link-column';
-
     public ?Closure $linkCallback = null;
 
     public ?Closure $textCallback = null;
@@ -45,7 +40,7 @@ class LinkColumn extends BaseColumn
         $url = $this->linkCallback !== null ? ($this->linkCallback)($model) : $this->resolveValue($model);
         $text = $this->textCallback !== null ? ($this->textCallback)($model) : $url;
 
-        return view($this->view, [
+        return view('frontend::integrations.table.link-column', [
             'link' => $url,
             'text' => $text,
             'newTab' => $this->newTab,
