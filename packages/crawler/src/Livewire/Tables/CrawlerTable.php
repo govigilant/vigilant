@@ -14,11 +14,16 @@ use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Crawler\Actions\StartCrawler;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\Crawler;
+use Vigilant\Frontend\Integrations\Table\Actions\InlineAction;
+use Vigilant\Frontend\Integrations\Table\ActionsColumn;
+use Vigilant\Frontend\Integrations\Table\Concerns\HasInlineActions;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
 class CrawlerTable extends LivewireTable
 {
+    use HasInlineActions;
+
     protected string $model = Crawler::class;
 
     protected array $pollingOptions = [
@@ -89,6 +94,12 @@ class CrawlerTable extends LivewireTable
                     $crawler->urls()->count(),
                 );
             }),
+
+            ActionsColumn::make(__('Actions'))
+                ->actions([
+                    InlineAction::make('start', __('Start Crawler'), 'phosphor-play-bold')
+                        ->visible(fn (Crawler $crawler): bool => $crawler->state !== State::Crawling && $crawler->enabled),
+                ]),
         ];
     }
 

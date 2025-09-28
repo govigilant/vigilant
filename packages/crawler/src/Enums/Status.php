@@ -4,6 +4,7 @@ namespace Vigilant\Crawler\Enums;
 
 enum Status: int
 {
+    case ConnectionFailure = 0;
     case BAD_REQUEST = 400;
     case UNAUTHORIZED = 401;
     case PAYMENT_REQUIRED = 402;
@@ -59,6 +60,7 @@ enum Status: int
     public function label(): string
     {
         return match ($this) {
+            Status::ConnectionFailure => 'Failed to connect',
             Status::BAD_REQUEST => 'Bad Request',
             Status::UNAUTHORIZED => 'Unauthorized',
             Status::PAYMENT_REQUIRED => 'Payment Required',
