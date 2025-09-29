@@ -15,7 +15,7 @@ use Vigilant\Crawler\Observers\IgnoredUrlObserver;
  * @property string $url_hash
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
- * @property ?Crawler $crawler
+ * @property Crawler $crawler
  */
 #[ObservedBy(IgnoredUrlObserver::class)]
 class IgnoredUrl extends Model
