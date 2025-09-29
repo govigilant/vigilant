@@ -69,10 +69,11 @@ class CrawlerTable extends LivewireTable
 
             StatusColumn::make(__('Issues'))
                 ->text(function (Crawler $crawler): string {
+                    $issueCount = $crawler->issueCount() ?? 0;
                     return trans_choice(
                         ':count issue|:count issues',
-                        $crawler->issueCount() ?? 0,
-                        ['count' => $crawler->issueCount() ?? '0']
+                        $issueCount,
+                        ['count' => $issueCount]
                     );
                 })
                 ->status(function (Crawler $crawler): Status {
