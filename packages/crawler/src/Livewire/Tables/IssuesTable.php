@@ -73,7 +73,7 @@ class IssuesTable extends LivewireTable
                 foreach ($models as $model) {
                     IgnoredUrl::firstOrCreate([
                         'crawler_id' => $this->crawlerId,
-                        'url_hash' => md5($model->url),
+                        'url_hash' => $model->url_hash,
                     ]);
                     $model->update(['ignored' => true]);
                 }

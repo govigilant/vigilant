@@ -67,4 +67,11 @@ class CrawledUrl extends Model
     {
         return $this->belongsTo(static::class, 'found_on_id', 'uuid');
     }
+
+    public function hash(): void
+    {
+        if ($this->url_hash === null) {
+            $this->url_hash = md5($this->url);
+        }
+    }
 }
