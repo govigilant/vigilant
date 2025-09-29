@@ -12,4 +12,11 @@ return new class extends Migration
             $table->boolean('ignored')->default(false)->after('crawled')->index();
         });
     }
+
+    public function down(): void
+    {
+        Schema::table('web_crawled_urls', function (Blueprint $table): void {
+            $table->dropColumn('ignored');
+        });
+    }
 };
