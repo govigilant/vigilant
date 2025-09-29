@@ -20,6 +20,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property int $team_id
  * @property int $found_on_id
  * @property bool $crawled
+ * @property bool $ignored
  * @property string $url
  * @property string $url_hash
  * @property int $status
@@ -44,6 +45,7 @@ class CrawledUrl extends Model
 
     protected $casts = [
         'crawled' => 'bool',
+        'ignored' => 'bool',
     ];
 
     public function site(): BelongsTo

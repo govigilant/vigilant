@@ -3,8 +3,8 @@
         {{ $total_url_count }}
     </x-frontend::stats-card>
 
-    <x-frontend::stats-card :title="__('Issues')">
-        {{ $issue_count ?? '0' }}
+    <x-frontend::stats-card :title="__($issue_count == 1 ? 'Issue found' : 'Issues found')">
+        {{ $issue_count }}
     </x-frontend::stats-card>
 
     <x-frontend::stats-card :title="__('Next Run')">
@@ -12,6 +12,6 @@
     </x-frontend::stats-card>
 
     <x-frontend::stats-card :title="__('Ignored URLs')">
-        {{ $ignored_count ?? '0' }}
+        {{ $ignored_count }}
     </x-frontend::stats-card>
 </dl>

@@ -81,10 +81,6 @@ class CrawlUrl
                     $redirectUrl = str($redirectUrl)->limit(8192)->toString();
                     $hash = md5($redirectUrl);
 
-                    if ($this->isIgnored($url->crawler_id, $hash)) {
-                        return;
-                    }
-
                     CrawledUrl::query()->firstOrCreate([
                         'crawler_id' => $url->crawler_id,
                         'url_hash' => $hash,
@@ -144,10 +140,6 @@ class CrawlUrl
             $pageUrl = str($link)->limit(8192)->toString();
             $hash = md5($pageUrl);
 
-            if ($this->isIgnored($url->crawler_id, $hash)) {
-                continue;
-            }
-
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
                 'url_hash' => $hash,
@@ -190,13 +182,5 @@ class CrawlUrl
         }
 
         return $baseUrlParts['scheme'].'://'.$baseUrlParts['host'].$basePath.'/'.ltrim($relativeUrl, '/');
-    }
-
-    protected function isIgnored(int $crawlerId, string $urlHash): bool
-    {
-        return CrawledUrl::query()
-            ->where('crawler_id', $crawlerId)
-            ->where('url_hash', $urlHash)
-            ->exists();
     }
 }

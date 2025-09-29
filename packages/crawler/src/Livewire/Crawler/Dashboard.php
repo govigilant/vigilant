@@ -31,7 +31,7 @@ class Dashboard extends Component
         return view($view, [
             'total_url_count' => $crawler->totalUrlCount(),
             'issue_count' => $crawler->issueCount(),
-            'ignored_count' => $crawler->ignoredUrls()->count(),
+            'ignored_count' => $crawler->urls()->where('ignored', '=', true)->count(),
             'nextRun' => $crawler->enabled ? $nextRun->diffForHumans() : __('Crawler disabled'),
         ]);
     }
