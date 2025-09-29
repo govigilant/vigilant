@@ -83,8 +83,16 @@
     @apply invisible absolute;
 }
 
+.has-tooltip {
+    @apply relative;
+}
+
 .has-tooltip:hover .tooltip {
     @apply visible z-50;
+}
+
+.tooltip-left {
+    @apply right-full mr-2 top-1/2 transform -translate-y-1/2 whitespace-nowrap;
 }
 
 button:disabled {

@@ -14,7 +14,7 @@ class NavigationItem
         public ?string $url,
         public ?string $icon = null,
         public int $sort = 0,
-        public ?string $routeIs = null,
+        public ?array $routeIs = null,
         public ?string $gate = null,
         public ?string $code = null,
         public ?string $parent = null
@@ -52,7 +52,7 @@ class NavigationItem
         return $this;
     }
 
-    public function routeIs(string $routeIs): static
+    public function routeIs(string ...$routeIs): static
     {
         $this->routeIs = $routeIs;
 
