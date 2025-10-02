@@ -3,9 +3,12 @@
 namespace Vigilant\Notifications\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vigilant\Core\Concerns\HasDataRetention;
 use Vigilant\Notifications\Scopes\HistoryTeamScope;
 
 /**
@@ -23,6 +26,9 @@ use Vigilant\Notifications\Scopes\HistoryTeamScope;
 #[ScopedBy([HistoryTeamScope::class])]
 class History extends Model
 {
+    use HasDataRetention;
+    use Prunable;
+
     protected $table = 'notification_history';
 
     protected $guarded = [];
@@ -39,5 +45,10 @@ class History extends Model
     public function channel(): BelongsTo
     {
         return $this->belongsTo(Channel::class);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::withoutGlobalScopes()->where('created_at', '<=', $this->retentionPeriod());
     }
 }

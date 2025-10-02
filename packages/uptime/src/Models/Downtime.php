@@ -2,9 +2,12 @@
 
 namespace Vigilant\Uptime\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vigilant\Core\Concerns\HasDataRetention;
 
 /**
  * @property int $id
@@ -18,6 +21,9 @@ use Illuminate\Support\Carbon;
  */
 class Downtime extends Model
 {
+    use HasDataRetention;
+    use Prunable;
+
     protected $table = 'uptime_downtimes';
 
     protected $guarded = [];
@@ -31,5 +37,10 @@ class Downtime extends Model
     public function monitor(): BelongsTo
     {
         return $this->belongsTo(Monitor::class);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::withoutGlobalScopes()->where('created_at', '<=', $this->retentionPeriod());
     }
 }

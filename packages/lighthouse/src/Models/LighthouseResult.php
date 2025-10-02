@@ -4,11 +4,14 @@ namespace Vigilant\Lighthouse\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Vigilant\Core\Concerns\HasDataRetention;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Users\Observers\TeamObserver;
 
@@ -30,6 +33,9 @@ use Vigilant\Users\Observers\TeamObserver;
 #[ScopedBy([TeamScope::class])]
 class LighthouseResult extends Model
 {
+    use HasDataRetention;
+    use Prunable;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -44,5 +50,10 @@ class LighthouseResult extends Model
     public function audits(): HasMany
     {
         return $this->hasMany(LighthouseResultAudit::class);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::withoutGlobalScopes()->where('created_at', '<=', $this->retentionPeriod());
     }
 }

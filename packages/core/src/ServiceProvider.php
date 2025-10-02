@@ -4,6 +4,8 @@ namespace Vigilant\Core;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Vigilant\Core\Actions\ResolveDataRetention;
+use Vigilant\Core\Contracts\ResolvesDataRetention;
 use Vigilant\Core\Facades\Navigation as NavigationFacade;
 use Vigilant\Core\Navigation\Navigation;
 use Vigilant\Core\Services\TeamService;
@@ -35,12 +37,22 @@ class ServiceProvider extends BaseServiceProvider
     public function boot(): void
     {
         $this
+            ->bootActions()
             ->bootConfig()
             ->bootMigrations()
             ->bootCommands()
             ->bootViews()
             ->bootRoutes()
             ->bootNavigation();
+    }
+
+    protected function bootActions(): static
+    {
+        if (ce()) {
+            $this->app->singleton(ResolvesDataRetention::class, ResolveDataRetention::class);
+        }
+
+        return $this;
     }
 
     protected function bootConfig(): static
