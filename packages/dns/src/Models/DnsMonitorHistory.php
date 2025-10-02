@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vigilant\Core\Concerns\HasDataRetention;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Dns\Enums\Type;
 use Vigilant\Users\Observers\TeamObserver;
@@ -28,6 +29,7 @@ use Vigilant\Users\Observers\TeamObserver;
 #[ScopedBy(TeamScope::class)]
 class DnsMonitorHistory extends Model
 {
+    use HasDataRetention;
     use Prunable;
 
     protected $guarded = [];
@@ -44,6 +46,6 @@ class DnsMonitorHistory extends Model
 
     public function prunable(): Builder
     {
-        return static::where('created_at', '<=', now()->subYear());
+        return static::withoutGlobalScopes()->where('created_at', '<=', $this->retentionPeriod());
     }
 }
