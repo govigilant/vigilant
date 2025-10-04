@@ -24,6 +24,7 @@ abstract class TestCase extends BaseTestCase
         return [
             ServiceProvider::class,
             \Vigilant\Users\ServiceProvider::class,
+            \Vigilant\Notifications\ServiceProvider::class,
             LivewireServiceProvider::class,
         ];
     }

@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 /**
  * @property int $id
  * @property string $identifier
- * @property float $score
+ * @property ?float $score
  * @property string $description
  * @property Carbon $published_at
  * @property Carbon $modified_at
