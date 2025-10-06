@@ -32,6 +32,9 @@ use Vigilant\Users\Models\Team;
  * @property int $interval
  * @property int $retries
  * @property int $timeout
+ * @property ?string $country
+ * @property ?float $latitude
+ * @property ?float $longitude
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
@@ -57,6 +60,8 @@ class Monitor extends Model
         'next_run' => 'datetime',
         'state' => State::class,
         'interval' => 'integer',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public function site(): BelongsTo

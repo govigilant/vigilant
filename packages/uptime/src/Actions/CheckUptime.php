@@ -30,7 +30,7 @@ class CheckUptime
         $outpostCountry = null;
 
         for ($i = 0; $i < 3; $i++) {
-            $outpost = $this->determineOutpost->determine();
+            $outpost = $this->determineOutpost->determine($monitor);
 
             if ($outpost === null) {
                 logger()->error('No outpost available for uptime check');
