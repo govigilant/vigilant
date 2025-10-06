@@ -31,4 +31,9 @@ class Outpost extends Model
         'longitude' => 'float',
         'last_available_at' => 'datetime',
     ];
+
+    public function url(): string
+    {
+        return "http://{$this->ip}:{$this->port}";
+    }
 }

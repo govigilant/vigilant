@@ -10,5 +10,6 @@ Route::prefix('v1')->group(function (): void {
         ->middleware([OutpostAuthMiddleware::class, ExternalOutpostMiddleware::class])
         ->group(function (): void {
             Route::post('register', [OutpostController::class, 'register']);
+            Route::post('unregister', [OutpostController::class, 'unregister']);
         });
 });

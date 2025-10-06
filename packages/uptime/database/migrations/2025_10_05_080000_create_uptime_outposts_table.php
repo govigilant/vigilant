@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('port');
             $table->string('external_ip');
 
-            $table->string('status');
+            $table->string('status')->index();
 
             $table->string('country')->nullable();
             $table->float('latitude', 10, 6)->nullable();
