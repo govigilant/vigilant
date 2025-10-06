@@ -11,26 +11,32 @@ class AggregateResults
 {
     public function aggregate(Monitor $monitor): void
     {
-        $resultChunks = $monitor
+        $results = $monitor
             ->results()
-            ->select(['id'])
+            ->select(['id', 'country'])
             ->where('created_at', '<', now()->subHour())
-            ->get()
-            ->chunk(60);
+            ->get();
 
-        /** @var Collection $chunk */
-        foreach ($resultChunks as $chunk) {
-            $ids = $chunk->pluck('id');
+        $groupedByCountry = $results->groupBy('country');
 
-            $query = Result::query()
-                ->whereIn('id', $ids);
+        foreach ($groupedByCountry as $country => $countryResults) {
+            $resultChunks = $countryResults->chunk(60);
 
-            ResultAggregate::query()->create([
-                'monitor_id' => $monitor->id,
-                'total_time' => $query->average('total_time'),
-            ]);
+            /** @var Collection $chunk */
+            foreach ($resultChunks as $chunk) {
+                $ids = $chunk->pluck('id');
 
-            $query->delete();
+                $query = Result::query()
+                    ->whereIn('id', $ids);
+
+                ResultAggregate::query()->create([
+                    'monitor_id' => $monitor->id,
+                    'total_time' => $query->average('total_time'),
+                    'country' => $country,
+                ]);
+
+                $query->delete();
+            }
         }
     }
 }

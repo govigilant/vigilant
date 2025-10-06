@@ -13,6 +13,7 @@ use Vigilant\Core\Concerns\HasDataRetention;
  * @property int $id
  * @property int $checker_id
  * @property int $total_time
+ * @property ?string $country
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Monitor $monitor

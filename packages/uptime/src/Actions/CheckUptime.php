@@ -27,6 +27,7 @@ class CheckUptime
         ]);
 
         $result = null;
+        $outpostCountry = null;
 
         for ($i = 0; $i < 3; $i++) {
             $outpost = $this->determineOutpost->determine();
@@ -34,7 +35,7 @@ class CheckUptime
             if ($outpost === null) {
                 logger()->error('No outpost available for uptime check');
 
-                return;
+                continue;
             }
 
             try {
@@ -58,8 +59,10 @@ class CheckUptime
                 $result = new UptimeResult(
                     up: $response->json('up', false),
                     totalTime: $response->json('latency_ms', 0),
+                    country: $outpost->country,
                     data: $response->json(),
                 );
+                $outpostCountry = $outpost->country;
 
                 break;
             }
@@ -123,6 +126,7 @@ class CheckUptime
 
             $monitor->results()->create([
                 'total_time' => $result->totalTime,
+                'country' => $outpostCountry,
             ]);
         }
 
