@@ -18,7 +18,7 @@ class FetchGeolocationTest extends TestCase
             ]),
         ]);
 
-        $fetchGeolocation = new FetchGeolocation;
+        $fetchGeolocation = app(FetchGeolocation::class);
 
         $result = $fetchGeolocation->fetch('example.com');
 
@@ -38,7 +38,7 @@ class FetchGeolocationTest extends TestCase
             ]),
         ]);
 
-        $fetchGeolocation = new FetchGeolocation;
+        $fetchGeolocation = app(FetchGeolocation::class);
 
         $result = $fetchGeolocation->fetch('https://example.com/path/to/resource');
 
@@ -56,7 +56,7 @@ class FetchGeolocationTest extends TestCase
             ]),
         ]);
 
-        $fetchGeolocation = new FetchGeolocation;
+        $fetchGeolocation = app(FetchGeolocation::class);
 
         $result = $fetchGeolocation->fetch('192.168.1.1:8080');
 
@@ -70,7 +70,7 @@ class FetchGeolocationTest extends TestCase
             'https://free.freeipapi.com/api/json/*' => Http::response([], 500),
         ]);
 
-        $fetchGeolocation = new FetchGeolocation;
+        $fetchGeolocation = app(FetchGeolocation::class);
 
         $result = $fetchGeolocation->fetch('example.com');
 
@@ -85,7 +85,7 @@ class FetchGeolocationTest extends TestCase
             },
         ]);
 
-        $fetchGeolocation = new FetchGeolocation;
+        $fetchGeolocation = app(FetchGeolocation::class);
 
         $result = $fetchGeolocation->fetch('example.com');
 

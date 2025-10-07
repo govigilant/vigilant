@@ -5,6 +5,7 @@ namespace Vigilant\Uptime\Actions;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Uptime\Actions\Outpost\DetermineOutpost;
+use Vigilant\Uptime\Actions\Outpost\GenerateRootCertificate;
 use Vigilant\Uptime\Data\UptimeResult;
 use Vigilant\Uptime\Enums\OutpostStatus;
 use Vigilant\Uptime\Enums\State;
@@ -18,6 +19,7 @@ class CheckUptime
 {
     public function __construct(
         protected DetermineOutpost $determineOutpost,
+        protected GenerateRootCertificate $rootCertificateGenerator,
     ) {}
 
     public function check(Monitor $monitor): void
@@ -38,16 +40,22 @@ class CheckUptime
                 continue;
             }
 
+            $certPath = $this->rootCertificateGenerator->getRootCertificatePath();
+
             try {
                 $response = Http::baseUrl($outpost->url())
                     ->withToken(config('uptime.outpost_secret'))
+                    ->withOptions([
+                        'verify' => $certPath,
+                    ])
                     ->timeout($monitor->timeout + 2) // Give some buffer time for the outpost to respond
                     ->post('run-check', [
                         'type' => $monitor->type->outpostValue(),
                         'target' => $monitor->type->formatTarget($monitor),
                         'timeout' => $monitor->timeout,
                     ]);
-            } catch (ConnectionException) {
+
+            } catch (ConnectionException $e) {
                 $outpost->update([
                     'status' => OutpostStatus::Unavailable,
                 ]);

@@ -34,6 +34,6 @@ class Outpost extends Model
 
     public function url(): string
     {
-        return "http://{$this->ip}:{$this->port}";
+        return "https://{$this->ip}:{$this->port}";
     }
 }

@@ -24,6 +24,10 @@ class UpdateMonitorLocationJob implements ShouldQueue
 
     public function handle(FetchGeolocation $fetchGeolocation): void
     {
+        if (! $this->monitor->shouldFetchGeoip()) {
+            return;
+        }
+
         $target = $this->monitor->type->formatTarget($this->monitor);
 
         $geolocation = $fetchGeolocation->fetch($target);
@@ -36,6 +40,7 @@ class UpdateMonitorLocationJob implements ShouldQueue
             'country' => $geolocation['country'],
             'latitude' => $geolocation['latitude'],
             'longitude' => $geolocation['longitude'],
+            'geoip_fetched_at' => now(),
         ]);
     }
 }

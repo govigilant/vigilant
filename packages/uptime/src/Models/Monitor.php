@@ -35,6 +35,7 @@ use Vigilant\Users\Models\Team;
  * @property ?string $country
  * @property ?float $latitude
  * @property ?float $longitude
+ * @property ?Carbon $geoip_fetched_at
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
@@ -62,6 +63,7 @@ class Monitor extends Model
         'interval' => 'integer',
         'latitude' => 'float',
         'longitude' => 'float',
+        'geoip_fetched_at' => 'datetime',
     ];
 
     public function site(): BelongsTo
@@ -98,6 +100,15 @@ class Monitor extends Model
             ->first();
 
         return $downtime;
+    }
+
+    public function shouldFetchGeoip(): bool
+    {
+        if ($this->geoip_fetched_at === null) {
+            return true;
+        }
+
+        return $this->geoip_fetched_at->lt(now()->subDay());
     }
 
     protected static function newFactory(): MonitorFactory

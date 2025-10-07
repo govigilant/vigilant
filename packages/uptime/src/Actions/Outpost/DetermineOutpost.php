@@ -3,6 +3,7 @@
 namespace Vigilant\Uptime\Actions\Outpost;
 
 use Vigilant\Uptime\Enums\OutpostStatus;
+use Vigilant\Uptime\Jobs\UpdateMonitorLocationJob;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Models\Outpost;
 
@@ -12,6 +13,11 @@ class DetermineOutpost
     {
         // If no monitor or monitor has no country, use random selection
         if ($monitor === null || $monitor->country === null) {
+            UpdateMonitorLocationJob::dispatchIf(
+                $monitor?->shouldFetchGeoip() ?? true,
+                $monitor
+            );
+
             return Outpost::query()
                 ->where('status', '=', OutpostStatus::Available)
                 ->inRandomOrder()
