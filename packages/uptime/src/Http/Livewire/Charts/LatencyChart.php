@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Uptime\Models\Result;
@@ -18,6 +19,8 @@ class LatencyChart extends BaseChart
 
     public int $height = 200;
 
+    public ?string $selectedCountry = null;
+
     public function mount(array $data): void
     {
         Validator::make($data, [
@@ -25,12 +28,40 @@ class LatencyChart extends BaseChart
         ])->validate();
 
         $this->monitorId = $data['monitorId'];
+
+        $countries = $this->availableCountries();
+        if ($countries->isNotEmpty()) {
+            $this->selectedCountry = $countries->first();
+        }
+    }
+
+    public function selectCountry(?string $country): void
+    {
+        $this->selectedCountry = $country;
+        $this->loadChart();
+    }
+
+    protected function availableCountries(): Collection
+    {
+        return Result::query()
+            ->where('monitor_id', '=', $this->monitorId)
+            ->whereNotNull('country')
+            ->selectRaw('country, COUNT(*) as count')
+            ->groupBy('country')
+            ->orderByDesc('count')
+            ->pluck('country');
     }
 
     protected function points(): Collection
     {
-        return ResultAggregate::query()
-            ->where('monitor_id', '=', $this->monitorId)
+        $query = ResultAggregate::query()
+            ->where('monitor_id', '=', $this->monitorId);
+
+        if ($this->selectedCountry) {
+            $query->where('country', '=', $this->selectedCountry);
+        }
+
+        return $query
             ->orderByDesc('created_at')
             ->take(10)
             ->get()
@@ -44,9 +75,14 @@ class LatencyChart extends BaseChart
         $labels = $points->pluck('created_at');
         $data = $points->pluck('total_time');
 
-        $current = Result::query()
-            ->where('monitor_id', '=', $this->monitorId)
-            ->get();
+        $currentQuery = Result::query()
+            ->where('monitor_id', '=', $this->monitorId);
+
+        if ($this->selectedCountry) {
+            $currentQuery->where('country', '=', $this->selectedCountry);
+        }
+
+        $current = $currentQuery->get();
 
         if ($data->isEmpty()) {
             $labels = $current->pluck('created_at');
@@ -74,7 +110,7 @@ class LatencyChart extends BaseChart
                         'borderWidth' => 2,
                         'borderColor' => '#337F1F',
                         'tension' => 0.4,
-                        'unit' => 's',
+                        'unit' => 'ms',
                     ],
                 ],
             ],
@@ -102,5 +138,17 @@ class LatencyChart extends BaseChart
     protected function getIdentifier(): string
     {
         return Str::slug(get_class($this)).$this->monitorId;
+    }
+
+    public function render(): View
+    {
+        /** @var view-string $view */
+        $view = 'uptime::livewire.charts.latency-chart';
+
+        return view($view, [
+            'identifier' => $this->getIdentifier(),
+            'height' => $this->height,
+            'availableCountries' => $this->availableCountries(),
+        ]);
     }
 }

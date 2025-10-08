@@ -16,11 +16,7 @@ abstract class BaseChart extends Component
 
     public function loadChart(): void
     {
-        $data = cache()->remember(
-            $this->getCacheKey(),
-            now()->addHour(),
-            fn () => array_replace_recursive($this->defaultOptions(), $this->data())
-        );
+        $data = array_replace_recursive($this->defaultOptions(), $this->data());
 
         $this->dispatch($this->getIdentifier().'-update-chart', $data);
     }
@@ -103,10 +99,5 @@ abstract class BaseChart extends Component
     protected function getIdentifier(): string
     {
         return Str::slug(get_class($this));
-    }
-
-    protected function getCacheKey(): string
-    {
-        return $this->getIdentifier();
     }
 }

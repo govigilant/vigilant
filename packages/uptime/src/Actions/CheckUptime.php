@@ -30,15 +30,18 @@ class CheckUptime
 
         $result = null;
         $outpostCountry = null;
+        $excludedOutpostIds = [];
 
         for ($i = 0; $i < 3; $i++) {
-            $outpost = $this->determineOutpost->determine($monitor);
+            $outpost = $this->determineOutpost->determine($monitor, $excludedOutpostIds);
 
             if ($outpost === null) {
                 logger()->error('No outpost available for uptime check');
 
                 continue;
             }
+
+            $excludedOutpostIds[] = $outpost->id;
 
             $certPath = $this->rootCertificateGenerator->getRootCertificatePath();
 
@@ -70,7 +73,12 @@ class CheckUptime
                     country: $outpost->country,
                     data: $response->json(),
                 );
+
                 $outpostCountry = $outpost->country;
+
+                if (! $result->up) {
+                    continue;
+                }
 
                 break;
             }
