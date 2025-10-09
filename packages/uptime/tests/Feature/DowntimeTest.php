@@ -3,15 +3,13 @@
 namespace Vigilant\Uptime\Tests\Feature;
 
 use Illuminate\Support\Facades\Event;
-use Mockery\MockInterface;
+use Illuminate\Support\Facades\Http;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
-use Vigilant\Uptime\Data\UptimeResult;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Tests\TestCase;
-use Vigilant\Uptime\Uptime\Http;
 
 class DowntimeTest extends TestCase
 {
@@ -38,9 +36,21 @@ class DowntimeTest extends TestCase
 
         $this->assertNotNull($monitor);
 
-        $this->mock(Http::class, function (MockInterface $mock) {
-            $mock->shouldReceive('process')->andReturn(new UptimeResult(false));
-        });
+        $outpost = \Vigilant\Uptime\Models\Outpost::create([
+            'ip' => '127.0.0.1',
+            'port' => 3000,
+            'external_ip' => '127.0.0.1',
+            'status' => \Vigilant\Uptime\Enums\OutpostStatus::Available,
+            'country' => 'US',
+            'last_available_at' => now(),
+        ]);
+
+        Http::fake([
+            'https://127.0.0.1:3000/*' => Http::response([
+                'up' => false,
+                'latency_ms' => 0,
+            ]),
+        ]);
 
         $this->artisan(CheckUptimeCommand::class, [
             'monitorId' => $monitor->id,
@@ -80,9 +90,21 @@ class DowntimeTest extends TestCase
             'start' => now()->subMinutes(5),
         ]);
 
-        $this->mock(Http::class, function (MockInterface $mock) {
-            $mock->shouldReceive('process')->andReturn(new UptimeResult(true));
-        });
+        $outpost = \Vigilant\Uptime\Models\Outpost::create([
+            'ip' => '127.0.0.1',
+            'port' => 3000,
+            'external_ip' => '127.0.0.1',
+            'status' => \Vigilant\Uptime\Enums\OutpostStatus::Available,
+            'country' => 'US',
+            'last_available_at' => now(),
+        ]);
+
+        Http::fake([
+            'https://127.0.0.1:3000/*' => Http::response([
+                'up' => true,
+                'latency_ms' => 100,
+            ]),
+        ]);
 
         $this->artisan(CheckUptimeCommand::class, [
             'monitorId' => $monitor->id,

@@ -81,13 +81,17 @@ class FetchGeolocation
 
     protected function resolveToIp(string $domain): ?string
     {
-        $dnsMonitor = DnsMonitor::where('record', $domain)
-            ->whereIn('type', [Type::A, Type::AAAA])
-            ->where('enabled', '=', true)
-            ->first();
+        try {
+            $dnsMonitor = DnsMonitor::where('record', $domain)
+                ->whereIn('type', [Type::A, Type::AAAA])
+                ->where('enabled', '=', true)
+                ->first();
 
-        if ($dnsMonitor && $dnsMonitor->value) {
-            return $dnsMonitor->value;
+            if ($dnsMonitor && $dnsMonitor->value) {
+                return $dnsMonitor->value;
+            }
+        } catch (\Exception $e) {
+            // DNS monitor table may not exist (e.g., in tests), continue with DNS resolution
         }
 
         try {

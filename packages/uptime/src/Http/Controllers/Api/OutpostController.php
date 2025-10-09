@@ -24,7 +24,7 @@ class OutpostController extends Controller
         $outpost = $registrar->register($request->input('ip'), $request->ip(), $request->input('port'));
 
         // Generate a short-lived certificate for the outpost (valid for 30 days)
-        $commonName = sprintf('outpost-%s-%d', $outpost->ip, $outpost->port);
+        $commonName = sprintf('outpost-%s-%d', $outpost->ip(), $outpost->port);
         $certificate = $certificateGenerator->generate($commonName, $request->ip(), 30);
 
         return response()->json($certificate);

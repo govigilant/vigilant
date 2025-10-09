@@ -3,6 +3,8 @@
 namespace Vigilant\Uptime\Tests\Unit;
 
 use Illuminate\Support\Facades\Http;
+use Mockery\MockInterface;
+use Vigilant\Dns\Actions\ResolveRecord;
 use Vigilant\Uptime\Actions\FetchGeolocation;
 use Vigilant\Uptime\Tests\TestCase;
 
@@ -10,6 +12,10 @@ class FetchGeolocationTest extends TestCase
 {
     public function test_it_fetches_geolocation_for_hostname(): void
     {
+        $this->mock(ResolveRecord::class, function (MockInterface $mock) {
+            $mock->shouldReceive('resolve')->andReturn('93.184.216.34');
+        });
+
         Http::fake([
             'https://free.freeipapi.com/api/json/*' => Http::response([
                 'countryCode' => 'US',
@@ -30,8 +36,12 @@ class FetchGeolocationTest extends TestCase
 
     public function test_it_extracts_hostname_from_url(): void
     {
+        $this->mock(ResolveRecord::class, function (MockInterface $mock) {
+            $mock->shouldReceive('resolve')->andReturn('93.184.216.34');
+        });
+
         Http::fake([
-            'https://free.freeipapi.com/api/json/example.com' => Http::response([
+            'https://free.freeipapi.com/api/json/93.184.216.34' => Http::response([
                 'countryCode' => 'UK',
                 'latitude' => 51.5074,
                 'longitude' => -0.1278,
@@ -66,6 +76,10 @@ class FetchGeolocationTest extends TestCase
 
     public function test_it_returns_null_on_api_failure(): void
     {
+        $this->mock(ResolveRecord::class, function (MockInterface $mock) {
+            $mock->shouldReceive('resolve')->andReturn('93.184.216.34');
+        });
+
         Http::fake([
             'https://free.freeipapi.com/api/json/*' => Http::response([], 500),
         ]);
@@ -79,6 +93,10 @@ class FetchGeolocationTest extends TestCase
 
     public function test_it_returns_null_on_exception(): void
     {
+        $this->mock(ResolveRecord::class, function (MockInterface $mock) {
+            $mock->shouldReceive('resolve')->andReturn('93.184.216.34');
+        });
+
         Http::fake([
             'https://free.freeipapi.com/api/json/*' => function () {
                 throw new \Exception('Network error');

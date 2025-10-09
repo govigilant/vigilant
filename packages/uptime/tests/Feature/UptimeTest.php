@@ -30,8 +30,20 @@ class UptimeTest extends TestCase
             'timeout' => 1,
         ]);
 
+        $outpost = \Vigilant\Uptime\Models\Outpost::create([
+            'ip' => '127.0.0.1',
+            'port' => 3000,
+            'external_ip' => '127.0.0.1',
+            'status' => \Vigilant\Uptime\Enums\OutpostStatus::Available,
+            'country' => 'US',
+            'last_available_at' => now(),
+        ]);
+
         Http::fake([
-            'http://service' => Http::response(),
+            'https://127.0.0.1:3000/*' => Http::response([
+                'up' => true,
+                'latency_ms' => 100,
+            ]),
         ]);
 
         $this->artisan(CheckUptimeCommand::class, [
@@ -53,6 +65,7 @@ class UptimeTest extends TestCase
 
         /** @var Monitor $monitor */
         $monitor = Monitor::query()->create([
+            'team_id' => 1,
             'name' => 'Test Monitor',
             'type' => Type::Ping,
             'settings' => [
@@ -64,14 +77,20 @@ class UptimeTest extends TestCase
             'timeout' => 1,
         ]);
 
-        $pingMock = $this->partialMock(Ping::class, function (MockInterface $mock) {
-            $mock->shouldReceive('ping')->andReturn(10);
-        });
-
-        $this->app?->bind(Ping::class, fn () => $pingMock);
+        $outpost = \Vigilant\Uptime\Models\Outpost::create([
+            'ip' => '127.0.0.1',
+            'port' => 3000,
+            'external_ip' => '127.0.0.1',
+            'status' => \Vigilant\Uptime\Enums\OutpostStatus::Available,
+            'country' => 'US',
+            'last_available_at' => now(),
+        ]);
 
         Http::fake([
-            'http://service' => Http::response(),
+            'https://127.0.0.1:3000/*' => Http::response([
+                'up' => true,
+                'latency_ms' => 10,
+            ]),
         ]);
 
         $this->artisan(CheckUptimeCommand::class, [

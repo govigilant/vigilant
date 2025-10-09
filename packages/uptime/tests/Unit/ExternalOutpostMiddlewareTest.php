@@ -13,7 +13,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '192.168.1.1']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '192.168.1.1');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -28,7 +29,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '127.0.0.1']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '127.0.0.1');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -43,7 +45,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '8.8.8.8']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '8.8.8.8');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -58,7 +61,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => true]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '8.8.8.8']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '8.8.8.8');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -73,7 +77,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => true]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '10.0.0.1']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '10.0.0.1');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -88,7 +93,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '169.254.1.1']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '169.254.1.1');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -103,7 +109,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => 'fd00::1']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', 'fd00::1');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -118,7 +125,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => false]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '2001:4860:4860::8888']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '2001:4860:4860::8888');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
@@ -133,7 +141,8 @@ class ExternalOutpostMiddlewareTest extends TestCase
         config(['uptime.allow_external_outposts' => true]);
 
         $middleware = new ExternalOutpostMiddleware();
-        $request = Request::create('/test', 'GET', ['ip' => '2001:4860:4860::8888']);
+        $request = Request::create('/test', 'GET');
+        $request->server->set('REMOTE_ADDR', '2001:4860:4860::8888');
 
         $response = $middleware->handle($request, function ($req) {
             return response()->json(['success' => true]);
