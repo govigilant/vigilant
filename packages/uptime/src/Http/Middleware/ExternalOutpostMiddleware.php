@@ -14,7 +14,7 @@ class ExternalOutpostMiddleware
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE)) {
             if (! $allowExternalOutposts) {
-                return response()->json(['message' => 'External outposts are not allowed.'], 400);
+                return response()->json(['message' => 'External outposts are not allowed.'], 403);
             }
         }
 
