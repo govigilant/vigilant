@@ -46,9 +46,8 @@ class GenerateOutpostCertificateTest extends TestCase
 
         $outpostGenerator = new GenerateOutpostCertificate($rootGenerator);
 
-        $certificate = $outpostGenerator->generate('test-outpost-192.168.1.1-8080', 30);
+        $certificate = $outpostGenerator->generate('test-outpost-192.168.1.1-8080', '192.168.1.1', 30);
 
-        $this->assertIsArray($certificate);
         $this->assertArrayHasKey('certificate', $certificate);
         $this->assertArrayHasKey('private_key', $certificate);
         $this->assertArrayHasKey('root_certificate', $certificate);
@@ -63,6 +62,7 @@ class GenerateOutpostCertificateTest extends TestCase
         $this->assertNotFalse($certResource);
 
         $certData = openssl_x509_parse($certResource);
+        $this->assertNotFalse($certData);
         $this->assertEquals('test-outpost-192.168.1.1-8080', $certData['subject']['CN']);
     }
 

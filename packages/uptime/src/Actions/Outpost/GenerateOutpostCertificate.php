@@ -16,6 +16,14 @@ class GenerateOutpostCertificate
         $rootCertResource = openssl_x509_read($rootCert);
         $rootKeyResource = openssl_pkey_get_private($rootKey);
 
+        if ($rootCertResource === false) {
+            throw new \RuntimeException('Failed to read root certificate: '.openssl_error_string());
+        }
+
+        if ($rootKeyResource === false) {
+            throw new \RuntimeException('Failed to read root private key: '.openssl_error_string());
+        }
+
         // Generate new private key
         $privateKey = openssl_pkey_new([
             'private_key_bits' => 2048,
@@ -61,7 +69,7 @@ CONF;
             'req_extensions' => 'v3_req',
         ]);
 
-        if ($csr === false) {
+        if ($csr === false || $csr === true) {
             throw new \RuntimeException('Failed to generate CSR: '.openssl_error_string());
         }
 

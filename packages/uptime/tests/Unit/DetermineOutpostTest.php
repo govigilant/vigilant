@@ -97,6 +97,7 @@ class DetermineOutpostTest extends TestCase
         // Run the selection 200 times for better statistical distribution
         for ($i = 0; $i < 200; $i++) {
             $selected = $determineOutpost->determine($monitor);
+            $this->assertNotNull($selected);
 
             if ($selected->country === 'US') {
                 $usCount++;
@@ -175,6 +176,7 @@ class DetermineOutpostTest extends TestCase
             // Run selection multiple times, filter for remote selections only
             for ($i = 0; $i < 20; $i++) {
                 $selected = $determineOutpost->determine($monitor);
+                $this->assertNotNull($selected);
 
                 if ($selected->country !== 'US') {
                     if ($selected->country === 'UK') {
@@ -251,6 +253,7 @@ class DetermineOutpostTest extends TestCase
         // Should always return the single outpost
         for ($i = 0; $i < 10; $i++) {
             $result = $determineOutpost->determine($monitor);
+            $this->assertNotNull($result);
             $this->assertEquals($outpost->id, $result->id);
         }
     }

@@ -73,6 +73,7 @@ class DetermineOutpostPerformanceTest extends TestCase
 
         for ($i = 0; $i < 100; $i++) {
             $outpost = $determineOutpost->determine($monitor);
+            $this->assertNotNull($outpost);
             if ($outpost->country === 'US') {
                 $usSelections++;
             } else {
@@ -175,6 +176,7 @@ class DetermineOutpostPerformanceTest extends TestCase
         // Run many selections to see distribution
         for ($i = 0; $i < 100; $i++) {
             $outpost = $determineOutpost->determine($monitor);
+            $this->assertNotNull($outpost);
             if ($outpost->country !== 'US') {
                 $selectedCountries[] = $outpost->country;
             }

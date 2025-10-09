@@ -33,7 +33,15 @@ class GenerateRootCertificate
 
         $csr = openssl_csr_new($dn, $privateKey, ['digest_alg' => 'sha256']);
 
+        if ($csr === false || $csr === true) {
+            throw new \RuntimeException('Failed to generate CSR: '.openssl_error_string());
+        }
+
         $cert = openssl_csr_sign($csr, null, $privateKey, 3650, ['digest_alg' => 'sha256']);
+
+        if ($cert === false) {
+            throw new \RuntimeException('Failed to sign certificate: '.openssl_error_string());
+        }
 
         openssl_pkey_export($privateKey, $privateKeyPem);
         openssl_x509_export($cert, $certPem);
@@ -65,7 +73,13 @@ class GenerateRootCertificate
             $this->generate();
         }
 
-        return $this->disk()->get(self::ROOT_CA_CERT_PATH);
+        $cert = $this->disk()->get(self::ROOT_CA_CERT_PATH);
+
+        if ($cert === null) {
+            throw new \RuntimeException('Failed to read root certificate from disk');
+        }
+
+        return $cert;
     }
 
     public function getRootPrivateKey(): string
@@ -74,7 +88,13 @@ class GenerateRootCertificate
             $this->generate();
         }
 
-        return $this->disk()->get(self::ROOT_CA_KEY_PATH);
+        $key = $this->disk()->get(self::ROOT_CA_KEY_PATH);
+
+        if ($key === null) {
+            throw new \RuntimeException('Failed to read root private key from disk');
+        }
+
+        return $key;
     }
 
     protected function disk(): Filesystem

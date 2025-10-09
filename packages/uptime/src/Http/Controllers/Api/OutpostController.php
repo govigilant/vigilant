@@ -21,11 +21,16 @@ class OutpostController extends Controller
             'port' => 'required|integer|min:1|max:65535',
         ]);
 
-        $outpost = $registrar->register($request->input('ip'), $request->ip(), $request->input('port'));
+        $clientIp = $request->ip();
+        if ($clientIp === null) {
+            return response()->json(['message' => 'Unable to determine client IP address.'], 400);
+        }
+
+        $outpost = $registrar->register($request->input('ip'), $clientIp, $request->input('port'));
 
         // Generate a short-lived certificate for the outpost (valid for 30 days)
-        $commonName = sprintf('outpost-%s-%d', $outpost->ip(), $outpost->port);
-        $certificate = $certificateGenerator->generate($commonName, $request->ip(), 30);
+        $commonName = sprintf('outpost-%s-%d', $outpost->ip, $outpost->port);
+        $certificate = $certificateGenerator->generate($commonName, $clientIp, 30);
 
         return response()->json($certificate);
     }

@@ -14,10 +14,9 @@ class DetermineOutpost
     {
         // If no monitor or monitor has no country, use random selection
         if ($monitor === null || $monitor->country === null) {
-            UpdateMonitorLocationJob::dispatchIf(
-                $monitor?->shouldFetchGeoip() ?? true,
-                $monitor
-            );
+            if ($monitor !== null && $monitor->shouldFetchGeoip()) {
+                UpdateMonitorLocationJob::dispatch($monitor);
+            }
 
             return Outpost::query()
                 ->where('status', '=', OutpostStatus::Available)
