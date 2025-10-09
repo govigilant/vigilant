@@ -12,15 +12,16 @@
     ],
     "require": {
         "php": "^8.3",
+        "geerlingguy/ping": "^1.2",
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^12.0",
         "livewire/livewire": "^3.4",
         "vigilant/core": "@dev",
-        "vigilant/sites": "@dev",
-        "vigilant/users": "@dev",
+        "vigilant/dns": "@dev",
         "vigilant/frontend": "@dev",
         "vigilant/notifications": "@dev",
-        "geerlingguy/ping": "^1.2"
+        "vigilant/sites": "@dev",
+        "vigilant/users": "@dev"
     },
     "require-dev": {
         "laravel/pint": "^1.6",

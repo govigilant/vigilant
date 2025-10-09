@@ -3,6 +3,7 @@
 namespace Vigilant\Uptime\Http\Livewire\Charts;
 
 use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ColumnLatencyChart extends LatencyChart
 {
@@ -54,5 +55,18 @@ class ColumnLatencyChart extends LatencyChart
     protected function getIdentifier(): string
     {
         return Str::slug(get_class($this)).$this->monitorId;
+    }
+
+    public function render(): View
+    {
+        /** @var view-string $view */
+        $view = 'uptime::livewire.charts.column-latency-chart';
+
+        return view($view, [
+            'identifier' => $this->getIdentifier(),
+            'height' => $this->height,
+            'addStyle' => $this->addStyle,
+            'hasPoints' => $this->points()->isNotEmpty(),
+        ]);
     }
 }

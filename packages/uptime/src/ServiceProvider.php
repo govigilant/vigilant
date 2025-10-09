@@ -13,6 +13,7 @@ use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckLatencyCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
+use Vigilant\Uptime\Commands\GenerateRootCaCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
@@ -89,6 +90,7 @@ class ServiceProvider extends BaseServiceProvider
                 AggregateResultsCommand::class,
                 ScheduleUptimeChecksCommand::class,
                 CheckLatencyCommand::class,
+                GenerateRootCaCommand::class,
             ]);
         }
 
@@ -123,6 +125,10 @@ class ServiceProvider extends BaseServiceProvider
         if (! $this->app->routesAreCached()) {
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
+
+            Route::prefix('api')
+                ->middleware(['api'])
+                ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/api.php'));
         }
 
         return $this;
