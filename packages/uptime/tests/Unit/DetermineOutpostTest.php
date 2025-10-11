@@ -547,11 +547,20 @@ class DetermineOutpostTest extends TestCase
         $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id);
 
         // When we exclude the closest outpost (simulating retry after failure),
-        // it should use the second closest but NOT update the cached closest_outpost_id
-        $result = $determineOutpost->determine($monitor, [$closestOutpost->id]);
+        // it should NOT return the excluded outpost
+        // Test multiple times to account for randomness in selection
+        $excludedReturned = false;
+        for ($i = 0; $i < 10; $i++) {
+            $result = $determineOutpost->determine($monitor, [$closestOutpost->id]);
+            
+            // Should never get the excluded closest outpost
+            if ($result->id === $closestOutpost->id) {
+                $excludedReturned = true;
+                break;
+            }
+        }
         
-        // Should get either second closest or remote (but not the excluded closest)
-        $this->assertNotEquals($closestOutpost->id, $result->id);
+        $this->assertFalse($excludedReturned, 'Excluded outpost should never be returned');
 
         // The cached closest_outpost_id should NOT have changed
         $monitor->refresh();

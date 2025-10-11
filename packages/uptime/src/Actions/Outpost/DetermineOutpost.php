@@ -64,7 +64,8 @@ class DetermineOutpost
             }
         }
 
-        return $this->findClosestOutpost($monitor);
+        // Find the next closest outpost that's not excluded
+        return $this->findClosestOutpost($monitor, $excludedOutposts);
     }
 
     protected function selectRemoteOutpost(Monitor $monitor, array $excludedOutposts): ?Outpost
@@ -92,12 +93,13 @@ class DetermineOutpost
         return $outpost;
     }
 
-    protected function findClosestOutpost(Monitor $monitor): ?Outpost
+    protected function findClosestOutpost(Monitor $monitor, array $excludedOutposts = []): ?Outpost
     {
         return Outpost::query()
             ->where('status', '=', OutpostStatus::Available)
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
+            ->when(count($excludedOutposts) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedOutposts))
             ->selectRaw($this->buildDistanceSelect($monitor->latitude, $monitor->longitude))
             ->orderBy('distance')
             ->first();
