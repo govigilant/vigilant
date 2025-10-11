@@ -50,4 +50,11 @@ class OutpostController extends Controller
 
         return response()->json(['message' => 'Outpost unregistered successfully.']);
     }
+
+    public function list(): JsonResponse
+    {
+        $outposts = Outpost::query()->get();
+
+        return response()->json($outposts);
+    }
 }

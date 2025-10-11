@@ -2,8 +2,11 @@
 
 namespace Vigilant\Uptime;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -60,6 +63,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootEvents()
+            ->bootRatelimiting()
             ->bootNavigation()
             ->bootNotifications()
             ->bootGates()
@@ -141,6 +145,15 @@ class ServiceProvider extends BaseServiceProvider
         Event::listen(DowntimeEndEvent::class, DowntimeEndNotificationListener::class);
 
         Event::listen(UptimeCheckedEvent::class, CheckLatencyListener::class);
+
+        return $this;
+    }
+
+    protected function bootRatelimiting(): static
+    {
+        RateLimiter::for('uptime-ips', function (Request $request): Limit {
+            return Limit::perMinute(10)->by($request->ip);
+        });
 
         return $this;
     }

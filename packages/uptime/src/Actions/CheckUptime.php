@@ -76,6 +76,10 @@ class CheckUptime
 
                 $outpostCountry = $outpost->country;
 
+                $outpost->update([
+                    'last_available_at' => now(),
+                ]);
+
                 if (! $result->up) {
                     continue;
                 }
