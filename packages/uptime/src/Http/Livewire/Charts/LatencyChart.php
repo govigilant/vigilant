@@ -176,10 +176,12 @@ class LatencyChart extends BaseChart
             }
         }
 
+        $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
+
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $labels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format('d/m H:i'))->toArray(),
+                'labels' => $labels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format($dateFormat))->toArray(),
                 'datasets' => [
                     [
                         'label' => 'Latency',
@@ -284,10 +286,12 @@ class LatencyChart extends BaseChart
 
         $uniqueLabels = $allLabels->unique()->sortBy(fn ($date) => $date)->values();
 
+        $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
+
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $uniqueLabels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format('d/m H:i'))->toArray(),
+                'labels' => $uniqueLabels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format($dateFormat))->toArray(),
                 'datasets' => $datasets,
             ],
             'options' => [
