@@ -12,8 +12,8 @@ class DetermineOutpost
 {
     public function determine(?Monitor $monitor = null, array $excludedOutposts = []): ?Outpost
     {
-        // If no monitor or monitor has no country, use random selection
-        if ($monitor === null || $monitor->country === null) {
+        // If no monitor or monitor has no location, use random selection
+        if ($monitor === null || $monitor->latitude === null || $monitor->longitude === null) {
             if ($monitor !== null && $monitor->shouldFetchGeoip()) {
                 UpdateMonitorLocationJob::dispatch($monitor);
             }
@@ -25,25 +25,62 @@ class DetermineOutpost
                 ->first();
         }
 
-        // 50% of the time, select from the same country (closest)
+        // Update closest outpost if not set (don't exclude from finding closest)
+        if ($monitor->closest_outpost_id === null) {
+            $this->updateClosestOutpost($monitor);
+        }
+
+        // 50% of the time, select the closest outpost
         if (rand(0, 1) === 0) {
-            return $this->selectSameCountryOutpost($monitor, $excludedOutposts);
+            return $this->selectClosestOutpost($monitor, $excludedOutposts);
         }
 
-        // 50% of the time, select from remote countries
-        return $this->selectRemoteCountryOutpost($monitor, $excludedOutposts);
+        // 50% of the time, select a remote outpost
+        return $this->selectRemoteOutpost($monitor, $excludedOutposts);
     }
 
-    protected function selectSameCountryOutpost(Monitor $monitor, array $excludedOutposts): ?Outpost
+    protected function updateClosestOutpost(Monitor $monitor): void
     {
+        $closestOutpost = $this->findClosestOutpost($monitor);
+
+        if ($closestOutpost !== null) {
+            $monitor->update([
+                'closest_outpost_id' => $closestOutpost->id,
+            ]);
+        }
+    }
+
+    protected function selectClosestOutpost(Monitor $monitor, array $excludedOutposts): ?Outpost
+    {
+        // Try to use the cached closest outpost if it's not excluded
+        if ($monitor->closest_outpost_id !== null && ! in_array($monitor->closest_outpost_id, $excludedOutposts)) {
+            $outpost = Outpost::query()
+                ->where('id', $monitor->closest_outpost_id)
+                ->where('status', '=', OutpostStatus::Available)
+                ->first();
+
+            if ($outpost !== null) {
+                return $outpost;
+            }
+        }
+
+        return $this->findClosestOutpost($monitor);
+    }
+
+    protected function selectRemoteOutpost(Monitor $monitor, array $excludedOutposts): ?Outpost
+    {
+        $excludedIds = $excludedOutposts;
+        if ($monitor->closest_outpost_id !== null) {
+            $excludedIds[] = $monitor->closest_outpost_id;
+        }
+
         $outpost = Outpost::query()
             ->where('status', '=', OutpostStatus::Available)
-            ->where('country', '=', $monitor->country)
-            ->when(count($excludedOutposts) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedOutposts))
+            ->when(count($excludedIds) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedIds))
             ->inRandomOrder()
             ->first();
 
-        // If no outpost in same country, return random from any country
+        // If no remote outpost available, fallback to any available outpost
         if ($outpost === null) {
             $outpost = Outpost::query()
                 ->where('status', '=', OutpostStatus::Available)
@@ -55,23 +92,35 @@ class DetermineOutpost
         return $outpost;
     }
 
-    protected function selectRemoteCountryOutpost(Monitor $monitor, array $excludedOutposts): ?Outpost
+    protected function findClosestOutpost(Monitor $monitor): ?Outpost
     {
-        $outpost = Outpost::query()
+        return Outpost::query()
             ->where('status', '=', OutpostStatus::Available)
-            ->where('country', '!=', $monitor->country)
-            ->when(count($excludedOutposts) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedOutposts))
-            ->inRandomOrder()
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->selectRaw($this->buildDistanceSelect($monitor->latitude, $monitor->longitude))
+            ->orderBy('distance')
             ->first();
+    }
 
-        if ($outpost === null) {
-            $outpost = Outpost::query()
-                ->where('status', '=', OutpostStatus::Available)
-                ->when(count($excludedOutposts) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedOutposts))
-                ->inRandomOrder()
-                ->first();
-        }
+    /**
+     * Build a database-agnostic distance calculation using the Haversine formula.
+     */
+    protected function buildDistanceSelect(float $latitude, float $longitude): string
+    {
+        $earthRadius = 6371; // Earth's radius in kilometers
 
-        return $outpost;
+        return sprintf(
+            'uptime_outposts.*, '.
+            '(%f * 2 * ASIN(SQRT('.
+                'POW(SIN(RADIANS((latitude - %f)) / 2), 2) + '.
+                'COS(RADIANS(%f)) * COS(RADIANS(latitude)) * '.
+                'POW(SIN(RADIANS((longitude - %f)) / 2), 2)'.
+            '))) as distance',
+            $earthRadius,
+            $latitude,
+            $latitude,
+            $longitude
+        );
     }
 }

@@ -2,9 +2,11 @@
 
 namespace Vigilant\Uptime\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 use Vigilant\Uptime\Enums\OutpostStatus;
+use Vigilant\Uptime\Observers\OutpostObserver;
 
 /**
  * @property int $id
@@ -19,6 +21,7 @@ use Vigilant\Uptime\Enums\OutpostStatus;
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  */
+#[ObservedBy([OutpostObserver::class])]
 class Outpost extends Model
 {
     protected $table = 'uptime_outposts';

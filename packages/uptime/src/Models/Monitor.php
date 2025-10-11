@@ -35,11 +35,13 @@ use Vigilant\Users\Models\Team;
  * @property ?string $country
  * @property ?float $latitude
  * @property ?float $longitude
+ * @property ?int $closest_outpost_id
  * @property ?Carbon $geoip_fetched_at
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
  * @property ?Team $team
+ * @property ?Outpost $closestOutpost
  * @property Collection<int, Result> $results
  * @property Collection<int, Result> $aggregatedResults
  * @property Collection<int, Downtime> $downtimes
@@ -89,6 +91,11 @@ class Monitor extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function closestOutpost(): BelongsTo
+    {
+        return $this->belongsTo(Outpost::class, 'closest_outpost_id');
     }
 
     public function currentDowntime(): ?Downtime
