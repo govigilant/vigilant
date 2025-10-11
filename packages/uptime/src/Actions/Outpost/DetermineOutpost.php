@@ -95,34 +95,23 @@ class DetermineOutpost
 
     protected function findClosestOutpost(Monitor $monitor, array $excludedOutposts = []): ?Outpost
     {
+        $earthRadius = 6371; // Earth's radius in kilometers
+        
         return Outpost::query()
             ->where('status', '=', OutpostStatus::Available)
             ->whereNotNull('latitude')
             ->whereNotNull('longitude')
             ->when(count($excludedOutposts) > 0, fn (Builder $query) => $query->whereNotIn('id', $excludedOutposts))
-            ->selectRaw($this->buildDistanceSelect($monitor->latitude, $monitor->longitude))
+            ->selectRaw(
+                'uptime_outposts.*, '.
+                '(? * 2 * ASIN(SQRT('.
+                    'POW(SIN(RADIANS((latitude - ?)) / 2), 2) + '.
+                    'COS(RADIANS(?)) * COS(RADIANS(latitude)) * '.
+                    'POW(SIN(RADIANS((longitude - ?)) / 2), 2)'.
+                '))) as distance',
+                [$earthRadius, $monitor->latitude, $monitor->latitude, $monitor->longitude]
+            )
             ->orderBy('distance')
             ->first();
-    }
-
-    /**
-     * Build a database-agnostic distance calculation using the Haversine formula.
-     */
-    protected function buildDistanceSelect(float $latitude, float $longitude): string
-    {
-        $earthRadius = 6371; // Earth's radius in kilometers
-
-        return sprintf(
-            'uptime_outposts.*, '.
-            '(%f * 2 * ASIN(SQRT('.
-                'POW(SIN(RADIANS((latitude - %f)) / 2), 2) + '.
-                'COS(RADIANS(%f)) * COS(RADIANS(latitude)) * '.
-                'POW(SIN(RADIANS((longitude - %f)) / 2), 2)'.
-            '))) as distance',
-            $earthRadius,
-            $latitude,
-            $latitude,
-            $longitude
-        );
     }
 }
