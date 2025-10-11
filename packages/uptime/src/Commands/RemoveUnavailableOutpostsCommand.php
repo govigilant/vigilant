@@ -16,7 +16,7 @@ class RemoveUnavailableOutpostsCommand extends Command
     {
         Outpost::query()
             ->where('status', '=', OutpostStatus::Unavailable)
-            ->where('updated_at', '<', now()->subHour(1))
+            ->where('updated_at', '<', now()->subHours(1))
             ->delete();
 
         return static::SUCCESS;

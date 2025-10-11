@@ -8,6 +8,23 @@ class ColumnLatencyChart extends LatencyChart
 {
     public int $height = 40;
 
+    public function mount(array $data): void
+    {
+        parent::mount($data);
+        
+        // Force date range to week for column chart
+        $this->dateRange = 'week';
+        
+        // Ensure we have the closest country selected
+        $closestCountry = $this->getClosestCountry();
+        if ($closestCountry) {
+            $countries = $this->availableCountries();
+            if ($countries->contains($closestCountry)) {
+                $this->selectedCountries = [$closestCountry];
+            }
+        }
+    }
+
     public function data(): array
     {
         $points = $this->points()->pluck('total_time');
@@ -40,6 +57,7 @@ class ColumnLatencyChart extends LatencyChart
                 'scales' => [
                     'y' => [
                         'display' => false,
+                        'beginAtZero' => true,
                     ],
                     'x' => [
                         'display' => false,

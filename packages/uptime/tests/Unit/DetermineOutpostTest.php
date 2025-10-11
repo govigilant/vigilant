@@ -32,7 +32,7 @@ class DetermineOutpostTest extends TestCase
 
     public function test_it_selects_same_country_outpost_approximately_50_percent(): void
     {
-        // Create a monitor in the US
+        // Create a monitor in Boston, US
         $monitor = Monitor::query()->create([
             'team_id' => 1,
             'name' => 'Test Monitor',
@@ -42,9 +42,11 @@ class DetermineOutpostTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
         ]);
 
-        // Create outposts: two in US, one in UK, one in DE
+        // Create outposts: two in US (Boston and Chicago), one in UK (London), one in DE (Berlin)
         $usOutpost1 = Outpost::query()->create([
             'ip' => '192.168.1.1',
             'port' => 8080,
@@ -52,7 +54,7 @@ class DetermineOutpostTest extends TestCase
             'status' => OutpostStatus::Available,
             'country' => 'US',
             'latitude' => 42.3601,
-            'longitude' => -71.0589,
+            'longitude' => -71.0589, // Boston (same as monitor - closest)
             'last_available_at' => now(),
         ]);
 
@@ -63,7 +65,7 @@ class DetermineOutpostTest extends TestCase
             'status' => OutpostStatus::Available,
             'country' => 'US',
             'latitude' => 41.8781,
-            'longitude' => -87.6298,
+            'longitude' => -87.6298, // Chicago
             'last_available_at' => now(),
         ]);
 
@@ -74,7 +76,7 @@ class DetermineOutpostTest extends TestCase
             'status' => OutpostStatus::Available,
             'country' => 'UK',
             'latitude' => 51.5074,
-            'longitude' => -0.1278,
+            'longitude' => -0.1278, // London
             'last_available_at' => now(),
         ]);
 
@@ -85,13 +87,13 @@ class DetermineOutpostTest extends TestCase
             'status' => OutpostStatus::Available,
             'country' => 'DE',
             'latitude' => 52.5200,
-            'longitude' => 13.4050,
+            'longitude' => 13.4050, // Berlin
             'last_available_at' => now(),
         ]);
 
         $determineOutpost = new DetermineOutpost;
 
-        $usCount = 0;
+        $closestCount = 0;
         $remoteCount = 0;
 
         // Run the selection 200 times for better statistical distribution
@@ -99,16 +101,16 @@ class DetermineOutpostTest extends TestCase
             $selected = $determineOutpost->determine($monitor);
             $this->assertNotNull($selected);
 
-            if ($selected->country === 'US') {
-                $usCount++;
+            if ($selected->id === $usOutpost1->id) {
+                $closestCount++;
             } else {
                 $remoteCount++;
             }
         }
 
-        // US outposts should be selected approximately 50% of the time (allow variance for randomness)
-        $this->assertGreaterThan(60, $usCount);
-        $this->assertLessThan(140, $usCount);
+        // Closest outpost (Boston) should be selected approximately 50% of the time (allow variance for randomness)
+        $this->assertGreaterThan(60, $closestCount);
+        $this->assertLessThan(140, $closestCount);
 
         // Remote outposts should be selected approximately 50% of the time
         $this->assertGreaterThan(60, $remoteCount);
@@ -117,7 +119,7 @@ class DetermineOutpostTest extends TestCase
 
     public function test_it_distributes_remote_country_outposts_evenly(): void
     {
-        // Create monitors with different IDs to test distribution
+        // Create monitors with different IDs and locations to test distribution
         $monitors = [];
         for ($i = 0; $i < 10; $i++) {
             $monitors[] = Monitor::query()->create([
@@ -129,6 +131,8 @@ class DetermineOutpostTest extends TestCase
                 'retries' => 1,
                 'timeout' => 5,
                 'country' => 'US',
+                'latitude' => 42.3601,
+                'longitude' => -71.0589, // Boston
             ]);
         }
 
@@ -140,7 +144,7 @@ class DetermineOutpostTest extends TestCase
             'status' => OutpostStatus::Available,
             'country' => 'US',
             'latitude' => 42.3601,
-            'longitude' => -71.0589,
+            'longitude' => -71.0589, // Boston (closest)
             'last_available_at' => now(),
         ]);
 
@@ -150,8 +154,8 @@ class DetermineOutpostTest extends TestCase
             'external_ip' => '1.2.3.5',
             'status' => OutpostStatus::Available,
             'country' => 'UK',
-            'latitude' => 41.8781,
-            'longitude' => -87.6298,
+            'latitude' => 51.5074,
+            'longitude' => -0.1278, // London (farthest from Boston)
             'last_available_at' => now(),
         ]);
 
@@ -161,8 +165,8 @@ class DetermineOutpostTest extends TestCase
             'external_ip' => '1.2.3.6',
             'status' => OutpostStatus::Available,
             'country' => 'DE',
-            'latitude' => 51.5074,
-            'longitude' => -0.1278,
+            'latitude' => 52.5200,
+            'longitude' => 13.4050, // Berlin
             'last_available_at' => now(),
         ]);
 
@@ -178,7 +182,7 @@ class DetermineOutpostTest extends TestCase
                 $selected = $determineOutpost->determine($monitor);
                 $this->assertNotNull($selected);
 
-                if ($selected->country !== 'US') {
+                if ($selected->id !== $usOutpost->id) {
                     if ($selected->country === 'UK') {
                         $ukSelections++;
                     } elseif ($selected->country === 'DE') {
@@ -235,6 +239,8 @@ class DetermineOutpostTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
         ]);
 
         $outpost = Outpost::query()->create([
@@ -269,6 +275,8 @@ class DetermineOutpostTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
         ]);
 
         // Only create outposts in other countries
@@ -301,5 +309,262 @@ class DetermineOutpostTest extends TestCase
 
         $this->assertNotNull($result);
         $this->assertContains($result->country, ['UK', 'DE']);
+    }
+
+    public function test_it_stores_closest_outpost_id(): void
+    {
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => ['host' => 'http://example.com'],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 5,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+        ]);
+
+        $closestOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.1',
+            'port' => 8080,
+            'external_ip' => '1.2.3.4',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589, // Same location as monitor
+            'last_available_at' => now(),
+        ]);
+
+        $farOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.2',
+            'port' => 8080,
+            'external_ip' => '1.2.3.5',
+            'status' => OutpostStatus::Available,
+            'country' => 'UK',
+            'latitude' => 51.5074,
+            'longitude' => -0.1278,
+            'last_available_at' => now(),
+        ]);
+
+        $determineOutpost = new DetermineOutpost;
+
+        // Initially, no closest outpost is set
+        $this->assertNull($monitor->closest_outpost_id);
+
+        // Determine outpost should store the closest one
+        $result = $determineOutpost->determine($monitor);
+
+        $monitor->refresh();
+        $this->assertNotNull($monitor->closest_outpost_id);
+        $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id);
+    }
+
+    public function test_it_nullifies_closest_outpost_when_outpost_deleted(): void
+    {
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => ['host' => 'http://example.com'],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 5,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+        ]);
+
+        $outpost = Outpost::query()->create([
+            'ip' => '192.168.1.1',
+            'port' => 8080,
+            'external_ip' => '1.2.3.4',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+            'last_available_at' => now(),
+        ]);
+
+        // Set the closest outpost
+        $monitor->update(['closest_outpost_id' => $outpost->id]);
+
+        // Delete the outpost
+        $outpost->delete();
+
+        // Verify the closest_outpost_id is set to null
+        $monitor->refresh();
+        $this->assertNull($monitor->closest_outpost_id);
+    }
+
+    public function test_it_nullifies_closest_outpost_when_outpost_becomes_unavailable(): void
+    {
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => ['host' => 'http://example.com'],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 5,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+        ]);
+
+        $outpost = Outpost::query()->create([
+            'ip' => '192.168.1.1',
+            'port' => 8080,
+            'external_ip' => '1.2.3.4',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+            'last_available_at' => now(),
+        ]);
+
+        // Set the closest outpost
+        $monitor->update(['closest_outpost_id' => $outpost->id]);
+
+        // Mark the outpost as unavailable
+        $outpost->update(['status' => OutpostStatus::Unavailable]);
+
+        // Verify the closest_outpost_id is set to null
+        $monitor->refresh();
+        $this->assertNull($monitor->closest_outpost_id);
+    }
+
+    public function test_it_uses_cached_closest_outpost_when_available(): void
+    {
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => ['host' => 'http://example.com'],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 5,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+        ]);
+
+        $closestOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.1',
+            'port' => 8080,
+            'external_ip' => '1.2.3.4',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+            'last_available_at' => now(),
+        ]);
+
+        $remoteOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.2',
+            'port' => 8080,
+            'external_ip' => '1.2.3.5',
+            'status' => OutpostStatus::Available,
+            'country' => 'UK',
+            'latitude' => 51.5074,
+            'longitude' => -0.1278,
+            'last_available_at' => now(),
+        ]);
+
+        // Pre-set the closest outpost
+        $monitor->update(['closest_outpost_id' => $closestOutpost->id]);
+
+        $determineOutpost = new DetermineOutpost;
+
+        // When selecting closest, it should use the cached value
+        $closestSelections = 0;
+        for ($i = 0; $i < 100; $i++) {
+            $result = $determineOutpost->determine($monitor);
+            if ($result !== null && $result->id === $closestOutpost->id) {
+                $closestSelections++;
+            }
+        }
+
+        // Should use the cached closest outpost approximately 50% of the time
+        $this->assertGreaterThan(30, $closestSelections);
+        $this->assertLessThan(70, $closestSelections);
+    }
+
+    public function test_excluded_outposts_dont_affect_closest_cache(): void
+    {
+        $monitor = Monitor::query()->create([
+            'team_id' => 1,
+            'name' => 'Test Monitor',
+            'type' => Type::Http,
+            'settings' => ['host' => 'http://example.com'],
+            'interval' => '* * * * *',
+            'retries' => 1,
+            'timeout' => 5,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589,
+        ]);
+
+        $closestOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.1',
+            'port' => 8080,
+            'external_ip' => '1.2.3.4',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3601,
+            'longitude' => -71.0589, // Same as monitor (closest)
+            'last_available_at' => now(),
+        ]);
+
+        $secondClosest = Outpost::query()->create([
+            'ip' => '192.168.1.2',
+            'port' => 8080,
+            'external_ip' => '1.2.3.5',
+            'status' => OutpostStatus::Available,
+            'country' => 'US',
+            'latitude' => 42.3650,
+            'longitude' => -71.0600, // Very close to monitor
+            'last_available_at' => now(),
+        ]);
+
+        $remoteOutpost = Outpost::query()->create([
+            'ip' => '192.168.1.3',
+            'port' => 8080,
+            'external_ip' => '1.2.3.6',
+            'status' => OutpostStatus::Available,
+            'country' => 'UK',
+            'latitude' => 51.5074,
+            'longitude' => -0.1278,
+            'last_available_at' => now(),
+        ]);
+
+        $determineOutpost = new DetermineOutpost;
+
+        // First call should set the closest outpost
+        $determineOutpost->determine($monitor);
+        $monitor->refresh();
+        $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id);
+
+        // When we exclude the closest outpost (simulating retry after failure),
+        // it should NOT return the excluded outpost
+        // Test multiple times to account for randomness in selection
+        $excludedReturned = false;
+        for ($i = 0; $i < 10; $i++) {
+            $result = $determineOutpost->determine($monitor, [$closestOutpost->id]);
+            
+            // Should never get the excluded closest outpost
+            if ($result !== null && $result->id === $closestOutpost->id) {
+                $excludedReturned = true;
+                break;
+            }
+        }
+        
+        $this->assertFalse($excludedReturned, 'Excluded outpost should never be returned');
+
+        // The cached closest_outpost_id should NOT have changed
+        $monitor->refresh();
+        $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id, 
+            'Closest outpost cache should not change when using excluded outposts');
     }
 }

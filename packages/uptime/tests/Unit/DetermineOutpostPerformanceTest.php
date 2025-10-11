@@ -23,6 +23,8 @@ class DetermineOutpostPerformanceTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 40.0,
+            'longitude' => -70.0,
         ]);
 
         // Create thousands of outposts efficiently
@@ -67,22 +69,24 @@ class DetermineOutpostPerformanceTest extends TestCase
         // Should complete each selection in less than 10ms on average
         $this->assertLessThan(0.01, $avgTime, 'Average selection time should be less than 10ms');
 
-        // Verify country distribution
-        $usSelections = 0;
+        // Verify distribution - with distance-based selection, we should have a mix
+        // of closest and remote outposts
+        $closestSelections = 0;
         $remoteSelections = 0;
 
         for ($i = 0; $i < 100; $i++) {
             $outpost = $determineOutpost->determine($monitor);
             $this->assertNotNull($outpost);
-            if ($outpost->country === 'US') {
-                $usSelections++;
+            // The closest outpost will be at 40.0, -70.0 (the first one created)
+            if ($outpost->latitude == 40.0 && $outpost->longitude == -70.0) {
+                $closestSelections++;
             } else {
                 $remoteSelections++;
             }
         }
 
-        // Should still maintain roughly 50/50 distribution
-        $this->assertGreaterThan(30, $usSelections);
+        // Should maintain roughly 50/50 distribution between closest and remote
+        $this->assertGreaterThan(30, $closestSelections);
         $this->assertGreaterThan(30, $remoteSelections);
     }
 
@@ -98,6 +102,8 @@ class DetermineOutpostPerformanceTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 40.0,
+            'longitude' => -70.0,
         ]);
 
         // Create 100 outposts
@@ -122,11 +128,11 @@ class DetermineOutpostPerformanceTest extends TestCase
 
         $queries = \DB::getQueryLog();
 
-        // Should use efficient queries (1-2 queries max depending on path)
-        // - 1 query if same country has results
-        // - 2 queries if same country is empty (try same country, then fallback)
-        // - 1 query for remote country selection
-        $this->assertLessThanOrEqual(2, count($queries), 'Should use at most 2 queries');
+        // Should use efficient queries
+        // - 1 query to find/update closest outpost
+        // - 1 query to select either closest or remote outpost
+        // - 1 update query for monitor's closest_outpost_id
+        $this->assertLessThanOrEqual(3, count($queries), 'Should use at most 3 queries');
 
         foreach ($queries as $query) {
             // Verify queries use LIMIT to avoid loading all records
@@ -153,6 +159,8 @@ class DetermineOutpostPerformanceTest extends TestCase
             'retries' => 1,
             'timeout' => 5,
             'country' => 'US',
+            'latitude' => 40.0,
+            'longitude' => -70.0,
         ]);
 
         // Create outposts in different countries
@@ -164,8 +172,8 @@ class DetermineOutpostPerformanceTest extends TestCase
                 'external_ip' => "1.2.3.{$index}",
                 'status' => OutpostStatus::Available,
                 'country' => $country,
-                'latitude' => 40.0,
-                'longitude' => -70.0,
+                'latitude' => 40.0 + ($index * 5),
+                'longitude' => -70.0 + ($index * 5),
                 'last_available_at' => now(),
             ]);
         }
