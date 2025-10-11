@@ -63,6 +63,11 @@ class CheckUptime
                     'status' => OutpostStatus::Unavailable,
                 ]);
 
+                logger()->error('Outpost connection error during uptime check', [
+                    'outpost_id' => $outpost->id,
+                    'error' => $e->getMessage(),
+                ]);
+
                 continue;
             }
 
@@ -89,6 +94,11 @@ class CheckUptime
 
             $outpost->update([
                 'status' => OutpostStatus::Unavailable,
+            ]);
+            logger()->error('Outpost returned unsuccessful response during uptime check', [
+                'outpost' => $outpost->ip,
+                'status' => $response->status(),
+                'body' => $response->body(),
             ]);
         }
 
