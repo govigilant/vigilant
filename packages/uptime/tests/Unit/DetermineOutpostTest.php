@@ -481,7 +481,7 @@ class DetermineOutpostTest extends TestCase
         $closestSelections = 0;
         for ($i = 0; $i < 100; $i++) {
             $result = $determineOutpost->determine($monitor);
-            if ($result->id === $closestOutpost->id) {
+            if ($result !== null && $result->id === $closestOutpost->id) {
                 $closestSelections++;
             }
         }
@@ -554,7 +554,7 @@ class DetermineOutpostTest extends TestCase
             $result = $determineOutpost->determine($monitor, [$closestOutpost->id]);
             
             // Should never get the excluded closest outpost
-            if ($result->id === $closestOutpost->id) {
+            if ($result !== null && $result->id === $closestOutpost->id) {
                 $excludedReturned = true;
                 break;
             }
