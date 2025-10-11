@@ -33,7 +33,7 @@
             </div>
         </div>
     @else
-        <div class="h-32 flex items-center justify-center">
+        <div class="flex items-center justify-center">
             <span class="text-xs text-base-200">-</span>
         </div>
     @endif

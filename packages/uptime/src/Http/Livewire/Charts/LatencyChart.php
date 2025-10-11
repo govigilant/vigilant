@@ -10,7 +10,6 @@ use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Uptime\Models\Monitor;
-use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
 class LatencyChart extends BaseChart
@@ -34,13 +33,11 @@ class LatencyChart extends BaseChart
 
         $countries = $this->availableCountries();
         if ($countries->isNotEmpty()) {
-            // Select the closest country by default if available
             $closestCountry = $this->getClosestCountry();
 
             if ($closestCountry && $countries->contains($closestCountry)) {
                 $this->selectedCountries = [$closestCountry];
             } else {
-                // Fallback to the most common country
                 $this->selectedCountries = [$countries->first()];
             }
         }
@@ -49,10 +46,8 @@ class LatencyChart extends BaseChart
     public function toggleCountry(string $country): void
     {
         if (in_array($country, $this->selectedCountries)) {
-            // Remove country from selection
             $this->selectedCountries = array_values(array_diff($this->selectedCountries, [$country]));
         } else {
-            // Add country to selection
             $this->selectedCountries[] = $country;
         }
 
@@ -109,12 +104,14 @@ class LatencyChart extends BaseChart
 
     protected function availableCountries(): Collection
     {
-        return Result::query()
+        return ResultAggregate::query()
             ->where('monitor_id', '=', $this->monitorId)
             ->whereNotNull('country')
+            ->where('country', '!=', '')
             ->selectRaw('country, COUNT(*) as count')
             ->groupBy('country')
             ->orderByDesc('count')
+            ->get()
             ->pluck('country');
     }
 
@@ -129,20 +126,16 @@ class LatencyChart extends BaseChart
         }
 
         return $query
-            ->orderByDesc('created_at')
-            ->take(100)
-            ->get()
-            ->sortBy('created_at');
+            ->orderBy('created_at', 'asc')
+            ->get();
     }
 
     public function data(): array
     {
-        // If multiple countries selected, show separate lines for each country
         if (count($this->selectedCountries) > 1) {
             return $this->multiCountryData();
         }
 
-        // Single country or all countries aggregated
         return $this->singleLineData();
     }
 
@@ -152,29 +145,6 @@ class LatencyChart extends BaseChart
 
         $labels = $points->pluck('created_at');
         $data = $points->pluck('total_time');
-
-        $currentQuery = Result::query()
-            ->where('monitor_id', '=', $this->monitorId)
-            ->where('created_at', '>=', $this->getDateRangeStart());
-
-        if (! empty($this->selectedCountries)) {
-            $currentQuery->whereIn('country', $this->selectedCountries);
-        }
-
-        $current = $currentQuery->get();
-
-        if ($data->isEmpty()) {
-            $labels = $current->pluck('created_at');
-            $data = $current->pluck('total_time');
-        } else {
-            if ($current->isNotEmpty()) {
-                $currentTime = $current->max('created_at');
-                $currentValue = $current->average('total_time');
-
-                $labels->push($currentTime);
-                $data->push($currentValue);
-            }
-        }
 
         $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
 
@@ -230,68 +200,75 @@ class LatencyChart extends BaseChart
             '#F97316', // Orange
         ];
 
-        $datasets = [];
-        $allLabels = collect();
+        // Adjust limit based on date range to ensure we get sufficient data points
+        $limit = match ($this->dateRange) {
+            'week' => 168,      // ~1 week of hourly data
+            'month' => 720,     // ~1 month of hourly data
+            '3months' => 2160,  // ~3 months of hourly data
+            '6months' => 4320,  // ~6 months of hourly data
+            default => 168,
+        };
 
-        foreach ($this->selectedCountries as $index => $country) {
+        // First, collect all data points for each country
+        $countryData = [];
+        $allTimestamps = collect();
+
+        foreach ($this->selectedCountries as $country) {
             $query = ResultAggregate::query()
                 ->where('monitor_id', '=', $this->monitorId)
                 ->where('country', '=', $country)
                 ->where('created_at', '>=', $this->getDateRangeStart());
 
             $points = $query
-                ->orderByDesc('created_at')
-                ->take(100)
-                ->get()
-                ->sortBy('created_at');
+                ->orderBy('created_at', 'asc')
+                ->limit($limit)
+                ->get();
 
-            $labels = $points->pluck('created_at');
-            $data = $points->pluck('total_time');
-
-            $currentQuery = Result::query()
-                ->where('monitor_id', '=', $this->monitorId)
-                ->where('country', '=', $country)
-                ->where('created_at', '>=', $this->getDateRangeStart());
-
-            $current = $currentQuery->get();
-
-            if ($data->isEmpty()) {
-                $labels = $current->pluck('created_at');
-                $data = $current->pluck('total_time');
-            } else {
-                if ($current->isNotEmpty()) {
-                    $currentTime = $current->max('created_at');
-                    $currentValue = $current->average('total_time');
-
-                    $labels->push($currentTime);
-                    $data->push($currentValue);
-                }
+            // Store data indexed by timestamp
+            $countryData[$country] = [];
+            foreach ($points as $point) {
+                $timestamp = $point->created_at->timestamp;
+                $countryData[$country][$timestamp] = $point->total_time;
+                $allTimestamps->push($timestamp);
             }
+        }
 
-            $allLabels = $allLabels->merge($labels);
+        // Get unique timestamps sorted chronologically
+        $uniqueTimestamps = $allTimestamps->unique()->sort()->values();
+
+        // Build datasets with properly aligned data
+        $datasets = [];
+        foreach ($this->selectedCountries as $index => $country) {
+            $data = [];
+
+            // For each timestamp, use the value if it exists, otherwise null
+            foreach ($uniqueTimestamps as $timestamp) {
+                $data[] = $countryData[$country][$timestamp] ?? null;
+            }
 
             $color = $colors[$index % count($colors)];
 
             $datasets[] = [
                 'label' => strtoupper($country),
-                'data' => $data->toArray(),
+                'data' => $data,
                 'pointRadius' => 0,
                 'pointHoverRadius' => 0,
                 'borderWidth' => 2,
                 'borderColor' => $color,
                 'tension' => 0.4,
                 'unit' => 'ms',
+                'spanGaps' => true,
             ];
         }
 
-        $uniqueLabels = $allLabels->unique()->sortBy(fn ($date) => $date)->values();
-
-        $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
+        $labels = $uniqueTimestamps->map(function ($timestamp) {
+            return teamTimezone(Carbon::createFromTimestamp($timestamp))->format('d/m H:i');
+        })->toArray();
 
         return [
             'type' => 'line',
             'data' => [
-                'labels' => $uniqueLabels->map(fn (Carbon $carbon): string => teamTimezone($carbon)->format($dateFormat))->toArray(),
+                'labels' => $labels,
                 'datasets' => $datasets,
             ],
             'options' => [

@@ -10,7 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('uptime_monitors', function (Blueprint $table): void {
-            $table->foreignIdFor(Outpost::class, 'closest_outpost_id')->nullable()->constrained('uptime_outposts')->onDelete('set null');
+            $table->foreignIdFor(Outpost::class, 'closest_outpost_id')->after('team_id')->nullable()->constrained('uptime_outposts')->onDelete('set null');
         });
     }
 
