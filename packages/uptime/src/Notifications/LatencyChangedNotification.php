@@ -48,13 +48,18 @@ class LatencyChangedNotification extends Notification implements HasSite
 
     public function description(): string
     {
-        $country = $this->country ? " ({$this->country})" : '';
-
-        return __('Past 12 hour average: :previous ms. Current average: :current ms from :country', [
-            'previous' => round($this->previousAverage, 2),
-            'current' => round($this->currentAverage, 2),
-            'country' => $country,
-        ]);
+        if ($this->country) {
+            return __('Past 12 hour average: :previous ms. Current average: :current ms from :country', [
+                'previous' => round($this->previousAverage, 2),
+                'current' => round($this->currentAverage, 2),
+                'country' => $this->country,
+            ]);
+        } else {
+            return __('Past 12 hour average: :previous ms. Current average: :current ms', [
+                'previous' => round($this->previousAverage, 2),
+                'current' => round($this->currentAverage, 2),
+            ]);
+        }
     }
 
     public function viewUrl(): ?string
