@@ -41,9 +41,11 @@ class LatencyPeakNotification extends Notification implements HasSite
     public function title(): string
     {
         $site = $this->site()->url ?? $this->monitor->settings['host'] ?? '';
-        $country = $this->country ? " in {$this->country}" : '';
-
-        return __(':site latency is peaking from :country', ['site' => $site, 'country' => $country]);
+        if ($this->country) {
+            return __(':site latency is peaking from :country', ['site' => $site, 'country' => $this->country]);
+        } else {
+            return __(':site latency is peaking', ['site' => $site]);
+        }
     }
 
     public function description(): string
