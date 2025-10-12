@@ -231,7 +231,7 @@ class LatencyChart extends BaseChart
                     continue;
                 }
                 $timestamp = $point->created_at->timestamp;
-                $countryData[$country][$timestamp] = $point->total_time;
+                $countryData[$country][$timestamp] = $point->total_time; // @phpstan-ignore-line
                 $allTimestamps->push($timestamp);
             }
         }
