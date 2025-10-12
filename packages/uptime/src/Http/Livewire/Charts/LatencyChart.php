@@ -227,8 +227,11 @@ class LatencyChart extends BaseChart
             // Store data indexed by timestamp
             $countryData[$country] = [];
             foreach ($points as $point) {
+                if ($point->created_at === null) {
+                    continue;
+                }
                 $timestamp = $point->created_at->timestamp;
-                $countryData[$country][$timestamp] = $point->total_time;
+                $countryData[$country][$timestamp] = $point->total_time; // @phpstan-ignore-line
                 $allTimestamps->push($timestamp);
             }
         }
