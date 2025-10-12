@@ -9,11 +9,11 @@ use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 
-class LatencyChangedNotification extends Notification implements HasSite
+class LatencyPeakNotification extends Notification implements HasSite
 {
-    public static string $name = 'Latency Changed';
+    public static string $name = 'Latency Peak';
 
-    public static ?int $defaultCooldown = 60 * 24;
+    public static ?int $defaultCooldown = 60 * 6; // 6 hours
 
     public Level $level = Level::Warning;
 
@@ -25,16 +25,16 @@ class LatencyChangedNotification extends Notification implements HasSite
                 'condition' => LatencyPercentCondition::class,
                 'operator' => '>=',
                 'operand' => 'absolute',
-                'value' => 50,
+                'value' => 100,
             ],
         ],
     ];
 
     public function __construct(
         public Monitor $monitor,
+        public float $peakLatency,
+        public float $averageLatency,
         public float $percent,
-        public float $previousAverage,
-        public float $currentAverage,
         public ?string $country = null
     ) {}
 
@@ -43,16 +43,17 @@ class LatencyChangedNotification extends Notification implements HasSite
         $site = $this->site()->url ?? $this->monitor->settings['host'] ?? '';
         $country = $this->country ? " in {$this->country}" : '';
 
-        return __(':site latency changed by :percent % from :country', ['site' => $site, 'percent' => $this->percent, 'country' => $country]);
+        return __(':site latency is peaking from :country', ['site' => $site, 'country' => $country]);
     }
 
     public function description(): string
     {
         $country = $this->country ? " ({$this->country})" : '';
 
-        return __('Past 12 hour average: :previous ms. Current average: :current ms from :country', [
-            'previous' => round($this->previousAverage, 2),
-            'current' => round($this->currentAverage, 2),
+        return __('Current peak: :peak ms. Average: :average ms (+:percent%) from :country', [
+            'peak' => round($this->peakLatency, 2),
+            'average' => round($this->averageLatency, 2),
+            'percent' => round($this->percent, 0),
             'country' => $country,
         ]);
     }
@@ -74,8 +75,8 @@ class LatencyChangedNotification extends Notification implements HasSite
     public function uniqueId(): string|int
     {
         return $this->country
-            ? "{$this->monitor->id}_{$this->country}"
-            : $this->monitor->id;
+            ? "peak_{$this->monitor->id}_{$this->country}"
+            : "peak_{$this->monitor->id}";
     }
 
     public function site(): ?Site
