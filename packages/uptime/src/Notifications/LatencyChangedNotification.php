@@ -62,6 +62,11 @@ class LatencyChangedNotification extends Notification implements HasSite
         }
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered after an uptime check if the latency has changed.');
+    }
+
     public function viewUrl(): ?string
     {
         return route('uptime.monitor.view', ['monitor' => $this->monitor]);

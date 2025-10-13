@@ -7,6 +7,7 @@ use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Notifications\Conditions\ClosestCountryCondition;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 
 class LatencyPeakNotification extends Notification implements HasSite
@@ -26,6 +27,10 @@ class LatencyPeakNotification extends Notification implements HasSite
                 'operator' => '>=',
                 'operand' => 'absolute',
                 'value' => 100,
+            ],
+            [
+                'type' => 'condition',
+                'condition' => ClosestCountryCondition::class,
             ],
         ],
     ];
@@ -58,6 +63,11 @@ class LatencyPeakNotification extends Notification implements HasSite
             'percent' => round($this->percent, 0),
             'country' => $country,
         ]);
+    }
+
+    public static function info(): ?string
+    {
+        return __('Triggered when latency spikes significantly above the average in the past hour.');
     }
 
     public function viewUrl(): ?string

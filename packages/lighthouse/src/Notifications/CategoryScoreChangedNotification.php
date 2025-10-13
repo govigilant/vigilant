@@ -65,6 +65,11 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
         );
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when any Lighthouse category score changes significantly.');
+    }
+
     public function level(): Level
     {
         return $this->mostlyNegative()

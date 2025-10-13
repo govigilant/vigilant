@@ -31,4 +31,9 @@ abstract class Condition
     {
         return [];
     }
+
+    public static function info(): ?string
+    {
+        return null;
+    }
 }

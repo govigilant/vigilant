@@ -32,6 +32,11 @@ class UnableToResolveCertificateNotification extends Notification implements Has
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when an SSL certificate cannot be retrieved or validated.');
+    }
+
     public function uniqueId(): string|int
     {
         return $this->monitor->id;

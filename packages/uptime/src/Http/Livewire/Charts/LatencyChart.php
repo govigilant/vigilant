@@ -10,6 +10,7 @@ use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
 class LatencyChart extends BaseChart
@@ -84,6 +85,7 @@ class LatencyChart extends BaseChart
     protected function getDateRangeStart(): Carbon
     {
         return match ($this->dateRange) {
+            'hour' => now()->subHour(),
             'week' => now()->subWeek(),
             'month' => now()->subMonth(),
             '3months' => now()->subMonths(3),
@@ -95,6 +97,7 @@ class LatencyChart extends BaseChart
     protected function getDateRangeOptions(): array
     {
         return [
+            'hour' => 'Hour',
             'week' => 'Week',
             'month' => 'Month',
             '3months' => '3 Months',
@@ -104,7 +107,10 @@ class LatencyChart extends BaseChart
 
     protected function availableCountries(): Collection
     {
-        return ResultAggregate::query()
+        // For hour range, use Result table; for others, use ResultAggregate
+        $model = $this->dateRange === 'hour' ? Result::class : ResultAggregate::class;
+
+        return $model::query()
             ->where('monitor_id', '=', $this->monitorId)
             ->whereNotNull('country')
             ->where('country', '!=', '')
@@ -117,7 +123,10 @@ class LatencyChart extends BaseChart
 
     protected function points(): Collection
     {
-        $query = ResultAggregate::query()
+        // For hour range, use Result table; for others, use ResultAggregate
+        $model = $this->dateRange === 'hour' ? Result::class : ResultAggregate::class;
+
+        $query = $model::query()
             ->where('monitor_id', '=', $this->monitorId)
             ->where('created_at', '>=', $this->getDateRangeStart());
 
@@ -147,6 +156,10 @@ class LatencyChart extends BaseChart
         $data = $points->pluck('total_time');
 
         $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
+
+        if ($this->dateRange === 'hour') {
+            $dateFormat = 'H:i';
+        }
 
         return [
             'type' => 'line',
@@ -200,8 +213,8 @@ class LatencyChart extends BaseChart
             '#F97316', // Orange
         ];
 
-        // Adjust limit based on date range to ensure we get sufficient data points
         $limit = match ($this->dateRange) {
+            'hour' => 60,       // ~1 hour of minute data
             'week' => 168,      // ~1 week of hourly data
             'month' => 720,     // ~1 month of hourly data
             '3months' => 2160,  // ~3 months of hourly data
@@ -209,12 +222,13 @@ class LatencyChart extends BaseChart
             default => 168,
         };
 
-        // First, collect all data points for each country
+        $model = $this->dateRange === 'hour' ? Result::class : ResultAggregate::class;
+
         $countryData = [];
         $allTimestamps = collect();
 
         foreach ($this->selectedCountries as $country) {
-            $query = ResultAggregate::query()
+            $query = $model::query()
                 ->where('monitor_id', '=', $this->monitorId)
                 ->where('country', '=', $country)
                 ->where('created_at', '>=', $this->getDateRangeStart());
@@ -224,7 +238,6 @@ class LatencyChart extends BaseChart
                 ->limit($limit)
                 ->get();
 
-            // Store data indexed by timestamp
             $countryData[$country] = [];
             foreach ($points as $point) {
                 if ($point->created_at === null) {
@@ -236,15 +249,12 @@ class LatencyChart extends BaseChart
             }
         }
 
-        // Get unique timestamps sorted chronologically
         $uniqueTimestamps = $allTimestamps->unique()->sort()->values();
 
-        // Build datasets with properly aligned data
         $datasets = [];
         foreach ($this->selectedCountries as $index => $country) {
             $data = [];
 
-            // For each timestamp, use the value if it exists, otherwise null
             foreach ($uniqueTimestamps as $timestamp) {
                 $data[] = $countryData[$country][$timestamp] ?? null;
             }
@@ -265,7 +275,9 @@ class LatencyChart extends BaseChart
         }
 
         $labels = $uniqueTimestamps->map(function ($timestamp) {
-            return teamTimezone(Carbon::createFromTimestamp($timestamp))->format('d/m H:i');
+            $dateFormat = $this->dateRange === 'hour' ? 'H:i' : 'd/m H:i';
+
+            return teamTimezone(Carbon::createFromTimestamp($timestamp))->format($dateFormat);
         })->toArray();
 
         return [

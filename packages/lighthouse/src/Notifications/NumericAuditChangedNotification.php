@@ -54,6 +54,11 @@ class NumericAuditChangedNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when a specific Lighthouse audit metric changes.');
+    }
+
     public function site(): ?Site
     {
         return $this->audit->lighthouseResult?->lighthouseSite?->site;

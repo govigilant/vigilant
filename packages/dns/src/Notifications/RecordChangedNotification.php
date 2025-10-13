@@ -34,6 +34,11 @@ class RecordChangedNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when a DNS record value changes.');
+    }
+
     public function level(): Level
     {
         $critical = [

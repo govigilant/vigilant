@@ -32,7 +32,9 @@ use Vigilant\Uptime\Listeners\CheckLatencyListener;
 use Vigilant\Uptime\Listeners\DowntimeEndNotificationListener;
 use Vigilant\Uptime\Listeners\DowntimeStartNotificationListener;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Notifications\Conditions\ClosestCountryCondition;
 use Vigilant\Uptime\Notifications\Conditions\CountryCondition;
+use Vigilant\Uptime\Notifications\Conditions\LatencyMsCondition;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
@@ -178,12 +180,16 @@ class ServiceProvider extends BaseServiceProvider
 
         NotificationRegistry::registerCondition(LatencyChangedNotification::class, [
             LatencyPercentCondition::class,
+            LatencyMsCondition::class,
             CountryCondition::class,
+            ClosestCountryCondition::class,
         ]);
 
         NotificationRegistry::registerCondition(LatencyPeakNotification::class, [
             LatencyPercentCondition::class,
+            LatencyMsCondition::class,
             CountryCondition::class,
+            ClosestCountryCondition::class,
         ]);
 
         return $this;

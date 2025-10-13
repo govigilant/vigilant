@@ -36,6 +36,11 @@ class DowntimeStartNotification extends Notification implements HasSite
         return __('Since: :start', ['start' => $downtime->start->toDateTimeString()]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when your site becomes unreachable.');
+    }
+
     public function uniqueId(): string
     {
         return (string) $this->monitor->id;

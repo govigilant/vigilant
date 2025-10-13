@@ -26,6 +26,11 @@ class CertificateExpiredNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when an SSL certificate has expired.');
+    }
+
     public function uniqueId(): string|int
     {
         return $this->monitor->id;

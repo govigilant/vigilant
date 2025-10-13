@@ -30,6 +30,11 @@ class RecordNotResolvedNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when a DNS record fails to resolve or becomes unavailable.');
+    }
+
     public function site(): ?Site
     {
         return $this->monitor->site;
