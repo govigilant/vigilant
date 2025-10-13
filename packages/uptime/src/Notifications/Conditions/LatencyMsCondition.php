@@ -68,11 +68,7 @@ class LatencyMsCondition extends Condition
             return $notification->currentAverage;
         }
         
-        if ($notification instanceof LatencyPeakNotification) {
-            return $notification->peakLatency;
-        }
-
-        return 0;
+        return $notification->peakLatency;
     }
 
     protected function getLatencyChange(LatencyChangedNotification|LatencyPeakNotification $notification): float
@@ -81,10 +77,6 @@ class LatencyMsCondition extends Condition
             return $notification->currentAverage - $notification->previousAverage;
         }
         
-        if ($notification instanceof LatencyPeakNotification) {
-            return $notification->peakLatency - $notification->averageLatency;
-        }
-
-        return 0;
+        return $notification->peakLatency - $notification->averageLatency;
     }
 }
