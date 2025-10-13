@@ -64,7 +64,7 @@ class LatencyChangedNotification extends Notification implements HasSite
 
     public static function info(): ?string
     {
-        return __('Triggered when after an uptime check if the latency has changed.');
+        return __('Triggered after an uptime check if the latency has changed.');
     }
 
     public function viewUrl(): ?string
