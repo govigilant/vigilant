@@ -21,6 +21,16 @@
                 @endforeach
             </x-form.select>
 
+            @if ($form->notification && $form->notification::info())
+                <div class="grid grid-cols-2">
+                    <div></div>
+                    <p class="mt-1 text-sm text-base-300 flex items-start gap-1">
+                        <span class="shrink-0">ℹ️</span>
+                        <span>{{ $form->notification::info() }}</span>
+                    </p>
+                </div>
+            @endif
+
             <x-form.number field="form.cooldown" name="Cooldown"
                 description="Amount of minutes between sending notifications">
             </x-form.number>

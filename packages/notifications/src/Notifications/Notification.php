@@ -95,6 +95,11 @@ abstract class Notification implements Arrayable
         return $this->description;
     }
 
+    public static function info(): ?string
+    {
+        return null;
+    }
+
     public function viewUrl(): ?string
     {
         return null;

@@ -47,6 +47,11 @@ class CertificateExpiresInDaysNotification extends Notification implements HasSi
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when an SSL certificate is approaching expiration.');
+    }
+
     public function uniqueId(): string|int
     {
         return $this->monitor->id;
