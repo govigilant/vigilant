@@ -32,7 +32,7 @@
         <x-layout.topbar />
 
         <div
-            class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-col flex-1 pt-px">
+            class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-col flex-1">
             @if (isset($header))
                 <header class="bg-base-950 px-8 py-4 text-neutral-50">
                     {{ $header }}
