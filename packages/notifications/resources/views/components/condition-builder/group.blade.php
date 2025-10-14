@@ -57,13 +57,13 @@
         @foreach ($children as $index => $child)
             @if ($child['type'] === 'group')
                 <div class="px-4 pt-4">
-                    <x-notifications::condition-builder.group :children="$child['children']" :conditions="$conditions" :path="blank($path) ? '0' : $path . '.children.' . $index" />
+                    <x-notifications::condition-builder.group :children="$child['children']" :conditions="$conditions" :path="blank($path) ? $index : $path . '.children.' . $index" />
                 </div>
             @endif
 
             @if ($child['type'] === 'condition')
                 <div class="px-2">
-                    <x-notifications::condition-builder.condition :condition="$child" :path="blank($path) ? '0' : $path . '.children.' . $index" />
+                    <x-notifications::condition-builder.condition :condition="$child" :path="blank($path) ? $index : $path . '.children.' . $index" />
                 </div>
             @endif
         @endforeach
