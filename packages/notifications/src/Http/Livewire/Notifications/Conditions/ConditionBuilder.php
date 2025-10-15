@@ -65,13 +65,11 @@ class ConditionBuilder extends Component
     {
         if (blank($path)) {
             $this->children[] = $item;
-
-            return;
+        } else {
+            $children = data_get($this->children, $path.'.children', []);
+            $children[] = $item;
+            data_set($this->children, $path.'.children', $children);
         }
-
-        $children = data_get($this->children, $path.'.children', []);
-        $children[] = $item;
-        data_set($this->children, $path.'.children', $children);
 
         $this->updated();
     }
