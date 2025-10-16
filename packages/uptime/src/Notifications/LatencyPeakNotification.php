@@ -18,6 +18,8 @@ class LatencyPeakNotification extends Notification implements HasSite
 
     public Level $level = Level::Warning;
 
+    public static bool $autoCreate = false;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [

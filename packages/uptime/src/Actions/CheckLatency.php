@@ -59,45 +59,37 @@ class CheckLatency
 
     protected function checkForPeak(Monitor $monitor, string $country, float $aggregatedAverage): void
     {
-        $recentResults = $monitor->results()
+        // Get all recent results to calculate average
+        $allRecentResults = $monitor->results()
             ->where('country', '=', $country)
             ->orderByDesc('created_at')
-            ->take(10)
             ->pluck('total_time');
 
-        if ($recentResults->count() < 5) {
+        if ($allRecentResults->count() < 10) {
             return;
         }
 
-        $peakLatency = (float) $recentResults->max();
-        $recentAverage = (float) $recentResults->average();
+        $recentAverage = (float) $allRecentResults->average();
 
-        // Check if we're experiencing a peak:
-        // 1. The peak value is significantly higher than the aggregated average
-        // 2. The recent average is also elevated
-        // 3. Multiple results (not just one outlier) are elevated
-        if ($peakLatency > 0 && $aggregatedAverage > 0) {
-            $peakPercentIncrease = (($peakLatency - $aggregatedAverage) / $aggregatedAverage) * 100;
-            $recentPercentIncrease = (($recentAverage - $aggregatedAverage) / $aggregatedAverage) * 100;
+        // Get the last 5 checks
+        $lastFiveResults = $allRecentResults->take(5);
 
-            // Count how many recent results are significantly elevated (>30% above average)
-            $elevatedCount = $recentResults->filter(function ($latency) use ($aggregatedAverage) {
-                return $latency > ($aggregatedAverage * 1.3);
-            })->count();
+        // Check if all of the last 5 checks are above the recent average
+        $allAboveAverage = $lastFiveResults->every(function ($latency) use ($recentAverage) {
+            return $latency > $recentAverage;
+        });
 
-            // Trigger peak notification if:
-            // - Peak is at least 50% higher than average
-            // - Recent average is also elevated (at least 30% higher)
-            // - At least 3 out of the last 10 results are elevated (not just a single outlier)
-            if ($peakPercentIncrease >= 50 && $recentPercentIncrease >= 30 && $elevatedCount >= 3) {
-                LatencyPeakNotification::notify(
-                    $monitor,
-                    $peakLatency,
-                    $aggregatedAverage,
-                    $peakPercentIncrease,
-                    $country
-                );
-            }
+        if ($allAboveAverage && $recentAverage > 0) {
+            $peakLatency = (float) $lastFiveResults->max();
+            $peakPercentIncrease = (($peakLatency - $recentAverage) / $recentAverage) * 100;
+
+            LatencyPeakNotification::notify(
+                $monitor,
+                $peakLatency,
+                $recentAverage,
+                $peakPercentIncrease,
+                $country
+            );
         }
     }
 }
