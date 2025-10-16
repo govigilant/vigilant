@@ -75,14 +75,21 @@ class CheckLatency
         // Check if we're experiencing a peak:
         // 1. The peak value is significantly higher than the aggregated average
         // 2. The recent average is also elevated
+        // 3. Multiple results (not just one outlier) are elevated
         if ($peakLatency > 0 && $aggregatedAverage > 0) {
             $peakPercentIncrease = (($peakLatency - $aggregatedAverage) / $aggregatedAverage) * 100;
             $recentPercentIncrease = (($recentAverage - $aggregatedAverage) / $aggregatedAverage) * 100;
 
+            // Count how many recent results are significantly elevated (>30% above average)
+            $elevatedCount = $recentResults->filter(function ($latency) use ($aggregatedAverage) {
+                return $latency > ($aggregatedAverage * 1.3);
+            })->count();
+
             // Trigger peak notification if:
             // - Peak is at least 50% higher than average
             // - Recent average is also elevated (at least 30% higher)
-            if ($peakPercentIncrease >= 50 && $recentPercentIncrease >= 30) {
+            // - At least 3 out of the last 10 results are elevated (not just a single outlier)
+            if ($peakPercentIncrease >= 50 && $recentPercentIncrease >= 30 && $elevatedCount >= 3) {
                 LatencyPeakNotification::notify(
                     $monitor,
                     $peakLatency,
