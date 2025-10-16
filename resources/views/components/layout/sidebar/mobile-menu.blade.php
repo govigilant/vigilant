@@ -88,6 +88,25 @@
                                 Settings
                             </a>
                         </li>
+                        <li class="-mx-2" x-data="{ open: false }">
+                            <button type="button" class="group w-full flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white" x-on:click="open = !open">
+                                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                                <span class="flex-1 text-left">{{ auth()->user()->name ?? __('Menu') }}</span>
+                                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                            <div x-show="open" x-cloak x-on:click.outside="open = false" class="mt-2 space-y-1">
+                                <form action="{{ route('logout') }}" method="POST" class="w-full">
+                                    @csrf
+                                    <button type="submit" class="group w-full flex items-center gap-x-3 rounded-md p-2 pl-11 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                                        @lang('Sign out')
+                                    </button>
+                                </form>
+                            </div>
+                        </li>
                     </ul>
                 </nav>
             </div>
