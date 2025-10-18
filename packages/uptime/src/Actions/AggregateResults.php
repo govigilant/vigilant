@@ -33,6 +33,8 @@ class AggregateResults
                     'monitor_id' => $monitor->id,
                     'total_time' => $query->average('total_time'),
                     'country' => $country,
+                    'created_at' => now()->subHour(),
+                    'updated_at' => now()->subHour(),
                 ]);
 
                 $query->delete();

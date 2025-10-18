@@ -65,14 +65,15 @@ class CheckLatency
             ->orderByDesc('created_at')
             ->pluck('total_time');
 
-        if ($allRecentResults->count() < 10) {
+        if ($allRecentResults->count() < 15) {
             return;
         }
 
-        $recentAverage = (float) $allRecentResults->average();
-
         // Get the last 5 checks
         $lastFiveResults = $allRecentResults->take(5);
+
+        // Calculate average excluding the last 5 results to avoid skewing
+        $recentAverage = (float) $allRecentResults->slice(5)->average();
 
         // Check if all of the last 5 checks are above the recent average
         $allAboveAverage = $lastFiveResults->every(function ($latency) use ($recentAverage) {
