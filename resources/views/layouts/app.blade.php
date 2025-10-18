@@ -29,8 +29,7 @@
 
     <main class="dark:bg-black flex flex-col flex-1">
 
-        <div class="bg-base-900 rounded-l-4xl overflow-hidden flex flex-col flex-1"
-            style="box-shadow: -8px 0 24px -4px rgba(28, 27, 26, 1);">
+        <div class="bg-base-900 rounded-l-4xl overflow-hidden flex flex-col flex-1">
             @if (isset($header))
                 <header class="bg-base-950 px-8 py-4 text-neutral-50">
                     {{ $header }}

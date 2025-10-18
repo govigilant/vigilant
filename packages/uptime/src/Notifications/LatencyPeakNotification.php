@@ -8,6 +8,7 @@ use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Notifications\Conditions\ClosestCountryCondition;
+use Vigilant\Uptime\Notifications\Conditions\LatencyMsCondition;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 
 class LatencyPeakNotification extends Notification implements HasSite
@@ -29,6 +30,13 @@ class LatencyPeakNotification extends Notification implements HasSite
                 'operator' => '>=',
                 'operand' => 'absolute',
                 'value' => 100,
+            ],
+            [
+                'type' => 'condition',
+                'condition' => LatencyMsCondition::class,
+                'operator' => '>=',
+                'operand' => 'change_absolute',
+                'value' => 500,
             ],
             [
                 'type' => 'condition',
