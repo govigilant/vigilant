@@ -15,6 +15,7 @@ use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckLatencyCommand;
+use Vigilant\Uptime\Commands\CheckUnavailableOutpostsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Commands\GenerateRootCaCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
@@ -99,6 +100,7 @@ class ServiceProvider extends BaseServiceProvider
                 ScheduleUptimeChecksCommand::class,
                 CheckLatencyCommand::class,
                 GenerateRootCaCommand::class,
+                CheckUnavailableOutpostsCommand::class,
             ]);
         }
 

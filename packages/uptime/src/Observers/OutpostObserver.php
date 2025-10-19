@@ -15,6 +15,11 @@ class OutpostObserver
             Monitor::query()
                 ->where('closest_outpost_id', $outpost->id)
                 ->update(['closest_outpost_id' => null]);
+
+            // Set unavailable_at if not already set
+            if ($outpost->unavailable_at === null) {
+                $outpost->updateQuietly(['unavailable_at' => now()]);
+            }
         }
     }
 
