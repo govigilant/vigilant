@@ -18,6 +18,7 @@ use Vigilant\Uptime\Observers\OutpostObserver;
  * @property ?float $latitude
  * @property ?float $longitude
  * @property Carbon $last_available_at
+ * @property ?Carbon $unavailable_at
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  */
@@ -33,6 +34,7 @@ class Outpost extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'last_available_at' => 'datetime',
+        'unavailable_at' => 'datetime',
     ];
 
     public function url(): string

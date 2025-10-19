@@ -23,6 +23,7 @@ class LatencyPeakNotification extends Notification implements HasSite
 
     public static array $defaultConditions = [
         'type' => 'group',
+        'operator' => 'all',
         'children' => [
             [
                 'type' => 'condition',
