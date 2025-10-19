@@ -4,20 +4,26 @@ namespace Vigilant\Uptime\Commands;
 
 use Illuminate\Console\Command;
 use Vigilant\Uptime\Enums\OutpostStatus;
+use Vigilant\Uptime\Jobs\CheckUnavailableOutpostJob;
 use Vigilant\Uptime\Models\Outpost;
 
 class RemoveUnavailableOutpostsCommand extends Command
 {
     protected $signature = 'uptime:remove-unavailable-outposts';
 
-    protected $description = 'Remove unavailable outposts';
+    protected $description = 'Check unavailable outposts and remove them if still unreachable after 15 minutes';
 
     public function handle(): int
     {
-        Outpost::query()
+        $outposts = Outpost::query()
             ->where('status', '=', OutpostStatus::Unavailable)
-            ->where('updated_at', '<', now()->subHours(1))
-            ->delete();
+            ->whereNotNull('unavailable_at')
+            ->where('unavailable_at', '<=', now()->subMinutes(15))
+            ->get();
+
+        foreach ($outposts as $outpost) {
+            CheckUnavailableOutpostJob::dispatch($outpost);
+        }
 
         return static::SUCCESS;
     }
