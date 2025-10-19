@@ -7,9 +7,9 @@ use Vigilant\Uptime\Enums\OutpostStatus;
 use Vigilant\Uptime\Jobs\CheckUnavailableOutpostJob;
 use Vigilant\Uptime\Models\Outpost;
 
-class RemoveUnavailableOutpostsCommand extends Command
+class CheckUnavailableOutpostsCommand extends Command
 {
-    protected $signature = 'uptime:remove-unavailable-outposts';
+    protected $signature = 'uptime:check-unavailable-outposts';
 
     protected $description = 'Check unavailable outposts and remove them if still unreachable after 15 minutes';
 

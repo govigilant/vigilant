@@ -14,8 +14,8 @@ use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Uptime\Commands\RemoveUnavailableOutpostsCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
+use Vigilant\Uptime\Commands\CheckUnavailableOutpostsCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
         // Uptime
         $schedule->command(AggregateResultsCommand::class)->hourly();
         $schedule->command(ScheduleUptimeChecksCommand::class)->everySecond();
-        $schedule->command(RemoveUnavailableOutpostsCommand::class)->hourly();
+        $schedule->command(CheckUnavailableOutpostsCommand::class)->everyFifteenMinutes();
 
         // Lighthouse
         $schedule->command(ScheduleLighthouseCommand::class)->everySecond();

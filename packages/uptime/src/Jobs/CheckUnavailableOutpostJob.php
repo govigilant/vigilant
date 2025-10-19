@@ -28,7 +28,10 @@ class CheckUnavailableOutpostJob implements ShouldBeUnique, ShouldQueue
     public function handle(): void
     {
         try {
-            $response = Http::timeout(5)->get("{$this->outpost->url()}/health");
+            $response = Http::timeout(5)
+                ->connectTimeout(5)
+                ->baseUrl($this->outpost->url())
+                ->get('health');
 
             if ($response->successful()) {
                 $this->outpost->update([
