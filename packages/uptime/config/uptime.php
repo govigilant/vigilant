@@ -14,4 +14,7 @@ return [
         600 => 'Every 10 minutes',
         3600 => 'Every hour',
     ],
+
+    'allow_external_outposts' => env('UPTIME_ALLOW_EXTERNAL_OUTPOSTS', false),
+    'outpost_secret' => env('UPTIME_OUTPOST_SECRET', 'outpost-secret'),
 ];

@@ -2,6 +2,7 @@
 
 namespace Vigilant\Crawler\Actions;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\LazyCollection;
 use Vigilant\Core\Services\TeamService;
@@ -21,6 +22,7 @@ class CollectCrawlerStats
         $statuses = $crawler
             ->urls()
             ->where('crawled', '=', true)
+            ->where('ignored', '=', false)
             ->selectRaw('status, COUNT(*) AS count')
             ->groupBy('status')
             ->get()
@@ -31,7 +33,11 @@ class CollectCrawlerStats
             'statuses' => $statuses,
             'issue_count' => $crawler->urls()
                 ->where('crawled', '=', true)
-                ->where('status', '>=', 400)
+                ->where('ignored', '=', false)
+                ->where(function (Builder $query): void {
+                    $query->where('status', '>=', 400)
+                        ->orWhere('status', '=', 0);
+                })
                 ->count(),
         ];
 

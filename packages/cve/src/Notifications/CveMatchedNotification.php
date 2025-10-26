@@ -55,6 +55,11 @@ class CveMatchedNotification extends Notification implements HasSite
         return $description;
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when a new CVE is published matching your monitored keywords.');
+    }
+
     public function level(): Level
     {
         if ($this->cve->score >= 7) {

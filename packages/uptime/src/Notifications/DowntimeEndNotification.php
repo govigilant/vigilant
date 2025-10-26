@@ -36,6 +36,11 @@ class DowntimeEndNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when your site recovers and becomes available again after downtime.');
+    }
+
     public function uniqueId(): string|int
     {
         return $this->downtime->id;

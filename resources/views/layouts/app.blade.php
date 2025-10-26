@@ -27,12 +27,9 @@
     <div class="fixed h-1 z-40 -top-px inset-x-0 bg-linear-to-r from-green to-red"></div>
     <x-layout.sidebar />
 
-    <main class="dark:bg-black flex flex-col overflow-hidden flex-1">
+    <main class="dark:bg-black flex flex-col flex-1">
 
-        <x-layout.topbar />
-
-        <div
-            class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none overflow-hidden shadow-inner-sm flex flex-col flex-1 pt-px">
+        <div class="bg-base-900 rounded-l-4xl overflow-hidden flex flex-col flex-1">
             @if (isset($header))
                 <header class="bg-base-950 px-8 py-4 text-neutral-50">
                     {{ $header }}

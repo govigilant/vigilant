@@ -79,10 +79,11 @@ class CrawlUrl
 
                 if (! Gate::check('create-crawled-url', $url->crawler)) {
                     $redirectUrl = str($redirectUrl)->limit(8192)->toString();
+                    $hash = md5($redirectUrl);
 
                     CrawledUrl::query()->firstOrCreate([
                         'crawler_id' => $url->crawler_id,
-                        'url_hash' => md5($redirectUrl),
+                        'url_hash' => $hash,
                     ], [
                         'url' => $redirectUrl,
                         'found_on_id' => $url->uuid,
@@ -137,12 +138,13 @@ class CrawlUrl
             }
 
             $pageUrl = str($link)->limit(8192)->toString();
+            $hash = md5($pageUrl);
 
             CrawledUrl::query()->firstOrCreate([
                 'crawler_id' => $url->crawler_id,
-                'url_hash' => md5($pageUrl),
+                'url_hash' => $hash,
             ], [
-                'url' => str($link)->limit(8192)->toString(),
+                'url' => $pageUrl,
                 'found_on_id' => $url->uuid,
             ]);
         }

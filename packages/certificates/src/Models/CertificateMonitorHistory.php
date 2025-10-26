@@ -4,9 +4,12 @@ namespace Vigilant\Certificates\Models;
 
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Vigilant\Core\Concerns\HasDataRetention;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Users\Models\Team;
 use Vigilant\Users\Observers\TeamObserver;
@@ -29,6 +32,9 @@ use Vigilant\Users\Observers\TeamObserver;
 #[ScopedBy(TeamScope::class)]
 class CertificateMonitorHistory extends Model
 {
+    use HasDataRetention;
+    use Prunable;
+
     protected $guarded = [];
 
     protected $casts = [
@@ -45,5 +51,10 @@ class CertificateMonitorHistory extends Model
     public function team(): BelongsTo
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function prunable(): Builder
+    {
+        return static::withoutGlobalScopes()->where('created_at', '<=', $this->retentionPeriod());
     }
 }

@@ -13,6 +13,17 @@
     "require": {
         "php": "^8.3",
         "laravel/framework": "^12.0",
+        "vigilant/certificates": "@dev",
+        "vigilant/crawler": "@dev",
+        "vigilant/cve": "@dev",
+        "vigilant/dns": "@dev",
+        "vigilant/frontend": "@dev",
+        "vigilant/lighthouse": "@dev",
+        "vigilant/notifications": "@dev",
+        "vigilant/onboarding": "@dev",
+        "vigilant/settings": "@dev",
+        "vigilant/sites": "@dev",
+        "vigilant/uptime": "@dev",
         "vigilant/users": "@dev"
     },
     "require-dev": {

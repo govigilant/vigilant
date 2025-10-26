@@ -2,9 +2,8 @@
 
 namespace Vigilant\Uptime\Enums;
 
-use Vigilant\Uptime\Uptime\Http;
-use Vigilant\Uptime\Uptime\Ping;
-use Vigilant\Uptime\Uptime\UptimeMonitor;
+use Illuminate\Support\Facades\Validator;
+use Vigilant\Uptime\Models\Monitor;
 
 enum Type: string
 {
@@ -19,16 +18,29 @@ enum Type: string
         };
     }
 
-    public function monitor(): UptimeMonitor
+    public function outpostValue(): string
     {
-        $class = match ($this) {
-            Type::Http => Http::class,
-            Type::Ping => Ping::class,
+        return match ($this) {
+            Type::Http => 'http',
+            Type::Ping => 'tcp',
         };
+    }
 
-        /** @var UptimeMonitor $instance */
-        $instance = app($class);
+    public function formatTarget(Monitor $monitor): string
+    {
+        if ($this === Type::Http) {
+            $settings = Validator::validate($monitor->settings, [
+                'host' => ['required', 'url'],
+            ]);
 
-        return $instance;
+            return $settings['host'];
+        }
+
+        $settings = Validator::validate($monitor->settings, [
+            'host' => ['required', 'ip'],
+            'port' => ['integer', 'min:1', 'max:65535'],
+        ]);
+
+        return sprintf('%s:%s', $settings['host'], $settings['port']);
     }
 }

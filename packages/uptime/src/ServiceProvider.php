@@ -2,8 +2,11 @@
 
 namespace Vigilant\Uptime;
 
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
@@ -12,7 +15,9 @@ use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
 use Vigilant\Uptime\Commands\CheckLatencyCommand;
+use Vigilant\Uptime\Commands\CheckUnavailableOutpostsCommand;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
+use Vigilant\Uptime\Commands\GenerateRootCaCommand;
 use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Events\DowntimeEndEvent;
 use Vigilant\Uptime\Events\DowntimeStartEvent;
@@ -28,10 +33,14 @@ use Vigilant\Uptime\Listeners\CheckLatencyListener;
 use Vigilant\Uptime\Listeners\DowntimeEndNotificationListener;
 use Vigilant\Uptime\Listeners\DowntimeStartNotificationListener;
 use Vigilant\Uptime\Models\Monitor;
+use Vigilant\Uptime\Notifications\Conditions\ClosestCountryCondition;
+use Vigilant\Uptime\Notifications\Conditions\CountryCondition;
+use Vigilant\Uptime\Notifications\Conditions\LatencyMsCondition;
 use Vigilant\Uptime\Notifications\Conditions\LatencyPercentCondition;
 use Vigilant\Uptime\Notifications\DowntimeEndNotification;
 use Vigilant\Uptime\Notifications\DowntimeStartNotification;
 use Vigilant\Uptime\Notifications\LatencyChangedNotification;
+use Vigilant\Uptime\Notifications\LatencyPeakNotification;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
@@ -59,6 +68,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootEvents()
+            ->bootRatelimiting()
             ->bootNavigation()
             ->bootNotifications()
             ->bootGates()
@@ -89,6 +99,8 @@ class ServiceProvider extends BaseServiceProvider
                 AggregateResultsCommand::class,
                 ScheduleUptimeChecksCommand::class,
                 CheckLatencyCommand::class,
+                GenerateRootCaCommand::class,
+                CheckUnavailableOutpostsCommand::class,
             ]);
         }
 
@@ -123,6 +135,10 @@ class ServiceProvider extends BaseServiceProvider
         if (! $this->app->routesAreCached()) {
             Route::middleware(['web', 'auth'])
                 ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/web.php'));
+
+            Route::prefix('api')
+                ->middleware(['api'])
+                ->group(fn () => $this->loadRoutesFrom(__DIR__.'/../routes/api.php'));
         }
 
         return $this;
@@ -135,6 +151,15 @@ class ServiceProvider extends BaseServiceProvider
         Event::listen(DowntimeEndEvent::class, DowntimeEndNotificationListener::class);
 
         Event::listen(UptimeCheckedEvent::class, CheckLatencyListener::class);
+
+        return $this;
+    }
+
+    protected function bootRatelimiting(): static
+    {
+        RateLimiter::for('uptime-ips', function (Request $request): Limit {
+            return Limit::perMinute(10)->by($request->ip);
+        });
 
         return $this;
     }
@@ -152,10 +177,21 @@ class ServiceProvider extends BaseServiceProvider
             DowntimeStartNotification::class,
             DowntimeEndNotification::class,
             LatencyChangedNotification::class,
+            LatencyPeakNotification::class,
         ]);
 
         NotificationRegistry::registerCondition(LatencyChangedNotification::class, [
             LatencyPercentCondition::class,
+            LatencyMsCondition::class,
+            CountryCondition::class,
+            ClosestCountryCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(LatencyPeakNotification::class, [
+            LatencyPercentCondition::class,
+            LatencyMsCondition::class,
+            CountryCondition::class,
+            ClosestCountryCondition::class,
         ]);
 
         return $this;

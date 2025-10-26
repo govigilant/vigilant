@@ -2,13 +2,28 @@
 
 namespace Vigilant\Uptime\Http\Livewire\Charts;
 
-use Illuminate\Support\Str;
+use Illuminate\View\View;
 
 class ColumnLatencyChart extends LatencyChart
 {
     public int $height = 40;
 
-    public bool $addStyle = false;
+    public function mount(array $data): void
+    {
+        parent::mount($data);
+        
+        // Force date range to week for column chart
+        $this->dateRange = 'week';
+        
+        // Ensure we have the closest country selected
+        $closestCountry = $this->getClosestCountry();
+        if ($closestCountry) {
+            $countries = $this->availableCountries();
+            if ($countries->contains($closestCountry)) {
+                $this->selectedCountries = [$closestCountry];
+            }
+        }
+    }
 
     public function data(): array
     {
@@ -42,6 +57,7 @@ class ColumnLatencyChart extends LatencyChart
                 'scales' => [
                     'y' => [
                         'display' => false,
+                        'beginAtZero' => true,
                     ],
                     'x' => [
                         'display' => false,
@@ -51,8 +67,15 @@ class ColumnLatencyChart extends LatencyChart
         ];
     }
 
-    protected function getIdentifier(): string
+    public function render(): View
     {
-        return Str::slug(get_class($this)).$this->monitorId;
+        /** @var view-string $view */
+        $view = 'uptime::livewire.charts.column-latency-chart';
+
+        return view($view, [
+            'identifier' => $this->getIdentifier(),
+            'height' => $this->height,
+            'hasPoints' => $this->points()->isNotEmpty(),
+        ]);
     }
 }

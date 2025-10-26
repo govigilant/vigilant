@@ -27,6 +27,11 @@ class UrlIssuesNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when the crawler discovers URLs with broken links, errors, or other issues.');
+    }
+
     public function viewUrl(): ?string
     {
         return route('crawler.view', ['crawler' => $this->crawler]);

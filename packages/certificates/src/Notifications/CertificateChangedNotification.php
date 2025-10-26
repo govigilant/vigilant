@@ -33,6 +33,11 @@ class CertificateChangedNotification extends Notification implements HasSite
         ]);
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when an SSL certificate is replaced or renewed.');
+    }
+
     public function uniqueId(): string|int
     {
         return $this->monitor->id;

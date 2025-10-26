@@ -4,12 +4,14 @@ use Vigilant\Core\Facades\Navigation;
 
 Navigation::add(null, 'Notifications')
     ->code('notifications')
+    ->routeIs('notifications*')
     ->icon('tni-exclamation-circle-o')
     ->sort(1000);
 
 Navigation::add(route('notifications'), 'Notification Types')
     ->parent('notifications')
     ->icon('phosphor-list-heart-duotone')
+    ->routeIs('notifications', 'notifications.trigger.*')
     ->sort(1);
 
 Navigation::add(route('notifications.channels'), 'Notification Channels')

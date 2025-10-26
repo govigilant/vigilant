@@ -21,6 +21,11 @@ class RatelimitedNotification extends Notification implements HasSite
         return __('Crawler failed due to ratelimits');
     }
 
+    public static function info(): ?string
+    {
+        return __('Triggered when the crawler is blocked by rate limiting on the target site.');
+    }
+
     public function viewUrl(): ?string
     {
         return route('crawler.view', ['crawler' => $this->crawler]);

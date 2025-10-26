@@ -36,6 +36,7 @@ class AggregateResultsTest extends TestCase
 
             $monitor->results()->create([
                 'total_time' => $minute,
+                'country' => 'US',
                 'created_at' => $date,
                 'updated_at' => $date,
             ]);
@@ -45,5 +46,49 @@ class AggregateResultsTest extends TestCase
         $this->artisan(AggregateResultsCommand::class);
 
         $this->assertCount(23, $monitor->aggregatedResults);
+    }
+
+    public function test_it_aggregates_uptime_results_per_country(): void
+    {
+        $monitor = null;
+
+        Monitor::withoutEvents(function () use (&$monitor) {
+            /** @var Monitor $monitor */
+            $monitor = Monitor::query()->create([
+                'team_id' => 1,
+                'name' => 'Test Monitor',
+                'type' => Type::Http,
+                'settings' => [
+                    'host' => 'http://service',
+                ],
+                'interval' => '* * * * *',
+                'retries' => 1,
+                'timeout' => 1,
+            ]);
+        });
+
+        $this->assertNotNull($monitor);
+
+        // Create results from different countries
+        for ($minute = 0; $minute < 120; $minute++) {
+            $date = now()->subMinutes($minute);
+            $country = $minute % 2 === 0 ? 'US' : 'DE';
+
+            $monitor->results()->create([
+                'total_time' => $minute,
+                'country' => $country,
+                'created_at' => $date,
+                'updated_at' => $date,
+            ]);
+        }
+
+        $this->artisan(AggregateResultsCommand::class);
+
+        // Should create separate aggregates for US and DE
+        $usAggregates = $monitor->aggregatedResults()->where('country', 'US')->count();
+        $deAggregates = $monitor->aggregatedResults()->where('country', 'DE')->count();
+
+        $this->assertGreaterThan(0, $usAggregates);
+        $this->assertGreaterThan(0, $deAggregates);
     }
 }

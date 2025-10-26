@@ -14,7 +14,7 @@ services:
         networks:
             - vigilant
         healthcheck:
-            test: curl --fail http://localhost || exit 1
+            test: curl --fail http://localhost:8000 || exit 1
             interval: 30s
             timeout: 10s
             retries: 5
@@ -61,7 +61,7 @@ services:
         networks:
             - vigilant
         healthcheck:
-            test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+            test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
             interval: 10s
             timeout: 20s
             retries: 10
@@ -74,7 +74,7 @@ services:
         networks:
             - vigilant
         healthcheck:
-            test: [ "CMD", "redis-cli", "ping" ]
+            test: ["CMD", "redis-cli", "ping"]
 
     lighthouse:
         image: ghcr.io/govigilant/lighthouse-server:latest
@@ -83,6 +83,18 @@ services:
             resources:
                 reservations:
                     memory: 2G
+        networks:
+            - vigilant
+
+    outpost:
+        image: ghcr.io/govigilant/vigilant-uptime-outpost:latest
+        restart: always
+        environment:
+            - VIGILANT_URL=http://app:8000
+            - OUTPOST_SECRET=outpost-secret
+        depends_on:
+            app:
+                condition: service_healthy
         networks:
             - vigilant
 

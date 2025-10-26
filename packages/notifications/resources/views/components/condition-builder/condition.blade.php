@@ -3,7 +3,12 @@
 @php($operands = $instance->operands())
 <div class="flex items-center gap-4 mt-2 p-2 rounded-md" x-data="{ deleteHover: false }"
     :class="deleteHover ? 'bg-red-light/20' : ''">
-    <span class="block text-sm font-medium leading-6 text-white">{{ $condition['condition']::$name }}</span>
+    <div class="flex items-center gap-2">
+        <span class="block text-sm font-medium leading-6 text-white">{{ $condition['condition']::$name }}</span>
+        @if ($condition['condition']::info())
+            <span class="text-base-300 cursor-help" title="{{ $condition['condition']::info() }}">ℹ️</span>
+        @endif
+    </div>
     @if (count($operands ?? []) > 0)
         <div>
             <select wire:model.live="children.{{ $path }}.operand"

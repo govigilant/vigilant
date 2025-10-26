@@ -6,13 +6,8 @@ use Closure;
 use Illuminate\Database\Eloquent\Model;
 use RamonRietdijk\LivewireTables\Columns\BaseColumn;
 
-/**
- * @property view-string $view
- */
 class ChartColumn extends BaseColumn
 {
-    protected string $view = 'frontend::integrations.table.chart-column';
-
     public string $component = '';
 
     public Closure $parameterCallback;
@@ -33,7 +28,7 @@ class ChartColumn extends BaseColumn
 
     public function render(Model $model): mixed
     {
-        return view($this->view, [
+        return view('frontend::integrations.table.chart-column', [
             'component' => $this->component,
             'parameters' => ($this->parameterCallback)($model),
         ]);

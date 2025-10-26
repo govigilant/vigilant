@@ -76,4 +76,9 @@ class Crawler extends Model
     {
         return $this->hasMany(CrawledUrl::class, 'crawler_id', 'id');
     }
+
+    public function ignoredUrls(): HasMany
+    {
+        return $this->hasMany(IgnoredUrl::class, 'crawler_id', 'id');
+    }
 }
