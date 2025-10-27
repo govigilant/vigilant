@@ -178,9 +178,9 @@ class SiteTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (Site $site) => $site->delete());
-            }),
+            }, 'delete'),
         ];
     }
 

@@ -101,11 +101,11 @@ class LighthouseMonitorsTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Run Lighthouse'), 'run', function (Enumerable $models): void {
+            Action::make(__('Run Lighthouse'), function (Enumerable $models): void {
                 $models->each(fn (LighthouseMonitor $monitor) => RunLighthouseJob::dispatch($monitor));
-            }),
+            }, 'run'),
 
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -113,15 +113,15 @@ class LighthouseMonitorsTable extends LivewireTable
                     $model->update(['enabled' => true]);
 
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (LighthouseMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (LighthouseMonitor $monitor): ?bool => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
     }
 

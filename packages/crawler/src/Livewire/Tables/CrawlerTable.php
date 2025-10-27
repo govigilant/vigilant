@@ -70,6 +70,7 @@ class CrawlerTable extends LivewireTable
             StatusColumn::make(__('Issues'))
                 ->text(function (Crawler $crawler): string {
                     $issueCount = $crawler->issueCount() ?? 0;
+
                     return trans_choice(
                         ':count issue|:count issues',
                         $issueCount,
@@ -102,7 +103,7 @@ class CrawlerTable extends LivewireTable
 
             ActionsColumn::make(__('Actions'))
                 ->actions([
-                    InlineAction::make('start', __('Start Crawler'), 'phosphor-play-bold')
+                    InlineAction::make('start', __('Start crawler'), 'phosphor-play-bold')
                         ->visible(fn (Crawler $crawler): bool => $crawler->state !== State::Crawling && $crawler->enabled),
                 ]),
         ];
@@ -111,16 +112,16 @@ class CrawlerTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Start Crawler'), 'start', function (Enumerable $models): void {
+            Action::make(__('Start Crawler'), function (Enumerable $models): void {
                 /** @var StartCrawler $starter */
                 $starter = app(StartCrawler::class);
 
                 $models
                     ->where('state', '!=', State::Crawling)
                     ->each(fn (Crawler $crawler) => $starter->start($crawler));
-            }),
+            }, 'start'),
 
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -128,15 +129,15 @@ class CrawlerTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (Crawler $crawler) => $crawler->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (Crawler $crawler): ?bool => $crawler->delete());
-            }),
+            }, 'delete'),
         ];
     }
 

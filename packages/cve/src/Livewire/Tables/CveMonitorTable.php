@@ -61,7 +61,7 @@ class CveMonitorTable extends LivewireTable
     protected function actions(): array
     {
         $actions = [
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -69,22 +69,22 @@ class CveMonitorTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (CveMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (CveMonitor $monitor) => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
 
         if (ce()) {
-            $actions[] = Action::make(__('Import all CVE\'s'), 'import', function (): void {
+            $actions[] = Action::make(__('Import all CVE\'s'), function (): void {
                 $importer = app(ImportAllCves::class);
                 $importer->import(0);
-            })->standalone();
+            }, 'import')->standalone();
         }
 
         return $actions;

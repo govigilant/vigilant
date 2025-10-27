@@ -86,11 +86,11 @@ class CertificateMonitorsTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Check Now'), 'run', function (Enumerable $models): void {
+            Action::make(__('Check Now'), function (Enumerable $models): void {
                 $models->each(fn (CertificateMonitor $monitor) => CheckCertificateJob::dispatch($monitor));
-            }),
+            }, 'run'),
 
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -98,15 +98,15 @@ class CertificateMonitorsTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (CertificateMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (CertificateMonitor $monitor): ?bool => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
     }
 

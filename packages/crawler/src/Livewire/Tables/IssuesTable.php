@@ -69,7 +69,7 @@ class IssuesTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Ignore Selected'), 'ignoreUrl', function (Enumerable $models): void {
+            Action::make(__('Ignore Selected'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     IgnoredUrl::firstOrCreate([
                         'crawler_id' => $this->crawlerId,
@@ -79,9 +79,9 @@ class IssuesTable extends LivewireTable
                 }
 
                 CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId));
-            }),
+            }, 'ignoreUrl'),
 
-            Action::make(__('Unignore Selected'), 'unignoreUrl', function (Enumerable $models): void {
+            Action::make(__('Unignore Selected'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     IgnoredUrl::query()
                         ->where('crawler_id', '=', $this->crawlerId)
@@ -93,7 +93,7 @@ class IssuesTable extends LivewireTable
                 }
 
                 CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId));
-            }),
+            }, 'unignoreUrl'),
         ];
     }
 

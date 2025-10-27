@@ -56,11 +56,11 @@ class DnsMonitorTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Check'), 'check', function (Enumerable $models): void {
+            Action::make(__('Check'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => CheckDnsRecordJob::dispatch($monitor));
-            }),
+            }, 'check'),
 
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -68,15 +68,15 @@ class DnsMonitorTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
     }
 }
