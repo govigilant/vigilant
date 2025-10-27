@@ -1,13 +1,13 @@
 <div
-    class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-black px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
-    <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" x-on:click="sidebarOpen = true">
+    class="sticky top-0 z-20 flex h-16 shrink-0 items-center gap-x-4 dark:bg-base-black px-4 shadow-xs sm:gap-x-6 sm:px-6 lg:px-8">
+    <button type="button" class="-m-2.5 p-2.5 text-base-400 lg:hidden" x-on:click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
         </svg>
     </button>
 
-    <div class="h-6 w-px bg-gray-900/10 lg:hidden" aria-hidden="true"></div>
+    <div class="h-6 w-px bg-base-700" aria-hidden="true"></div>
 
     <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <div class="flex-1"></div>
@@ -32,7 +32,7 @@
 
                         <x-slot name="content">
                             <div class="w-60">
-                                <div class="block px-4 py-2 text-xs text-base-50">
+                                <div class="block px-4 py-2 text-xs text-base-100">
                                     {{ __('Manage Team') }}
                                 </div>
 
@@ -47,9 +47,9 @@
                                 @endcan
 
                                 @if (Auth::user()->allTeams()->count() > 1)
-                                    <div class="border-t dark:border-base-900"></div>
+                                    <div class="border-t dark:border-base-700"></div>
 
-                                    <div class="block px-4 py-2 text-xs text-base-50">
+                                    <div class="block px-4 py-2 text-xs text-base-100">
                                         {{ __('Switch Teams') }}
                                     </div>
 
@@ -63,7 +63,7 @@
                 </div>
             @endif
 
-            <a href="{{ route('notifications.history') }}" class="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500">
+            <a href="{{ route('notifications.history') }}" class="-m-2.5 p-2.5 text-base-400 hover:text-base-200">
                 <span class="sr-only">@lang('View notifications')</span>
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                     aria-hidden="true">
@@ -77,9 +77,9 @@
                     aria-expanded="false" aria-haspopup="true">
                     <span class="sr-only">@lang('Open user menu')</span>
                     <span class="flex items-center">
-                        <span class="ml-4 text-sm font-semibold leading-6 text-neutral-50"
+                        <span class="ml-4 text-sm font-semibold leading-6 text-base-100"
                             aria-hidden="true">{{ auth()->user()->name ?? __('Menu') }}</span>
-                        <svg class="ml-2 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor"
+                        <svg class="ml-2 h-5 w-5 text-base-400" viewBox="0 0 20 20" fill="currentColor"
                             aria-hidden="true">
                             <path fill-rule="evenodd"
                                 d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
@@ -95,14 +95,14 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="transform opacity-100 scale-100"
                     x-transition:leave-end="transform opacity-0 scale-95"
-                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-black py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-hidden"
+                    class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-base-950 py-2 shadow-lg ring-1 ring-base-700 focus:outline-hidden"
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
-                    <a href="{{ route('settings') }}" class="block px-3 py-1 text-sm leading-6 text-white hover:bg-red"
+                    <a href="{{ route('settings') }}" class="block px-3 py-1 text-sm leading-6 text-base-100 hover:bg-red"
                         role="menuitem" tabindex="1">@lang('Settings')</a>
                     <form action="{{ route('logout') }}" method="POST" class="w-full">
                         {{ csrf_field() }}
                         <button type="submit"
-                            class="block px-3 py-1 text-sm leading-6 text-white hover:bg-red w-full text-left"
+                            class="block px-3 py-1 text-sm leading-6 text-base-100 hover:bg-red w-full text-left"
                             role="menuitem" tabindex="2">@lang('Sign out')
                         </button>
                     </form>

@@ -1,6 +1,6 @@
 <div class="relative z-50 lg:hidden" role="dialog" aria-modal="true" x-cloak x-show="sidebarOpen">
 
-    <div class="fixed inset-0 bg-gray-950" x-show="sidebarOpen"
+    <div class="fixed inset-0 bg-base-950" x-show="sidebarOpen"
         x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0"
         x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300"
         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"></div>
@@ -19,14 +19,14 @@
                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
                 <button type="button" class="-m-2.5 p-2.5" x-on:click="sidebarOpen = false">
                     <span class="sr-only">Close sidebar</span>
-                    <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    <svg class="h-6 w-6 text-base-50" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
 
-            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-black px-6 pb-4 ring-1 ring-white/10">
+            <div class="flex grow flex-col gap-y-5 overflow-y-auto bg-base-black px-6 pb-4 ring-1 ring-base-700">
                 <div class="flex h-16 shrink-0 items-center pt-4">
                     <a href="/">
                         <img class="h-16 w-auto" src="{{ url('img/logo.svg') }}" alt="{{ config('app.name') }}">
@@ -41,11 +41,11 @@
                                     <li>
                                         <a href="{{ $item->url }}" wire:navigate @class([
                                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
-                                            'bg-gray-800 text-white' => $item->active(),
-                                            'text-gray-400 hover:text-white hover:bg-gray-800' => !$item->active(),
+                                            'bg-base-800 text-base-50' => $item->active(),
+                                            'text-base-400 hover:text-base-50 hover:bg-base-800' => !$item->active(),
                                         ])>
                                             @if ($item->icon !== null)
-                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? 'text-red' : ''))
+                                                @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() ? 'text-red' : ''))
                                             @endif
                                             {{ __($item->name) }}
                                         </a>
@@ -57,12 +57,12 @@
                                                         <a href="{{ $child->url }}" wire:navigate
                                                             @class([
                                                                 'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold',
-                                                                'text-white' => $child->active(),
-                                                                'text-gray-500 hover:text-white' => !$child->active(),
+                                                                'text-base-50' => $child->active(),
+                                                                'text-base-400 hover:text-base-50' => !$child->active(),
                                                             ])>
                                                             <span class="flex items-center gap-x-2">
                                                                 @if ($child->icon !== null)
-                                                                    @svg($child->icon, 'h-6 w-6 shrink-0' . ($child->active() ? 'text-red' : ''))
+                                                                    @svg($child->icon, 'h-6 w-6 shrink-0 ' . ($child->active() ? 'text-red' : ''))
                                                                 @endif
                                                                 {{ __($child->name) }}
                                                             </span>
@@ -77,7 +77,7 @@
                         </li>
                         <li class="mt-auto">
                             <a href="{{ route('settings') }}" wire:navigate
-                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                                class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-base-400 hover:bg-base-800 hover:text-base-50">
                                 <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -89,7 +89,7 @@
                             </a>
                         </li>
                         <li class="-mx-2" x-data="{ open: false }">
-                            <button type="button" class="group w-full flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white" x-on:click="open = !open">
+                            <button type="button" class="group w-full flex items-center gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-base-400 hover:bg-base-800 hover:text-base-50" x-on:click="open = !open">
                                 <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                                 </svg>
@@ -101,7 +101,7 @@
                             <div x-show="open" x-cloak x-on:click.outside="open = false" class="mt-2 space-y-1">
                                 <form action="{{ route('logout') }}" method="POST" class="w-full">
                                     @csrf
-                                    <button type="submit" class="group w-full flex items-center gap-x-3 rounded-md p-2 pl-11 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
+                                    <button type="submit" class="group w-full flex items-center gap-x-3 rounded-md p-2 pl-11 text-sm font-semibold leading-6 text-base-400 hover:bg-base-800 hover:text-base-50">
                                         @lang('Sign out')
                                     </button>
                                 </form>

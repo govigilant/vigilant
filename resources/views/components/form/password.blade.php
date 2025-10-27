@@ -1,20 +1,22 @@
 @props(['field', 'name', 'placeholder', 'description' => ''])
-<div class="grid grid-cols-2">
-    <div>
-        <label for="{{ $field }}" class="block text-sm font-medium leading-6 text-white">@lang($name)</label>
-        <span class="text-neutral-400 text-xs">{{ $description ?? '' }}</span>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="flex flex-col justify-center">
+        <label for="{{ $field }}" class="block text-base font-semibold leading-6 text-base-50">@lang($name)</label>
+        @if($description)
+            <span class="text-base-400 text-sm mt-1">{{ $description }}</span>
+        @endif
     </div>
-    <div class="mt-2">
+    <div class="flex flex-col justify-center">
         <div
-            class="flex rounded-md bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
+            class="flex rounded-lg bg-base-900 ring-1 ring-inset ring-base-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red transition-all duration-200">
             <input type="password"
                    name="{{ $name }}"
                    id="{{ $field }}"
                    wire:model.live="{{ $field }}"
-                   class="flex-1 border-0 bg-transparent py-1.5 text-white focus:ring-0 sm:text-sm sm:leading-6"
+                   class="flex-1 border-0 bg-transparent py-2.5 px-3 text-base-100 focus:ring-0 sm:text-sm sm:leading-6 placeholder:text-base-500"
                    placeholder="{{ $placeholder ?? '' }}">
         </div>
 
-        @error($field) <span class="text-red">{{ $message }}</span> @enderror
+        @error($field) <span class="text-red text-sm mt-1">{{ $message }}</span> @enderror
     </div>
 </div>
