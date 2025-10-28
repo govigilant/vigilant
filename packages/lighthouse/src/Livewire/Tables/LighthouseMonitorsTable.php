@@ -10,13 +10,13 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
-class LighthouseMonitorsTable extends LivewireTable
+class LighthouseMonitorsTable extends BaseTable
 {
     protected string $model = LighthouseMonitor::class;
 

@@ -5,8 +5,9 @@ namespace Vigilant\OnBoarding;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
-use Vigilant\Notifications\Channels\NotificationChannel;
+use Vigilant\OnBoarding\Livewire\Complete;
 use Vigilant\OnBoarding\Livewire\ImportDomains;
+use Vigilant\OnBoarding\Livewire\NotificationChannel;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -72,6 +73,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         Livewire::component('onboarding-import-domains', ImportDomains::class);
         Livewire::component('onboarding-monitoring-channel', NotificationChannel::class);
+        Livewire::component('onboarding-complete', Complete::class);
 
         return $this;
     }

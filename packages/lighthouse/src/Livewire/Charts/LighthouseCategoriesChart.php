@@ -38,6 +38,8 @@ class LighthouseCategoriesChart extends BaseChart
 
         $labels = $results->pluck('created_at')->map(fn (Carbon $carbon): string => $carbon->toDateTimeString());
 
+        $colors = $this->getChartColors();
+
         return [
             'type' => 'line',
             'data' => [
@@ -46,25 +48,33 @@ class LighthouseCategoriesChart extends BaseChart
                     $this->dataset([
                         'label' => 'Performance',
                         'data' => $results->pluck('performance')->map(fn (float $value): float => $value * 100),
-                        'borderColor' => '#205EA6',
+                        'borderColor' => $colors[0]['border'], // blue
+                        'backgroundColor' => $colors[0]['bg'],
+                        'fill' => true,
                         'unit' => '%',
                     ]),
                     $this->dataset([
                         'label' => 'Accessibility',
                         'data' => $results->pluck('accessibility')->map(fn (float $value): float => $value * 100),
-                        'borderColor' => '#5E409D',
+                        'borderColor' => $colors[2]['border'], // green
+                        'backgroundColor' => $colors[2]['bg'],
+                        'fill' => true,
                         'unit' => '%',
                     ]),
                     $this->dataset([
                         'label' => 'Best Practices',
                         'data' => $results->pluck('best_practices')->map(fn (float $value): float => $value * 100),
-                        'borderColor' => '#A02F6F',
+                        'borderColor' => $colors[4]['border'], // purple
+                        'backgroundColor' => $colors[4]['bg'],
+                        'fill' => true,
                         'unit' => '%',
                     ]),
                     $this->dataset([
                         'label' => 'SEO',
                         'data' => $results->pluck('seo')->map(fn (float $value): float => $value * 100),
-                        'borderColor' => '#24837B',
+                        'borderColor' => $colors[3]['border'], // orange
+                        'backgroundColor' => $colors[3]['bg'],
+                        'fill' => true,
                         'unit' => '%',
                     ]),
                 ],
@@ -72,8 +82,8 @@ class LighthouseCategoriesChart extends BaseChart
             'options' => [
                 'plugins' => [
                     'legend' => [
-                        'enabled' => true,
-                        'position' => 'left',
+                        'display' => true,
+                        'position' => 'top',
                         'align' => 'start',
                     ],
                 ],

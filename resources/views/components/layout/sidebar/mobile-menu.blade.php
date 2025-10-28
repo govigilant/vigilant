@@ -39,7 +39,7 @@
                                 @foreach (\Vigilant\Core\Facades\Navigation::items() as $item)
                                     @continue(!$item->shouldRender())
                                     <li>
-                                        <a href="{{ $item->url }}" wire:navigate @class([
+                                        <a href="{{ $item->url }}" wire:navigate.hover @class([
                                             'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold',
                                             'bg-base-800 text-base-50' => $item->active(),
                                             'text-base-400 hover:text-base-50 hover:bg-base-800' => !$item->active(),
@@ -54,7 +54,7 @@
                                             <ul class="pl-12 border-l border-red">
                                                 @foreach ($item->getChildren() as $child)
                                                     <li class="space-y-1">
-                                                        <a href="{{ $child->url }}" wire:navigate
+                                                        <a href="{{ $child->url }}" wire:navigate.hover
                                                             @class([
                                                                 'group flex gap-x-3 rounded-md p-1 text-sm leading-6 font-semibold',
                                                                 'text-base-50' => $child->active(),

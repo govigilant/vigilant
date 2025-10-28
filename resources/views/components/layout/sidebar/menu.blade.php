@@ -144,7 +144,7 @@
                              x-collapse
                              class="mt-3 pt-3 border-t border-base-800/50 space-y-1 overflow-hidden">
                             <!-- Settings link -->
-                            <a href="{{ route('settings') }}" wire:navigate
+                            <a href="{{ route('settings') }}" wire:navigate.hover
                                 @class([
                                     'group flex items-center gap-2 rounded-lg p-2 text-sm font-medium transition-all duration-200',
                                     'bg-red/10 text-base-50' => Route::currentRouteName() === 'settings',

@@ -7,14 +7,14 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Certificates\Jobs\CheckCertificateJob;
 use Vigilant\Certificates\Models\CertificateMonitor;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
-class CertificateMonitorsTable extends LivewireTable
+class CertificateMonitorsTable extends BaseTable
 {
     protected string $model = CertificateMonitor::class;
 

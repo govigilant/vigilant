@@ -7,7 +7,7 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\ChartColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
@@ -17,7 +17,7 @@ use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
-class MonitorTable extends LivewireTable
+class MonitorTable extends BaseTable
 {
     protected string $model = Monitor::class;
 
@@ -101,7 +101,7 @@ class MonitorTable extends LivewireTable
                         default => 'text-red'
                     };
 
-                    return "<span class='$class'>$percentage%</span>";
+                    return "<span class='$class'>" . number_format($percentage, 2) . "%</span>";
                 })
                 ->asHtml(),
 
