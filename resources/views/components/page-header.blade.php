@@ -37,8 +37,9 @@
         <div class="min-w-0 flex items-center gap-4">
             @if (isset($back))
                 <a href="{{ $back }}" wire:navigate.hover
-                    class="flex items-center justify-center w-9 h-9 rounded-lg bg-base-850/50 border border-base-700 text-base-400 hover:text-base-50 hover:bg-base-800 hover:border-red/50 transition-all duration-200 group">
-                    @svg('tni-arrow-left-circle-o', 'w-4 h-4 group-hover:-translate-x-0.5 transition-transform duration-200')
+                    class="relative flex items-center justify-center w-10 h-10 rounded-lg bg-base-850 border border-base-700 text-base-300 hover:text-base-50 hover:bg-base-800 hover:border-indigo transition-all duration-300 group overflow-hidden shadow-lg hover:shadow-indigo/20">
+                    <div class="absolute inset-0 bg-gradient-to-br from-indigo/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    @svg('tni-arrow-left-circle-o', 'w-5 h-5 relative z-10 group-hover:-translate-x-0.5 transition-transform duration-200')
                 </a>
             @endif
             <div>

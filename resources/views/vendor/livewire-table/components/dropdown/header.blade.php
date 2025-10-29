@@ -15,8 +15,6 @@
                 'hover:bg-base-800 active:bg-base-800' => $navigate,
                 'hover:border-base-800 focus:border-red' => $navigate,
                 'hover:text-base-50 active:text-base-50' => $navigate,
-                'rounded-t-lg' => ! $slot->hasActualContent(),
-                'rounded-tl-lg' => $slot->hasActualContent(),
             ])->when($navigate, fn ($bag) => $bag->merge([
                 'x-data' => Js::from(['navigate' => $navigate]),
                 'x-on:click' => 'current = navigate',

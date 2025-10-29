@@ -1,7 +1,7 @@
 <div>
     @if (!$inline)
         <x-slot name="header">
-            <x-page-header title="Import">
+            <x-page-header title="Import" :back="route('sites')">
             </x-page-header>
         </x-slot>
     @endif
