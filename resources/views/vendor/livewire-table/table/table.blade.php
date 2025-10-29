@@ -37,7 +37,7 @@
             @for($i = 0; $i < $this->perPage(); $i++)
                 <x-livewire-table::table.tr
                     wire:key="placeholder-{{ $i }}"
-                    class="bg-base-850 odd:bg-base-900 hover:bg-base-800 transition-all duration-200 motion-safe:animate-pulse"
+                    class="bg-base-900 odd:bg-base-900/50 hover:bg-base-800/80 transition-all duration-200 motion-safe:animate-pulse border-b border-base-700/50"
                 >
                     @if($this->canSelect())
                         <x-livewire-table::table.td class="px-3">
@@ -59,8 +59,8 @@
                 <tr
                     x-data="@js(['item' => (string) $item->getKey()])"
                     x-bind:class="~selected.indexOf(item)
-                        ? 'bg-red/10 hover:bg-red/20 transition-all duration-200 border-l-2 border-red'
-                        : 'bg-base-850 odd:bg-base-900 hover:bg-base-800 transition-all duration-200'
+                        ? 'bg-red/10 hover:bg-red/20 transition-all duration-200 border-l-4 border-red shadow-sm shadow-red/20'
+                        : 'bg-base-900 odd:bg-base-900/50 hover:bg-base-800/80 transition-all duration-200 border-b border-base-700/50'
                     "
                     wire:key="row-{{ $item->getKey() }}"
 
@@ -111,8 +111,8 @@
                     @endforeach
                 </tr>
             @empty
-                <x-livewire-table::table.tr class="bg-base-900 transition-all duration-200">
-                    <x-livewire-table::table.td colspan="{{ $columns->count() + 1 }}">
+                <x-livewire-table::table.tr class="bg-base-900/50 transition-all duration-200">
+                    <x-livewire-table::table.td colspan="{{ $columns->count() + 1 }}" class="text-center py-12">
                         <x-livewire-table::table.message>
                             @lang('No results')
                         </x-livewire-table::table.message>
