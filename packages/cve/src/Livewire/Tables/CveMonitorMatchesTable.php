@@ -34,6 +34,7 @@ class CveMonitorMatchesTable extends BaseTable
                 ->sortable(),
 
             Column::make(__('Description'), 'cve.description')
+                ->displayUsing(fn (string $description): string => str($description)->limit(100))
                 ->searchable()
                 ->sortable(),
         ];
