@@ -56,12 +56,17 @@
         
         <!-- Navigation -->
         <div class="mt-6 flex items-center justify-between">
-            <button wire:click="goBack" class="inline-flex items-center gap-2 text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-                </svg>
-                @lang('Back to add sites')
-            </button>
+            <div class="flex items-center gap-4">
+                <button wire:click="goBack" class="inline-flex items-center gap-2 text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    @lang('Back to add sites')
+                </button>
+                <button wire:click="skipOnboarding" class="text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
+                    @lang('Skip onboarding entirely')
+                </button>
+            </div>
             <button wire:click="redirectNextStep" class="text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
                 @lang('Skip this step →')
             </button>

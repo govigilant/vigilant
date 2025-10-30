@@ -54,7 +54,10 @@
         <livewire:sites.import :inline="true" />
         
         <!-- Skip Option -->
-        <div class="mt-6 text-center">
+        <div class="mt-6 flex items-center justify-between">
+            <button wire:click="skipOnboarding" class="text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
+                @lang('Skip onboarding entirely')
+            </button>
             <button wire:click="redirectNextStep" class="text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
                 @lang('Skip this step →')
             </button>

@@ -10,8 +10,6 @@ use Vigilant\OnBoarding\Actions\ShouldOnboard;
 
 class RedirectToOnboard
 {
-    const SESSION_KEY = 'onboarding_redirect';
-
     /**
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
@@ -21,15 +19,13 @@ class RedirectToOnboard
         $shouldOnboard = app(ShouldOnboard::class);
 
         if (
-            session()->has(static::SESSION_KEY) ||
             auth()->user() === null ||
-            Route::is('onboard') ||
+            Route::is('onboard*') ||
+            Route::is('livewire.*') ||
             ! $shouldOnboard->shouldOnboard()
         ) {
             return $next($request);
         }
-
-        session()->put(static::SESSION_KEY, true);
 
         return redirect()->route('onboard');
     }

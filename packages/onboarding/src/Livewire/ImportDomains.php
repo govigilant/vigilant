@@ -28,6 +28,19 @@ class ImportDomains extends Component
         // Allow users to return to this step even if completed
     }
 
+    public function skipOnboarding(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        OnboardingStep::query()->updateOrCreate(
+            ['team_id' => $user->currentTeam?->id],
+            ['step' => 'complete', 'finished_at' => now()]
+        );
+
+        $this->redirectRoute('sites');
+    }
+
     public function render(): mixed
     {
         /** @var view-string $view */
