@@ -202,15 +202,16 @@ class LatencyChart extends BaseChart
 
     protected function multiCountryData(): array
     {
+        // Design system colors from styleguide
         $colors = [
-            '#337F1F', // Green
-            '#3B82F6', // Blue
-            '#F59E0B', // Amber
-            '#EF4444', // Red
-            '#8B5CF6', // Purple
-            '#EC4899', // Pink
-            '#10B981', // Emerald
-            '#F97316', // Orange
+            ['border' => '#3B82F6', 'bg' => 'rgba(59, 130, 246, 0.1)'],   // blue
+            ['border' => '#6366F1', 'bg' => 'rgba(99, 102, 241, 0.1)'],   // indigo
+            ['border' => '#10B981', 'bg' => 'rgba(16, 185, 129, 0.1)'],   // green
+            ['border' => '#F97316', 'bg' => 'rgba(249, 115, 22, 0.1)'],   // orange
+            ['border' => '#8B5CF6', 'bg' => 'rgba(139, 92, 246, 0.1)'],   // purple
+            ['border' => '#EC4899', 'bg' => 'rgba(236, 72, 153, 0.1)'],   // magenta
+            ['border' => '#06B6D4', 'bg' => 'rgba(6, 182, 212, 0.1)'],    // cyan
+            ['border' => '#EF4444', 'bg' => 'rgba(239, 68, 68, 0.1)'],    // red
         ];
 
         $limit = match ($this->dateRange) {
@@ -259,15 +260,17 @@ class LatencyChart extends BaseChart
                 $data[] = $countryData[$country][$timestamp] ?? null;
             }
 
-            $color = $colors[$index % count($colors)];
+            $colorSet = $colors[$index % count($colors)];
 
             $datasets[] = [
                 'label' => strtoupper($country),
                 'data' => $data,
-                'pointRadius' => 0,
-                'pointHoverRadius' => 0,
+                'pointRadius' => 1,
+                'pointHoverRadius' => 4,
                 'borderWidth' => 2,
-                'borderColor' => $color,
+                'borderColor' => $colorSet['border'],
+                'backgroundColor' => $colorSet['bg'],
+                'fill' => true,
                 'tension' => 0.4,
                 'unit' => 'ms',
                 'spanGaps' => true,
@@ -287,24 +290,67 @@ class LatencyChart extends BaseChart
                 'datasets' => $datasets,
             ],
             'options' => [
+                'responsive' => true,
+                'maintainAspectRatio' => false,
                 'plugins' => [
                     'legend' => [
                         'display' => true,
+                        'position' => 'top',
+                        'align' => 'end',
+                        'labels' => [
+                            'color' => '#D8D8E8', // base-200
+                            'font' => [
+                                'size' => 12,
+                            ],
+                            'padding' => 12,
+                            'usePointStyle' => true,
+                            'pointStyle' => 'circle',
+                        ],
                     ],
                     'tooltip' => [
                         'enabled' => true,
                         'mode' => 'index',
                         'intersect' => false,
+                        'backgroundColor' => '#232333', // base-850
+                        'titleColor' => '#F4F4FA', // base-100
+                        'bodyColor' => '#D8D8E8', // base-200
+                        'borderColor' => '#444459', // base-700
+                        'borderWidth' => 1,
+                        'padding' => 12,
                     ],
                 ],
                 'scales' => [
                     'y' => [
                         'display' => true,
                         'beginAtZero' => true,
+                        'grid' => [
+                            'color' => '#2D2D42', // base-800
+                            'drawBorder' => false,
+                        ],
+                        'ticks' => [
+                            'color' => '#A8A8C0', // base-400
+                            'font' => [
+                                'size' => 11,
+                            ],
+                        ],
                     ],
                     'x' => [
                         'display' => true,
+                        'grid' => [
+                            'display' => false,
+                        ],
+                        'ticks' => [
+                            'color' => '#A8A8C0', // base-400
+                            'font' => [
+                                'size' => 11,
+                            ],
+                            'maxRotation' => 0,
+                        ],
                     ],
+                ],
+                'interaction' => [
+                    'mode' => 'index',
+                    'intersect' => false,
                 ],
             ],
         ];

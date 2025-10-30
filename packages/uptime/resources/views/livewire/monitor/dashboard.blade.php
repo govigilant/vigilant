@@ -15,7 +15,7 @@
             @if ($uptime30d === null)
                 <x-frontend::mdash />
             @else
-                {{ $uptime30d }}%
+                {{ number_format($uptime30d, 2) }}%
             @endif
         </x-frontend::stats-card>
 
@@ -23,7 +23,7 @@
             @if ($uptime7d === null)
                 <x-frontend::mdash />
             @else
-                {{ $uptime7d }}%
+                {{ number_format($uptime7d, 2) }}%
             @endif
         </x-frontend::stats-card>
     </dl>

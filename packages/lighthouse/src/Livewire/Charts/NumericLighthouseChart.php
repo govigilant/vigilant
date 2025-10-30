@@ -59,20 +59,29 @@ class NumericLighthouseChart extends BaseChart
             default => fn (mixed $value): mixed => $value ?? '-',
         };
 
+        $color = $this->getChartColor(0); // Use first color (blue)
+
         return [
             'type' => 'line',
             'data' => [
                 'labels' => $audits->map(fn (LighthouseResultAudit $audit): string => $audit->created_at?->toDateTimeString('minute') ?? '-')->toArray(),
                 'datasets' => [
-                    $this->dataSet([
+                    $this->dataset([
                         'label' => $title,
                         'data' => $audits->map(fn (LighthouseResultAudit $audit): string => $formatter($audit['numericValue']))->toArray(),
-                        'borderColor' => '#205EA6',
+                        'borderColor' => $color['border'],
+                        'backgroundColor' => $color['bg'],
+                        'fill' => true,
                         'unit' => 's',
                     ]),
                 ],
             ],
             'options' => [
+                'plugins' => [
+                    'legend' => [
+                        'display' => false,
+                    ],
+                ],
                 'scales' => [
                     'y' => [
                         'display' => true,

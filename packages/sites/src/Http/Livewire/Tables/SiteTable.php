@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Enumerable;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseMonitorsTable;
@@ -16,7 +16,7 @@ use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
 
-class SiteTable extends LivewireTable
+class SiteTable extends BaseTable
 {
     protected string $model = Site::class;
 

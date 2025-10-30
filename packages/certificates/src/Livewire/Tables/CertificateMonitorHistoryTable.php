@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Certificates\Models\CertificateMonitorHistory;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 
-class CertificateMonitorHistoryTable extends LivewireTable
+class CertificateMonitorHistoryTable extends BaseTable
 {
     protected string $model = CertificateMonitorHistory::class;
 

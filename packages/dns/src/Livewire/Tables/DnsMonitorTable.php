@@ -7,15 +7,15 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Jobs\CheckDnsRecordJob;
 use Vigilant\Dns\Models\DnsMonitor;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
-class DnsMonitorTable extends LivewireTable
+class DnsMonitorTable extends BaseTable
 {
     protected string $model = DnsMonitor::class;
 

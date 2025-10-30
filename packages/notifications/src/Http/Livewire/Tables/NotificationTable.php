@@ -13,12 +13,12 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Filters\BooleanFilter;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\Notification;
 
-class NotificationTable extends LivewireTable
+class NotificationTable extends BaseTable
 {
     protected string $model = Trigger::class;
 

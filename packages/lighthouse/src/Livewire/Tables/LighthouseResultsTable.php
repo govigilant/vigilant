@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 
-class LighthouseResultsTable extends LivewireTable
+class LighthouseResultsTable extends BaseTable
 {
     protected string $model = LighthouseResult::class;
 

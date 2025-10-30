@@ -94,11 +94,26 @@ class ImportSites extends Component
 
         return view($view, [
             'availableMonitors' => [
-                'uptime' => __('Uptime'),
-                'lighthouse' => __('Lighthouse'),
-                'dns' => __('DNS'),
-                'certificate' => __('Certificate'),
-                'crawler' => __('Link Issues'),
+                'uptime' => [
+                    'label' => __('Uptime'),
+                    'description' => __('Track uptime and response times, get notified when your site goes down'),
+                ],
+                'lighthouse' => [
+                    'label' => __('Lighthouse'),
+                    'description' => __('Monitor Google Lighthouse scores'),
+                ],
+                'dns' => [
+                    'label' => __('DNS'),
+                    'description' => __('Track changes in DNS records'),
+                ],
+                'certificate' => [
+                    'label' => __('Certificate'),
+                    'description' => __('Monitor SSL certificate expiration and validity'),
+                ],
+                'crawler' => [
+                    'label' => __('Link Issues'),
+                    'description' => __('Crawl your site to find broken links and errors'),
+                ],
             ],
         ]);
     }

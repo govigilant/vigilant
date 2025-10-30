@@ -7,24 +7,27 @@
     @endif
 
     <form wire:submit="save">
-        <div class="flex flex-col gap-4 max-w-7xl mx-auto">
-            @if (!$inline)
-                <x-form.checkbox field="form.enabled" name="Enabled"
-                    description="Enable or disable this lighthouse monitor" />
-            @endif
-            <x-form.text field="form.url" name="URL" description="Site URL" />
+        <div class="max-w-7xl mx-auto">
+            <x-card>
+                <div class="flex flex-col gap-4">
+                    @if (!$inline)
+                        <x-form.checkbox field="form.enabled" name="Enabled"
+                            description="Enable or disable this lighthouse monitor" />
+                    @endif
+                    <x-form.text field="form.url" name="URL" description="Site URL" />
 
-            <x-form.select field="form.interval" name="Interval"
-                description="Choose how often this monitor should check the lighthouse scores">
-                @foreach (config('lighthouse.intervals') as $interval => $label)
-                    <option value="{{ $interval }}">@lang($label)</option>
-                @endforeach
-            </x-form.select>
+                    <x-form.select field="form.interval" name="Interval"
+                        description="Choose how often this monitor should check the lighthouse scores">
+                        @foreach (config('lighthouse.intervals') as $interval => $label)
+                            <option value="{{ $interval }}">@lang($label)</option>
+                        @endforeach
+                    </x-form.select>
 
-            @if (!$inline)
-                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
-            @endif
-
+                    @if (!$inline)
+                        <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
+                    @endif
+                </div>
+            </x-card>
         </div>
     </form>
 </div>

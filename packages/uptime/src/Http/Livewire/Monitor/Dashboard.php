@@ -34,7 +34,7 @@ class Dashboard extends Component
                 ->whereNotNull('end')
                 ->orderByDesc('start')
                 ->first(),
-            'uptime30d' => $uptimePercentage->calculate($monitor),
+            'uptime30d' => $uptimePercentage->calculate($monitor, '-30 days'),
             'uptime7d' => $uptimePercentage->calculate($monitor, '-7 days'),
         ]);
     }

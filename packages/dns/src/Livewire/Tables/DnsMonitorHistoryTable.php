@@ -5,12 +5,12 @@ namespace Vigilant\Dns\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Dns\Models\DnsMonitorHistory;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
 
-class DnsMonitorHistoryTable extends LivewireTable
+class DnsMonitorHistoryTable extends BaseTable
 {
     protected string $model = DnsMonitorHistory::class;
 

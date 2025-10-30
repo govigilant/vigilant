@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Cve\Actions\ImportAllCves;
 use Vigilant\Cve\Models\CveMonitor;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 
-class CveMonitorTable extends LivewireTable
+class CveMonitorTable extends BaseTable
 {
     protected string $model = CveMonitor::class;
 

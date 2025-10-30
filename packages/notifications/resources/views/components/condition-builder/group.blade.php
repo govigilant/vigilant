@@ -1,8 +1,8 @@
-<div class="w-full border border-base-200 rounded-sm px-2 pt-2 pb-4" x-data="{ deleteHover: false, addGroupHover: false, addConditionHover: false }"
-    :class="deleteHover ? 'bg-red-light/20' : ''">
-    <div class="flex space-x-4 items-center">
-        <div class="mt-1 flex gap-2 items-center">
-            <label for="group-operator{{ $path }}" class="text-sm text-white">
+<div class="w-full border border-base-700 rounded-lg px-4 pt-3 pb-4 bg-base-850" x-data="{ deleteHover: false, addGroupHover: false, addConditionHover: false }"
+    :class="deleteHover ? 'ring-2 ring-red/50 border-red/50' : ''">
+    <div class="flex flex-wrap gap-3 items-center">
+        <div class="flex gap-2 items-center">
+            <label for="group-operator{{ $path }}" class="text-sm text-base-200 font-medium">
                 @lang('Match')
             </label>
             <div>
@@ -11,44 +11,50 @@
                     @else
                         wire:model.live="conditions.{{ $path }}.operator" @endif
                     id="group-operator{{ $path }}"
-                    class="block w-full rounded-md border-0 py-0 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
+                    class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-base-100 bg-base-800 ring-1 ring-inset ring-base-700 focus:ring-2 focus:ring-inset focus:ring-red transition-all duration-200">
                     <option value="any">@lang('Any')</option>
                     <option value="all">@lang('All')</option>
                 </select>
             </div>
             <span>
-                <label for="group-operator{{ $path }}" class="text-sm text-white">@lang('conditions in this group')</label>
+                <label for="group-operator{{ $path }}" class="text-sm text-base-200">@lang('conditions in this group')</label>
             </span>
         </div>
 
-        <div class="flex-1 flex gap-2 justify-end">
-            <div>
+        <div class="flex-1 flex flex-wrap gap-2 justify-end">
+            <div class="min-w-[200px]">
                 <select wire:model.live="selectedCondition.{{ md5($path) }}"
-                    class="block w-full rounded-md border-0 py-1 pl-3 pr-10 text-white bg-white/5 ring-1 ring-inset ring-white/10 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red">
+                    class="block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-base-100 bg-base-800 ring-1 ring-inset ring-base-700 focus:ring-2 focus:ring-inset focus:ring-red transition-all duration-200">
                     @foreach ($conditions as $condition)
                         <option value="{{ $condition }}">{{ $condition::$name }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <x-form.button class="bg-green hover:bg-green-light" type="button"
-                wire:click="addCondition('{{ $path }}')" x-on:mouseover="addConditionHover = true"
-                x-on:mouseleave="addConditionHover = false">
+            <button type="button"
+                wire:click="addCondition('{{ $path }}')" 
+                x-on:mouseover="addConditionHover = true"
+                x-on:mouseleave="addConditionHover = false"
+                class="inline-flex items-center px-4 py-2 bg-green hover:bg-green-light text-base-100 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green focus:ring-offset-base-900">
                 @lang('Add Condition')
-            </x-form.button>
+            </button>
 
-            <x-form.button class="bg-blue hover:bg-blue-light" type="button"
-                wire:click="addGroup('{{ $path }}')" x-on:mouseover="addGroupHover = true"
-                x-on:mouseleave="addGroupHover = false">
+            <button type="button"
+                wire:click="addGroup('{{ $path }}')" 
+                x-on:mouseover="addGroupHover = true"
+                x-on:mouseleave="addGroupHover = false"
+                class="inline-flex items-center px-4 py-2 bg-blue hover:bg-blue-light text-base-100 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue focus:ring-offset-base-900">
                 @lang('Add Group')
-            </x-form.button>
+            </button>
 
             @if (!blank($path))
-                <x-form.button class="bg-red hover:bg-red-light" type="button"
-                    wire:click="deletePath('{{ $path }}')" x-on:mouseover="deleteHover = true"
-                    x-on:mouseleave="deleteHover = false">
+                <button type="button"
+                    wire:click="deletePath('{{ $path }}')" 
+                    x-on:mouseover="deleteHover = true"
+                    x-on:mouseleave="deleteHover = false"
+                    class="inline-flex items-center px-4 py-2 bg-red hover:bg-red-light text-base-100 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red focus:ring-offset-base-900">
                     @lang('Delete Group')
-                </x-form.button>
+                </button>
             @endif
         </div>
     </div>
@@ -68,10 +74,10 @@
             @endif
         @endforeach
 
-        <div class="w-full bg-blue text-white rounded-md py-1 px-2 mt-2" x-cloak x-show="addGroupHover">
+        <div class="w-full bg-blue/20 border border-blue text-blue-light rounded-md py-2 px-3 mt-3 text-sm font-medium" x-cloak x-show="addGroupHover">
             @lang('New Group')
         </div>
-        <div class="w-full bg-green text-white rounded-md py-1 px-2 mt-2" x-cloak x-show="addConditionHover">
+        <div class="w-full bg-green/20 border border-green text-green-light rounded-md py-2 px-3 mt-3 text-sm font-medium" x-cloak x-show="addConditionHover">
             @lang('New Condition')
         </div>
 
