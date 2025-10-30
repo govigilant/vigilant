@@ -9,12 +9,9 @@
         <div class="absolute -right-32 top-2/3 w-64 h-64 bg-blue/10 rounded-full blur-3xl pointer-events-none animate-pulse-glow" style="animation-delay: -2s;"></div>
         
         <!-- Logo with subtle glow -->
-        <div class="flex h-16 shrink-0 items-center pt-4 group">
-            <a href="/" class="relative">
-                <div
-                    class="absolute -inset-2 bg-gradient-to-r from-red/20 to-blue/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-500">
-                </div>
-                <img class="h-14 w-auto relative transition-transform duration-300 group-hover:scale-105"
+        <div class="flex h-16 shrink-0 items-center pt-4">
+            <a href="/" class="inline-block transition-transform duration-300 hover:scale-105">
+                <img class="h-14 w-auto"
                     src="{{ url('img/logo.svg') }}" alt="{{ config('app.name') }}">
             </a>
         </div>
