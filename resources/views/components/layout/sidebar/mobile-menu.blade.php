@@ -45,7 +45,7 @@
                                             'text-base-400 hover:text-base-50 hover:bg-base-800' => !$item->active(),
                                         ])>
                                             @if ($item->icon !== null)
-                                                @svg($item->icon, 'h-6 w-6 shrink-0 ' . ($item->active() ? 'text-red' : ''))
+                                                @svg($item->icon, 'h-6 w-6 shrink-0' . ($item->active() ? ' text-red' : ''))
                                             @endif
                                             {{ __($item->name) }}
                                         </a>
@@ -62,7 +62,7 @@
                                                             ])>
                                                             <span class="flex items-center gap-x-2">
                                                                 @if ($child->icon !== null)
-                                                                    @svg($child->icon, 'h-6 w-6 shrink-0 ' . ($child->active() ? 'text-red' : ''))
+                                                                    @svg($child->icon, 'h-6 w-6 shrink-0' . ($child->active() ? ' text-red' : ''))
                                                                 @endif
                                                                 {{ __($child->name) }}
                                                             </span>
