@@ -37,44 +37,16 @@
             </x-card>
         </div>
     @else
-        <div x-data="{ 
-            activeTab: '{{ !empty($tabs) ? $tabs[0]['key'] : '' }}' 
-        }" class="pb-12">
+        <x-frontend::tabs.container :activeTab="!empty($tabs) ? $tabs[0]['key'] : ''" class="pb-12">
             
             {{-- Tab Navigation --}}
-            <div class="mb-8">
-                <x-card :padding="false" class="overflow-hidden">
-                    <div class="border-b border-base-700">
-                        <nav class="-mb-px flex space-x-1 p-2" aria-label="Tabs">
-                            @foreach($tabs as $tab)
-                                @if(!isset($tab['gate']) || auth()->user()->can($tab['gate']))
-                                    <button
-                                        @click="activeTab = '{{ $tab['key'] }}'"
-                                        :class="activeTab === '{{ $tab['key'] }}' ? 'border-{{ $tab['color'] }} text-base-50 bg-base-800/50' : 'border-transparent text-base-300 hover:text-base-100 hover:border-base-600'"
-                                        class="group relative min-w-0 flex-1 sm:flex-initial overflow-hidden rounded-lg border-2 px-4 py-3 text-center text-sm font-medium transition-all duration-300 focus:z-10 focus:outline-none focus:ring-2 focus:ring-{{ $tab['color'] }} focus:ring-offset-2 focus:ring-offset-base-900 @if($loop->first) border-{{ $tab['color'] }} text-base-50 bg-base-800/50 @else border-transparent text-base-300 @endif"
-                                    >
-                                        <span class="flex items-center justify-center gap-2">
-                                            @svg($tab['icon'], 'size-4')
-                                            <span class="hidden sm:inline">{{ $tab['label'] }}</span>
-                                        </span>
-                                    </button>
-                                @endif
-                            @endforeach
-                        </nav>
-                    </div>
-                </x-card>
-            </div>
+            <x-frontend::tabs.navigation :tabs="$tabs" />
 
             {{-- Tab Panels --}}
             <div class="space-y-6">
-                @foreach($tabs as $tab)
+                @foreach($tabs as $index => $tab)
                     @if(!isset($tab['gate']) || auth()->user()->can($tab['gate']))
-                        <div x-show="activeTab === '{{ $tab['key'] }}'" 
-                             @if($tab['key'] !== 'uptime')x-cloak @endif
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 transform translate-y-4"
-                             x-transition:enter-end="opacity-100 transform translate-y-0"
-                             class="space-y-6">
+                        <x-frontend::tabs.panel :key="$tab['key']" :cloak="$index !== 0">
                             
                             {{-- Section Header with Link --}}
                             <div class="flex items-center justify-between">
@@ -92,7 +64,7 @@
                                 </a>
                             </div>
 
-                            <x-card>
+                            <x-frontend::card>
                                 @if($tab['key'] === 'uptime')
                                     <livewire:monitor-dashboard :monitorId="$tab['monitor']->id" />
                                 @elseif($tab['key'] === 'lighthouse')
@@ -104,12 +76,12 @@
                                 @elseif($tab['key'] === 'certificate')
                                     <livewire:certificate-monitor-dashboard :monitorId="$tab['monitor']->id" />
                                 @endif
-                            </x-card>
-                        </div>
+                            </x-frontend::card>
+                        </x-frontend::tabs.panel>
                     @endif
                 @endforeach
             </div>
-        </div>
+        </x-frontend::tabs.container>
     @endif
 
 </x-app-layout>
