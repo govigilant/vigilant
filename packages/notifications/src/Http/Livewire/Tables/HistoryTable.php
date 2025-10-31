@@ -46,6 +46,7 @@ class HistoryTable extends BaseTable
                 }),
 
             Column::make(__('Details'), 'data.description')
+                ->displayUsing(fn (string $description): string => str($description)->limit(100))
                 ->searchable(function (Builder $builder, mixed $search) {
                     $builder->where('data->description', 'LIKE', '%'.$search.'%');
                 }),

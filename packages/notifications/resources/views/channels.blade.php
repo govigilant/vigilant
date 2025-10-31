@@ -1,13 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
         <x-page-header title="Notification Channels">
-            <x-form.button dusk="channel-add-button" class="bg-blue hover:bg-blue-light"
-                           :href="route('notifications.channel.create')">
+            <x-create-button dusk="channel-add-button" :href="route('notifications.channel.create')" model="Vigilant\Notifications\Models\Channel">
                 @lang('Add Channel')
-            </x-form.button>
+            </x-create-button>
         </x-page-header>
     </x-slot>
 
-    <livewire:channel-table/>
+    <livewire:channel-table />
 
 </x-app-layout>

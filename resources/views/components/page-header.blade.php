@@ -33,7 +33,7 @@
                 url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%221.2%22 numOctaves=%225%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22 opacity=%220.15%22/%3E%3C/svg%3E');">
     </div>
 
-    <div class="flex items-center justify-between">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="min-w-0 flex items-center gap-4">
             @if (isset($back))
                 <a href="{{ $back }}" wire:navigate.hover
@@ -54,7 +54,7 @@
                 </div>
             </div>
         </div>
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 w-full sm:w-auto">
             {{ $slot }}
         </div>
     </div>

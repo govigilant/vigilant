@@ -8,12 +8,12 @@
         @if(! $this->isReordering())
             @if($this->sortColumn === $column->code())
                 @if($this->sortDirection === 'asc')
-                    <x-livewire-table::icon icon="chevron-up" class="size-4 text-red" />
+                    <x-livewire-table::icon icon="chevron-up" class="size-4 text-red flex-shrink-0" />
                 @else
-                    <x-livewire-table::icon icon="chevron-down" class="size-4 text-red" />
+                    <x-livewire-table::icon icon="chevron-down" class="size-4 text-red flex-shrink-0" />
                 @endif
             @else
-                <x-livewire-table::icon icon="chevron-up-down" class="size-4 opacity-50 group-hover:opacity-100 transition-opacity duration-200" />
+                <x-livewire-table::icon icon="chevron-up-down" class="size-4 opacity-50 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0" />
             @endif
         @endif
     </button>

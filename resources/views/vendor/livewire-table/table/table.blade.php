@@ -1,6 +1,5 @@
 @php($columns = $this->resolveColumns())
 
-<div class="overflow-x-auto">
 <x-livewire-table::table x-data="{ selected: $wire.entangle('selected') }">
     <x-livewire-table::table.thead>
         <x-livewire-table::table.tr>
@@ -137,4 +136,3 @@
         </x-livewire-table::table.tr>
     </x-livewire-table::table.tfoot>
 </x-livewire-table::table>
-</div>
