@@ -255,3 +255,66 @@ button:disabled {
 select:not([multiple]) option {
     @apply bg-gray-950;
 }
+
+/* Safelist for dynamic color classes used in modal headers and other components */
+@layer utilities {
+  .bg-red\/10 {
+    background-color: rgb(239 68 68 / 0.1);
+  }
+
+  .bg-blue\/10 {
+    background-color: rgb(59 130 246 / 0.1);
+  }
+
+  .bg-green\/10 {
+    background-color: rgb(16 185 129 / 0.1);
+  }
+
+  .bg-yellow\/10 {
+    background-color: rgb(245 158 11 / 0.1);
+  }
+
+  .bg-purple\/10 {
+    background-color: rgb(139 92 246 / 0.1);
+  }
+
+  .border-red\/30 {
+    border-color: rgb(239 68 68 / 0.3);
+  }
+
+  .border-blue\/30 {
+    border-color: rgb(59 130 246 / 0.3);
+  }
+
+  .border-green\/30 {
+    border-color: rgb(16 185 129 / 0.3);
+  }
+
+  .border-yellow\/30 {
+    border-color: rgb(245 158 11 / 0.3);
+  }
+
+  .border-purple\/30 {
+    border-color: rgb(139 92 246 / 0.3);
+  }
+
+  .text-red {
+    color: rgb(239 68 68);
+  }
+
+  .text-blue {
+    color: rgb(59 130 246);
+  }
+
+  .text-green {
+    color: rgb(16 185 129);
+  }
+
+  .text-yellow {
+    color: rgb(245 158 11);
+  }
+
+  .text-purple {
+    color: rgb(139 92 246);
+  }
+}
