@@ -23,11 +23,13 @@
     @livewireStyles
 </head>
 
-<body class="font-text antialiased dark dark:bg-base-black min-w-screen h-screen flex" x-data="{ sidebarOpen: false, contentShow: true }"
+<body class="font-text antialiased dark dark:bg-base-black h-screen flex" x-data="{ sidebarOpen: false, contentShow: true }"
     @navigation-start.window="contentShow = false" @navigation-end.window="contentShow = true">
     <x-layout.sidebar />
 
-    <main class="dark:bg-base-black flex flex-col flex-1 relative">
+    <main class="dark:bg-base-black flex flex-col flex-1 relative min-w-0">
+        <x-layout.topbar />
+        
         <!-- Diagonal light streaks -->
         <div class="absolute left-0 top-0 w-96 h-full pointer-events-none opacity-30">
             <div
@@ -48,15 +50,15 @@
         <div class="absolute left-2 top-96 w-2.5 h-2.5 rounded-full bg-red-light blur-sm pointer-events-none opacity-50 animate-float"
             style="animation-delay: -1.5s;"></div>
 
-        <div class="bg-base-900 flex flex-col flex-1 relative overflow-x-hidden overflow-y-auto">
+        <div class="bg-base-900 rounded-tl-2xl rounded-tr-2xl lg:rounded-tr-none flex flex-col flex-1 relative overflow-y-auto min-w-0">
             @if (isset($header))
                 <header
-                    class="bg-gradient-to-r from-base-950 to-base-900 px-8 py-6 border-b border-base-800/50 relative z-10">
+                    class="bg-gradient-to-r from-base-950 to-base-900 px-4 py-3 sm:px-6 sm:py-4 lg:px-8 border-b border-base-800/50 relative z-10">
                     {{ $header }}
                 </header>
             @endif
 
-            <div class="px-4 sm:px-6 lg:px-8 pt-6 pb-6 w-full max-w-full relative z-10"
+            <div class="px-4 sm:px-6 lg:px-8 pt-6 pb-6 w-full relative z-10 min-w-0"
                 x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100" x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"

@@ -1,10 +1,9 @@
 @props(['model'])
 @can('create', $model)
-    <x-form.button {{ $attributes->merge(['class' => 'group relative overflow-hidden bg-gradient-to-r from-red via-orange to-red bg-300% animate-gradient-shift hover:scale-105']) }} wire:navigate.hover>
-        <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-red-light via-orange-light to-red-light"></div>
-        <span class="relative flex items-center gap-2">
+    <x-form.button {{ $attributes->merge(['class' => 'bg-gradient-to-r from-red via-orange to-red bg-[length:200%] bg-left hover:bg-right transition-[background-position] duration-300']) }} wire:navigate.hover>
+        <span class="flex items-center gap-2">
             {{ $slot }}
-            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
             </svg>
         </span>

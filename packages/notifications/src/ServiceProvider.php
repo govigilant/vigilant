@@ -3,10 +3,12 @@
 namespace Vigilant\Notifications;
 
 use Illuminate\Foundation\Bus\PendingDispatch;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Notifications\Channels\DiscordChannel;
 use Vigilant\Notifications\Channels\GoogleChatChannel;
 use Vigilant\Notifications\Channels\MailChannel;
@@ -31,6 +33,8 @@ use Vigilant\Notifications\Http\Livewire\Tables\ChannelTable;
 use Vigilant\Notifications\Http\Livewire\Tables\HistoryTable;
 use Vigilant\Notifications\Http\Livewire\Tables\NotificationTable;
 use Vigilant\Notifications\Jobs\CreateNotificationsJob;
+use Vigilant\Notifications\Models\Channel;
+use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Users\Models\Team;
 
 class ServiceProvider extends BaseServiceProvider
@@ -67,7 +71,8 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
-            ->bootNotificationChannels();
+            ->bootNotificationChannels()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -163,6 +168,14 @@ class ServiceProvider extends BaseServiceProvider
             GoogleChatChannel::class,
             MicrosoftTeamsChannel::class,
         ]);
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        Gate::policy(Trigger::class, AllowAllPolicy::class);
+        Gate::policy(Channel::class, AllowAllPolicy::class);
 
         return $this;
     }
