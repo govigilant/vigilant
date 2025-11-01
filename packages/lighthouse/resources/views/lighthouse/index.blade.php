@@ -26,7 +26,7 @@
 
     <livewire:lighthouse-monitor-dashboard :monitorId="$lighthouseMonitor->id" />
 
-    <div class="mt-8 grid grid-cols-2 gap-12">
+    <div class="mt-8 grid grid-cols-1 gap-6">
         @foreach ($charts as $chart)
             <div>
                 <h3 class="text-md font-bold leading-7 sm:truncate sm:text-xl sm:tracking-tight text-neutral-100">
