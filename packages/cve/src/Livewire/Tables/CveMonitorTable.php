@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Cve\Actions\ImportAllCves;
 use Vigilant\Cve\Models\CveMonitor;
 use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
 class CveMonitorTable extends BaseTable
 {
@@ -56,6 +58,19 @@ class CveMonitorTable extends BaseTable
     protected function link(Model $record): string
     {
         return route('cve.monitor.view', ['monitor' => $record]);
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
     }
 
     protected function actions(): array

@@ -115,6 +115,23 @@ class ChannelForm extends Component
         $this->testSent = true;
     }
 
+    public function delete(): void
+    {
+        if (! $this->channelModel->exists) {
+            return;
+        }
+
+        $this->channelModel->delete();
+
+        $this->alert(
+            __('Deleted'),
+            __('Channel was successfully deleted'),
+            AlertType::Success
+        );
+
+        $this->redirectRoute('notifications.channels');
+    }
+
     public function render(): mixed
     {
         /** @var view-string $view */

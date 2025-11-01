@@ -43,7 +43,7 @@
                 wire:click="addGroup('{{ $path }}')" 
                 x-on:mouseover="addGroupHover = true"
                 x-on:mouseleave="addGroupHover = false"
-                class="inline-flex items-center px-4 py-2 bg-blue hover:bg-blue-light text-base-100 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue focus:ring-offset-base-900">
+                class="inline-flex items-center px-4 py-2.5 bg-blue text-base-100 font-semibold text-sm rounded-lg border transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red">
                 @lang('Add Group')
             </button>
 
@@ -52,7 +52,7 @@
                     wire:click="deletePath('{{ $path }}')" 
                     x-on:mouseover="deleteHover = true"
                     x-on:mouseleave="deleteHover = false"
-                    class="inline-flex items-center px-4 py-2 bg-red hover:bg-red-light text-base-100 font-medium rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red focus:ring-offset-base-900">
+                    class="inline-flex items-center px-4 py-2.5 bg-red text-base-100 font-semibold text-sm rounded-lg border transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red">
                     @lang('Delete Group')
                 </button>
             @endif

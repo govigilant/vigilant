@@ -2,7 +2,7 @@
     <x-slot name="header">
         <x-page-header title="Crawlers">
             <x-frontend::page-header.actions>
-                <x-create-button dusk="crawler-add-button" class="bg-blue hover:bg-blue-light" :href="route('crawler.create')"
+                <x-create-button dusk="crawler-add-button" :href="route('crawler.create')"
                     model="Vigilant\Crawler\Models\Crawler">
                     @lang('Add Crawler')
                 </x-create-button>

@@ -7,10 +7,12 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\ChartColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
@@ -119,6 +121,19 @@ class MonitorTable extends BaseTable
 
                     return teamTimezone($lastDowntime->start)->diffForHumans();
                 }),
+        ];
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
         ];
     }
 
