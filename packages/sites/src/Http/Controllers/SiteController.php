@@ -111,6 +111,8 @@ class SiteController extends Controller
 
     public function delete(Site $site): RedirectResponse
     {
+        $this->authorize('delete', $site);
+
         $site->delete();
 
         return redirect()->route('sites')->with('success', __('Site deleted successfully.'));
