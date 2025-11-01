@@ -1,4 +1,4 @@
-<div class="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-x-3 bg-base-black px-4 sm:px-6 lg:px-8">
+<div class="sticky top-0 z-20 flex h-12 sm:h-14 shrink-0 items-center gap-x-3 bg-base-black px-4 sm:px-6 lg:px-8">
     <!-- Mobile menu button -->
     <button type="button" class="group -m-2 p-2 text-base-400 hover:text-base-200 transition-colors duration-200 lg:hidden" x-on:click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
