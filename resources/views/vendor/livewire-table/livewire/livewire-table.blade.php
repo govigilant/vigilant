@@ -9,5 +9,5 @@
             @include('livewire-table::table.table')
         </div>
     </div>
-    {{ $paginator->links('livewire-table::pagination.pagination') }}
+    {{ $paginator->onEachSide(1)->links('livewire-table::pagination.pagination') }}
 </div>

@@ -176,6 +176,31 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  /* Bell swing animation for notification bell */
+  @keyframes bell-swing {
+    0%, 100% {
+      transform: rotate(0deg);
+      transform-origin: top center;
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: rotate(8deg);
+      transform-origin: top center;
+    }
+    20%, 40%, 60%, 80% {
+      transform: rotate(-8deg);
+      transform-origin: top center;
+    }
+  }
+
+  .animate-bell-swing {
+    animation: bell-swing 0.8s ease-in-out;
+  }
+
+  /* Bell swing on hover */
+  .notification-bell:hover svg {
+    animation: bell-swing 0.8s ease-in-out;
+  }
+
   /* Fade in up animation for initial page load */
   @keyframes fadeInUp {
     from {

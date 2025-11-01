@@ -16,13 +16,13 @@
             @endforeach
         </x-livewire-table::table.tr>
         @if($this->canSearch())
-            <x-livewire-table::table.tr>
+            <x-livewire-table::table.tr class="h-12">
                 @if($this->canSelect())
-                    <x-livewire-table::table.td />
+                    <x-livewire-table::table.td class="!py-0" />
                 @endif
                 @foreach($columns as $column)
                     @continue(! in_array($column->code(), $this->columns))
-                    <x-livewire-table::table.td wire:key="{{ $column->code() }}">
+                    <x-livewire-table::table.td class="!py-0" wire:key="{{ $column->code() }}">
                         @if($column->isSearchable())
                             {{ $column->renderSearch() }}
                         @endif

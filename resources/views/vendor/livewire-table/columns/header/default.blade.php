@@ -2,7 +2,7 @@
     <button
        type="button"
        wire:click="sort(@js($column->code()))"
-       class="flex items-center w-full gap-3 px-4 py-2 whitespace-nowrap cursor-pointer text-left text-base-100 hover:text-base-50 hover:bg-base-800/50 transition-all duration-200 rounded-lg group"
+       class="flex items-center w-full gap-3 px-4 py-1 whitespace-nowrap cursor-pointer text-left text-base-100 hover:text-base-50 hover:bg-base-800/50 transition-all duration-200 rounded-lg group"
     >
         <span class="flex-1 font-semibold">{{ $column->label() }}</span>
         @if(! $this->isReordering())
@@ -18,5 +18,5 @@
         @endif
     </button>
 @else
-    <span class="block px-4 py-2 whitespace-nowrap font-semibold text-base-100">{{ $column->label() }}</span>
+    <span class="block px-4 py-1 whitespace-nowrap font-semibold text-base-100">{{ $column->label() }}</span>
 @endif
