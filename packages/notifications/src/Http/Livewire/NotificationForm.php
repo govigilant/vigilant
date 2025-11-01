@@ -62,6 +62,23 @@ class NotificationForm extends Component
         $this->redirectRoute('notifications.trigger.edit', ['trigger' => $this->trigger]);
     }
 
+    public function delete(): void
+    {
+        if (! $this->trigger->exists) {
+            return;
+        }
+
+        $this->trigger->delete();
+
+        $this->alert(
+            __('Deleted'),
+            __('Notification trigger was successfully deleted'),
+            AlertType::Success
+        );
+
+        $this->redirectRoute('notifications');
+    }
+
     public function render(): mixed
     {
         /** @var view-string $view */

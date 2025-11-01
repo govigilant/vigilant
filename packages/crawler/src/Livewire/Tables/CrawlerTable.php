@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Gate;
 use InvalidArgumentException;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Crawler\Actions\StartCrawler;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\Crawler;
@@ -19,6 +20,7 @@ use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Concerns\HasInlineActions;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
 class CrawlerTable extends BaseTable
 {
@@ -106,6 +108,19 @@ class CrawlerTable extends BaseTable
                     InlineAction::make('start', __('Start crawler'), 'phosphor-play-bold')
                         ->visible(fn (Crawler $crawler): bool => $crawler->state !== State::Crawling && $crawler->enabled),
                 ]),
+        ];
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
         ];
     }
 

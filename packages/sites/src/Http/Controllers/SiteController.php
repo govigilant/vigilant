@@ -2,6 +2,7 @@
 
 namespace Vigilant\Sites\Http\Controllers;
 
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 use Vigilant\Sites\Models\Site;
 
@@ -106,5 +107,12 @@ class SiteController extends Controller
         $view = 'sites::sites.view';
 
         return view($view, $data);
+    }
+
+    public function delete(Site $site): RedirectResponse
+    {
+        $site->delete();
+
+        return redirect()->route('sites')->with('success', __('Site deleted successfully.'));
     }
 }

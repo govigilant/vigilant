@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="pt-2">
-                        <x-form.button class="bg-blue hover:bg-blue-light disabled:opacity-50" wire:loading.attr="disabled"
+                        <x-form.button class="bg-blue disabled:opacity-50" wire:loading.attr="disabled"
                             type="button" wire:click="lookup">
                             @lang('Import')
                         </x-form.button>
@@ -59,7 +59,7 @@
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-base-300 sm:pl-0">
                                             {{ $record['value'] }}</td>
                                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-base-300 sm:pl-0">
-                                            <x-form.button class="bg-red hover:bg-red-light" type="button"
+                                            <x-form.button class="bg-red" type="button"
                                                 wire:loading.attr="disabled" wire:click="remove({{ $index }})">
                                                 @lang('Remove')
                                             </x-form.button>

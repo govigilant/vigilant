@@ -10,11 +10,13 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
 use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
+use Vigilant\Sites\Models\Site;
 
 class LighthouseMonitorsTable extends BaseTable
 {
@@ -96,6 +98,19 @@ class LighthouseMonitorsTable extends BaseTable
         };
 
         return '<span class="'.$color.'">'.$percentage.'%</span>';
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
     }
 
     protected function actions(): array

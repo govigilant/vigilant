@@ -7,12 +7,14 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Certificates\Jobs\CheckCertificateJob;
 use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
 class CertificateMonitorsTable extends BaseTable
 {
@@ -80,6 +82,19 @@ class CertificateMonitorsTable extends BaseTable
                 ->hide()
                 ->sortable()
                 ->searchable(),
+        ];
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
         ];
     }
 

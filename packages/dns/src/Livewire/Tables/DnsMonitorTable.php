@@ -7,6 +7,7 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Dns\Jobs\CheckDnsRecordJob;
 use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Integrations\Table\BaseTable;
@@ -14,6 +15,7 @@ use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
 class DnsMonitorTable extends BaseTable
 {
@@ -51,6 +53,19 @@ class DnsMonitorTable extends BaseTable
     protected function link(Model $record): string
     {
         return route('dns.history', ['monitor' => $record]);
+    }
+
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
     }
 
     protected function actions(): array
