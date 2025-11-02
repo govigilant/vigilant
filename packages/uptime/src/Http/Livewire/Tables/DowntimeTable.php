@@ -5,12 +5,12 @@ namespace Vigilant\Uptime\Http\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 
-class DowntimeTable extends LivewireTable
+class DowntimeTable extends BaseTable
 {
     protected string $model = Downtime::class;
 

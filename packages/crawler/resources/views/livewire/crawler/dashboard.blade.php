@@ -1,4 +1,4 @@
-<dl class="grid grid-cols-4 gap-4">
+<dl class="grid grid-cols-2 lg:grid-cols-4 gap-4">
     <x-frontend::stats-card :title="__('URLs found')">
         {{ $total_url_count }}
     </x-frontend::stats-card>

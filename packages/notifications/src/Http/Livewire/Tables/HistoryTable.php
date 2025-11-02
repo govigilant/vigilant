@@ -5,14 +5,14 @@ namespace Vigilant\Notifications\Http\Livewire\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\DateColumn;
 use Vigilant\Notifications\Channels\NotificationChannel;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Models\History;
 
-class HistoryTable extends LivewireTable
+class HistoryTable extends BaseTable
 {
     protected string $model = History::class;
 
@@ -46,6 +46,7 @@ class HistoryTable extends LivewireTable
                 }),
 
             Column::make(__('Details'), 'data.description')
+                ->displayUsing(fn (string $description): string => str($description)->limit(100))
                 ->searchable(function (Builder $builder, mixed $search) {
                     $builder->where('data->description', 'LIKE', '%'.$search.'%');
                 }),

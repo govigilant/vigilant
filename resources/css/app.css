@@ -13,44 +13,67 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-base-50: #f2f0e5;
-  --color-base-100: #e6e4d9;
-  --color-base-150: #dad8ce;
-  --color-base-200: #cecdc3;
-  --color-base-300: #b7b5ac;
-  --color-base-500: #878580;
-  --color-base-600: #6f6e69;
-  --color-base-700: #575653;
-  --color-base-800: #403e3c;
-  --color-base-850: #343331;
-  --color-base-900: #282726;
-  --color-base-950: #1c1b1a;
-  --color-base-black: #100f0f;
-  --color-base-paper: #fffcf0;
+  /* Base Colors (Grayscale) */
+  --color-base-black: #0A0A0F;
+  --color-base-950: #131318;
+  --color-base-900: #1A1A24;
+  --color-base-850: #232333;
+  --color-base-800: #2D2D42;
+  --color-base-700: #444459;
+  --color-base-600: #5C5C75;
+  --color-base-500: #7A7A94;
+  --color-base-400: #A8A8C0;
+  --color-base-300: #C8C8DC;
+  --color-base-200: #D8D8E8;
+  --color-base-150: #E8E8F4;
+  --color-base-100: #F4F4FA;
+  --color-base-50: #FAFAFF;
+  --color-base-paper: #FAFAFF;
 
-  --color-red: #af3029;
-  --color-red-light: #d14d41;
+  /* Accent Colors - Red (Primary CTA) */
+  --color-red: #EF4444;
+  --color-red-light: #F87171;
+  --color-red-dark: #DC2626;
 
-  --color-orange: #bc5215;
-  --color-orange-light: #da702c;
+  /* Accent Colors - Orange (Secondary CTA) */
+  --color-orange: #F97316;
+  --color-orange-light: #FB923C;
+  --color-orange-dark: #EA580C;
 
-  --color-yellow: #ad8301;
-  --color-yellow-light: #d0a215;
+  /* Accent Colors - Yellow (Warning) */
+  --color-yellow: #F59E0B;
+  --color-yellow-light: #FBBF24;
+  --color-yellow-dark: #D97706;
 
-  --color-green: #0d5413;
-  --color-green-light: #337f1f;
+  /* Accent Colors - Green (Success) */
+  --color-green: #10B981;
+  --color-green-light: #34D399;
+  --color-green-dark: #059669;
 
-  --color-cyan: #24837b;
-  --color-cyan-light: #3aa99f;
+  /* Accent Colors - Cyan */
+  --color-cyan: #06B6D4;
+  --color-cyan-light: #22D3EE;
+  --color-cyan-dark: #0891B2;
 
-  --color-blue: #205ea6;
-  --color-blue-light: #4385be;
+  /* Accent Colors - Blue */
+  --color-blue: #3B82F6;
+  --color-blue-light: #60A5FA;
+  --color-blue-dark: #2563EB;
 
-  --color-purple: #5e409d;
-  --color-purple-light: #8b7ec8;
+  /* Accent Colors - Indigo */
+  --color-indigo: #6366F1;
+  --color-indigo-light: #818CF8;
+  --color-indigo-dark: #4F46E5;
 
-  --color-magenta: #a02f6f;
-  --color-magenta-light: #ce5d97;
+  /* Accent Colors - Purple */
+  --color-purple: #8B5CF6;
+  --color-purple-light: #A78BFA;
+  --color-purple-dark: #7C3AED;
+
+  /* Accent Colors - Magenta */
+  --color-magenta: #EC4899;
+  --color-magenta-light: #F472B6;
+  --color-magenta-dark: #DB2777;
 
   --font-sans:
     Figtree, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
@@ -72,6 +95,122 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
+  }
+
+  /* Ensure all buttons have pointer cursor on hover unless disabled */
+  button:not(:disabled),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  [type="button"]:disabled,
+  [type="submit"]:disabled,
+  [type="reset"]:disabled {
+    cursor: not-allowed;
+  }
+  
+  /* Vertical gradient animation */
+  @keyframes gradient-y {
+    0%, 100% {
+      background-position: 0% 0%;
+    }
+    50% {
+      background-position: 0% 100%;
+    }
+  }
+  
+  .animate-gradient-y {
+    background-size: 100% 200%;
+    animation: gradient-y 6s ease infinite;
+  }
+
+  /* Horizontal gradient shift animation for CTA buttons */
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .animate-gradient-shift {
+    animation: gradient-shift 3s ease infinite;
+  }
+
+  /* Background size for animated gradients */
+  .bg-300\% {
+    background-size: 300% 300%;
+  }
+
+  /* Pulse glow animation for decorative elements */
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.5;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+  }
+
+  /* Float animation for decorative elements */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  /* Bell swing animation for notification bell */
+  @keyframes bell-swing {
+    0%, 100% {
+      transform: rotate(0deg);
+      transform-origin: top center;
+    }
+    10%, 30%, 50%, 70%, 90% {
+      transform: rotate(8deg);
+      transform-origin: top center;
+    }
+    20%, 40%, 60%, 80% {
+      transform: rotate(-8deg);
+      transform-origin: top center;
+    }
+  }
+
+  .animate-bell-swing {
+    animation: bell-swing 0.8s ease-in-out;
+  }
+
+  /* Bell swing on hover */
+  .notification-bell:hover svg {
+    animation: bell-swing 0.8s ease-in-out;
+  }
+
+  /* Fade in up animation for initial page load */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
@@ -115,4 +254,67 @@ button:disabled {
 
 select:not([multiple]) option {
     @apply bg-gray-950;
+}
+
+/* Safelist for dynamic color classes used in modal headers and other components */
+@layer utilities {
+  .bg-red\/10 {
+    background-color: rgb(239 68 68 / 0.1);
+  }
+
+  .bg-blue\/10 {
+    background-color: rgb(59 130 246 / 0.1);
+  }
+
+  .bg-green\/10 {
+    background-color: rgb(16 185 129 / 0.1);
+  }
+
+  .bg-yellow\/10 {
+    background-color: rgb(245 158 11 / 0.1);
+  }
+
+  .bg-purple\/10 {
+    background-color: rgb(139 92 246 / 0.1);
+  }
+
+  .border-red\/30 {
+    border-color: rgb(239 68 68 / 0.3);
+  }
+
+  .border-blue\/30 {
+    border-color: rgb(59 130 246 / 0.3);
+  }
+
+  .border-green\/30 {
+    border-color: rgb(16 185 129 / 0.3);
+  }
+
+  .border-yellow\/30 {
+    border-color: rgb(245 158 11 / 0.3);
+  }
+
+  .border-purple\/30 {
+    border-color: rgb(139 92 246 / 0.3);
+  }
+
+  .text-red {
+    color: rgb(239 68 68);
+  }
+
+  .text-blue {
+    color: rgb(59 130 246);
+  }
+
+  .text-green {
+    color: rgb(16 185 129);
+  }
+
+  .text-yellow {
+    color: rgb(245 158 11);
+  }
+
+  .text-purple {
+    color: rgb(139 92 246);
+  }
 }

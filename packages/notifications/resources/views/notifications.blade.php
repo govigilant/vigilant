@@ -1,12 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <x-page-header title="Notifications">
-            <x-form.button dusk="trigger-add-button" class="bg-blue hover:bg-blue-light"
-                           :href="route('notifications.trigger.create')">
+            <x-create-button dusk="trigger-add-button" :href="route('notifications.trigger.create')" model="Vigilant\Notifications\Models\Trigger">
                 @lang('Add Notification')
-            </x-form.button>
+            </x-create-button>
         </x-page-header>
     </x-slot>
 
-    <livewire:notification-table/>
+    <livewire:notification-table />
 </x-app-layout>

@@ -25,17 +25,20 @@ class ImportDomains extends Component
 
     public function checkStepFinished(): void
     {
+        // Allow users to return to this step even if completed
+    }
+
+    public function skipOnboarding(): void
+    {
         /** @var User $user */
         $user = auth()->user();
 
-        $onBoard = OnboardingStep::query()
-            ->where('team_id', '=', $user->currentTeam?->id)
-            ->where('step', '=', 'domain-import')
-            ->first();
+        OnboardingStep::query()->updateOrCreate(
+            ['team_id' => $user->currentTeam?->id],
+            ['step' => 'complete', 'finished_at' => now()]
+        );
 
-        if ($onBoard !== null && $onBoard->finished_at !== null) {
-            $this->redirectNextStep();
-        }
+        $this->redirectRoute('sites');
     }
 
     public function render(): mixed

@@ -1,6 +1,6 @@
 <div class="">
 
-    <dl class="grid grid-cols-4 grid-rows-1 gap-4">
+    <dl class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <x-frontend::stats-card :title="__('Expiry')">
             @if ($monitor->valid_to === null)
                 <span class="text-red-light">@lang('Unknown')</span>

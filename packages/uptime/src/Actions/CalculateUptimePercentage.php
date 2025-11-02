@@ -9,11 +9,13 @@ use Vigilant\Uptime\Models\ResultAggregate;
 
 class CalculateUptimePercentage
 {
-    public function calculate(Monitor $monitor, string $carbonModifier = '-30 days'): ?int
+    public function calculate(Monitor $monitor, string $carbonModifier = '-30 days'): ?float
     {
+        $dateThreshold = Carbon::now()->modify($carbonModifier);
+
         /** @var ?ResultAggregate $firstResult */
         $firstResult = $monitor->aggregatedResults()
-            ->where('created_at', '>=', Carbon::parse($carbonModifier))
+            ->where('created_at', '>=', $dateThreshold)
             ->orderBy('created_at')
             ->first();
 
@@ -41,6 +43,6 @@ class CalculateUptimePercentage
         $totalMinutes = $minutesSinceFirstResult - $downtimeMinutes;
         $uptimePercentage = ($totalMinutes / $minutesSinceFirstResult) * 100;
 
-        return (int) round($uptimePercentage, 2);
+        return round($uptimePercentage, 2);
     }
 }

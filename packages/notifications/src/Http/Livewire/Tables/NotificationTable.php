@@ -13,12 +13,12 @@ use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
 use RamonRietdijk\LivewireTables\Filters\BooleanFilter;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Notifications\Models\Trigger;
 use Vigilant\Notifications\Notifications\Notification;
 
-class NotificationTable extends LivewireTable
+class NotificationTable extends BaseTable
 {
     protected string $model = Trigger::class;
 
@@ -75,25 +75,25 @@ class NotificationTable extends LivewireTable
     protected function actions(): array
     {
         return [
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 Trigger::query()
                     ->whereIn('id', $models->pluck('id'))
                     ->update([
                         'enabled' => true,
                     ]);
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 Trigger::query()
                     ->whereIn('id', $models->pluck('id'))
                     ->update([
                         'enabled' => false,
                     ]);
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (Trigger $trigger) => $trigger->delete());
-            }),
+            }, 'delete'),
 
         ];
     }

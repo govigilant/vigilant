@@ -20,7 +20,21 @@ class NotificationChannel extends Component
             ['step' => 'notification-channel', 'finished_at' => now()]
         );
 
-        $this->redirectRoute('sites');
+        $this->redirectRoute('onboard.complete');
+    }
+
+    public function goBack(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        // Clear the current step so users can go back
+        OnboardingStep::query()
+            ->where('team_id', '=', $user->currentTeam?->id)
+            ->where('step', '=', 'notification-channel')
+            ->delete();
+
+        $this->redirectRoute('onboard');
     }
 
     public function checkStepFinished(): void
@@ -34,8 +48,21 @@ class NotificationChannel extends Component
             ->first();
 
         if ($onBoard !== null && $onBoard->finished_at !== null) {
-            $this->redirectNextStep();
+            $this->redirectRoute('onboard.complete');
         }
+    }
+
+    public function skipOnboarding(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        OnboardingStep::query()->updateOrCreate(
+            ['team_id' => $user->currentTeam?->id],
+            ['step' => 'complete', 'finished_at' => now()]
+        );
+
+        $this->redirectRoute('sites');
     }
 
     public function render(): mixed

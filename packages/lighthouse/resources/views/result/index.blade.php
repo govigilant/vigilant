@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="flex">
-        <dl class="grid grid-cols-4 grid-rows-2 gap-4">
+        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             @foreach(['performance', 'accessibility', 'best_practices', 'seo'] as $category)
                 @php
                     $color = 'text-red';

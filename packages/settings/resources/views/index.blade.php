@@ -2,47 +2,45 @@
     <x-page-header title="Settings">
     </x-page-header>
 </x-slot>
-<div>
 
-    <div x-data="{ selectedTab: @entangle('tab') }">
-        <div class="max-w-7xl mx-auto mb-4">
-            <div class="sm:hidden">
-                <label for="tabs" class="sr-only">{{ __('Select a tab') }}</label>
-                <select name="tabs"
-                        id="tabs"
-                        x-model="selectedTab"
-                        class="block w-full rounded-md border-none bg-white/5 py-2 pl-3 pr-10 text-base text-white shadow-xs ring-1 ring-inset ring-white/10 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm">
+<div x-data="{ activeTab: @entangle('tab') }" class="pb-10">
+    
+    {{-- Tab Navigation --}}
+    <div class="max-w-7xl mx-auto mb-8">
+        <x-frontend::card :padding="false" class="overflow-hidden">
+            <div class="border-b border-base-700">
+                <nav class="-mb-px flex space-x-1 p-2" aria-label="Tabs">
                     @foreach($tabs as $key => $data)
-                        <option value="{{ $key }}">{{ $data['title']  }}</option>
+                        <button
+                            type="button"
+                            @click="activeTab = '{{ $key }}'"
+                            :class="activeTab === '{{ $key }}' ? 'border-red text-base-50 bg-base-800/50' : 'border-transparent text-base-300 hover:text-base-100 hover:border-base-600'"
+                            class="group relative min-w-0 flex-1 sm:flex-initial overflow-hidden rounded-lg border-2 px-4 py-3 text-center text-sm font-medium transition-all duration-300 focus:z-10 focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2 focus:ring-offset-base-900 @if($loop->first) border-red text-base-50 bg-base-800/50 @else border-transparent text-base-300 @endif"
+                        >
+                            <span class="flex items-center justify-center gap-2">
+                                <span>{{ $data['title'] }}</span>
+                            </span>
+                        </button>
                     @endforeach
-                </select>
-            </div>
-            <div class="hidden sm:block w-full">
-                <nav class="flex border-b border-base-700">
-                    <ul class="flex min-w-full gap-x-2 text-sm font-semibold text-gray-400">
-                        @foreach($tabs as $key => $data)
-                            <li
-                                x-on:click="selectedTab = '{{ $key }}'"
-                                :class="{ 'text-red bg-base-800 rounded-t-lg': selectedTab == '{{ $key }}'}"
-                                class="cursor-pointer select-none px-2.5 py-1.5 hover:bg-base-800 hover:rounded-t-lg">
-                                {{$data['title'] }}
-                            </li>
-                        @endforeach
-                    </ul>
                 </nav>
             </div>
-        </div>
+        </x-frontend::card>
+    </div>
 
-        <div class="pb-10">
-            @foreach($tabs as $key => $data)
-                <div x-show="selectedTab == '{{ $key }}'" x-cloak>
-                    @if(array_key_exists('component', $data))
-                        <livewire:dynamic-component :is="$data['component']"
-                                                    wire:key="{{ $key }}"/>
-                    @endif
-                </div>
-            @endforeach
-        </div>
+    {{-- Tab Panels --}}
+    <div class="space-y-6">
+        @foreach($tabs as $key => $data)
+            <div x-show="activeTab === '{{ $key }}'" 
+                 @if(!$loop->first)x-cloak @endif
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 transform translate-y-4"
+                 x-transition:enter-end="opacity-100 transform translate-y-0">
+                @if(array_key_exists('component', $data))
+                    <livewire:dynamic-component :is="$data['component']" wire:key="{{ $key }}" />
+                @endif
+            </div>
+        @endforeach
     </div>
 
 </div>
+

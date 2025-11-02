@@ -7,17 +7,19 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\ChartColumn;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 use Vigilant\Uptime\Actions\CalculateUptimePercentage;
 use Vigilant\Uptime\Models\Downtime;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
 
-class MonitorTable extends LivewireTable
+class MonitorTable extends BaseTable
 {
     protected string $model = Monitor::class;
 
@@ -101,7 +103,7 @@ class MonitorTable extends LivewireTable
                         default => 'text-red'
                     };
 
-                    return "<span class='$class'>$percentage%</span>";
+                    return "<span class='$class'>" . number_format($percentage, 2) . "%</span>";
                 })
                 ->asHtml(),
 
@@ -122,10 +124,23 @@ class MonitorTable extends LivewireTable
         ];
     }
 
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
+    }
+
     protected function actions(): array
     {
         return [
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -133,15 +148,15 @@ class MonitorTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (Monitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (Monitor $monitor) => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
     }
 

@@ -11,13 +11,15 @@ use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Enums\Direction;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Cve\Actions\ImportAllCves;
 use Vigilant\Cve\Models\CveMonitor;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
-class CveMonitorTable extends LivewireTable
+class CveMonitorTable extends BaseTable
 {
     protected string $model = CveMonitor::class;
 
@@ -58,10 +60,23 @@ class CveMonitorTable extends LivewireTable
         return route('cve.monitor.view', ['monitor' => $record]);
     }
 
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
+    }
+
     protected function actions(): array
     {
         $actions = [
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -69,22 +84,22 @@ class CveMonitorTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (CveMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (CveMonitor $monitor) => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
 
         if (ce()) {
-            $actions[] = Action::make(__('Import all CVE\'s'), 'import', function (): void {
+            $actions[] = Action::make(__('Import all CVE\'s'), function (): void {
                 $importer = app(ImportAllCves::class);
                 $importer->import(0);
-            })->standalone();
+            }, 'import')->standalone();
         }
 
         return $actions;

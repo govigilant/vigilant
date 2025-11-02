@@ -7,15 +7,17 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\Facades\Gate;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use RamonRietdijk\LivewireTables\Filters\SelectFilter;
 use Vigilant\Dns\Jobs\CheckDnsRecordJob;
 use Vigilant\Dns\Models\DnsMonitor;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\Enums\Status;
 use Vigilant\Frontend\Integrations\Table\GeoIpColumn;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
 use Vigilant\Frontend\Integrations\Table\StatusColumn;
+use Vigilant\Sites\Models\Site;
 
-class DnsMonitorTable extends LivewireTable
+class DnsMonitorTable extends BaseTable
 {
     protected string $model = DnsMonitor::class;
 
@@ -53,14 +55,27 @@ class DnsMonitorTable extends LivewireTable
         return route('dns.history', ['monitor' => $record]);
     }
 
+    protected function filters(): array
+    {
+        return [
+            SelectFilter::make(__('Site'), 'site_id')
+                ->options(
+                    Site::query()
+                        ->orderBy('url')
+                        ->pluck('url', 'id')
+                        ->toArray()
+                ),
+        ];
+    }
+
     protected function actions(): array
     {
         return [
-            Action::make(__('Check'), 'check', function (Enumerable $models): void {
+            Action::make(__('Check'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => CheckDnsRecordJob::dispatch($monitor));
-            }),
+            }, 'check'),
 
-            Action::make(__('Enable'), 'enable', function (Enumerable $models): void {
+            Action::make(__('Enable'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     if (! Gate::allows('create', $model)) {
                         break;
@@ -68,15 +83,15 @@ class DnsMonitorTable extends LivewireTable
 
                     $model->update(['enabled' => true]);
                 }
-            }),
+            }, 'enable'),
 
-            Action::make(__('Disable'), 'disable', function (Enumerable $models): void {
+            Action::make(__('Disable'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => $monitor->update(['enabled' => false]));
-            }),
+            }, 'disable'),
 
-            Action::make(__('Delete'), 'delete', function (Enumerable $models): void {
+            Action::make(__('Delete'), function (Enumerable $models): void {
                 $models->each(fn (DnsMonitor $monitor) => $monitor->delete());
-            }),
+            }, 'delete'),
         ];
     }
 }

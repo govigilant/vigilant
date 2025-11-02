@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 use Vigilant\Frontend\Integrations\Table\HoverColumn;
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
 
-class LighthouseResultAuditsTable extends LivewireTable
+class LighthouseResultAuditsTable extends BaseTable
 {
     protected string $model = LighthouseResultAudit::class;
 

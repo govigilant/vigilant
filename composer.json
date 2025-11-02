@@ -26,7 +26,7 @@
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.8",
         "livewire/livewire": "^3.0",
-        "ramonrietdijk/livewire-tables": "^5.0",
+        "ramonrietdijk/livewire-tables": "^6.0",
         "vigilant/certificates": "@dev",
         "vigilant/core": "@dev",
         "vigilant/crawler": "@dev",

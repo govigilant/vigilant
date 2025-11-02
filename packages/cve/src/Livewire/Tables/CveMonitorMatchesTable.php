@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
-use RamonRietdijk\LivewireTables\Livewire\LivewireTable;
 use Vigilant\Cve\Models\CveMonitor;
 use Vigilant\Cve\Models\CveMonitorMatch;
+use Vigilant\Frontend\Integrations\Table\BaseTable;
 
-class CveMonitorMatchesTable extends LivewireTable
+class CveMonitorMatchesTable extends BaseTable
 {
     protected string $model = CveMonitorMatch::class;
 
@@ -34,6 +34,7 @@ class CveMonitorMatchesTable extends LivewireTable
                 ->sortable(),
 
             Column::make(__('Description'), 'cve.description')
+                ->displayUsing(fn (string $description): string => str($description)->limit(100))
                 ->searchable()
                 ->sortable(),
         ];
