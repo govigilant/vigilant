@@ -13,6 +13,7 @@ class OutpostObserver
         // If outpost becomes unavailable, clear it from monitors using it as closest outpost
         if ($outpost->status === OutpostStatus::Unavailable) {
             Monitor::query()
+                ->withoutGlobalScopes()
                 ->where('closest_outpost_id', $outpost->id)
                 ->update(['closest_outpost_id' => null]);
 
@@ -27,6 +28,7 @@ class OutpostObserver
     {
         // Clear the closest_outpost_id for monitors using this outpost
         Monitor::query()
+            ->withoutGlobalScopes()
             ->where('closest_outpost_id', $outpost->id)
             ->update(['closest_outpost_id' => null]);
     }
