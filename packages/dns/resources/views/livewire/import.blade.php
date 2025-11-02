@@ -16,7 +16,7 @@
                     </div>
 
                     <div class="pt-2">
-                        <x-form.button class="bg-blue disabled:opacity-50" wire:loading.attr="disabled"
+                        <x-form.button class="bg-gradient-to-r from-red via-orange to-red disabled:opacity-50" wire:loading.attr="disabled"
                             type="button" wire:click="lookup">
                             @lang('Import')
                         </x-form.button>

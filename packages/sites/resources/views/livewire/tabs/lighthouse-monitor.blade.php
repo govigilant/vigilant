@@ -42,7 +42,7 @@
     </div>
 
     <div class="mt-4">
-        <x-form.button type="button" wire:click="addPage" class="bg-blue">@lang('Add Lighthouse Monitor')</x-form.button>
+        <x-form.button type="button" wire:click="addPage" class="bg-gradient-to-r from-red via-orange to-red">@lang('Add Lighthouse Monitor')</x-form.button>
     </div>
 
 </div>
