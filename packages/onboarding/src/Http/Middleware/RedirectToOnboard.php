@@ -18,8 +18,11 @@ class RedirectToOnboard
         /** @var ShouldOnboard $shouldOnboard */
         $shouldOnboard = app(ShouldOnboard::class);
 
+        $user = auth()->user();
+
         if (
-            auth()->user() === null ||
+            $user === null ||
+            $user->email_verified_at === null ||
             Route::is('onboard*') ||
             Route::is('livewire.*') ||
             ! $shouldOnboard->shouldOnboard()
