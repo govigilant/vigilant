@@ -2,6 +2,8 @@
 
 use Vigilant\Certificates\Models\CertificateMonitorHistory;
 use Vigilant\Dns\Models\DnsMonitorHistory;
+use Vigilant\Healthchecks\Models\Metric;
+use Vigilant\Healthchecks\Models\Result as HealthcheckResult;
 use Vigilant\Lighthouse\Models\LighthouseResult;
 use Vigilant\Notifications\Models\History;
 use Vigilant\Uptime\Models\Downtime;
@@ -19,5 +21,7 @@ return [
         LighthouseResult::class => env('DATA_RETENTION_LIGHTHOUSE', 180),
         History::class => env('DATA_RETENTION_NOTIFICATION_HISTORY', 90),
         CertificateMonitorHistory::class => env('DATA_RETENTION_CERTIFICATE_MONITOR_HISTORY', 180),
+        HealthcheckResult::class => env('DATA_RETENTION_HEALTHCHECK_RESULT', 180),
+        Metric::class => env('DATA_RETENTION_HEALTHCHECK_METRIC', 180),
     ],
 ];
