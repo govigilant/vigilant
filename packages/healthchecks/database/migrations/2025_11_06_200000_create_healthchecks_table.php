@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('domain');
             $table->string('type');
             $table->string('endpoint')->nullable();
+            $table->string('token');
 
             $table->dateTime('next_check_at')->nullable();
             $table->dateTime('last_check_at')->nullable();

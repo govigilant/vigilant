@@ -2,9 +2,19 @@
 
 namespace Vigilant\Healthchecks;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
+use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
+use Vigilant\Core\Policies\AllowAllPolicy;
+use Vigilant\Healthchecks\Commands\CheckHealthcheckCommand;
+use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
+use Vigilant\Healthchecks\Livewire\HealthcheckForm;
+use Vigilant\Healthchecks\Livewire\Healthchecks;
+use Vigilant\Healthchecks\Livewire\Tables\HealthcheckTable;
+use Vigilant\Healthchecks\Models\Healthcheck;
+use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
 {
@@ -28,8 +38,11 @@ class ServiceProvider extends BaseServiceProvider
             ->bootMigrations()
             ->bootCommands()
             ->bootViews()
+            ->bootLivewire()
             ->bootRoutes()
-            ->bootNavigation();
+            ->bootNavigation()
+            ->bootGates()
+            ->bootPolicies();
     }
 
     protected function bootConfig(): static
@@ -52,7 +65,8 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                // Commands will be registered here
+                CheckHealthcheckCommand::class,
+                ScheduleHealthchecksCommand::class,
             ]);
         }
 
@@ -62,6 +76,15 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootViews(): static
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'healthchecks');
+
+        return $this;
+    }
+
+    protected function bootLivewire(): static
+    {
+        Livewire::component('healthchecks', Healthchecks::class);
+        Livewire::component('healthcheck-form', HealthcheckForm::class);
+        Livewire::component('healthcheck-table', HealthcheckTable::class);
 
         return $this;
     }
@@ -83,6 +106,24 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNavigation(): static
     {
         Navigation::path(__DIR__.'/../resources/navigation.php');
+
+        return $this;
+    }
+
+    protected function bootGates(): static
+    {
+        Gate::define('use-healthchecks', function (User $user) {
+            return ce();
+        });
+
+        return $this;
+    }
+
+    protected function bootPolicies(): static
+    {
+        if (ce()) {
+            Gate::policy(Healthcheck::class, AllowAllPolicy::class);
+        }
 
         return $this;
     }

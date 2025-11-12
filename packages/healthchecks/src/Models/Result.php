@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
 use Vigilant\Core\Concerns\HasDataRetention;
+use Vigilant\Healthchecks\Enums\Status;
 
 /**
  * @property int $id
  * @property int $healthcheck_id
+ * @property ?int $run_id
  * @property string $key
- * @property string $status
+ * @property Status $status
  * @property ?string $message
  * @property ?array $data
  * @property ?Carbon $created_at
@@ -30,6 +32,7 @@ class Result extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'status' => Status::class,
         'data' => 'array',
     ];
 

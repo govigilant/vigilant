@@ -9,14 +9,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('healthcheck_results', function (Blueprint $table): void {
+        Schema::create('healthcheck_metrics', function (Blueprint $table): void {
             $table->id();
             $table->foreignIdFor(Healthcheck::class)->constrained()->onDelete('cascade');
+            $table->integer('run_id')->nullable();
 
             $table->string('key');
-            $table->string('status');
-            $table->string('message')->nullable();
-            $table->json('data')->nullable();
+            $table->decimal('value');
+            $table->string('unit')->nullable();
 
             $table->timestamps();
         });
@@ -24,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('healthcheck_results');
+        Schema::dropIfExists('healthcheck_metrics');
     }
 };

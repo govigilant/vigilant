@@ -12,6 +12,7 @@ use Vigilant\Core\Concerns\HasDataRetention;
 /**
  * @property int $id
  * @property int $healthcheck_id
+ * @property ?int $run_id
  * @property string $key
  * @property float $value
  * @property ?string $unit

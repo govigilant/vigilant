@@ -10,12 +10,13 @@ use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Cve\Commands\ImportCvesCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
+use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Uptime\Commands\AggregateResultsCommand;
-use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 use Vigilant\Uptime\Commands\CheckUnavailableOutpostsCommand;
+use Vigilant\Uptime\Commands\ScheduleUptimeChecksCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -25,6 +26,9 @@ class Kernel extends ConsoleKernel
         $schedule->command(AggregateResultsCommand::class)->hourly();
         $schedule->command(ScheduleUptimeChecksCommand::class)->everySecond();
         $schedule->command(CheckUnavailableOutpostsCommand::class)->everyFifteenMinutes();
+
+        // Healthchecks
+        $schedule->command(ScheduleHealthchecksCommand::class)->everySecond();
 
         // Lighthouse
         $schedule->command(ScheduleLighthouseCommand::class)->everySecond();
