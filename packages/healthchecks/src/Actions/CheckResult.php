@@ -15,11 +15,27 @@ class CheckResult
             ->where('run_id', $runId)
             ->get();
 
+        $overallStatus = Status::Healthy;
+        $hasUnhealthy = false;
+        $hasWarning = false;
+
         foreach ($results as $result) {
-            if ($result->status !== Status::Healthy) {
-                HealthCheckFailedNotification::notify($healthcheck, $runId);
+            if ($result->status === Status::Unhealthy) {
+                $hasUnhealthy = true;
                 break;
             }
+            if ($result->status === Status::Warning) {
+                $hasWarning = true;
+            }
         }
+
+        if ($hasUnhealthy) {
+            $overallStatus = Status::Unhealthy;
+            HealthCheckFailedNotification::notify($healthcheck, $runId);
+        } elseif ($hasWarning) {
+            $overallStatus = Status::Warning;
+        }
+
+        $healthcheck->update(['status' => $overallStatus]);
     }
 }

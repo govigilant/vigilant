@@ -27,58 +27,38 @@
         </x-page-header>
     </x-slot>
 
-    <div class="max-w-7xl mx-auto">
-        <x-card>
-            <div class="space-y-4">
-                <div>
-                    <h3 class="text-lg font-semibold text-neutral-100">{{ __('Healthcheck Details') }}</h3>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Domain') }}</p>
-                        <p class="text-base text-neutral-100">{{ $healthcheck->domain }}</p>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Type') }}</p>
-                        <p class="text-base text-neutral-100">{{ $healthcheck->type }}</p>
-                    </div>
-                    
-                    @if($healthcheck->endpoint)
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Endpoint') }}</p>
-                        <p class="text-base text-neutral-100">{{ $healthcheck->endpoint }}</p>
-                    </div>
-                    @endif
-                    
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Interval') }}</p>
-                        <p class="text-base text-neutral-100">{{ $healthcheck->interval }}s</p>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Status') }}</p>
-                        <p class="text-base text-neutral-100">
-                            @if($healthcheck->status === 'healthy')
-                                <span class="text-green-light">{{ __('Healthy') }}</span>
-                            @elseif($healthcheck->status === 'unhealthy')
-                                <span class="text-red">{{ __('Unhealthy') }}</span>
-                            @else
-                                <span class="text-neutral-400">{{ __('Unknown') }}</span>
-                            @endif
-                        </p>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm text-neutral-400">{{ __('Last Check') }}</p>
-                        <p class="text-base text-neutral-100">
-                            {{ $healthcheck->last_check_at ? $healthcheck->last_check_at->diffForHumans() : __('Never') }}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </x-card>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <x-frontend::stats-card :title="__('Domain')">
+            {{ $healthcheck->domain }}
+        </x-frontend::stats-card>
+
+        <x-frontend::stats-card :title="__('Last Check')">
+            {{ $healthcheck->last_check_at ? $healthcheck->last_check_at->diffForHumans() : __('Never') }}
+        </x-frontend::stats-card>
+
+        <x-frontend::stats-card :title="__('Status')">
+            @if($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Healthy)
+                <span class="text-green-light">{{ __('Healthy') }}</span>
+            @elseif($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Warning)
+                <span class="text-orange">{{ __('Warning') }}</span>
+            @elseif($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Unhealthy)
+                <span class="text-red">{{ __('Unhealthy') }}</span>
+            @else
+                <span class="text-neutral-400">{{ __('Unknown') }}</span>
+            @endif
+        </x-frontend::stats-card>
+
+        <x-frontend::stats-card :title="__('Interval')">
+            {{ $healthcheck->interval }}s
+        </x-frontend::stats-card>
+    </div>
+
+    <div class="mt-4">
+        <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100 mb-2">
+            {{ __('Results') }}
+        </h2>
+
+        <livewire:healthcheck-result-table :healthcheckId="$healthcheck->id" wire:key="result-table" />
     </div>
 
     <!-- Delete Confirmation Modal -->

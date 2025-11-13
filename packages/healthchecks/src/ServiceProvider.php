@@ -13,6 +13,7 @@ use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Healthchecks\Livewire\HealthcheckForm;
 use Vigilant\Healthchecks\Livewire\Healthchecks;
 use Vigilant\Healthchecks\Livewire\Tables\HealthcheckTable;
+use Vigilant\Healthchecks\Livewire\Tables\ResultTable;
 use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Users\Models\User;
 
@@ -85,6 +86,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('healthchecks', Healthchecks::class);
         Livewire::component('healthcheck-form', HealthcheckForm::class);
         Livewire::component('healthcheck-table', HealthcheckTable::class);
+        Livewire::component('healthcheck-result-table', ResultTable::class);
 
         return $this;
     }
