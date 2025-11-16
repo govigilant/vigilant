@@ -45,7 +45,6 @@ class ResultTable extends BaseTable
                         Status::Healthy => __('Healthy'),
                         Status::Warning => __('Warning'),
                         Status::Unhealthy => __('Unhealthy'),
-                        default => __('Unknown'),
                     };
                 })
                 ->status(function (Result $result): TableStatus {
@@ -53,7 +52,6 @@ class ResultTable extends BaseTable
                         Status::Healthy => TableStatus::Success,
                         Status::Warning => TableStatus::Warning,
                         Status::Unhealthy => TableStatus::Danger,
-                        default => TableStatus::Warning,
                     };
                 }),
 

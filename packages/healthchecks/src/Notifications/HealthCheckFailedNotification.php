@@ -45,17 +45,19 @@ class HealthCheckFailedNotification extends Notification implements HasSite
 
     public function description(): string
     {
-        $failedChecks = $this->healthcheck->results()
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Result> $results */
+        $results = $this->healthcheck->results()
             ->where('run_id', '=', $this->runId)
             ->where('status', '!=', Status::Healthy)
-            ->get()
-            ->map(function (Result $result): string {
-                if ($result->message === null) {
-                    return $result->key;
-                }
+            ->get();
 
-                return $result->key.': '.$result->message;
-            })->implode(PHP_EOL);
+        $failedChecks = $results->map(function (Result $result): string {
+            if ($result->message === null) {
+                return $result->key;
+            }
+
+            return $result->key.': '.$result->message;
+        })->implode(PHP_EOL);
 
         return __('Run ID: :runId', ['runId' => $this->runId]);
     }

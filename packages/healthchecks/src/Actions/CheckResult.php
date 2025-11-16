@@ -2,10 +2,11 @@
 
 namespace Vigilant\Healthchecks\Actions;
 
-use Ramsey\Collection\Collection;
+use Illuminate\Database\Eloquent\Collection;
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Jobs\CheckMetricJob;
 use Vigilant\Healthchecks\Models\Healthcheck;
+use Vigilant\Healthchecks\Models\Result;
 use Vigilant\Healthchecks\Notifications\HealthCheckFailedNotification;
 
 class CheckResult
@@ -18,12 +19,12 @@ class CheckResult
             ->get();
 
         $overallStatus = Status::Healthy;
-        $healthy = false;
+        $unhealthy = false;
         $hasWarning = false;
 
         foreach ($results as $result) {
             if ($result->status === Status::Unhealthy) {
-                $healthy = true;
+                $unhealthy = true;
                 break;
             }
             if ($result->status === Status::Warning) {
@@ -31,13 +32,13 @@ class CheckResult
             }
         }
 
-        if ($healthy) {
+        if ($unhealthy) {
             $overallStatus = Status::Unhealthy;
         } elseif ($hasWarning) {
             $overallStatus = Status::Warning;
         }
 
-        if ($healthy || $hasWarning) {
+        if ($unhealthy || $hasWarning) {
             HealthCheckFailedNotification::notify($healthcheck, $runId);
         }
 

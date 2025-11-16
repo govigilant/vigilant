@@ -29,8 +29,10 @@ class HealthcheckForm extends Component
                 $this->form->type = $healthcheck->type;
             } else {
                 $this->authorize('create', $healthcheck);
+                /** @var array<int, string> $intervals */
+                $intervals = config('healthchecks.intervals', []);
                 /** @var int $defaultInterval */
-                $defaultInterval = collect(config('healthchecks.intervals'))->keys()->first() ?? 60;
+                $defaultInterval = collect($intervals)->keys()->first() ?? 60;
                 $this->form->interval = $defaultInterval;
             }
 

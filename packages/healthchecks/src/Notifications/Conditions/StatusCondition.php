@@ -28,7 +28,7 @@ class StatusCondition extends SelectCondition
             ->get();
 
         foreach ($results as $result) {
-            if ($result->status === $value || $result->status === Status::from($value)->value) {
+            if ($result->status->value === $value) {
                 return true;
             }
         }

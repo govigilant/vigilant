@@ -10,13 +10,13 @@ class CheckHealth
 {
     public function check(Healthcheck $healthcheck): void
     {
+        $runId = null;
+
         try {
             $checker = $healthcheck->type->checker();
 
             $runId = $checker->check($healthcheck);
         } catch (Exception $e) {
-            $result = null;
-
             logger()->error('Healthcheck failed for Healthcheck ID '.$healthcheck->id.': '.$e->getMessage());
 
             if (app()->isLocal()) {
@@ -27,10 +27,9 @@ class CheckHealth
         $healthcheck->update([
             'next_check_at' => now()->addSeconds($healthcheck->interval),
             'last_check_at' => now(),
-            'status' => $result->status ?? null,
         ]);
 
-        if (isset($runId)) {
+        if ($runId !== null) {
             CheckResultJob::dispatch($healthcheck, $runId);
         }
     }

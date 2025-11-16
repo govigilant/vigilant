@@ -49,6 +49,7 @@ class CheckMetric
 
     protected function calculateMetricIncrease(Healthcheck $healthcheck, string $key, Metric $currentMetric): ?array
     {
+        /** @var Collection<int, Metric> $historicalMetrics */
         $historicalMetrics = $healthcheck->metrics()
             ->where('key', '=', $key)
             ->where('created_at', '<=', $currentMetric->created_at)
@@ -61,7 +62,13 @@ class CheckMetric
         }
 
         $currentValue = $currentMetric->value;
+        /** @var Metric|null $oldestMetric */
         $oldestMetric = $historicalMetrics->last();
+
+        if ($oldestMetric === null) {
+            return null;
+        }
+
         $oldestValue = $oldestMetric->value;
 
         if ($oldestValue == 0) {
@@ -74,7 +81,7 @@ class CheckMetric
             return null;
         }
 
-        $timeframeMinutes = $currentMetric->created_at->diffInMinutes($oldestMetric->created_at);
+        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($oldestMetric->created_at) ?? 0;
 
         return [
             'key' => $key,
@@ -87,14 +94,16 @@ class CheckMetric
         ];
     }
 
-    protected function checkDiskUsage(Healthcheck $healthcheck, int $runId, $metrics): void
+    protected function checkDiskUsage(Healthcheck $healthcheck, int $runId, Collection $metrics): void
     {
+        /** @var Metric|null $diskMetric */
         $diskMetric = $metrics->firstWhere('key', 'disk_usage');
 
         if (! $diskMetric || $diskMetric->unit !== '%') {
             return;
         }
 
+        /** @var Collection<int, Metric> $historicalMetrics */
         $historicalMetrics = $healthcheck->metrics()
             ->where('key', 'disk_usage')
             ->where('created_at', '<=', $diskMetric->created_at)
@@ -107,10 +116,16 @@ class CheckMetric
         }
 
         $currentUsage = $diskMetric->value;
+        /** @var Metric|null $oldestMetric */
         $oldestMetric = $historicalMetrics->last();
+
+        if ($oldestMetric === null) {
+            return;
+        }
+
         $oldestUsage = $oldestMetric->value;
 
-        $timeframeHours = $diskMetric->created_at->diffInHours($oldestMetric->created_at);
+        $timeframeHours = $diskMetric->created_at?->diffInHours($oldestMetric->created_at) ?? 0;
 
         if ($timeframeHours == 0) {
             return;

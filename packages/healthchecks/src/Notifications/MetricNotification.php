@@ -52,14 +52,16 @@ class MetricNotification extends Notification implements HasSite
 
     public function description(): string
     {
-        $metrics = $this->healthcheck->metrics()
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Metric> $metricsCollection */
+        $metricsCollection = $this->healthcheck->metrics()
             ->where('run_id', '=', $this->runId)
-            ->get()
-            ->map(function (Metric $metric): string {
-                $unit = $metric->unit ? ' '.$metric->unit : '';
+            ->get();
 
-                return $metric->key.': '.$metric->value.$unit;
-            })->implode(PHP_EOL);
+        $metrics = $metricsCollection->map(function (Metric $metric): string {
+            $unit = $metric->unit ? ' '.$metric->unit : '';
+
+            return $metric->key.': '.$metric->value.$unit;
+        })->implode(PHP_EOL);
 
         return __('Run ID: :runId', ['runId' => $this->runId]).PHP_EOL.PHP_EOL.$metrics;
     }

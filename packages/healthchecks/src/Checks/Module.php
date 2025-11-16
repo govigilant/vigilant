@@ -24,6 +24,8 @@ class Module extends Checker
                 'status' => Status::Unhealthy,
                 'message' => 'Could not connect',
             ]);
+
+            return $runId;
         }
 
         $checks = $response->json('checks', []);
