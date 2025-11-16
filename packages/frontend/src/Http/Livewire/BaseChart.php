@@ -131,8 +131,8 @@ abstract class BaseChart extends Component
 
     /**
      * Get a color from the design system
-     * 
-     * @param string $key Color key
+     *
+     * @param  string  $key  Color key
      * @return string Hex color or rgba string
      */
     protected function getColor(string $key): string
@@ -142,15 +142,15 @@ abstract class BaseChart extends Component
             'text-primary' => '#F4F4FA',     // base-100
             'text-secondary' => '#D8D8E8',   // base-200
             'text-muted' => '#A8A8C0',       // base-400
-            
+
             // Background colors
             'bg-elevated' => '#232333',      // base-850
             'bg-main' => '#1A1A24',          // base-900
-            
+
             // Border colors
             'border' => '#444459',           // base-700
             'grid' => '#2D2D42',             // base-800
-            
+
             default => '#F4F4FA',
         };
     }
@@ -158,7 +158,7 @@ abstract class BaseChart extends Component
     /**
      * Get chart line colors from the design system
      * Returns an array of color sets with border and background
-     * 
+     *
      * @return array<int, array{border: string, bg: string}>
      */
     protected function getChartColors(): array
@@ -177,13 +177,14 @@ abstract class BaseChart extends Component
 
     /**
      * Get a specific chart color by index
-     * 
-     * @param int $index Color index (cycles through available colors)
+     *
+     * @param  int  $index  Color index (cycles through available colors)
      * @return array{border: string, bg: string}
      */
     protected function getChartColor(int $index): array
     {
         $colors = $this->getChartColors();
+
         return $colors[$index % count($colors)];
     }
 

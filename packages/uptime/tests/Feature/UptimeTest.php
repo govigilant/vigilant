@@ -3,8 +3,6 @@
 namespace Vigilant\Uptime\Tests\Feature;
 
 use Illuminate\Support\Facades\Http;
-use JJG\Ping;
-use Mockery\MockInterface;
 use Vigilant\Uptime\Commands\CheckUptimeCommand;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Models\Monitor;

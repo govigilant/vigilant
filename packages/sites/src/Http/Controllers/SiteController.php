@@ -19,7 +19,7 @@ class SiteController extends Controller
 
         // Define tabs configuration
         $tabs = [];
-        
+
         if ($site->uptimeMonitor !== null) {
             $tabs[] = [
                 'key' => 'uptime',

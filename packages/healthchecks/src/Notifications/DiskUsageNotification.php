@@ -50,7 +50,7 @@ class DiskUsageNotification extends Notification implements HasSite
     {
         $hours = round($this->hoursUntilFull, 1);
         $velocityPerHour = round($this->velocity, 2);
-        
+
         $message = __('Current disk usage: :usage%', ['usage' => round($this->currentUsage, 2)]).PHP_EOL;
         $message .= __('Growth rate: :rate% per hour', ['rate' => $velocityPerHour]).PHP_EOL;
         $message .= __('Estimated to reach 100% in: :hours hours', ['hours' => $hours]).PHP_EOL;

@@ -5,7 +5,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         LighthouseMonitor::query()->withoutGlobalScopes()->update(['interval' => 60]);

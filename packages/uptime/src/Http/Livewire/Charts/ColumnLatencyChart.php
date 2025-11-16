@@ -11,10 +11,10 @@ class ColumnLatencyChart extends LatencyChart
     public function mount(array $data): void
     {
         parent::mount($data);
-        
+
         // Force date range to week for column chart
         $this->dateRange = 'week';
-        
+
         // Ensure we have the closest country selected
         $closestCountry = $this->getClosestCountry();
         if ($closestCountry) {

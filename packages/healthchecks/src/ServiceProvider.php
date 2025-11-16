@@ -8,7 +8,6 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
-use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Healthchecks\Commands\CheckHealthcheckCommand;
 use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Healthchecks\Http\Livewire\Charts\MetricChart;
@@ -25,11 +24,12 @@ use Vigilant\Healthchecks\Notifications\Conditions\MetricKeyCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricUnitCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricValueCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\StatusCondition;
-use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
 use Vigilant\Healthchecks\Notifications\HealthCheckFailedNotification;
 use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
 use Vigilant\Healthchecks\Notifications\MetricNotification;
+use Vigilant\Notifications\Facades\NotificationRegistry;
+use Vigilant\Sites\Conditions\SiteCondition;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider

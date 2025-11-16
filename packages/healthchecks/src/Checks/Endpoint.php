@@ -39,7 +39,7 @@ class Endpoint extends Checker
             $healthcheck->results()->create([
                 'run_id' => $runId,
                 'key' => 'endpoint_check',
-                'status' => 'failed',
+                'status' => Status::Unhealthy,
                 'message' => 'Failed to connect to endpoint',
                 'data' => [
                     'error' => $e->getMessage(),

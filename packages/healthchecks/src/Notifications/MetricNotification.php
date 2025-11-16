@@ -4,7 +4,6 @@ namespace Vigilant\Healthchecks\Notifications;
 
 use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Models\Metric;
-use Vigilant\Healthchecks\Notifications\Conditions\MetricKeyCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricUnitCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricValueCondition;
 use Vigilant\Notifications\Contracts\HasSite;

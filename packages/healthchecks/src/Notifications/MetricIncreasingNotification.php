@@ -3,10 +3,8 @@
 namespace Vigilant\Healthchecks\Notifications;
 
 use Vigilant\Healthchecks\Models\Healthcheck;
-use Vigilant\Healthchecks\Models\Metric;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreasePercentCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
-use Vigilant\Healthchecks\Notifications\Conditions\MetricKeyCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;

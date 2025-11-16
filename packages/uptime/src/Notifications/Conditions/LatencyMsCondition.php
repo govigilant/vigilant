@@ -43,7 +43,6 @@ class LatencyMsCondition extends Condition
         ?array $meta
     ): bool {
         /** @var LatencyChangedNotification|LatencyPeakNotification $notification */
-        
         $msValue = match ($operand) {
             'current' => $this->getCurrentLatency($notification),
             'change' => $this->getLatencyChange($notification),
@@ -67,7 +66,7 @@ class LatencyMsCondition extends Condition
         if ($notification instanceof LatencyChangedNotification) {
             return $notification->currentAverage;
         }
-        
+
         return $notification->peakLatency;
     }
 
@@ -76,7 +75,7 @@ class LatencyMsCondition extends Condition
         if ($notification instanceof LatencyChangedNotification) {
             return $notification->currentAverage - $notification->previousAverage;
         }
-        
+
         return $notification->peakLatency - $notification->averageLatency;
     }
 }

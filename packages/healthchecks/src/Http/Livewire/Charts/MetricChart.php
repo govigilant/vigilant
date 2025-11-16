@@ -9,7 +9,6 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Livewire\Attributes\Locked;
 use Vigilant\Frontend\Http\Livewire\BaseChart;
-use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Models\Metric;
 
 class MetricChart extends BaseChart
@@ -34,8 +33,8 @@ class MetricChart extends BaseChart
         $this->healthcheckId = $data['healthcheckId'];
 
         $this->availableKeys = $this->getAvailableKeys()->toArray();
-        
-        if (!empty($this->availableKeys)) {
+
+        if (! empty($this->availableKeys)) {
             $this->selectedKey = $this->availableKeys[0];
         }
     }

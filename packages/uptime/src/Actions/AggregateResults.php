@@ -2,7 +2,6 @@
 
 namespace Vigilant\Uptime\Actions;
 
-use Illuminate\Support\Collection;
 use Vigilant\Uptime\Models\Monitor;
 use Vigilant\Uptime\Models\Result;
 use Vigilant\Uptime\Models\ResultAggregate;
