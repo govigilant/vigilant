@@ -4,6 +4,7 @@ namespace Vigilant\Healthchecks\Notifications;
 
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Models\Healthcheck;
+use Vigilant\Healthchecks\Models\Result;
 use Vigilant\Healthchecks\Notifications\Conditions\StatusCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
@@ -44,6 +45,18 @@ class HealthCheckFailedNotification extends Notification implements HasSite
 
     public function description(): string
     {
+        $failedChecks = $this->healthcheck->results()
+            ->where('run_id', '=', $this->runId)
+            ->where('status', '!=', Status::Healthy)
+            ->get()
+            ->map(function (Result $result): string {
+                if ($result->message === null) {
+                    return $result->key;
+                }
+
+                return $result->key.': '.$result->message;
+            })->implode(PHP_EOL);
+
         return __('Run ID: :runId', ['runId' => $this->runId]);
     }
 
@@ -54,7 +67,7 @@ class HealthCheckFailedNotification extends Notification implements HasSite
 
     public function uniqueId(): string
     {
-        return $this->healthcheck->id . '-' . $this->runId;
+        return $this->healthcheck->id.'-'.$this->runId;
     }
 
     public function site(): ?Site

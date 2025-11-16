@@ -4,24 +4,18 @@ namespace Vigilant\Healthchecks\Notifications\Conditions;
 
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Notifications\HealthCheckFailedNotification;
-use Vigilant\Notifications\Conditions\Condition;
-use Vigilant\Notifications\Enums\ConditionType;
+use Vigilant\Notifications\Conditions\SelectCondition;
 use Vigilant\Notifications\Notifications\Notification;
 
-class StatusCondition extends Condition
+class StatusCondition extends SelectCondition
 {
     public static string $name = 'Status';
 
-    public ConditionType $type = ConditionType::Select;
-
-    public function metadata(): array
+    public function options(): array
     {
         return [
-            'options' => [
-                Status::Unhealthy->value => 'Unhealthy',
-                Status::Warning->value => 'Warning',
-                'failed' => 'Failed',
-            ],
+            Status::Unhealthy->value => 'Unhealthy',
+            Status::Warning->value => 'Warning',
         ];
     }
 

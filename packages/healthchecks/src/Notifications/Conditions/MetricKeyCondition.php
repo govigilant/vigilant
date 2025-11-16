@@ -2,18 +2,18 @@
 
 namespace Vigilant\Healthchecks\Notifications\Conditions;
 
-use Vigilant\Healthchecks\Models\Result;
-use Vigilant\Healthchecks\Notifications\HealthCheckFailedNotification;
+use Vigilant\Healthchecks\Models\Metric;
+use Vigilant\Healthchecks\Notifications\MetricNotification;
 use Vigilant\Notifications\Conditions\SelectCondition;
 use Vigilant\Notifications\Notifications\Notification;
 
-class CheckKeyCondition extends SelectCondition
+class MetricKeyCondition extends SelectCondition
 {
-    public static string $name = 'Check key';
+    public static string $name = 'Metric key';
 
     public function options(): array
     {
-        return Result::query()
+        return Metric::query()
             ->whereNotNull('key')
             ->distinct('key')
             ->orderBy('key')
@@ -23,14 +23,14 @@ class CheckKeyCondition extends SelectCondition
 
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
-        /** @var HealthCheckFailedNotification $notification */
-        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Result> $results */
-        $results = $notification->healthcheck->results()
+        /** @var MetricNotification $notification */
+        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Metric> $metrics */
+        $metrics = $notification->healthcheck->metrics()
             ->where('run_id', $notification->runId)
             ->get();
 
-        foreach ($results as $result) {
-            if ($result->key === $value) {
+        foreach ($metrics as $metric) {
+            if ($metric->key === $value) {
                 return true;
             }
         }

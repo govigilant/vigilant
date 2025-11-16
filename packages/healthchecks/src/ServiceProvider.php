@@ -8,13 +8,28 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
+use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Healthchecks\Commands\CheckHealthcheckCommand;
 use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
+use Vigilant\Healthchecks\Http\Livewire\Charts\MetricChart;
 use Vigilant\Healthchecks\Livewire\HealthcheckForm;
 use Vigilant\Healthchecks\Livewire\Healthchecks;
 use Vigilant\Healthchecks\Livewire\Tables\HealthcheckTable;
 use Vigilant\Healthchecks\Livewire\Tables\ResultTable;
 use Vigilant\Healthchecks\Models\Healthcheck;
+use Vigilant\Healthchecks\Notifications\Conditions\CheckKeyCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\DiskFullInCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreasePercentCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricKeyCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricUnitCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricValueCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\StatusCondition;
+use Vigilant\Sites\Conditions\SiteCondition;
+use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
+use Vigilant\Healthchecks\Notifications\HealthCheckFailedNotification;
+use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
+use Vigilant\Healthchecks\Notifications\MetricNotification;
 use Vigilant\Users\Models\User;
 
 class ServiceProvider extends BaseServiceProvider
@@ -42,6 +57,7 @@ class ServiceProvider extends BaseServiceProvider
             ->bootLivewire()
             ->bootRoutes()
             ->bootNavigation()
+            ->bootNotifications()
             ->bootGates()
             ->bootPolicies();
     }
@@ -87,6 +103,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('healthcheck-form', HealthcheckForm::class);
         Livewire::component('healthcheck-table', HealthcheckTable::class);
         Livewire::component('healthcheck-result-table', ResultTable::class);
+        Livewire::component('vigilant.healthchecks.http.livewire.charts.metric-chart', MetricChart::class);
 
         return $this;
     }
@@ -108,6 +125,43 @@ class ServiceProvider extends BaseServiceProvider
     protected function bootNavigation(): static
     {
         Navigation::path(__DIR__.'/../resources/navigation.php');
+
+        return $this;
+    }
+
+    protected function bootNotifications(): static
+    {
+        NotificationRegistry::registerNotification([
+            HealthCheckFailedNotification::class,
+            MetricNotification::class,
+            MetricIncreasingNotification::class,
+            DiskUsageNotification::class,
+        ]);
+
+        NotificationRegistry::registerCondition(HealthCheckFailedNotification::class, [
+            StatusCondition::class,
+            CheckKeyCondition::class,
+            SiteCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(MetricNotification::class, [
+            MetricKeyCondition::class,
+            MetricValueCondition::class,
+            MetricUnitCondition::class,
+            SiteCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(MetricIncreasingNotification::class, [
+            MetricKeyCondition::class,
+            MetricIncreasePercentCondition::class,
+            MetricIncreaseTimeframeCondition::class,
+            SiteCondition::class,
+        ]);
+
+        NotificationRegistry::registerCondition(DiskUsageNotification::class, [
+            DiskFullInCondition::class,
+            SiteCondition::class,
+        ]);
 
         return $this;
     }

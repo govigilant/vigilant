@@ -55,6 +55,14 @@
 
     <div class="mt-4">
         <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100 mb-2">
+            {{ __('Metrics') }}
+        </h2>
+
+        <livewire:vigilant.healthchecks.http.livewire.charts.metric-chart :data="['healthcheckId' => $healthcheck->id]" wire:key="metric-chart" />
+    </div>
+
+    <div class="mt-4">
+        <h2 class="text-xl font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100 mb-2">
             {{ __('Results') }}
         </h2>
 
