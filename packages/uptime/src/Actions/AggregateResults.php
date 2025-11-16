@@ -19,8 +19,9 @@ class AggregateResults
         $groupedByCountry = $results->groupBy('country');
 
         foreach ($groupedByCountry as $country => $countryResults) {
-            $groupedByHour = $countryResults->groupBy(function ($result) {
-                return $result->created_at->startOfHour()->toDateTimeString();
+            /** @var \Illuminate\Support\Collection<int, Result> $countryResults */
+            $groupedByHour = $countryResults->groupBy(function (Result $result) {
+                return $result->created_at?->startOfHour()->toDateTimeString() ?? '';
             });
 
             foreach ($groupedByHour as $hour => $hourResults) {
