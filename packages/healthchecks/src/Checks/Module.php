@@ -12,9 +12,25 @@ class Module extends Checker
 {
     public function check(Healthcheck $healthcheck): int
     {
-        $runId = rand(1, 10000);
+        $runId = null;
+
+        for ($i = 0; $i < 10; $i++) {
+            $candidate = rand(1, 100000);
+
+            $exists = $healthcheck->results()->where('run_id', '=', $candidate)->exists();
+
+            if (! $exists) {
+                $runId = $candidate;
+                break;
+            }
+        }
+
+        throw_if($runId === null, 'Could not generate unique run ID');
+
         $endpoint = $healthcheck->endpoint ?? $healthcheck->type->endpoint();
-        
+
+        throw_if($endpoint === null, 'Endpoint is required');
+
         try {
             $response = Http::baseUrl($healthcheck->domain)
                 ->withToken($healthcheck->token)
