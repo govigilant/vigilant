@@ -11,6 +11,7 @@ use Vigilant\Core\Policies\AllowAllPolicy;
 use Vigilant\Healthchecks\Commands\CheckHealthcheckCommand;
 use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Healthchecks\Http\Livewire\Charts\MetricChart;
+use Vigilant\Healthchecks\Livewire\HealthcheckDashboard;
 use Vigilant\Healthchecks\Livewire\HealthcheckForm;
 use Vigilant\Healthchecks\Livewire\Healthchecks;
 use Vigilant\Healthchecks\Livewire\Tables\HealthcheckTable;
@@ -103,7 +104,8 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('healthcheck-form', HealthcheckForm::class);
         Livewire::component('healthcheck-table', HealthcheckTable::class);
         Livewire::component('healthcheck-result-table', ResultTable::class);
-        Livewire::component('vigilant.healthchecks.http.livewire.charts.metric-chart', MetricChart::class);
+        Livewire::component('healthcheck-metric-chart', MetricChart::class);
+        Livewire::component('healthcheck-dashboard', HealthcheckDashboard::class);
 
         return $this;
     }

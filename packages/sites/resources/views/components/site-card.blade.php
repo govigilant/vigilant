@@ -59,6 +59,18 @@
             $certificateStatus = Status::Danger;
         }
     }
+
+    // Get healthcheck info
+    $healthcheck = $site->healthcheck;
+    $healthcheckStatus = null;
+    if ($healthcheck) {
+        $healthcheckStatus = match($healthcheck->status?->value ?? null) {
+            'healthy' => Status::Success,
+            'warning' => Status::Warning,
+            'unhealthy' => Status::Danger,
+            default => null,
+        };
+    }
 @endphp
 
 <a href="{{ route('site.view', ['site' => $site]) }}" wire:navigate.hover class="block group relative">
@@ -118,7 +130,7 @@
                     </div>
 
                     <!-- Metrics Grid -->
-                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
                         <!-- Lighthouse Score -->
                         <div class="space-y-2">
                             <div class="flex items-center gap-2">
@@ -220,28 +232,63 @@
                                 </div>
                             </div>
                         @endif
+
+                        <!-- Certificate -->
+                        @if ($certificate !== null && $certificate->valid_to !== null)
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <svg class="w-4 h-4 text-base-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span class="text-xs uppercase tracking-wider text-base-400 font-medium">Certificate</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-none rounded-full p-1 bg-base-800/50">
+                                        @if ($certificateStatus === Status::Success)
+                                            <div class="h-2 w-2 rounded-full bg-green-light"></div>
+                                        @elseif($certificateStatus === Status::Warning)
+                                            <div class="h-2 w-2 rounded-full bg-orange-light animate-pulse"></div>
+                                        @else
+                                            <div class="h-2 w-2 rounded-full bg-red-light animate-pulse"></div>
+                                        @endif
+                                    </div>
+                                    <span class="text-sm font-medium text-base-200">
+                                        {{ __('Expires in :diff', ['diff' => teamTimezone($certificate->valid_to)->shortAbsoluteDiffForHumans()]) }}
+                                    </span>
+                                </div>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
 
                 <!-- Right side: Status indicators and action -->
                 <div class="flex flex-col items-end gap-4 lg:min-w-[280px]">
-                    <!-- Certificate -->
-                    @if ($certificate !== null && $certificate->valid_to !== null)
+                    <!-- Healthcheck -->
+                    @if ($healthcheck !== null)
                         <div
                             class="flex items-center gap-3 bg-base-800/30 rounded-lg px-4 py-3 border border-base-700/50 w-full">
                             <div class="flex-none rounded-full p-1 bg-base-800/50">
-                                @if ($certificateStatus === Status::Success)
+                                @if ($healthcheckStatus === Status::Success)
                                     <div class="h-2 w-2 rounded-full bg-green-light"></div>
-                                @elseif($certificateStatus === Status::Warning)
+                                @elseif($healthcheckStatus === Status::Warning)
                                     <div class="h-2 w-2 rounded-full bg-orange-light animate-pulse"></div>
-                                @else
+                                @elseif($healthcheckStatus === Status::Danger)
                                     <div class="h-2 w-2 rounded-full bg-red-light animate-pulse"></div>
+                                @else
+                                    <div class="h-2 w-2 rounded-full bg-base-500"></div>
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0">
-                                <div class="text-xs text-base-400 uppercase tracking-wider">Certificate</div>
+                                <div class="text-xs text-base-400 uppercase tracking-wider">Health</div>
                                 <div class="text-sm font-medium text-base-200 truncate">
-                                    {{ __('Expires in :diff', ['diff' => teamTimezone($certificate->valid_to)->longAbsoluteDiffForHumans()]) }}
+                                    @if ($healthcheck->status)
+                                        {{ ucfirst($healthcheck->status->value) }}
+                                    @else
+                                        {{ __('Unknown') }}
+                                    @endif
                                 </div>
                             </div>
                         </div>

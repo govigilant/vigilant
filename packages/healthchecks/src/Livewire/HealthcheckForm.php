@@ -4,6 +4,7 @@ namespace Vigilant\Healthchecks\Livewire;
 
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\Locked;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
@@ -19,8 +20,12 @@ class HealthcheckForm extends Component
     #[Locked]
     public Healthcheck $healthcheck;
 
-    public function mount(?Healthcheck $healthcheck): void
+    public bool $inline = false;
+
+    public function mount(?Healthcheck $healthcheck, bool $inline = false): void
     {
+        $this->inline = $inline;
+
         if ($healthcheck !== null) {
             $this->form->fill($healthcheck->except('type'));
             $this->healthcheck = $healthcheck;
@@ -38,6 +43,7 @@ class HealthcheckForm extends Component
         }
     }
 
+    #[On('save')]
     public function save(): void
     {
         $this->form->cleanDomain();
@@ -65,10 +71,12 @@ class HealthcheckForm extends Component
             AlertType::Success
         );
 
-        if ($isNew) {
-            $this->redirectRoute('healthchecks.setup', ['healthcheck' => $this->healthcheck, 'new' => 1]);
-        } else {
-            $this->redirectRoute('healthchecks.index');
+        if (! $this->inline) {
+            if ($isNew) {
+                $this->redirectRoute('healthchecks.setup', ['healthcheck' => $this->healthcheck, 'new' => 1]);
+            } else {
+                $this->redirectRoute('healthchecks.index');
+            }
         }
     }
 
@@ -79,6 +87,7 @@ class HealthcheckForm extends Component
 
         return view($view, [
             'updating' => $this->healthcheck->exists,
+            'inline' => $this->inline,
         ]);
     }
 }

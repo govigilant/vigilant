@@ -1,18 +1,22 @@
-@props(['updating' => false])
+@props(['updating' => false, 'inline' => false])
 <div>
-    <x-slot name="header">
-        <x-page-header :title="$updating
-            ? __('Edit Healthcheck - :domain', ['domain' => $healthcheck->domain])
-            : __('Add Healthcheck')" :back="route('healthchecks.index')">
-        </x-page-header>
-    </x-slot>
+    @if (!$inline)
+        <x-slot name="header">
+            <x-page-header :title="$updating
+                ? __('Edit Healthcheck - :domain', ['domain' => $healthcheck->domain])
+                : __('Add Healthcheck')" :back="route('healthchecks.index')">
+            </x-page-header>
+        </x-slot>
+    @endif
 
     <form wire:submit="save">
         <div class="max-w-7xl mx-auto">
             <x-card>
                 <div class="flex flex-col gap-4">
-                    <x-form.checkbox field="form.enabled" name="Enabled"
-                        description="Enable or disable this healthcheck" />
+                    @if (!$inline)
+                        <x-form.checkbox field="form.enabled" name="Enabled"
+                            description="Enable or disable this healthcheck" />
+                    @endif
 
                     <x-form.text field="form.domain" name="URL"
                         description="URL of your service (e.g. https://govigilant.io)" />
@@ -138,9 +142,11 @@
                         </div>
                     </div>
 
-                    <div class="flex justify-end gap-4 items-center">
-                        <x-form.submit-button dusk="submit-button" wire:loading.attr="disabled" :submitText="$updating ? 'Save' : 'Create'" />
-                    </div>
+                    @if (!$inline)
+                        <div class="flex justify-end gap-4 items-center">
+                            <x-form.submit-button dusk="submit-button" wire:loading.attr="disabled" :submitText="$updating ? 'Save' : 'Create'" />
+                        </div>
+                    @endif
                 </div>
             </x-card>
         </div>

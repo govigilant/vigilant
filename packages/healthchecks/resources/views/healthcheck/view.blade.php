@@ -12,7 +12,7 @@
                     @lang('Delete')
                 </x-form.button>
             </x-frontend::page-header.actions>
-            
+
             <x-frontend::page-header.mobile-actions>
                 <x-form.dropdown-button :href="route('healthchecks.setup', ['healthcheck' => $healthcheck])">
                     @lang('Setup')
@@ -37,7 +37,7 @@
         </x-frontend::stats-card>
 
         <x-frontend::stats-card :title="__('Status')">
-            @if($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Healthy)
+            @if ($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Healthy)
                 <span class="text-green-light">{{ __('Healthy') }}</span>
             @elseif($healthcheck->status === \Vigilant\Healthchecks\Enums\Status::Warning)
                 <span class="text-orange">{{ __('Warning') }}</span>
@@ -58,7 +58,7 @@
             {{ __('Metrics') }}
         </h2>
 
-        <livewire:vigilant.healthchecks.http.livewire.charts.metric-chart :data="['healthcheckId' => $healthcheck->id]" wire:key="metric-chart" />
+        <livewire:healthcheck-metric-chart :data="['healthcheckId' => $healthcheck->id]" wire:key="metric-chart" />
     </div>
 
     <div class="mt-4">
@@ -103,7 +103,8 @@
                 <x-form.button type="button" @click="showDeleteModal = false">
                     @lang('Cancel')
                 </x-form.button>
-                <form action="{{ route('healthchecks.delete', ['healthcheck' => $healthcheck]) }}" method="POST" class="inline">
+                <form action="{{ route('healthchecks.delete', ['healthcheck' => $healthcheck]) }}" method="POST"
+                    class="inline">
                     @csrf
                     @method('DELETE')
                     <x-form.button class="bg-red" type="submit">
