@@ -35,12 +35,13 @@ class HealthcheckForm extends Component
                 $defaultInterval = collect($intervals)->keys()->first() ?? 60;
                 $this->form->interval = $defaultInterval;
             }
-
         }
     }
 
     public function save(): void
     {
+        $this->form->cleanDomain();
+
         $this->validate();
 
         $isNew = ! $this->healthcheck->exists;

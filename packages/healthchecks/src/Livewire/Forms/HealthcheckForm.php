@@ -34,4 +34,22 @@ class HealthcheckForm extends Form
             'enabled' => ['boolean', new CanEnableRule(Healthcheck::class)],
         ];
     }
+
+    public function cleanDomain(): void
+    {
+        if (empty($this->domain)) {
+            return;
+        }
+
+        $parsed = parse_url($this->domain);
+        if ($parsed === false) {
+            return;
+        }
+
+        $scheme = $parsed['scheme'] ?? 'https';
+        $host = $parsed['host'] ?? $this->domain;
+        $port = isset($parsed['port']) ? ":{$parsed['port']}" : '';
+
+        $this->domain = "{$scheme}://{$host}{$port}";
+    }
 }

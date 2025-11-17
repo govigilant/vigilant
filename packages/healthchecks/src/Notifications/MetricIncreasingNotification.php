@@ -60,7 +60,7 @@ class MetricIncreasingNotification extends Notification implements HasSite
                 return $data['key'].': '.$data['old_value'].$unit.' → '.$data['new_value'].$unit.' (+'.$percentIncrease.'%)';
             })->implode(PHP_EOL);
 
-        return __('Run ID: :runId', ['runId' => $this->runId]).PHP_EOL.PHP_EOL.$metricsInfo;
+        return $metricsInfo;
     }
 
     public static function info(): ?string

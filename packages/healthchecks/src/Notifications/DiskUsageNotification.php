@@ -11,7 +11,7 @@ use Vigilant\Sites\Models\Site;
 
 class DiskUsageNotification extends Notification implements HasSite
 {
-    public static string $name = 'Disk usage critical';
+    public static string $name = 'Disk usage';
 
     public Level $level = Level::Critical;
 

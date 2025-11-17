@@ -56,13 +56,11 @@ class MetricNotification extends Notification implements HasSite
             ->where('run_id', '=', $this->runId)
             ->get();
 
-        $metrics = $metricsCollection->map(function (Metric $metric): string {
+        return $metricsCollection->map(function (Metric $metric): string {
             $unit = $metric->unit ? ' '.$metric->unit : '';
 
             return $metric->key.': '.$metric->value.$unit;
         })->implode(PHP_EOL);
-
-        return __('Run ID: :runId', ['runId' => $this->runId]).PHP_EOL.PHP_EOL.$metrics;
     }
 
     public static function info(): ?string

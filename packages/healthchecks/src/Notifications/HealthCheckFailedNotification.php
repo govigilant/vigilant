@@ -59,12 +59,12 @@ class HealthCheckFailedNotification extends Notification implements HasSite
             return $result->key.': '.$result->message;
         })->implode(PHP_EOL);
 
-        return __('Run ID: :runId', ['runId' => $this->runId]);
+        return __('Healthchecks have failed: :checks', ['checks' => $failedChecks]);
     }
 
     public static function info(): ?string
     {
-        return __('Triggered when a healthcheck detects unhealthy checks.');
+        return __('Triggered when a healthcheck fails.');
     }
 
     public function uniqueId(): string

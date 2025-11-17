@@ -9,13 +9,32 @@ use Vigilant\Healthchecks\Checks\Module;
 enum Type: string
 {
     case Endpoint = 'endpoint';
-    case Module = 'module';
+    case Laravel = 'laravel';
+    case Magento = 'magento';
 
     public function label(): string
     {
         return match ($this) {
             self::Endpoint => __('Endpoint'),
-            self::Module => __('Module'),
+            self::Laravel => __('Laravel'),
+            self::Magento => __('Magento'),
+        };
+    }
+
+    public function icon(): string
+    {
+        return match ($this) {
+            self::Endpoint => 'phosphor-heartbeat',
+            self::Laravel => 'si-laravel',
+            self::Magento => 'bxl-magento',
+        };
+    }
+
+    public function endpoint(): ?string
+    {
+        return match ($this) {
+            self::Endpoint => null,
+            default => 'api/vigilant/health'
         };
     }
 
@@ -23,7 +42,7 @@ enum Type: string
     {
         $class = match ($this) {
             self::Endpoint => Endpoint::class,
-            self::Module => Module::class,
+            default => Module::class,
         };
 
         return app($class);

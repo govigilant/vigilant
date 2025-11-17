@@ -6,7 +6,6 @@ return [
     'http_timeout' => env('HEALTHCHECKS_HTTP_TIMEOUT', 10),
 
     'intervals' => [
-        30 => 'Every 30 seconds',
         60 => 'Every minute',
         300 => 'Every 5 minutes',
         600 => 'Every 10 minutes',

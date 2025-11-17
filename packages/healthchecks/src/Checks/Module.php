@@ -13,10 +13,12 @@ class Module extends Checker
     public function check(Healthcheck $healthcheck): int
     {
         $runId = rand(1, 10000);
+        $endpoint = $healthcheck->endpoint ?? $healthcheck->type->endpoint();
+        
         try {
             $response = Http::baseUrl($healthcheck->domain)
                 ->withToken($healthcheck->token)
-                ->post('/api/vigilant/health');
+                ->post($endpoint);
         } catch (ConnectionException) {
             $healthcheck->results()->create([
                 'run_id' => $runId,
