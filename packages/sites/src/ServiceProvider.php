@@ -105,7 +105,6 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('sites.tabs.dns-monitors', DnsMonitors::class);
         Livewire::component('sites.tabs.crawler', Crawler::class);
         Livewire::component('sites.tabs.certificate-monitor', CertificateMonitor::class);
-        Livewire::component('sites.tabs.healthcheck-monitor', \Vigilant\Sites\Http\Livewire\Tabs\HealthcheckMonitor::class);
         Livewire::component('sites.tabs.healthcheck-monitor', HealthcheckMonitor::class);
 
         return $this;
