@@ -38,9 +38,7 @@ class HealthCheckFailedNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $host = $this->healthcheck->site->url ?? $this->healthcheck->domain;
-
-        return __('Healthcheck failed for :host', ['host' => $host]);
+        return __('Healthcheck failed for :domain', ['domain' => $this->healthcheck->domain]);
     }
 
     public function description(): string
@@ -59,7 +57,7 @@ class HealthCheckFailedNotification extends Notification implements HasSite
             return $result->key.': '.$result->message;
         })->implode(PHP_EOL);
 
-        return __('Healthchecks have failed: :checks', ['checks' => $failedChecks]);
+        return __('Healthchecks have failed:').PHP_EOL.$failedChecks;
     }
 
     public static function info(): ?string

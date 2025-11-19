@@ -10,13 +10,13 @@ use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
 use Vigilant\Sites\Models\Site;
 
-class MetricIncreasingNotification extends Notification implements HasSite
+class MetricSpikeNotification extends Notification implements HasSite
 {
-    public static string $name = 'Metric increasing';
+    public static string $name = 'Metric spike detected';
 
-    public Level $level = Level::Warning;
+    public Level $level = Level::Critical;
 
-    public static ?int $defaultCooldown = 60;
+    public static ?int $defaultCooldown = 15;
 
     public static array $defaultConditions = [
         'type' => 'group',
@@ -39,14 +39,14 @@ class MetricIncreasingNotification extends Notification implements HasSite
 
     public function __construct(
         public Metric $metric,
-        public array $increasedMetrics = []
+        public array $spikeMetrics = []
     ) {}
 
     public function title(): string
     {
         $domain = $this->metric->healthcheck->domain;
 
-        return __('Metric increasing for :domain', ['domain' => $domain]);
+        return __('Metric spike detected for :domain', ['domain' => $domain]);
     }
 
     public function description(): string
@@ -55,12 +55,12 @@ class MetricIncreasingNotification extends Notification implements HasSite
         $value = $this->metric->value;
         $unit = $this->metric->unit;
 
-        if (! empty($this->increasedMetrics)) {
-            $percentIncrease = round($this->increasedMetrics['percent_increase'] ?? 0, 1);
-            $timeframeMinutes = $this->increasedMetrics['timeframe_minutes'] ?? 0;
-            $oldValue = $this->increasedMetrics['old_value'] ?? 0;
+        if (! empty($this->spikeMetrics)) {
+            $percentIncrease = round($this->spikeMetrics['percent_increase'] ?? 0, 1);
+            $timeframeMinutes = $this->spikeMetrics['timeframe_minutes'] ?? 0;
+            $oldValue = $this->spikeMetrics['old_value'] ?? 0;
 
-            return __('The metric ":key" has increased by :percent% (from :old_value:unit to :new_value:unit) over the past :timeframe minutes.', [
+            return __('The metric ":key" suddenly spiked by :percent% (from :old_value:unit to :new_value:unit) within :timeframe minutes.', [
                 'key' => $key,
                 'percent' => $percentIncrease,
                 'old_value' => $oldValue,
@@ -70,7 +70,7 @@ class MetricIncreasingNotification extends Notification implements HasSite
             ]);
         }
 
-        return __('The metric ":key" has increased to :value:unit.', [
+        return __('The metric ":key" suddenly spiked to :value:unit.', [
             'key' => $key,
             'value' => $value,
             'unit' => $unit,
@@ -79,12 +79,12 @@ class MetricIncreasingNotification extends Notification implements HasSite
 
     public static function info(): ?string
     {
-        return __('Triggered when a metric increases by a specified percentage within a timeframe.');
+        return __('Triggered when a metric suddenly spikes by a large percentage in a short timeframe.');
     }
 
     public function uniqueId(): string
     {
-        return 'metric-increasing-'.$this->metric->key;
+        return 'metric-spike-'.$this->metric->key;
     }
 
     public function site(): ?Site

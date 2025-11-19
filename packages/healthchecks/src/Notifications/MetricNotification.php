@@ -2,7 +2,6 @@
 
 namespace Vigilant\Healthchecks\Notifications;
 
-use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Models\Metric;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricUnitCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricValueCondition;
@@ -38,29 +37,27 @@ class MetricNotification extends Notification implements HasSite
     ];
 
     public function __construct(
-        public Healthcheck $healthcheck,
-        public int $runId
+        public Metric $metric
     ) {}
 
     public function title(): string
     {
-        $host = $this->healthcheck->site->url ?? $this->healthcheck->domain;
+        $domain = $this->metric->healthcheck->domain;
 
-        return __('Metric threshold exceeded for :host', ['host' => $host]);
+        return __('Metric threshold exceeded for :domain', ['domain' => $domain]);
     }
 
     public function description(): string
     {
-        /** @var \Illuminate\Database\Eloquent\Collection<int, Metric> $metricsCollection */
-        $metricsCollection = $this->healthcheck->metrics()
-            ->where('run_id', '=', $this->runId)
-            ->get();
+        $key = $this->metric->key;
+        $value = $this->metric->value;
+        $unit = $this->metric->unit;
 
-        return $metricsCollection->map(function (Metric $metric): string {
-            $unit = $metric->unit ? ' '.$metric->unit : '';
-
-            return $metric->key.': '.$metric->value.$unit;
-        })->implode(PHP_EOL);
+        return __('The metric ":key" has exceeded its configured threshold with a value of :value:unit.', [
+            'key' => $key,
+            'value' => $value,
+            'unit' => $unit,
+        ]);
     }
 
     public static function info(): ?string
@@ -70,11 +67,11 @@ class MetricNotification extends Notification implements HasSite
 
     public function uniqueId(): string
     {
-        return 'metric-'.$this->healthcheck->id.'-'.$this->runId;
+        return $this->metric->key;
     }
 
     public function site(): ?Site
     {
-        return $this->healthcheck->site;
+        return $this->metric->healthcheck->site;
     }
 }

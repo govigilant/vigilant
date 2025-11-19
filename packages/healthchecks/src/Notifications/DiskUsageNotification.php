@@ -2,6 +2,7 @@
 
 namespace Vigilant\Healthchecks\Notifications;
 
+use Illuminate\Support\Carbon;
 use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Notifications\Conditions\DiskFullInCondition;
 use Vigilant\Notifications\Contracts\HasSite;
@@ -36,14 +37,14 @@ class DiskUsageNotification extends Notification implements HasSite
         public float $currentUsage,
         public float $velocity,
         public float $hoursUntilFull,
-        public ?string $estimatedFullAt = null
+        public ?Carbon $estimatedFullAt = null
     ) {}
 
     public function title(): string
     {
-        $host = $this->healthcheck->site->url ?? $this->healthcheck->domain;
+        $domain = $this->healthcheck->domain;
 
-        return __('Disk usage critical for :host', ['host' => $host]);
+        return __('Disk usage critical for :domain', ['domain' => $domain]);
     }
 
     public function description(): string
@@ -56,7 +57,7 @@ class DiskUsageNotification extends Notification implements HasSite
         $message .= __('Estimated to reach 100% in: :hours hours', ['hours' => $hours]).PHP_EOL;
 
         if ($this->estimatedFullAt) {
-            $message .= __('Estimated full at: :time', ['time' => $this->estimatedFullAt]);
+            $message .= __('Estimated full at: :time', ['time' => teamTimezone($this->estimatedFullAt)->toDateTimeString()]);
         }
 
         return $message;

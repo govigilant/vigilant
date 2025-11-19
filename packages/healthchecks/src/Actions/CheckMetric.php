@@ -8,6 +8,7 @@ use Vigilant\Healthchecks\Models\Metric;
 use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
 use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
 use Vigilant\Healthchecks\Notifications\MetricNotification;
+use Vigilant\Healthchecks\Notifications\MetricSpikeNotification;
 
 class CheckMetric
 {
@@ -22,7 +23,9 @@ class CheckMetric
             return;
         }
 
-        MetricNotification::notify($healthcheck, $runId);
+        foreach ($metrics as $metric) {
+            MetricNotification::notify($metric);
+        }
 
         $this->checkIncreasingMetrics($healthcheck, $runId, $metrics);
         $this->checkDiskUsage($healthcheck, $runId, $metrics);
@@ -30,7 +33,6 @@ class CheckMetric
 
     protected function checkIncreasingMetrics(Healthcheck $healthcheck, int $runId, Collection $metrics): void
     {
-        $increasedMetrics = [];
         $metricsByKey = $metrics->groupBy('key');
 
         foreach ($metricsByKey as $key => $keyMetrics) {
@@ -38,16 +40,16 @@ class CheckMetric
             $increaseData = $this->calculateMetricIncrease($healthcheck, $key, $currentMetric);
 
             if ($increaseData !== null) {
-                $increasedMetrics[] = $increaseData;
+                if (($increaseData['detection_type'] ?? '') === 'sudden_spike') {
+                    MetricSpikeNotification::notify($currentMetric, $increaseData);
+                } else {
+                    MetricIncreasingNotification::notify($currentMetric, $increaseData);
+                }
             }
-        }
-
-        if (! empty($increasedMetrics)) {
-            MetricIncreasingNotification::notify($healthcheck, $runId, $increasedMetrics);
         }
     }
 
-    protected function calculateMetricIncrease(Healthcheck $healthcheck, string $key, Metric $currentMetric): ?array
+    public function calculateMetricIncrease(Healthcheck $healthcheck, string $key, Metric $currentMetric): ?array
     {
         /** @var Collection<int, Metric> $historicalMetrics */
         $historicalMetrics = $healthcheck->metrics()
@@ -57,18 +59,25 @@ class CheckMetric
             ->limit(60)
             ->get();
 
-        if ($historicalMetrics->count() < 2) {
-            return null;
-        }
-
         $currentValue = $currentMetric->value;
-        /** @var Metric|null $oldestMetric */
-        $oldestMetric = $historicalMetrics->last();
 
-        if ($oldestMetric === null) {
+        // Spike detection
+        $recentMetrics = $historicalMetrics->take(5);
+        if ($recentMetrics->count() >= 3) {
+            $spikeResult = $this->detectSpike($recentMetrics, $currentValue, $currentMetric);
+            if ($spikeResult !== null) {
+                return $spikeResult;
+            }
+        }
+
+        // Check for long-term increase
+        if ($historicalMetrics->count() < 10) {
+
             return null;
         }
 
+        /** @var Metric $oldestMetric */
+        $oldestMetric = $historicalMetrics->last();
         $oldestValue = $oldestMetric->value;
 
         if ($oldestValue == 0) {
@@ -91,12 +100,44 @@ class CheckMetric
             'percent_increase' => $percentIncrease,
             'timeframe_minutes' => $timeframeMinutes,
             'sample_size' => $historicalMetrics->count(),
+            'detection_type' => 'long_term_trend',
+        ];
+    }
+
+    public function detectSpike(Collection $recentMetrics, float $currentValue, Metric $currentMetric): ?array
+    {
+        /** @var Metric $recentOldest */
+        $recentOldest = $recentMetrics->last();
+        $recentOldestValue = $recentOldest->value;
+
+        if ($recentOldestValue == 0) {
+            return null;
+        }
+
+        $percentIncrease = (($currentValue - $recentOldestValue) / $recentOldestValue) * 100;
+
+        // Spike threshold: 50% increase
+        if ($percentIncrease < 50) {
+            return null;
+        }
+
+        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($recentOldest->created_at) ?? 0;
+
+        return [
+            'key' => $currentMetric->key,
+            'old_value' => $recentOldestValue,
+            'new_value' => $currentValue,
+            'unit' => $currentMetric->unit,
+            'percent_increase' => $percentIncrease,
+            'timeframe_minutes' => $timeframeMinutes,
+            'sample_size' => $recentMetrics->count(),
+            'detection_type' => 'sudden_spike',
         ];
     }
 
     protected function checkDiskUsage(Healthcheck $healthcheck, int $runId, Collection $metrics): void
     {
-        /** @var Metric|null $diskMetric */
+        /** @var ?Metric $diskMetric */
         $diskMetric = $metrics->firstWhere('key', 'disk_usage');
 
         if (! $diskMetric || $diskMetric->unit !== '%') {
@@ -111,12 +152,8 @@ class CheckMetric
             ->limit(60)
             ->get();
 
-        if ($historicalMetrics->count() < 2) {
-            return;
-        }
-
         $currentUsage = $diskMetric->value;
-        /** @var Metric|null $oldestMetric */
+        /** @var ?Metric $oldestMetric */
         $oldestMetric = $historicalMetrics->last();
 
         if ($oldestMetric === null) {
@@ -125,7 +162,7 @@ class CheckMetric
 
         $oldestUsage = $oldestMetric->value;
 
-        $timeframeHours = $diskMetric->created_at?->diffInHours($oldestMetric->created_at) ?? 0;
+        $timeframeHours = $oldestMetric->created_at?->diffInHours($diskMetric->created_at) ?? 0;
 
         if ($timeframeHours == 0) {
             return;
@@ -144,7 +181,7 @@ class CheckMetric
             return;
         }
 
-        $estimatedFullAt = now()->addHours($hoursUntilFull)->toDateTimeString();
+        $estimatedFullAt = now()->addHours($hoursUntilFull);
 
         DiskUsageNotification::notify(
             $healthcheck,
