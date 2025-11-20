@@ -12,7 +12,7 @@ class OutpostAuthMiddlewareTest extends TestCase
     {
         config(['uptime.outpost_token' => 'valid-token']);
 
-        $middleware = new OutpostAuthMiddleware();
+        $middleware = new OutpostAuthMiddleware;
         $request = Request::create('/test', 'GET');
         $request->headers->set('X-Outpost-Token', 'valid-token');
 
@@ -28,7 +28,7 @@ class OutpostAuthMiddlewareTest extends TestCase
     {
         config(['uptime.outpost_token' => 'valid-token']);
 
-        $middleware = new OutpostAuthMiddleware();
+        $middleware = new OutpostAuthMiddleware;
         $request = Request::create('/test', 'GET');
         $request->headers->set('X-Outpost-Token', 'invalid-token');
 
@@ -44,7 +44,7 @@ class OutpostAuthMiddlewareTest extends TestCase
     {
         config(['uptime.outpost_token' => 'valid-token']);
 
-        $middleware = new OutpostAuthMiddleware();
+        $middleware = new OutpostAuthMiddleware;
         $request = Request::create('/test', 'GET');
 
         $response = $middleware->handle($request, function ($req) {

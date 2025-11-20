@@ -29,7 +29,7 @@ class LighthouseSiteForm extends Form
         return array_merge(parent::getRules(),
             [
                 'enabled' => ['boolean', new CanEnableRule(LighthouseMonitor::class)],
-                'interval' => ['required', 'integer', 'in:' . implode(',', array_keys(config('lighthouse.intervals')))],
+                'interval' => ['required', 'integer', 'in:'.implode(',', array_keys(config('lighthouse.intervals')))],
             ]
         );
     }

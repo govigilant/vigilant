@@ -34,9 +34,9 @@ class DetermineOutpostPerformanceTest extends TestCase
         for ($i = 0; $i < 1000; $i++) {
             $country = $countries[$i % count($countries)];
             $outpostsData[] = [
-                'ip' => "192.168.".floor($i / 256).".".($i % 256),
+                'ip' => '192.168.'.floor($i / 256).'.'.($i % 256),
                 'port' => 8080 + ($i % 100),
-                'external_ip' => floor($i / 256).".".($i % 256).".1.1",
+                'external_ip' => floor($i / 256).'.'.($i % 256).'.1.1',
                 'status' => OutpostStatus::Available->value,
                 'country' => $country,
                 'latitude' => 40.0 + ($i % 10),
@@ -137,7 +137,7 @@ class DetermineOutpostPerformanceTest extends TestCase
         foreach ($queries as $query) {
             // Verify queries use LIMIT to avoid loading all records
             $sql = strtolower($query['query']);
-            
+
             // All select queries should have a limit
             if (strpos($sql, 'select') !== false && strpos($sql, 'from') !== false) {
                 $this->assertTrue(

@@ -552,19 +552,19 @@ class DetermineOutpostTest extends TestCase
         $excludedReturned = false;
         for ($i = 0; $i < 10; $i++) {
             $result = $determineOutpost->determine($monitor, [$closestOutpost->id]);
-            
+
             // Should never get the excluded closest outpost
             if ($result !== null && $result->id === $closestOutpost->id) {
                 $excludedReturned = true;
                 break;
             }
         }
-        
+
         $this->assertFalse($excludedReturned, 'Excluded outpost should never be returned');
 
         // The cached closest_outpost_id should NOT have changed
         $monitor->refresh();
-        $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id, 
+        $this->assertEquals($closestOutpost->id, $monitor->closest_outpost_id,
             'Closest outpost cache should not change when using excluded outposts');
     }
 }

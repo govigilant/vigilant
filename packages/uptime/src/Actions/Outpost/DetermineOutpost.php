@@ -96,7 +96,7 @@ class DetermineOutpost
     protected function findClosestOutpost(Monitor $monitor, array $excludedOutposts = []): ?Outpost
     {
         $earthRadius = 6371; // Earth's radius in kilometers
-        
+
         return Outpost::query()
             ->where('status', '=', OutpostStatus::Available)
             ->whereNotNull('latitude')

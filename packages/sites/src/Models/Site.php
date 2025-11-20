@@ -13,6 +13,7 @@ use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Dns\Models\DnsMonitor;
+use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Observers\SiteObserver;
 use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
@@ -28,6 +29,7 @@ use Vigilant\Uptime\Models\Monitor as UptimeMonitor;
  * @property Collection<int, LighthouseMonitor> $lighthouseMonitors
  * @property Collection<int, DnsMonitor> $dnsMonitors
  * @property ?CertificateMonitor $certificateMonitor
+ * @property ?Healthcheck $healthcheck
  */
 #[ObservedBy([SiteObserver::class])]
 #[ScopedBy([TeamScope::class])]
@@ -58,5 +60,10 @@ class Site extends Model
     public function certificateMonitor(): HasOne
     {
         return $this->hasOne(CertificateMonitor::class);
+    }
+
+    public function healthcheck(): HasOne
+    {
+        return $this->hasOne(Healthcheck::class);
     }
 }
