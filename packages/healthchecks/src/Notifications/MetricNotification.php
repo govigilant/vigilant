@@ -42,7 +42,7 @@ class MetricNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $domain = $this->metric->healthcheck->domain;
+        $domain = $this->metric->healthcheck->domain ?? '?';
 
         return __('Metric threshold exceeded for :domain', ['domain' => $domain]);
     }
@@ -72,6 +72,6 @@ class MetricNotification extends Notification implements HasSite
 
     public function site(): ?Site
     {
-        return $this->metric->healthcheck->site;
+        return $this->metric->healthcheck?->site;
     }
 }

@@ -9,7 +9,7 @@ use Vigilant\Notifications\Notifications\Notification;
 
 class CheckKeyCondition extends SelectCondition
 {
-    public static string $name = 'Check key';
+    public static string $name = 'Healthcheck';
 
     public function options(): array
     {
@@ -24,17 +24,9 @@ class CheckKeyCondition extends SelectCondition
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var HealthCheckFailedNotification $notification */
-        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Result> $results */
-        $results = $notification->healthcheck->results()
-            ->where('run_id', $notification->runId)
-            ->get();
-
-        foreach ($results as $result) {
-            if ($result->key === $value) {
-                return true;
-            }
-        }
-
-        return false;
+        return $notification->healthcheck->results()
+            ->where('run_id', '=', $notification->runId)
+            ->where('key', '=', $value)
+            ->exists();
     }
 }

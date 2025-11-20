@@ -13,39 +13,27 @@ class MetricValueCondition extends Condition
 
     public ConditionType $type = ConditionType::Number;
 
-    public function metadata(): array
+    public function operators(): array
     {
-        return [];
+        return [
+            '<' => 'Less than',
+            '<=' => 'Less or equal than',
+            '>' => 'Greater than',
+            '>=' => 'Greater or equal than',
+        ];
     }
 
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var MetricNotification $notification */
-        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Metric> $metrics */
-        $metrics = $notification->healthcheck->metrics()
-            ->where('run_id', $notification->runId)
-            ->get();
+        $metric = $notification->metric->value;
 
-        if ($operand !== null) {
-            $metrics = $metrics->where('key', $operand);
-        }
-
-        foreach ($metrics as $metric) {
-            $result = match ($operator) {
-                '>' => $metric->value > $value,
-                '>=' => $metric->value >= $value,
-                '<' => $metric->value < $value,
-                '<=' => $metric->value <= $value,
-                '=' => $metric->value == $value,
-                '!=' => $metric->value != $value,
-                default => false,
-            };
-
-            if ($result) {
-                return true;
-            }
-        }
-
-        return false;
+        return match ($operator) {
+            '>' => $metric > $value,
+            '>=' => $metric >= $value,
+            '<' => $metric < $value,
+            '<=' => $metric <= $value,
+            default => false,
+        };
     }
 }

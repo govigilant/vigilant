@@ -44,7 +44,7 @@ class MetricSpikeNotification extends Notification implements HasSite
 
     public function title(): string
     {
-        $domain = $this->metric->healthcheck->domain;
+        $domain = $this->metric->healthcheck->domain ?? '?';
 
         return __('Metric spike detected for :domain', ['domain' => $domain]);
     }
@@ -89,6 +89,6 @@ class MetricSpikeNotification extends Notification implements HasSite
 
     public function site(): ?Site
     {
-        return $this->metric->healthcheck->site;
+        return $this->metric->healthcheck?->site;
     }
 }

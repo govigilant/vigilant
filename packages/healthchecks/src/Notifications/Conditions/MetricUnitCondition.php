@@ -24,17 +24,6 @@ class MetricUnitCondition extends SelectCondition
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var MetricNotification $notification */
-        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Metric> $metrics */
-        $metrics = $notification->healthcheck->metrics()
-            ->where('run_id', $notification->runId)
-            ->get();
-
-        foreach ($metrics as $metric) {
-            if ($metric->unit === $value) {
-                return true;
-            }
-        }
-
-        return false;
+        return $notification->metric->unit === $value;
     }
 }

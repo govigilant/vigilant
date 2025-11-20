@@ -22,17 +22,14 @@ class StatusCondition extends SelectCondition
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var HealthCheckFailedNotification $notification */
-        /** @var \Illuminate\Database\Eloquent\Collection<int, \Vigilant\Healthchecks\Models\Result> $results */
-        $results = $notification->healthcheck->results()
-            ->where('run_id', $notification->runId)
-            ->get();
-
-        foreach ($results as $result) {
-            if ($result->status->value === $value) {
-                return true;
-            }
+        $status = Status::tryFrom($value);
+        if ($status === null) {
+            return false;
         }
 
-        return false;
+        return $notification->healthcheck->results()
+            ->where('run_id', '=', $notification->runId)
+            ->where('status', '=', $status)
+            ->exists();
     }
 }

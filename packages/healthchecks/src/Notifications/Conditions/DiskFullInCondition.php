@@ -13,9 +13,14 @@ class DiskFullInCondition extends Condition
 
     public ConditionType $type = ConditionType::Number;
 
-    public function metadata(): array
+    public function operators(): array
     {
-        return [];
+        return [
+            '<' => 'Less than',
+            '<=' => 'Less or equal than',
+            '>' => 'Greater than',
+            '>=' => 'Greater or equal than',
+        ];
     }
 
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
@@ -28,8 +33,6 @@ class DiskFullInCondition extends Condition
             '>=' => $hoursUntilFull >= $value,
             '<' => $hoursUntilFull < $value,
             '<=' => $hoursUntilFull <= $value,
-            '=' => $hoursUntilFull == $value,
-            '!=' => $hoursUntilFull != $value,
             default => false,
         };
 

@@ -13,9 +13,14 @@ class MetricIncreaseTimeframeCondition extends Condition
 
     public ConditionType $type = ConditionType::Number;
 
-    public function metadata(): array
+    public function operators(): array
     {
-        return [];
+        return [
+            '<' => 'Less than',
+            '<=' => 'Less or equal than',
+            '>' => 'Greater than',
+            '>=' => 'Greater or equal than',
+        ];
     }
 
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
@@ -37,8 +42,6 @@ class MetricIncreaseTimeframeCondition extends Condition
                 '>=' => $timeframeMinutes >= $value,
                 '<' => $timeframeMinutes < $value,
                 '<=' => $timeframeMinutes <= $value,
-                '=' => $timeframeMinutes == $value,
-                '!=' => $timeframeMinutes != $value,
                 default => false,
             };
 
