@@ -220,7 +220,7 @@ class CrawlUrl
     {
         $host = parse_url($url, PHP_URL_HOST);
 
-        if (! $host) {
+        if ($host === null || $host === false) {
             return false;
         }
 
