@@ -2,7 +2,6 @@
 
 namespace Vigilant\Crawler\Actions;
 
-use DOMDocument;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Gate;
@@ -58,8 +57,7 @@ class CrawlUrl
             return;
         }
 
-        /** @var array $baseUrl */
-        $baseUrl = parse_url($effectiveUrl);
+        $baseUrl = parse_url($effectiveUrl) ?: [];
 
         if (! $response->successful()) {
             $url->update([
@@ -80,41 +78,13 @@ class CrawlUrl
 
         $html = $response->body();
 
-        $dom = new DOMDocument;
-        @$dom->loadHTML($html); // Suppress warnings due to potential malformed HTML
-
-        $links = [];
-
-        if (! array_key_exists('host', $baseUrl)) {
+        if (! isset($baseUrl['host'], $baseUrl['scheme'])) {
             $url->update(['crawled' => true]);
 
             return;
         }
 
-        foreach ($dom->getElementsByTagName('a') as $anchor) {
-
-            $href = $anchor->getAttribute('href');
-
-            if (! $href) {
-                continue;
-            }
-
-            if (str_starts_with($href, 'mailto:') || str_starts_with($href, 'tel:')) {
-                continue;
-            }
-
-            if (! filter_var($href, FILTER_VALIDATE_URL) && $href !== '#') {
-                $href = $this->resolveRelativeUrl($href, $baseUrl);
-            }
-
-            if (! $this->isSameDomain($href, $baseUrl['host']) || ! filter_var($href, FILTER_VALIDATE_URL)) {
-                continue;
-            }
-
-            $href = rtrim($href, '/#');
-
-            $links[] = $href;
-        }
+        $links = $this->extractLinks($html, $baseUrl);
 
         foreach ($links as $link) {
             if (! Gate::check('create-crawled-url', $url->crawler)) { // @phpstan-ignore-line
@@ -138,6 +108,55 @@ class CrawlUrl
             'crawled' => true,
         ]);
     }
+
+    protected function extractLinks(string $html, array $baseUrl): array
+    {
+        if ($html === '' || stripos($html, '<a') === false || ! isset($baseUrl['host'], $baseUrl['scheme'])) {
+            return [];
+        }
+
+        $pattern = '~<a\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|\'([^\']*)\'|([^\s>"\']+))~i';
+
+        if (! preg_match_all($pattern, $html, $matches, PREG_SET_ORDER)) {
+            return [];
+        }
+
+        $links = [];
+
+        foreach ($matches as $match) {
+            $href = $match[1] ?? $match[2] ?? $match[3] ?? '';
+            $href = html_entity_decode(trim($href), ENT_QUOTES | ENT_HTML5);
+
+            if ($href === '' || $href === '#') {
+                continue;
+            }
+
+            $lowerHref = strtolower($href);
+
+            if (str_starts_with($lowerHref, 'mailto:') || str_starts_with($lowerHref, 'tel:') || str_starts_with($lowerHref, 'javascript:')) {
+                continue;
+            }
+
+            if (! filter_var($href, FILTER_VALIDATE_URL)) {
+                $href = $this->resolveRelativeUrl($href, $baseUrl);
+            }
+
+            if (! filter_var($href, FILTER_VALIDATE_URL) || ! $this->isSameDomain($href, $baseUrl['host'])) {
+                continue;
+            }
+
+            $normalized = rtrim($href, '/#');
+
+            if ($normalized === '') {
+                continue;
+            }
+
+            $links[$normalized] = true;
+        }
+
+        return array_keys($links);
+    }
+
 
     /**
      * @return array{Response, string}
