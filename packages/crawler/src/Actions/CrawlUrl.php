@@ -163,7 +163,12 @@ class CrawlUrl
      */
     protected function fetchResponse(string $currentUrl, ?string $allowedDomain, int $redirectCount = 0): array
     {
-        $response = $this->sendRequest($currentUrl);
+        try {
+            $response = $this->sendRequest($currentUrl);
+        } catch (ConnectionException $e) {
+            // Re-throw to be handled by the outer try-catch in crawl()
+            throw $e;
+        }
 
         $nextUrl = $this->nextRedirectUrl($response, $currentUrl, $allowedDomain, $redirectCount);
 
