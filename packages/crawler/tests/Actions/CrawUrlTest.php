@@ -54,12 +54,17 @@ class CrawUrlTest extends TestCase
             ->pluck('url')
             ->toArray();
 
+        $discoveredUrls = array_values(array_filter(
+            $foundUrls,
+            fn (string $url): bool => $url !== $crawler->start_url,
+        ));
+
         $this->assertEquals([
             'https://govigilant.io/relative-url',
             'https://govigilant.io/trailing-url',
             'http://govigilant.io/unsecure-url',
             'https://govigilant.io',
-        ], $foundUrls);
+        ], $discoveredUrls);
     }
 
     #[Test]
@@ -89,7 +94,7 @@ class CrawUrlTest extends TestCase
         $action->crawl($crawledUrl);
 
         $crawledUrl->refresh();
-        $this->assertEquals(1, $crawler->urls()->count());
+        $this->assertEquals(2, $crawler->urls()->count());
         $this->assertTrue($crawledUrl->crawled);
     }
 
