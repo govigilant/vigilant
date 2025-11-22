@@ -6,6 +6,7 @@ use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
@@ -85,22 +86,46 @@ class CrawlUrl
         }
 
         $links = $this->extractLinks($html, $baseUrl);
+        $queuedLinks = [];
 
         foreach ($links as $link) {
             if (! Gate::check('create-crawled-url', $url->crawler)) { // @phpstan-ignore-line
                 break;
             }
 
-            $pageUrl = str($link)->limit(8192)->toString();
-            $hash = md5($pageUrl);
+            if (strlen($link) > 8192) {
+                $link = substr($link, 0, 8192);
+            }
 
-            CrawledUrl::query()->firstOrCreate([
+            $hash = md5($link);
+
+            $queuedLinks[$hash] = [
                 'crawler_id' => $url->crawler_id,
                 'url_hash' => $hash,
-            ], [
-                'url' => $pageUrl,
+                'url' => $link,
                 'found_on_id' => $url->uuid,
-            ]);
+            ];
+        }
+
+        if ($queuedLinks !== []) {
+            $timestamp = now();
+            $records = [];
+
+            foreach ($queuedLinks as $record) {
+                $records[] = [
+                    'uuid' => (string) Str::uuid(),
+                    'crawler_id' => $record['crawler_id'],
+                    'team_id' => $url->team_id,
+                    'url_hash' => $record['url_hash'],
+                    'url' => $record['url'],
+                    'found_on_id' => $record['found_on_id'],
+                    'crawled' => false,
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp,
+                ];
+            }
+
+            CrawledUrl::query()->insertOrIgnore($records);
         }
 
         $url->update([
