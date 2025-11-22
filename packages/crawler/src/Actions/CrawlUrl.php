@@ -4,6 +4,7 @@ namespace Vigilant\Crawler\Actions;
 
 use DOMDocument;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Services\TeamService;
@@ -13,6 +14,8 @@ use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawlUrl
 {
+    protected const MAX_REDIRECTS = 5;
+
     public function __construct(protected TeamService $teamService) {}
 
     public function crawl(CrawledUrl $url, int $try = 0): void
@@ -27,12 +30,10 @@ class CrawlUrl
             return;
         }
 
+        $allowedHost = parse_url($url->url, PHP_URL_HOST);
+
         try {
-            $response = Http::timeout(config()->integer('crawler.timeout'))
-                ->connectTimeout(config()->integer('crawler.timeout'))
-                ->withOptions(['verify' => false, 'allow_redirects' => false])
-                ->withUserAgent(config('core.user_agent'))
-                ->get($url->url);
+            [$response, $effectiveUrl] = $this->fetchResponse($url->url, $allowedHost);
         } catch (ConnectionException) {
             if ($try < 3) {
                 $this->crawl($url, $try + 1);
@@ -49,7 +50,7 @@ class CrawlUrl
         }
 
         /** @var array $baseUrl */
-        $baseUrl = parse_url($url->url);
+        $baseUrl = parse_url($effectiveUrl);
 
         if (! $response->successful()) {
             $url->update([
@@ -63,32 +64,6 @@ class CrawlUrl
                 ]);
 
                 RatelimitedNotification::notify($url->crawler);
-            }
-
-            if ($response->redirect()) {
-
-                $redirectUrl = $response->header('Location');
-
-                if (! $this->isSameDomain($redirectUrl, $baseUrl['host'])) {
-                    return;
-                }
-
-                if (! filter_var($redirectUrl, FILTER_VALIDATE_URL)) {
-                    $redirectUrl = $this->resolveRelativeUrl($redirectUrl, parse_url($url->url)); // @phpstan-ignore-line
-                }
-
-                if (! Gate::check('create-crawled-url', $url->crawler)) {
-                    $redirectUrl = str($redirectUrl)->limit(8192)->toString();
-                    $hash = md5($redirectUrl);
-
-                    CrawledUrl::query()->firstOrCreate([
-                        'crawler_id' => $url->crawler_id,
-                        'url_hash' => $hash,
-                    ], [
-                        'url' => $redirectUrl,
-                        'found_on_id' => $url->uuid,
-                    ]);
-                }
             }
 
             return;
@@ -155,11 +130,76 @@ class CrawlUrl
         ]);
     }
 
+    /**
+     * @return array{Response, string}
+     */
+    protected function fetchResponse(string $currentUrl, ?string $allowedDomain, int $redirectCount = 0): array
+    {
+        $response = $this->sendRequest($currentUrl);
+
+        $nextUrl = $this->nextRedirectUrl($response, $currentUrl, $allowedDomain, $redirectCount);
+
+        if ($nextUrl !== null) {
+            return $this->fetchResponse($nextUrl, $allowedDomain, $redirectCount + 1);
+        }
+
+        return [$response, $currentUrl];
+    }
+
+    protected function sendRequest(string $url): Response
+    {
+        $timeout = config()->integer('crawler.timeout');
+
+        return Http::timeout($timeout)
+            ->connectTimeout($timeout)
+            ->withOptions(['verify' => false, 'allow_redirects' => false])
+            ->withUserAgent(config('core.user_agent'))
+            ->get($url);
+    }
+
+    protected function nextRedirectUrl(Response $response, string $currentUrl, ?string $allowedDomain, int $redirectCount): ?string
+    {
+        if (! $response->redirect() || $allowedDomain === null || $redirectCount >= self::MAX_REDIRECTS) {
+            return null;
+        }
+
+        $redirectLocation = $response->header('Location');
+
+        if (is_array($redirectLocation)) {
+            $redirectLocation = $redirectLocation[0] ?? null;
+        }
+
+        if (! is_string($redirectLocation) || $redirectLocation === '') {
+            return null;
+        }
+
+        if (! filter_var($redirectLocation, FILTER_VALIDATE_URL)) {
+            $baseParts = parse_url($currentUrl);
+
+            if ($baseParts === false || ! isset($baseParts['scheme'], $baseParts['host'])) {
+                return null;
+            }
+
+            $redirectLocation = $this->resolveRelativeUrl($redirectLocation, $baseParts);
+        }
+
+        return $this->isSameDomain($redirectLocation, $allowedDomain)
+            ? $redirectLocation
+            : null;
+    }
+
     protected function isSameDomain(string $url, string $domain): bool
     {
-        $parsedUrl = parse_url($url, PHP_URL_HOST);
+        $host = parse_url($url, PHP_URL_HOST);
 
-        return $parsedUrl && str_starts_with($parsedUrl, $domain);
+        if (! $host) {
+            return false;
+        }
+
+        $host = strtolower($host);
+        $domain = strtolower($domain);
+
+        return $host === $domain || str_ends_with($host, '.'.$domain);
     }
 
     protected function resolveRelativeUrl(string $relativeUrl, array $baseUrlParts): string
