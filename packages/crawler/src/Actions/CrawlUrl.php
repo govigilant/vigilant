@@ -41,7 +41,7 @@ class CrawlUrl
         }
 
         try {
-            [$response, $effectiveUrl] = $this->fetchResponse($url->url, $allowedHost);
+            $response = $this->fetchResponse($url->url, $allowedHost);
         } catch (ConnectionException) {
             if ($try < 3) {
                 $this->crawl($url, $try + 1);
@@ -57,7 +57,7 @@ class CrawlUrl
             return;
         }
 
-        $baseUrl = parse_url($effectiveUrl) ?: [];
+        $baseUrl = parse_url($url->url) ?: [];
 
         if (! $response->successful()) {
             $url->update([
@@ -157,11 +157,7 @@ class CrawlUrl
         return array_keys($links);
     }
 
-
-    /**
-     * @return array{Response, string}
-     */
-    protected function fetchResponse(string $currentUrl, ?string $allowedDomain, int $redirectCount = 0): array
+    protected function fetchResponse(string $currentUrl, ?string $allowedDomain, int $redirectCount = 0): Response
     {
         $response = $this->sendRequest($currentUrl);
 
@@ -171,7 +167,7 @@ class CrawlUrl
             return $this->fetchResponse($nextUrl, $allowedDomain, $redirectCount + 1);
         }
 
-        return [$response, $currentUrl];
+        return $response;
     }
 
     protected function sendRequest(string $url): Response
