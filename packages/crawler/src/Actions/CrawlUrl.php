@@ -170,6 +170,8 @@ class CrawlUrl
                 continue;
             }
 
+            $href = $this->withoutQuery($href);
+
             $normalized = rtrim($href, '/#');
 
             if ($normalized === '') {
@@ -250,6 +252,38 @@ class CrawlUrl
 
         // Match exact domain or proper subdomain (with dot boundary)
         return $host === $domain || preg_match('/\.'.preg_quote($domain, '/').'$/', $host);
+    }
+
+    protected function withoutQuery(string $url): string
+    {
+        $parts = parse_url($url);
+
+        if ($parts === false || ! isset($parts['scheme'], $parts['host'])) {
+            return $url;
+        }
+
+        $scheme = $parts['scheme'];
+        $host = $parts['host'];
+        $userInfo = '';
+
+        if (isset($parts['user'])) {
+            $userInfo = $parts['user'];
+
+            if (isset($parts['pass'])) {
+                $userInfo .= ':'.$parts['pass'];
+            }
+
+            $userInfo .= '@';
+        }
+
+        $port = isset($parts['port']) ? ':'.$parts['port'] : '';
+        $path = $parts['path'] ?? '';
+
+        if ($path === '') {
+            $path = '/';
+        }
+
+        return $scheme.'://'.$userInfo.$host.$port.$path;
     }
 
     protected function resolveRelativeUrl(string $relativeUrl, array $baseUrlParts): string
