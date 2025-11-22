@@ -32,6 +32,15 @@ class CrawlUrl
 
         $allowedHost = parse_url($url->url, PHP_URL_HOST);
 
+        if (! is_string($allowedHost)) {
+            $url->update([
+                'status' => 0,
+                'crawled' => true,
+            ]);
+
+            return;
+        }
+
         try {
             [$response, $effectiveUrl] = $this->fetchResponse($url->url, $allowedHost);
         } catch (ConnectionException) {
