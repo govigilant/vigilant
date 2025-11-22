@@ -216,14 +216,15 @@ class CrawlUrl
     {
         $host = parse_url($url, PHP_URL_HOST);
 
-        if (! $host) {
+        if ($host === null || $host === false) {
             return false;
         }
 
         $host = strtolower($host);
         $domain = strtolower($domain);
 
-        return $host === $domain || str_ends_with($host, '.'.$domain);
+        // Match exact domain or proper subdomain (with dot boundary)
+        return $host === $domain || preg_match('/\.'.preg_quote($domain, '/').'$/', $host);
     }
 
     protected function resolveRelativeUrl(string $relativeUrl, array $baseUrlParts): string
