@@ -22,7 +22,9 @@ class CrawlUrl
     {
         $this->teamService->setTeamById($url->team_id);
 
-        if (! Gate::check('create-crawled-url', $url->crawler)) {
+        $canCreateCrawledUrl = Gate::check('create-crawled-url', $url->crawler);
+
+        if (! $canCreateCrawledUrl) {
             $url->crawler->update([
                 'state' => State::Limited,
             ]);
@@ -89,10 +91,6 @@ class CrawlUrl
         $queuedLinks = [];
 
         foreach ($links as $link) {
-            if (! Gate::check('create-crawled-url', $url->crawler)) { // @phpstan-ignore-line
-                break;
-            }
-
             if (strlen($link) > 8192) {
                 $link = substr($link, 0, 8192);
             }
@@ -199,10 +197,11 @@ class CrawlUrl
 
     protected function sendRequest(string $url): Response
     {
-        $timeout = config()->integer('crawler.timeout');
+        $timeout = config()->integer('crawler.timeout', 5);
+        $connectTimeout = config()->integer('crawler.connect_timeout', $timeout);
 
         return Http::timeout($timeout)
-            ->connectTimeout($timeout)
+            ->connectTimeout($connectTimeout)
             ->withOptions(['verify' => false, 'allow_redirects' => false])
             ->withUserAgent(config('core.user_agent'))
             ->get($url);
