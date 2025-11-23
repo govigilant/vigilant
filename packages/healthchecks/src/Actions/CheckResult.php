@@ -14,9 +14,7 @@ class CheckResult
     public function check(Healthcheck $healthcheck, int $runId): void
     {
         /** @var Collection<int, Result> $results */
-        $results = $healthcheck->results()
-            ->where('run_id', $runId)
-            ->get();
+        $results = $healthcheck->results()->get();
 
         $overallStatus = Status::Healthy;
         $unhealthy = false;

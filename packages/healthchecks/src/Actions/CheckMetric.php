@@ -16,7 +16,7 @@ class CheckMetric
     {
         /** @var Collection<int, Metric> $metrics */
         $metrics = $healthcheck->metrics()
-            ->where('run_id', $runId)
+            ->where('run_id', '=', $runId)
             ->get();
 
         if ($metrics->isEmpty()) {
@@ -27,11 +27,11 @@ class CheckMetric
             MetricNotification::notify($metric);
         }
 
-        $this->checkIncreasingMetrics($healthcheck, $runId, $metrics);
-        $this->checkDiskUsage($healthcheck, $runId, $metrics);
+        $this->checkIncreasingMetrics($healthcheck, $metrics);
+        $this->checkDiskUsage($healthcheck, $metrics);
     }
 
-    protected function checkIncreasingMetrics(Healthcheck $healthcheck, int $runId, Collection $metrics): void
+    protected function checkIncreasingMetrics(Healthcheck $healthcheck, Collection $metrics): void
     {
         $metricsByKey = $metrics->groupBy('key');
 
@@ -135,7 +135,7 @@ class CheckMetric
         ];
     }
 
-    protected function checkDiskUsage(Healthcheck $healthcheck, int $runId, Collection $metrics): void
+    protected function checkDiskUsage(Healthcheck $healthcheck, Collection $metrics): void
     {
         /** @var ?Metric $diskMetric */
         $diskMetric = $metrics->firstWhere('key', 'disk_usage');
@@ -185,7 +185,6 @@ class CheckMetric
 
         DiskUsageNotification::notify(
             $healthcheck,
-            $runId,
             $currentUsage,
             $velocity,
             $hoursUntilFull,

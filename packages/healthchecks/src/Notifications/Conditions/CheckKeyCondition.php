@@ -25,7 +25,6 @@ class CheckKeyCondition extends SelectCondition
     {
         /** @var HealthCheckFailedNotification $notification */
         return $notification->healthcheck->results()
-            ->where('run_id', '=', $notification->runId)
             ->where('key', '=', $value)
             ->exists();
     }

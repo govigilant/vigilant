@@ -168,12 +168,12 @@ class CheckMetricTest extends TestCase
         $action = app(CheckMetric::class);
         $action->check($healthcheck, 2);
 
-        $this->assertTrue(DiskUsageNotification::wasDispatched(function ($notification): bool {
+        $this->assertTrue(DiskUsageNotification::wasDispatched(function ($notification) use ($healthcheck): bool {
             if (! $notification instanceof DiskUsageNotification) {
                 return true;
             }
 
-            return $notification->runId === 2 &&
+            return $notification->healthcheck->is($healthcheck) &&
                 $notification->currentUsage === 90.0 &&
                 $notification->velocity === 4.0 &&
                 $notification->hoursUntilFull === 2.5;
