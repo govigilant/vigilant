@@ -46,6 +46,17 @@ class Module extends Checker
             return $runId;
         }
 
+        if ($response->failed()) {
+            $healthcheck->results()->create([
+                'run_id' => $runId,
+                'key' => 'connection',
+                'status' => Status::Unhealthy,
+                'message' => 'Failed to check health, status: '.$response->status(),
+            ]);
+
+            return $runId;
+        }
+
         $checks = $response->json('checks', []);
         $metrics = $response->json('metrics', []);
 

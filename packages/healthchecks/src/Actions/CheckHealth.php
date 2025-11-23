@@ -3,6 +3,7 @@
 namespace Vigilant\Healthchecks\Actions;
 
 use Exception;
+use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Jobs\CheckResultJob;
 use Vigilant\Healthchecks\Models\Healthcheck;
 
@@ -22,6 +23,10 @@ class CheckHealth
             if (app()->isLocal()) {
                 throw $e;
             }
+
+            $healthcheck->update([
+                'status' => Status::Unhealthy,
+            ]);
         }
 
         $healthcheck->update([
