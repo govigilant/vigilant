@@ -9,6 +9,6 @@ class IgnoredUrlObserver
 {
     public function created(IgnoredUrl $url): void
     {
-        CollectCrawlerStatsJob::dispatch($url->crawler);
+        CollectCrawlerStatsJob::dispatch($url->crawler, false);
     }
 }
