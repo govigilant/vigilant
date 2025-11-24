@@ -15,7 +15,7 @@ class Endpoint extends Checker
         throw_if($healthcheck->endpoint === null, InvalidArgumentException::class, 'Healthcheck endpoint is not defined');
 
         $timeout = config('healthchecks.http_timeout', 10);
-        $runId = rand(1, 10000);
+        $runId = $this->generateRunId($healthcheck);
 
         try {
             $response = Http::baseUrl($healthcheck->domain)
@@ -29,22 +29,17 @@ class Endpoint extends Checker
                 ? __('Endpoint is reachable')
                 : __('Endpoint returned status code :code', ['code' => $response->status()]);
 
-            $healthcheck->results()->create([
-                'run_id' => $runId,
-                'key' => 'endpoint_check',
-                'status' => $status,
-                'message' => $message,
-            ]);
+            $this->persistResult($healthcheck, 'endpoint_check', $status, $message);
         } catch (ConnectionException $e) {
-            $healthcheck->results()->create([
-                'run_id' => $runId,
-                'key' => 'endpoint_check',
-                'status' => Status::Unhealthy,
-                'message' => 'Failed to connect to endpoint',
-                'data' => [
+            $this->persistResult(
+                $healthcheck,
+                'endpoint_check',
+                Status::Unhealthy,
+                'Failed to connect to endpoint',
+                [
                     'error' => $e->getMessage(),
-                ],
-            ]);
+                ]
+            );
         }
 
         return $runId;

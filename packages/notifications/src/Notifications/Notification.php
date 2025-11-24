@@ -77,7 +77,7 @@ abstract class Notification implements Arrayable
                     continue;
                 }
 
-                if ($burstCheck->isBursting($instance)) {
+                if ($burstCheck->isBursting($instance, $trigger, $channel)) {
                     return;
                 }
 

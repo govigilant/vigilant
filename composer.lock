@@ -8019,7 +8019,7 @@
         },
         {
             "name": "vigilant/certificates",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/certificates",
@@ -8095,7 +8095,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -8180,7 +8180,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -8257,7 +8257,7 @@
         },
         {
             "name": "vigilant/cve",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/cve",
@@ -8333,7 +8333,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -8410,7 +8410,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -8481,7 +8481,7 @@
         },
         {
             "name": "vigilant/healthchecks",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/healthchecks",
@@ -8557,7 +8557,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -8634,7 +8634,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -8710,7 +8710,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8783,7 +8783,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8858,11 +8858,11 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
-                "reference": "d93acf551e668c2056b591b7de6a744b154e23a3"
+                "reference": "f1286427aa8040c1db28a4ed6dec73a6522dfc65"
             },
             "require": {
                 "laravel/framework": "^12.0",
@@ -8872,6 +8872,7 @@
                 "vigilant/core": "@dev",
                 "vigilant/crawler": "@dev",
                 "vigilant/dns": "@dev",
+                "vigilant/healthchecks": "@dev",
                 "vigilant/lighthouse": "@dev",
                 "vigilant/notifications": "@dev",
                 "vigilant/uptime": "@dev"
@@ -8933,7 +8934,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -9011,7 +9012,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/healthchecks",
+            "version": "dev-feature/adjust-healthcheck-result-storage",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",

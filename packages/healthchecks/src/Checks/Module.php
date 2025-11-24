@@ -12,20 +12,7 @@ class Module extends Checker
 {
     public function check(Healthcheck $healthcheck): int
     {
-        $runId = null;
-
-        for ($i = 0; $i < 10; $i++) {
-            $candidate = rand(1, 100000);
-
-            $exists = $healthcheck->results()->where('run_id', '=', $candidate)->exists();
-
-            if (! $exists) {
-                $runId = $candidate;
-                break;
-            }
-        }
-
-        throw_if($runId === null, 'Could not generate unique run ID');
+        $runId = $this->generateRunId($healthcheck);
 
         $endpoint = $healthcheck->endpoint ?? $healthcheck->type->endpoint();
 
@@ -36,26 +23,18 @@ class Module extends Checker
                 ->withToken($healthcheck->token)
                 ->post($endpoint);
         } catch (ConnectionException) {
-            $healthcheck->results()->create([
-                'run_id' => $runId,
-                'key' => 'connection',
-                'status' => Status::Unhealthy,
-                'message' => 'Could not connect',
-            ]);
+            $this->persistResult($healthcheck, 'connection', Status::Unhealthy, 'Could not connect');
 
             return $runId;
         }
 
         if ($response->failed()) {
-            $healthcheck->results()->create([
-                'run_id' => $runId,
-                'key' => 'connection',
-                'status' => Status::Unhealthy,
-                'message' => 'Failed to check health, status: '.$response->status(),
-            ]);
+            $this->persistResult($healthcheck, 'connection', Status::Unhealthy, 'Failed to check health, status: '.$response->status());
 
             return $runId;
         }
+
+        $this->persistResult($healthcheck, 'connection', Status::Healthy);
 
         $checks = $response->json('checks', []);
         $metrics = $response->json('metrics', []);
@@ -73,12 +52,7 @@ class Module extends Checker
 
             $status = Status::from($check['status']);
 
-            $healthcheck->results()->create([
-                'run_id' => $runId,
-                'key' => $check['key'],
-                'status' => $status,
-                'message' => $check['message'] ?? null,
-            ]);
+            $this->persistResult($healthcheck, $check['key'], $status, $check['message'] ?? null);
         }
 
         foreach ($metrics as $metric) {

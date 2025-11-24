@@ -45,7 +45,6 @@ class HealthCheckFailedNotification extends Notification implements HasSite
     {
         /** @var \Illuminate\Database\Eloquent\Collection<int, Result> $results */
         $results = $this->healthcheck->results()
-            ->where('run_id', '=', $this->runId)
             ->where('status', '!=', Status::Healthy)
             ->get();
 

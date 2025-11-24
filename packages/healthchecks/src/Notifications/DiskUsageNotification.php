@@ -33,7 +33,6 @@ class DiskUsageNotification extends Notification implements HasSite
 
     public function __construct(
         public Healthcheck $healthcheck,
-        public int $runId,
         public float $currentUsage,
         public float $velocity,
         public float $hoursUntilFull,
@@ -70,7 +69,7 @@ class DiskUsageNotification extends Notification implements HasSite
 
     public function uniqueId(): string
     {
-        return 'disk-usage-'.$this->healthcheck->id.'-'.$this->runId;
+        return 'disk-usage-'.$this->healthcheck->id;
     }
 
     public function site(): ?Site

@@ -33,7 +33,7 @@ class ResultTable extends BaseTable
     protected function columns(): array
     {
         return [
-            DateColumn::make(__('Date'), 'created_at')
+            DateColumn::make(__('Last checked'), 'last_checked_at')
                 ->sortable(),
 
             Column::make(__('Key'), 'key')
@@ -56,6 +56,9 @@ class ResultTable extends BaseTable
                 }),
 
             Column::make(__('Message'), 'message'),
+
+            DateColumn::make(__('Last unhealthy'), 'last_unhealthy_at')
+                ->sortable(),
         ];
     }
 

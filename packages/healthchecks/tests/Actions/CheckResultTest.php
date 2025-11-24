@@ -30,7 +30,6 @@ class CheckResultTest extends TestCase
 
         Result::query()->create([
             'healthcheck_id' => $healthcheck->id,
-            'run_id' => 42,
             'key' => 'uptime',
             'status' => Status::Unhealthy,
             'message' => 'Service unavailable',

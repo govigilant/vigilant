@@ -28,7 +28,6 @@ class StatusCondition extends SelectCondition
         }
 
         return $notification->healthcheck->results()
-            ->where('run_id', '=', $notification->runId)
             ->where('status', '=', $status)
             ->exists();
     }

@@ -13,11 +13,12 @@ use Vigilant\Healthchecks\Enums\Status;
 /**
  * @property int $id
  * @property int $healthcheck_id
- * @property ?int $run_id
  * @property string $key
  * @property Status $status
  * @property ?string $message
  * @property ?array $data
+ * @property ?Carbon $last_checked_at
+ * @property ?Carbon $last_unhealthy_at
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Healthcheck $healthcheck
@@ -34,6 +35,8 @@ class Result extends Model
     protected $casts = [
         'status' => Status::class,
         'data' => 'array',
+        'last_checked_at' => 'datetime',
+        'last_unhealthy_at' => 'datetime',
     ];
 
     public function healthcheck(): BelongsTo
