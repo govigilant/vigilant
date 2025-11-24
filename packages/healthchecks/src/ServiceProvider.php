@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Livewire\Livewire;
 use Vigilant\Core\Facades\Navigation;
 use Vigilant\Core\Policies\AllowAllPolicy;
+use Vigilant\Healthchecks\Commands\AggregateMetricsCommand;
 use Vigilant\Healthchecks\Commands\CheckHealthcheckCommand;
 use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Healthchecks\Http\Livewire\Charts\MetricChart;
@@ -83,6 +84,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                AggregateMetricsCommand::class,
                 CheckHealthcheckCommand::class,
                 ScheduleHealthchecksCommand::class,
             ]);
