@@ -40,9 +40,6 @@ class AggregateMetrics
             ->orderBy('id')
             ->chunkById(1000, function ($metrics) use (&$hours): void {
                 foreach ($metrics as $metric) {
-                    if ($metric->created_at === null) {
-                        continue;
-                    }
 
                     $hourStart = $metric->created_at->copy()->startOfHour();
                     $hours->put($hourStart->timestamp, $hourStart);
