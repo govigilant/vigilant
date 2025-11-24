@@ -79,7 +79,10 @@ class AggregateMetricsTest extends TestCase
 
         $this->assertDatabaseCount('healthcheck_metrics', 3);
 
-        $this->assertSame('20.00', $first->fresh()->value);
+        $firstRefreshed = $first->fresh();
+
+        $this->assertInstanceOf(Metric::class, $firstRefreshed);
+        $this->assertSame('20.00', $firstRefreshed->value);
         $this->assertDatabaseMissing('healthcheck_metrics', ['id' => $second->id]);
         $this->assertDatabaseMissing('healthcheck_metrics', ['id' => $third->id]);
         $this->assertDatabaseHas('healthcheck_metrics', ['id' => $recentOne->id]);
