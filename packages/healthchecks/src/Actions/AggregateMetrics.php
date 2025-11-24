@@ -96,7 +96,7 @@ class AggregateMetrics
         }
 
         $sorted = $metrics->sortBy(function (Metric $metric): string {
-            $timestamp = $metric->created_at?->format('YmdHisv') ?? '00000000000000';
+            $timestamp = $metric->created_at?->format('YmdHisu') ?? '000000000000000000';
 
             return $timestamp.'|'.$metric->id;
         })->values();
