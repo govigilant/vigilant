@@ -35,7 +35,6 @@ class AggregateMetrics
 
         Metric::query()
             ->select('id', 'created_at')
-
             ->whereNotNull('created_at')
             ->where('created_at', '<', $upperBound)
             ->orderBy('id')
