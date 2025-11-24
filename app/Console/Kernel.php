@@ -10,6 +10,7 @@ use Vigilant\Crawler\Commands\ProcessCrawlerStatesCommand;
 use Vigilant\Crawler\Commands\ScheduleCrawlersCommand;
 use Vigilant\Cve\Commands\ImportCvesCommand;
 use Vigilant\Dns\Commands\CheckAllDnsRecordsCommand;
+use Vigilant\Healthchecks\Commands\AggregateMetricsCommand;
 use Vigilant\Healthchecks\Commands\ScheduleHealthchecksCommand;
 use Vigilant\Lighthouse\Commands\AggregateLighthouseResultsCommand;
 use Vigilant\Lighthouse\Commands\ScheduleLighthouseCommand;
@@ -29,6 +30,7 @@ class Kernel extends ConsoleKernel
 
         // Healthchecks
         $schedule->command(ScheduleHealthchecksCommand::class)->everySecond();
+        $schedule->command(AggregateMetricsCommand::class)->hourly();
 
         // Lighthouse
         $schedule->command(ScheduleLighthouseCommand::class)->everySecond();
