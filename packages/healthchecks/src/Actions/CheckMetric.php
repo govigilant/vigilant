@@ -90,7 +90,7 @@ class CheckMetric
             return null;
         }
 
-        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($oldestMetric->created_at) ?? 0;
+        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($oldestMetric->created_at, true) ?? 0;
 
         return [
             'key' => $key,
@@ -121,7 +121,7 @@ class CheckMetric
             return null;
         }
 
-        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($recentOldest->created_at) ?? 0;
+        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($recentOldest->created_at, true) ?? 0;
 
         return [
             'key' => $currentMetric->key,
@@ -162,7 +162,7 @@ class CheckMetric
 
         $oldestUsage = $oldestMetric->value;
 
-        $timeframeHours = $oldestMetric->created_at?->diffInHours($diskMetric->created_at) ?? 0;
+        $timeframeHours = $oldestMetric->created_at?->diffInHours($diskMetric->created_at, true) ?? 0;
 
         if ($timeframeHours == 0) {
             return;
