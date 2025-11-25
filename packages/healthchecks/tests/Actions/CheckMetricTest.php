@@ -8,6 +8,7 @@ use Vigilant\Healthchecks\Actions\CheckMetric;
 use Vigilant\Healthchecks\Enums\Type;
 use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Models\Metric;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
 use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
 use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
 use Vigilant\Healthchecks\Notifications\MetricNotification;
@@ -104,32 +105,128 @@ class CheckMetricTest extends TestCase
 
         $now = Carbon::now();
 
-        // Create 10 historical metrics showing gradual increase from 100 to 190
-        for ($i = 0; $i < 10; $i++) {
+        // Create 7 historical metrics covering the last 60 minutes
+        for ($i = 0; $i < 7; $i++) {
             Metric::query()->create([
                 'healthcheck_id' => $healthcheck->id,
                 'run_id' => $i + 1,
                 'key' => 'memory_usage',
-                'value' => 100 + ($i * 10),
+                'value' => 100 + ($i * 15),
                 'unit' => 'MB',
-                'created_at' => $now->copy()->subMinutes(90 - ($i * 10)),
+                'created_at' => $now->copy()->subMinutes(60 - ($i * 10)),
             ]);
         }
 
         /** @var CheckMetric $action */
         $action = app(CheckMetric::class);
-        $action->check($healthcheck, 10);
+        $action->check($healthcheck, 7);
 
-        $this->assertTrue(MetricIncreasingNotification::wasDispatched(function ($notification): bool {
-            if ($notification instanceof MetricNotification || $notification instanceof MetricSpikeNotification) {
+        $matched = false;
+
+        MetricIncreasingNotification::wasDispatched(function ($notification) use (&$matched): bool {
+            if (! $notification instanceof MetricIncreasingNotification) {
                 return true;
             }
 
-            return $notification->increasedMetrics['key'] === 'memory_usage' &&
-                $notification->increasedMetrics['old_value'] == 100 &&
-                $notification->increasedMetrics['new_value'] == 190 &&
-                $notification->increasedMetrics['percent_increase'] == 90;
-        }));
+            $entries = $notification->increasedMetrics;
+
+            if (! isset($entries[0]) || ! is_array($entries[0])) {
+                return true;
+            }
+
+            $match = collect($entries)->first(function (array $entry): bool {
+                return ($entry['key'] ?? null) === 'memory_usage'
+                    && ($entry['old_value'] ?? null) == 100
+                    && ($entry['new_value'] ?? null) == 190
+                    && round($entry['percent_increase'] ?? 0, 0) == 90
+                    && ($entry['timeframe_minutes'] ?? null) === 60;
+            });
+
+            if ($match !== null) {
+                $matched = true;
+            }
+
+            return true;
+        });
+
+        $this->assertTrue($matched);
+    }
+
+    #[Test]
+    public function it_only_checks_configured_timeframes(): void
+    {
+        MetricIncreasingNotification::fake();
+        MetricSpikeNotification::fake();
+
+        $healthcheck = Healthcheck::query()->create([
+            'domain' => 'example.com',
+            'type' => Type::Laravel,
+            'interval' => 5,
+            'token' => 'interval-test-token',
+        ]);
+
+        $now = Carbon::now();
+        $runId = 0;
+
+        $dataPoints = [
+            60 => 10,
+            30 => 15,
+            15 => 18,
+            10 => 20,
+            5 => 22,
+            2 => 23,
+            0 => 24,
+        ];
+
+        foreach ($dataPoints as $minutesAgo => $value) {
+            $runId++;
+
+            Metric::query()->create([
+                'healthcheck_id' => $healthcheck->id,
+                'run_id' => $runId,
+                'key' => 'cpu_load',
+                'value' => $value,
+                'unit' => '%',
+                'created_at' => $now->copy()->subMinutes($minutesAgo),
+            ]);
+        }
+
+        /** @var CheckMetric $action */
+        $action = app(CheckMetric::class);
+        $action->check($healthcheck, $runId);
+
+        $matched = false;
+
+        MetricIncreasingNotification::wasDispatched(function ($notification) use (&$matched): bool {
+            if (! $notification instanceof MetricIncreasingNotification) {
+                return true;
+            }
+
+            $entries = array_values(array_filter(
+                $notification->increasedMetrics,
+                static fn ($entry) => is_array($entry)
+            ));
+
+            if ($entries === []) {
+                return true;
+            }
+
+            $timeframes = array_map(
+                static fn (array $entry) => $entry['timeframe_minutes'] ?? null,
+                $entries
+            );
+
+            $timeframes = array_filter($timeframes, static fn ($value) => $value !== null);
+            sort($timeframes);
+
+            if (array_values($timeframes) === MetricIncreaseTimeframeCondition::INTERVALS) {
+                $matched = true;
+            }
+
+            return true;
+        });
+
+        $this->assertTrue($matched);
     }
 
     #[Test]

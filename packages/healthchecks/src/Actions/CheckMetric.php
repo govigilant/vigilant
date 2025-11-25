@@ -5,6 +5,7 @@ namespace Vigilant\Healthchecks\Actions;
 use Illuminate\Support\Collection;
 use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Models\Metric;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
 use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
 use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
 use Vigilant\Healthchecks\Notifications\MetricNotification;
@@ -40,7 +41,7 @@ class CheckMetric
             $increaseData = $this->calculateMetricIncrease($healthcheck, $key, $currentMetric);
 
             if ($increaseData !== null) {
-                if (($increaseData['detection_type'] ?? '') === 'sudden_spike') {
+                if (isset($increaseData['detection_type']) && $increaseData['detection_type'] === 'sudden_spike') {
                     MetricSpikeNotification::notify($currentMetric, $increaseData);
                 } else {
                     MetricIncreasingNotification::notify($currentMetric, $increaseData);
@@ -59,6 +60,10 @@ class CheckMetric
             ->limit(60)
             ->get();
 
+        if ($historicalMetrics->count() < 2 || $currentMetric->created_at === null) {
+            return null;
+        }
+
         $currentValue = $currentMetric->value;
 
         // Spike detection
@@ -70,38 +75,82 @@ class CheckMetric
             }
         }
 
-        // Check for long-term increase
-        if ($historicalMetrics->count() < 10) {
+        $intervalResults = [];
+        $intervals = MetricIncreaseTimeframeCondition::INTERVALS;
 
+        foreach ($intervals as $index => $interval) {
+            $minBound = $interval;
+            $maxBound = $intervals[$index + 1] ?? null;
+
+            $baselineMetric = $this->findBaselineMetricForRange(
+                $historicalMetrics,
+                $currentMetric,
+                $minBound,
+                $maxBound
+            );
+
+            if ($baselineMetric === null) {
+                continue;
+            }
+
+            $oldValue = $baselineMetric->value;
+
+            if ($oldValue == 0) {
+                continue;
+            }
+
+            $percentIncrease = (($currentValue - $oldValue) / $oldValue) * 100;
+
+            if ($percentIncrease <= 0) {
+                continue;
+            }
+
+            $intervalResults[] = [
+                'key' => $key,
+                'old_value' => $oldValue,
+                'new_value' => $currentValue,
+                'unit' => $currentMetric->unit,
+                'percent_increase' => $percentIncrease,
+                'timeframe_minutes' => $interval,
+                'sample_size' => $historicalMetrics->count(),
+                'detection_type' => 'long_term_trend',
+            ];
+        }
+
+        if ($intervalResults === []) {
             return null;
         }
 
-        /** @var Metric $oldestMetric */
-        $oldestMetric = $historicalMetrics->last();
-        $oldestValue = $oldestMetric->value;
+        return $intervalResults;
+    }
 
-        if ($oldestValue == 0) {
+    protected function findBaselineMetricForRange(
+        Collection $historicalMetrics,
+        Metric $currentMetric,
+        int $minBoundary,
+        ?int $maxBoundary
+    ): ?Metric {
+        if ($currentMetric->created_at === null) {
             return null;
         }
 
-        $percentIncrease = (($currentValue - $oldestValue) / $oldestValue) * 100;
+        return $historicalMetrics->first(function (Metric $metric) use ($currentMetric, $minBoundary, $maxBoundary) {
+            if ($metric->is($currentMetric) || $metric->created_at === null) {
+                return false;
+            }
 
-        if ($percentIncrease <= 0) {
-            return null;
-        }
+            $difference = $currentMetric->created_at->diffInMinutes($metric->created_at, true);
 
-        $timeframeMinutes = $currentMetric->created_at?->diffInMinutes($oldestMetric->created_at, true) ?? 0;
+            if ($difference < $minBoundary) {
+                return false;
+            }
 
-        return [
-            'key' => $key,
-            'old_value' => $oldestValue,
-            'new_value' => $currentValue,
-            'unit' => $currentMetric->unit,
-            'percent_increase' => $percentIncrease,
-            'timeframe_minutes' => $timeframeMinutes,
-            'sample_size' => $historicalMetrics->count(),
-            'detection_type' => 'long_term_trend',
-        ];
+            if ($maxBoundary !== null && $difference >= $maxBoundary) {
+                return false;
+            }
+
+            return true;
+        });
     }
 
     public function detectSpike(Collection $recentMetrics, float $currentValue, Metric $currentMetric): ?array

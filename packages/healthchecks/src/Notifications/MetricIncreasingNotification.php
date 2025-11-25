@@ -31,7 +31,7 @@ class MetricIncreasingNotification extends Notification implements HasSite
             [
                 'type' => 'condition',
                 'condition' => MetricIncreaseTimeframeCondition::class,
-                'operator' => '<=',
+                'operator' => '=',
                 'value' => 5,
             ],
         ],
@@ -56,18 +56,30 @@ class MetricIncreasingNotification extends Notification implements HasSite
         $unit = $this->metric->unit;
 
         if (! empty($this->increasedMetrics)) {
-            $percentIncrease = round($this->increasedMetrics['percent_increase'] ?? 0, 1);
-            $timeframeMinutes = $this->increasedMetrics['timeframe_minutes'] ?? 0;
-            $oldValue = $this->increasedMetrics['old_value'] ?? 0;
+            $metricData = $this->increasedMetrics;
 
-            return __('The metric ":key" has increased by :percent% (from :old_value:unit to :new_value:unit) over the past :timeframe minutes.', [
-                'key' => $key,
-                'percent' => $percentIncrease,
-                'old_value' => $oldValue,
-                'new_value' => $value,
-                'unit' => $unit,
-                'timeframe' => $timeframeMinutes,
-            ]);
+            if (isset($metricData[0]) && is_array($metricData[0])) {
+                $sorted = $metricData;
+                usort($sorted, static function (array $left, array $right): int {
+                    return ($left['timeframe_minutes'] ?? PHP_INT_MAX) <=> ($right['timeframe_minutes'] ?? PHP_INT_MAX);
+                });
+                $metricData = $sorted[0] ?? [];
+            }
+
+            if (is_array($metricData) && ! empty($metricData)) {
+                $percentIncrease = round($metricData['percent_increase'] ?? 0, 1);
+                $timeframeMinutes = $metricData['timeframe_minutes'] ?? 0;
+                $oldValue = $metricData['old_value'] ?? 0;
+
+                return __('The metric ":key" has increased by :percent% (from :old_value:unit to :new_value:unit) over the past :timeframe minutes.', [
+                    'key' => $key,
+                    'percent' => $percentIncrease,
+                    'old_value' => $oldValue,
+                    'new_value' => $value,
+                    'unit' => $unit,
+                    'timeframe' => $timeframeMinutes,
+                ]);
+            }
         }
 
         return __('The metric ":key" has increased to :value:unit.', [
