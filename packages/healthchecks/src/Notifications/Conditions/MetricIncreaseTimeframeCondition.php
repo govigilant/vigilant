@@ -26,16 +26,30 @@ class MetricIncreaseTimeframeCondition extends Condition
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var MetricIncreasingNotification $notification */
-        if (empty($notification->increasedMetrics)) {
+        $metricDatas = $notification->increasedMetrics;
+
+        if (empty($metricDatas)) {
             return false;
         }
 
-        foreach ($notification->increasedMetrics as $metricData) {
-            if ($operand !== null && $metricData['key'] !== $operand) {
+        if (! isset($metricDatas[0]) || ! is_array($metricDatas[0])) {
+            $metricDatas = [$metricDatas];
+        }
+
+        foreach ($metricDatas as $metricData) {
+            if (! is_array($metricData)) {
                 continue;
             }
 
-            $timeframeMinutes = $metricData['timeframe_minutes'];
+            if ($operand !== null && ($metricData['key'] ?? null) !== $operand) {
+                continue;
+            }
+
+            $timeframeMinutes = $metricData['timeframe_minutes'] ?? null;
+
+            if ($timeframeMinutes === null) {
+                continue;
+            }
 
             $result = match ($operator) {
                 '>' => $timeframeMinutes > $value,
