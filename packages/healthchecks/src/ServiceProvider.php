@@ -21,6 +21,7 @@ use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Healthchecks\Notifications\Conditions\CheckKeyCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\DiskFullInCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreasePercentCondition;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseNewValueCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricKeyCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricUnitCondition;
@@ -158,6 +159,7 @@ class ServiceProvider extends BaseServiceProvider
         NotificationRegistry::registerCondition(MetricIncreasingNotification::class, [
             MetricKeyCondition::class,
             MetricIncreasePercentCondition::class,
+            MetricIncreaseNewValueCondition::class,
             MetricIncreaseTimeframeCondition::class,
             SiteCondition::class,
         ]);
