@@ -3,9 +3,9 @@
 namespace Vigilant\Healthchecks\Notifications;
 
 use Vigilant\Healthchecks\Models\Metric;
+use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseNewValueCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreasePercentCondition;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
-use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseNewValueCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
@@ -27,19 +27,19 @@ class MetricIncreasingNotification extends Notification implements HasSite
                 'type' => 'condition',
                 'condition' => MetricIncreasePercentCondition::class,
                 'operator' => '>=',
-                'value' => 50,
+                'value' => 25,
             ],
             [
                 'type' => 'condition',
                 'condition' => MetricIncreaseNewValueCondition::class,
                 'operator' => '>=',
-                'value' => 0,
+                'value' => 20,
             ],
             [
                 'type' => 'condition',
                 'condition' => MetricIncreaseTimeframeCondition::class,
                 'operator' => '=',
-                'value' => 5,
+                'value' => 10,
             ],
         ],
     ];
