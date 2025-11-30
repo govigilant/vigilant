@@ -18,6 +18,7 @@
         "codeat3/blade-phosphor-icons": "^2.2",
         "codeat3/blade-simple-icons": "^7.16",
         "codeat3/blade-teeny-icons": "^1.9",
+        "govigilant/laravel-healthchecks": "^1.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.23",

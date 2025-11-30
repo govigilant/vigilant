@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "890c8dc6939a569512b2542e3f77dae4",
+    "content-hash": "9ddfffd9f6ea6b9a48590631a155f88d",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -1352,6 +1352,122 @@
                 "source": "https://github.com/geerlingguy/Ping/tree/1.2.1"
             },
             "time": "2019-07-29T21:54:12+00:00"
+        },
+        {
+            "name": "govigilant/laravel-healthchecks",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/govigilant/laravel-healthchecks.git",
+                "reference": "870d0481fa3a54a97fc9cd0c86e14acdcf8cded9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/govigilant/laravel-healthchecks/zipball/870d0481fa3a54a97fc9cd0c86e14acdcf8cded9",
+                "reference": "870d0481fa3a54a97fc9cd0c86e14acdcf8cded9",
+                "shasum": ""
+            },
+            "require": {
+                "govigilant/vigilant-healthchecks-base": "^1.0",
+                "illuminate/contracts": "^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "larastan/larastan": "^3.0",
+                "laravel/pint": "^1.7",
+                "orchestra/testbench": "^10.0",
+                "pestphp/pest-plugin-laravel": "^3.0",
+                "phpstan/phpstan-mockery": "^2.0",
+                "phpunit/phpunit": "^11.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Vigilant\\LaravelHealthchecks\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\LaravelHealthchecks\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Bean",
+                    "email": "vincent@govigilant.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel package to add healthchecks which can be integrated with govigilant.io",
+            "homepage": "https://govigilant.io",
+            "keywords": [
+                "healthchecks",
+                "laravel",
+                "vigilant"
+            ],
+            "support": {
+                "issues": "https://github.com/govigilant/laravel-healthchecks/issues",
+                "source": "https://github.com/govigilant/laravel-healthchecks/tree/1.0.0"
+            },
+            "time": "2025-11-30T20:11:37+00:00"
+        },
+        {
+            "name": "govigilant/vigilant-healthchecks-base",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/govigilant/vigilant-healthchecks-base.git",
+                "reference": "4ac11421cd2d82848af99c1f76516dfcb583a136"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/govigilant/vigilant-healthchecks-base/zipball/4ac11421cd2d82848af99c1f76516dfcb583a136",
+                "reference": "4ac11421cd2d82848af99c1f76516dfcb583a136",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/validation": "^11.0|^12.0",
+                "php": "^8.2"
+            },
+            "require-dev": {
+                "laravel/pint": "^1.25",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.0|^12.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vigilant\\HealthChecksBase\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vincent Bean",
+                    "email": "vincent@govigilant.io",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Base package for integrating healthchecks",
+            "keywords": [
+                "healthchecks",
+                "php",
+                "vigilant"
+            ],
+            "support": {
+                "issues": "https://github.com/govigilant/vigilant-healthchecks-base/issues",
+                "source": "https://github.com/govigilant/vigilant-healthchecks-base/tree/1.0.0"
+            },
+            "time": "2025-11-30T07:13:55+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -8019,7 +8135,7 @@
         },
         {
             "name": "vigilant/certificates",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/certificates",
@@ -8095,7 +8211,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -8180,7 +8296,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -8257,7 +8373,7 @@
         },
         {
             "name": "vigilant/cve",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/cve",
@@ -8333,7 +8449,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -8410,7 +8526,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -8481,7 +8597,7 @@
         },
         {
             "name": "vigilant/healthchecks",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/healthchecks",
@@ -8557,7 +8673,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -8634,7 +8750,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -8710,7 +8826,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -8783,7 +8899,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -8858,7 +8974,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -8934,7 +9050,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -9012,7 +9128,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-feature/adjust-healthcheck-result-storage",
+            "version": "dev-develop",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",
