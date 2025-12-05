@@ -52,4 +52,11 @@ class HealthcheckForm extends Form
 
         $this->domain = "{$scheme}://{$host}{$port}";
     }
+
+    public function normalizeEndpoint(): void
+    {
+        if ($this->type !== Type::Endpoint && blank($this->endpoint)) {
+            $this->endpoint = null;
+        }
+    }
 }

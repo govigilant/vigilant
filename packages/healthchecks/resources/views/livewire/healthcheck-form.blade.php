@@ -4,7 +4,9 @@
         <x-slot name="header">
             <x-page-header :title="$updating
                 ? __('Edit Healthcheck - :domain', ['domain' => $healthcheck->domain])
-                : __('Add Healthcheck')" :back="route('healthchecks.index')">
+                : __('Add Healthcheck')" :back="$updating
+                ? route('healthchecks.view', ['healthcheck' => $healthcheck])
+                : route('healthchecks.index')">
             </x-page-header>
         </x-slot>
     @endif
@@ -30,7 +32,7 @@
 
                     <div x-data="{
                         selectedType: $wire.entangle('form.type'),
-                        customizeEndpoint: false,
+                        customizeEndpoint: {{ $healthcheck->type->value === 'endpoint' || ($healthcheck->endpoint !== null && $healthcheck->endpoint !== $healthcheck->type->endpoint()) ? 'true' : 'false' }},
                         showAll: false,
                         searchQuery: '',
                         totalPlatforms: {{ count(\Vigilant\Healthchecks\Enums\Type::cases()) }},
@@ -110,7 +112,7 @@
 
                         <div class="mt-4 min-h-[88px]">
                             <div x-show="selectedType === 'endpoint'">
-                                <x-form.text field="form.endpoint" name="Endpoint"
+                                <x-form.text field="form.endpoint" name="Endpoint" :live="false"
                                     description="URL path to check (e.g., /health). Must return HTTP 200 status for a successful check." />
                             </div>
 
@@ -135,8 +137,8 @@
                                 </div>
 
                                 <div x-show="customizeEndpoint" x-transition class="mt-4">
-                                    <x-form.text field="form.endpoint" name="Endpoint"
-                                        description="Custom endpoint path (leave empty to use default: api/vigilant/health)" />
+                                    <x-form.text field="form.endpoint" name="Endpoint" :live="false"
+                                        description="Custom endpoint path (leave empty to use default)" />
                                 </div>
                             </div>
                         </div>

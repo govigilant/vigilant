@@ -8,6 +8,7 @@ use Livewire\Attributes\On;
 use Livewire\Component;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
+use Vigilant\Healthchecks\Enums\Type;
 use Vigilant\Healthchecks\Livewire\Forms\HealthcheckForm as HealthcheckFormObject;
 use Vigilant\Healthchecks\Models\Healthcheck;
 
@@ -47,6 +48,7 @@ class HealthcheckForm extends Component
     public function save(): void
     {
         $this->form->cleanDomain();
+        $this->form->normalizeEndpoint();
 
         $this->validate();
 
@@ -73,7 +75,11 @@ class HealthcheckForm extends Component
 
         if (! $this->inline) {
             if ($isNew) {
-                $this->redirectRoute('healthchecks.setup', ['healthcheck' => $this->healthcheck, 'new' => 1]);
+                if ($this->healthcheck->type === Type::Endpoint) {
+                    $this->redirectRoute('healthchecks.index');
+                } else {
+                    $this->redirectRoute('healthchecks.setup', ['healthcheck' => $this->healthcheck, 'new' => 1]);
+                }
             } else {
                 $this->redirectRoute('healthchecks.index');
             }

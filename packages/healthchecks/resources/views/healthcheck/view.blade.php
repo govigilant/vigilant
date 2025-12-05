@@ -2,9 +2,11 @@
     <x-slot name="header">
         <x-page-header :back="route('healthchecks.index')" :title="'Healthcheck - ' . $healthcheck->domain . (!$healthcheck->enabled ? ' (Disabled)' : '')">
             <x-frontend::page-header.actions>
-                <x-form.button :href="route('healthchecks.setup', ['healthcheck' => $healthcheck])">
-                    @lang('Setup')
-                </x-form.button>
+                @if ($healthcheck->type !== \Vigilant\Healthchecks\Enums\Type::Endpoint)
+                    <x-form.button :href="route('healthchecks.setup', ['healthcheck' => $healthcheck])">
+                        @lang('Setup')
+                    </x-form.button>
+                @endif
                 <x-form.button dusk="healthcheck-edit-button" :href="route('healthchecks.edit', ['healthcheck' => $healthcheck])">
                     @lang('Edit')
                 </x-form.button>
@@ -14,9 +16,11 @@
             </x-frontend::page-header.actions>
 
             <x-frontend::page-header.mobile-actions>
-                <x-form.dropdown-button :href="route('healthchecks.setup', ['healthcheck' => $healthcheck])">
-                    @lang('Setup')
-                </x-form.dropdown-button>
+                @if ($healthcheck->type !== \Vigilant\Healthchecks\Enums\Type::Endpoint)
+                    <x-form.dropdown-button :href="route('healthchecks.setup', ['healthcheck' => $healthcheck])">
+                        @lang('Setup')
+                    </x-form.dropdown-button>
+                @endif
                 <x-form.dropdown-button :href="route('healthchecks.edit', ['healthcheck' => $healthcheck])">
                     @lang('Edit')
                 </x-form.dropdown-button>

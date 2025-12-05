@@ -66,7 +66,15 @@ class HealthCheckFailedNotification extends Notification implements HasSite
 
     public function uniqueId(): string
     {
-        return $this->healthcheck->id.'-'.$this->runId;
+        /** @var \Illuminate\Database\Eloquent\Collection<int, Result> $results */
+        $keys = $this->healthcheck->results()
+            ->where('status', '!=', Status::Healthy)
+            ->orderBy('key')
+            ->get()
+            ->pluck('key')
+            ->implode('-');
+
+        return $this->healthcheck->id.'-'.$keys;
     }
 
     public function site(): ?Site
