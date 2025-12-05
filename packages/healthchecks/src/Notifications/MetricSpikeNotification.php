@@ -26,7 +26,7 @@ class MetricSpikeNotification extends Notification implements HasSite
                 'type' => 'condition',
                 'condition' => MetricIncreasePercentCondition::class,
                 'operator' => '>=',
-                'value' => 50,
+                'value' => 40,
             ],
             [
                 'type' => 'condition',

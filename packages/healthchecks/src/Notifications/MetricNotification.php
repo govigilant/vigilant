@@ -31,7 +31,7 @@ class MetricNotification extends Notification implements HasSite
                 'type' => 'condition',
                 'condition' => MetricValueCondition::class,
                 'operator' => '>',
-                'value' => 90,
+                'value' => 80,
             ],
         ],
     ];
