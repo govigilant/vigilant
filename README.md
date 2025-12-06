@@ -10,10 +10,11 @@
 <div align="center">
   <strong>
   <h2>All-in-One Web Monitoring Tool</h2><br />
-  <a href="https://govigilant.io">Vigilant</a>: An application to monitor all aspects of your website<br /><br />
+  <a href="https://govigilant.io">Vigilant</a>: An application designed to monitor all aspects of your website<br /><br />
   </strong>
-  Monitor all aspects of your website, uptime, DNS, Lighthouse, broken links...<br/>
-  Get notified exactly where and when you want with Vigilant's customizable notifications.
+  Monitor all aspects of your website, uptime, health, DNS, Lighthouse, broken links...<br/>
+  Get notified exactly where and when you want with customizable notifications. <br/>
+  Comes with sensible defaults to quickly get started but customizable to fit your needs.<br/>
 </div>
 
 <p align="center">
@@ -34,20 +35,18 @@
 
 Quickly get started using the hosted version of Vigilant at [app.govigilant.io](https://app.govigilant.io).
 
-Prefer to self-host? 
+Prefer to self-host?
 Take a look at the [documentation](https://govigilant.io/documentation/welcome) on how to get started!
 
 ## Tech Stack
 
 - Laravel
-    - Laravel Horizon
-    - Laravel Octane
 - Livewire
 - TailwindCSS
 - AlpineJS
 - Redis
 - MySQL
 
-## License 
+## License
 
 Vigilant is open source under the GNU Affero General Public License Version 3 (AGPLv3) or any later version.
