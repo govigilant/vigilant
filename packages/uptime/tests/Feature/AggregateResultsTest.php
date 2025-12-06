@@ -45,7 +45,7 @@ class AggregateResultsTest extends TestCase
 
         $this->artisan(AggregateResultsCommand::class);
 
-        $this->assertCount(23, $monitor->aggregatedResults);
+        $this->assertCount(24, $monitor->aggregatedResults);
     }
 
     public function test_it_aggregates_uptime_results_per_country(): void

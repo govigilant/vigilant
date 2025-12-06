@@ -4,6 +4,7 @@ namespace Vigilant\Notifications\Notifications;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Collection;
+use Vigilant\Notifications\Actions\CheckBurst;
 use Vigilant\Notifications\Actions\CheckCooldown;
 use Vigilant\Notifications\Concerns\NotificationFake;
 use Vigilant\Notifications\Conditions\ConditionEngine;
@@ -58,6 +59,9 @@ abstract class Notification implements Arrayable
         /** @var CheckCooldown $cooldownCheck */
         $cooldownCheck = app(CheckCooldown::class);
 
+        /** @var CheckBurst $burstCheck */
+        $burstCheck = app(CheckBurst::class);
+
         foreach ($triggers as $trigger) {
 
             if (! $conditionEngine->checkGroup($instance, $trigger->conditions,
@@ -71,6 +75,10 @@ abstract class Notification implements Arrayable
 
                 if ($cooldownCheck->onCooldown($trigger, $channel, $instance)) {
                     continue;
+                }
+
+                if ($burstCheck->isBursting($instance, $trigger, $channel)) {
+                    return;
                 }
 
                 SendNotificationJob::dispatch($instance, $channel->team_id, $channel->id, $trigger->id);

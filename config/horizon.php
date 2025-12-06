@@ -247,7 +247,7 @@ return [
             'maxJobs' => 0,
             'memory' => 128,
             'tries' => 1,
-            'timeout' => 30,
+            'timeout' => 60,
             'nice' => 0,
         ],
 
@@ -280,6 +280,20 @@ return [
             'nice' => 0,
         ],
 
+        'healthchecks' => [
+            'connection' => 'redis',
+            'queue' => ['healthchecks'],
+            'balance' => 'auto',
+            'autoScalingStrategy' => 'time',
+            'minProcesses' => 1,
+            'maxProcesses' => 4,
+            'maxTime' => 0,
+            'maxJobs' => 0,
+            'memory' => 512,
+            'tries' => 1,
+            'timeout' => 300,
+            'nice' => 0,
+        ],
         'notifications' => [
             'connection' => 'redis',
             'queue' => ['notifications'],

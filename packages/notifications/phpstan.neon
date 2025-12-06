@@ -7,7 +7,7 @@ parameters:
         - src
         - tests
     level: 8
-    treatPhpDocTypesAsCertain: false 
+    treatPhpDocTypesAsCertain: false
     ignoreErrors:
         - '#Unsafe usage of new static#'
         - identifier: missingType.iterableValue

@@ -78,7 +78,7 @@ class IssuesTable extends BaseTable
                     $model->update(['ignored' => true]);
                 }
 
-                CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId));
+                CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId), false);
             }, 'ignoreUrl'),
 
             Action::make(__('Unignore Selected'), function (Enumerable $models): void {
@@ -92,7 +92,7 @@ class IssuesTable extends BaseTable
                     $model->save();
                 }
 
-                CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId));
+                CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId), false);
             }, 'unignoreUrl'),
         ];
     }

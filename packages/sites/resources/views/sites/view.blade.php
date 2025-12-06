@@ -80,6 +80,8 @@
                                     <livewire:dns-monitor-dashboard :siteId="$tab['monitor']->id" wire:key="{{ $tab['componentKey'] }}" />
                                 @elseif($tab['key'] === 'certificate')
                                     <livewire:certificate-monitor-dashboard :monitorId="$tab['monitor']->id" />
+                                @elseif($tab['key'] === 'healthcheck')
+                                    <livewire:healthcheck-dashboard :healthcheckId="$tab['monitor']->id" wire:key="{{ $tab['componentKey'] }}" />
                                 @endif
                             </x-frontend::card>
                         </x-frontend::tabs.panel>

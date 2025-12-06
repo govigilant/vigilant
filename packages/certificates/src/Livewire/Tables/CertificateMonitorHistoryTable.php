@@ -3,7 +3,6 @@
 namespace Vigilant\Certificates\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 use Livewire\Attributes\Locked;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use Vigilant\Certificates\Models\CertificateMonitorHistory;

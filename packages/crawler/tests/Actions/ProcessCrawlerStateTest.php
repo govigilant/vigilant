@@ -17,16 +17,19 @@ class ProcessCrawlerStateTest extends TestCase
     #[Test]
     public function it_processes_pending_state(): void
     {
-        $this->mock(StartCrawler::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('start')->andReturn()->once();
-        });
-
         /** @var Crawler $crawler */
         $crawler = Crawler::query()->create([
             'start_url' => 'vigilant',
             'state' => State::Pending,
             'schedule' => '0 0 * * *',
         ]);
+
+        $this->mock(StartCrawler::class, function (MockInterface $mock): void {
+            $mock->shouldReceive('start')->andReturn()->once();
+        });
+
+        $crawler->forceFill(['state' => State::Pending])->save();
+        $crawler->refresh();
 
         /** @var ProcessCrawlerState $action */
         $action = app(ProcessCrawlerState::class);
@@ -44,6 +47,10 @@ class ProcessCrawlerStateTest extends TestCase
             'state' => State::Crawling,
             'schedule' => '0 0 * * *',
         ]);
+
+        $crawler->urls()
+            ->where('url', '=', $crawler->start_url)
+            ->update(['crawled' => true]);
 
         $crawler->urls()->create([
             'url' => 'vigilant/url-1',

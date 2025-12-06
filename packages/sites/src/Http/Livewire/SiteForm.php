@@ -13,6 +13,7 @@ use Vigilant\Dns\Models\DnsMonitor;
 use Vigilant\Frontend\Concerns\DisplaysAlerts;
 use Vigilant\Frontend\Enums\AlertType;
 use Vigilant\Frontend\Traits\CanBeInline;
+use Vigilant\Healthchecks\Models\Healthcheck;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Sites\Http\Livewire\Forms\CreateSiteForm;
 use Vigilant\Sites\Models\Site;
@@ -121,6 +122,13 @@ class SiteForm extends Component
                 'component' => 'sites.tabs.certificate-monitor',
                 'gate' => 'use-certificates',
                 'model' => CertificateMonitor::class,
+            ],
+
+            'healthcheck' => [
+                'title' => __('Healthcheck Monitoring'),
+                'component' => 'sites.tabs.healthcheck-monitor',
+                'gate' => 'use-healthchecks',
+                'model' => Healthcheck::class,
             ],
         ];
     }

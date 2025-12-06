@@ -19,14 +19,15 @@ class CollectCrawlerStatsJob implements ShouldBeUniqueUntilProcessing, ShouldQue
     use SerializesModels;
 
     public function __construct(
-        public Crawler $crawler
+        public Crawler $crawler,
+        public bool $shouldNotify = true,
     ) {
         $this->onQueue(config('crawler.queue'));
     }
 
     public function handle(CollectCrawlerStats $crawlerStats): void
     {
-        $crawlerStats->collect($this->crawler);
+        $crawlerStats->collect($this->crawler, $this->shouldNotify);
     }
 
     public function uniqueId(): int

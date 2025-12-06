@@ -14,7 +14,7 @@ class CollectCrawlerStats
 {
     public function __construct(protected TeamService $teamService) {}
 
-    public function collect(Crawler $crawler): void
+    public function collect(Crawler $crawler, bool $shouldNotify = true): void
     {
         $this->teamService->setTeamById($crawler->team_id);
 
@@ -54,7 +54,7 @@ class CollectCrawlerStats
             ->chunk(1000)
             ->each(fn (LazyCollection $urls) => CrawledUrl::query()->whereIn('uuid', $urls->pluck('uuid'))->delete());
 
-        if ($stats['issue_count'] > 0) {
+        if ($shouldNotify && $stats['issue_count'] > 0) {
             UrlIssuesNotification::notify($crawler);
         }
     }

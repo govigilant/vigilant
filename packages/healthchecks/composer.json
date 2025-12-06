@@ -1,0 +1,73 @@
+{
+    "name": "vigilant/healthchecks",
+    "description": "Vigilant Healthchecks",
+    "type": "package",
+    "license": "AGPL",
+    "authors": [
+        {
+            "name": "Vincent Boon",
+            "email": "info@vincentbean.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "guzzlehttp/guzzle": "^7.8",
+        "laravel/framework": "^12.0",
+        "livewire/livewire": "^3.4",
+        "vigilant/core": "@dev",
+        "vigilant/frontend": "@dev",
+        "vigilant/notifications": "@dev",
+        "vigilant/sites": "@dev",
+        "vigilant/users": "@dev"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.6",
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^10.0",
+        "phpstan/phpstan-mockery": "^2.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vigilant\\Healthchecks\\": "src",
+            "Vigilant\\Healthchecks\\Database\\Factories\\": "database/factories",
+            "Vigilant\\Users\\Database\\Factories\\": "../users/database/factories"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Vigilant\\Healthchecks\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "analyse": "phpstan",
+        "style": "pint --test",
+        "quality": [
+            "@test",
+            "@analyse"
+        ]
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Vigilant\\Healthchecks\\ServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../*"
+        }
+    ]
+}

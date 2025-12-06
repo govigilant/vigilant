@@ -103,7 +103,7 @@ class MonitorTable extends BaseTable
                         default => 'text-red'
                     };
 
-                    return "<span class='$class'>" . number_format($percentage, 2) . "%</span>";
+                    return "<span class='$class'>".number_format($percentage, 2).'%</span>';
                 })
                 ->asHtml(),
 

@@ -15,11 +15,12 @@ class SiteController extends Controller
             'lighthouseMonitor' => $site->lighthouseMonitors->first(),
             'crawler' => $site->crawler,
             'certificateMonitor' => $site->certificateMonitor,
+            'healthcheck' => $site->healthcheck,
         ];
 
         // Define tabs configuration
         $tabs = [];
-        
+
         if ($site->uptimeMonitor !== null) {
             $tabs[] = [
                 'key' => 'uptime',
@@ -94,6 +95,22 @@ class SiteController extends Controller
                 'component' => 'certificate-monitor-dashboard',
                 'componentKey' => 'certificate-dashboard',
                 'gate' => 'use-certificates',
+            ];
+        }
+
+        if ($site->healthcheck !== null) {
+            $tabs[] = [
+                'key' => 'healthcheck',
+                'label' => __('Healthcheck'),
+                'icon' => 'phosphor-heartbeat',
+                'color' => 'teal',
+                'title' => __('Healthcheck Monitoring'),
+                'description' => __('Monitor application health and custom metrics'),
+                'route' => route('healthchecks.view', ['healthcheck' => $site->healthcheck]),
+                'monitor' => $site->healthcheck,
+                'component' => 'healthcheck-dashboard',
+                'componentKey' => 'healthcheck-dashboard',
+                'gate' => 'use-healthchecks',
             ];
         }
 

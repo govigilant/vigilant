@@ -29,6 +29,14 @@ class CrawUrlJob implements ShouldBeUnique, ShouldQueue
         $url->crawl($this->url);
     }
 
+    public function tags(): array
+    {
+        return [
+            $this->url->uuid,
+            $this->url->url,
+        ];
+    }
+
     public function uniqueId(): string
     {
         return $this->url->uuid;

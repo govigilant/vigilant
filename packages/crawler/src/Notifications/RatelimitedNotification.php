@@ -14,6 +14,8 @@ class RatelimitedNotification extends Notification implements HasSite
 
     public Level $level = Level::Warning;
 
+    public static ?int $defaultCooldown = 60;
+
     public function __construct(public Crawler $crawler) {}
 
     public function title(): string

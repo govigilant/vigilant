@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Vigilant\OnBoarding\Actions\ShouldOnboard;
+use Vigilant\Users\Models\User;
 
 class RedirectToOnboard
 {
@@ -18,6 +19,7 @@ class RedirectToOnboard
         /** @var ShouldOnboard $shouldOnboard */
         $shouldOnboard = app(ShouldOnboard::class);
 
+        /** @var ?User $user */
         $user = auth()->user();
 
         if (
