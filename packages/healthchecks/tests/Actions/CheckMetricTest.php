@@ -11,7 +11,6 @@ use Vigilant\Healthchecks\Models\Metric;
 use Vigilant\Healthchecks\Notifications\Conditions\MetricIncreaseTimeframeCondition;
 use Vigilant\Healthchecks\Notifications\DiskUsageNotification;
 use Vigilant\Healthchecks\Notifications\MetricIncreasingNotification;
-use Vigilant\Healthchecks\Notifications\MetricNotification;
 use Vigilant\Healthchecks\Notifications\MetricSpikeNotification;
 use Vigilant\Healthchecks\Tests\TestCase;
 
@@ -202,10 +201,10 @@ class CheckMetricTest extends TestCase
                 return true;
             }
 
-            $entries = array_values(array_filter(
+            $entries = array_filter(
                 $notification->increasedMetrics,
                 static fn ($entry) => is_array($entry)
-            ));
+            );
 
             if ($entries === []) {
                 return true;
@@ -219,7 +218,7 @@ class CheckMetricTest extends TestCase
             $timeframes = array_filter($timeframes, static fn ($value) => $value !== null);
             sort($timeframes);
 
-            if (array_values($timeframes) === MetricIncreaseTimeframeCondition::INTERVALS) {
+            if ($timeframes === MetricIncreaseTimeframeCondition::INTERVALS) {
                 $matched = true;
             }
 

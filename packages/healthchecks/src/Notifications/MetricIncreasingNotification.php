@@ -70,10 +70,10 @@ class MetricIncreasingNotification extends Notification implements HasSite
                 usort($sorted, static function (array $left, array $right): int {
                     return ($left['timeframe_minutes'] ?? PHP_INT_MAX) <=> ($right['timeframe_minutes'] ?? PHP_INT_MAX);
                 });
-                $metricData = $sorted[0] ?? [];
+                $metricData = $sorted[0];
             }
 
-            if (is_array($metricData) && ! empty($metricData)) {
+            if (! empty($metricData)) {
                 $percentIncrease = round($metricData['percent_increase'] ?? 0, 1);
                 $timeframeMinutes = $metricData['timeframe_minutes'] ?? 0;
                 $oldValue = $metricData['old_value'] ?? 0;
