@@ -32,7 +32,7 @@
 
                     <div x-data="{
                         selectedType: $wire.entangle('form.type'),
-                        customizeEndpoint: {{ $healthcheck->type->value === 'endpoint' || ($healthcheck->endpoint !== null && $healthcheck->endpoint !== $healthcheck->type->endpoint()) ? 'true' : 'false' }},
+                        customizeEndpoint: {{ $healthcheck?->type?->value === 'endpoint' || ($healthcheck->endpoint !== null && $healthcheck->endpoint !== $healthcheck->type->endpoint()) ? 'true' : 'false' }},
                         showAll: false,
                         searchQuery: '',
                         totalPlatforms: {{ count(\Vigilant\Healthchecks\Enums\Type::cases()) }},

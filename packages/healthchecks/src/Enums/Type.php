@@ -10,14 +10,13 @@ enum Type: string
 {
     case Endpoint = 'endpoint';
     case Laravel = 'laravel';
-    case Magento = 'magento';
+    case Statamic = 'statamic';
+    /* case Magento = 'magento'; */
 
     public function label(): string
     {
         return match ($this) {
-            self::Endpoint => __('Endpoint'),
-            self::Laravel => __('Laravel'),
-            self::Magento => __('Magento'),
+            default => ucfirst($this->value),
         };
     }
 
@@ -26,7 +25,8 @@ enum Type: string
         return match ($this) {
             self::Endpoint => 'phosphor-heartbeat',
             self::Laravel => 'si-laravel',
-            self::Magento => 'bxl-magento',
+            self::Statamic => 'si-statamic',
+            /* static::Magento => 'bxl-magento', */
         };
     }
 
