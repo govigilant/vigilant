@@ -41,7 +41,8 @@ class Module extends Checker
 
         foreach ($checks as $check) {
             $validator = Validator::make($check, [
-                'key' => ['required', 'string'],
+                'type' => ['required', 'string'],
+                'key' => ['nullable', 'string'],
                 'status' => ['required', 'string', 'in:healthy,unhealthy,failed'],
                 'message' => ['nullable', 'string'],
             ]);
