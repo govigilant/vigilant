@@ -53,7 +53,13 @@ class Module extends Checker
 
             $status = Status::from($check['status']);
 
-            $this->persistResult($healthcheck, $check['key'], $status, $check['message'] ?? null);
+            $key = $check['type'];
+
+            if (! blank($check['key'] ?? null)) {
+                $key .= '_'.$check['key'];
+            }
+
+            $this->persistResult($healthcheck, str($key)->limit(255)->toString(), $status, $check['message'] ?? null);
         }
 
         foreach ($metrics as $metric) {
