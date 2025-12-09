@@ -4,6 +4,7 @@ namespace Vigilant\Crawler\Actions;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -104,6 +105,16 @@ class CrawlUrl
                 'found_on_id' => $url->uuid,
             ];
         }
+
+        $existingLinks = CrawledUrl::query()
+            ->where('crawler_id', '=', $url->crawler_id)
+            ->whereIn('url_hash', Arr::pluck($queuedLinks, 'url_hash'))
+            ->pluck('url_hash')
+            ->all();
+
+        $queuedLinks = array_filter($queuedLinks, function ($record) use ($existingLinks) {
+            return ! in_array($record['url_hash'], $existingLinks, true);
+        });
 
         if ($queuedLinks !== []) {
             $timestamp = now();
