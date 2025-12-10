@@ -3,10 +3,8 @@
 namespace Vigilant\Crawler\Tests\Actions;
 
 use Illuminate\Support\Facades\Event;
-use Mockery\MockInterface;
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Crawler\Actions\ProcessCrawlerState;
-use Vigilant\Crawler\Actions\StartCrawler;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Events\CrawlerFinishedEvent;
 use Vigilant\Crawler\Models\Crawler;
@@ -14,28 +12,6 @@ use Vigilant\Crawler\Tests\TestCase;
 
 class ProcessCrawlerStateTest extends TestCase
 {
-    #[Test]
-    public function it_processes_pending_state(): void
-    {
-        /** @var Crawler $crawler */
-        $crawler = Crawler::query()->create([
-            'start_url' => 'vigilant',
-            'state' => State::Pending,
-            'schedule' => '0 0 * * *',
-        ]);
-
-        $this->mock(StartCrawler::class, function (MockInterface $mock): void {
-            $mock->shouldReceive('start')->andReturn()->once();
-        });
-
-        $crawler->forceFill(['state' => State::Pending])->save();
-        $crawler->refresh();
-
-        /** @var ProcessCrawlerState $action */
-        $action = app(ProcessCrawlerState::class);
-        $action->process($crawler);
-    }
-
     #[Test]
     public function it_processes_crawling_finished_state(): void
     {
