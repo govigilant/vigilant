@@ -12,6 +12,7 @@ use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Users\Observers\TeamObserver;
+use Vigilant\Lighthouse\Observers\LighthouseMonitorObserver;
 
 /**
  * @property int $id
@@ -29,7 +30,7 @@ use Vigilant\Users\Observers\TeamObserver;
  * @property ?Site $site
  * @property Collection<int, LighthouseResult> $lighthouseResults
  */
-#[ObservedBy([TeamObserver::class])]
+#[ObservedBy([TeamObserver::class, LighthouseMonitorObserver::class])]
 #[ScopedBy([TeamScope::class])]
 class LighthouseMonitor extends Model
 {
