@@ -3,6 +3,7 @@
 namespace Vigilant\Healthchecks\Tests\Actions;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Bus;
 use PHPUnit\Framework\Attributes\Test;
 use Vigilant\Healthchecks\Actions\CheckMetric;
 use Vigilant\Healthchecks\Enums\Type;
@@ -21,6 +22,8 @@ class CheckMetricTest extends TestCase
     {
         MetricIncreasingNotification::fake();
         MetricSpikeNotification::fake();
+
+        Bus::fake();
 
         $healthcheck = Healthcheck::query()->create([
             'domain' => 'example.com',

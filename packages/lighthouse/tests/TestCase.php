@@ -3,9 +3,11 @@
 namespace Vigilant\Lighthouse\Tests;
 
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
+use Illuminate\Support\Facades\Bus;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 use Vigilant\Core\Services\TeamService;
+use Vigilant\Lighthouse\Jobs\RunLighthouseJob;
 use Vigilant\Lighthouse\ServiceProvider;
 
 abstract class TestCase extends BaseTestCase
@@ -37,5 +39,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         TeamService::fake();
+        Bus::fake([
+            RunLighthouseJob::class,
+        ]);
     }
 }

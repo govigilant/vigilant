@@ -3,6 +3,7 @@
 namespace Vigilant\Uptime\Observers;
 
 use Vigilant\Core\Services\TeamService;
+use Vigilant\Uptime\Jobs\CheckUptimeJob;
 use Vigilant\Uptime\Jobs\UpdateMonitorLocationJob;
 use Vigilant\Uptime\Models\Monitor;
 
@@ -21,5 +22,6 @@ class MonitorObserver
     public function created(Monitor $monitor): void
     {
         UpdateMonitorLocationJob::dispatch($monitor);
+        CheckUptimeJob::dispatch($monitor);
     }
 }
