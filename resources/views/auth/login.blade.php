@@ -7,7 +7,8 @@
         <x-validation-errors class="mb-6" />
 
         @if (session('status'))
-            <div class="mb-6 font-medium text-sm text-green-light bg-green/10 border border-green/30 rounded-lg px-4 py-3">
+            <div
+                class="mb-6 font-medium text-sm text-green-light bg-green/10 border border-green/30 rounded-lg px-4 py-3">
                 {{ session('status') }}
             </div>
         @endif
@@ -47,13 +48,15 @@
                         href="{{ route('password.request') }}">
                         {{ __('Forgot password?') }}
                     </a>
-                    <span class="text-base-700">|</span>
                 @endif
 
-                <a class="text-base-300 hover:text-red transition-colors duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red focus:ring-offset-base-900 rounded-md"
-                    href="{{ route('register') }}">
-                    {{ __('Create account') }}
-                </a>
+                @if (!ce())
+                    <span class="text-base-700">|</span>
+                    <a class="text-base-300 hover:text-red transition-colors duration-200 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-red focus:ring-offset-base-900 rounded-md"
+                        href="{{ route('register') }}">
+                        {{ __('Create account') }}
+                    </a>
+                @endif
             </div>
 
             @if (config('services.google.enabled'))
