@@ -4,12 +4,14 @@ namespace Vigilant\Crawler\Actions;
 
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
+use Vigilant\Crawler\Models\IgnoredUrl;
 use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
 class CrawlUrl
@@ -105,9 +107,28 @@ class CrawlUrl
             ];
         }
 
+        $existingLinks = CrawledUrl::query()
+            ->where('crawler_id', '=', $url->crawler_id)
+            ->whereIn('url_hash', Arr::pluck($queuedLinks, 'url_hash'))
+            ->pluck('url_hash')
+            ->all();
+
+        $queuedLinks = array_filter($queuedLinks, function (array $record) use ($existingLinks): bool {
+            return ! in_array($record['url_hash'], $existingLinks, true);
+        });
+
         if ($queuedLinks !== []) {
             $timestamp = now();
             $records = [];
+            $ignoredHashes = [];
+
+            if ($url->crawler_id !== null) {
+                $ignoredHashes = IgnoredUrl::query()
+                    ->where('crawler_id', '=', $url->crawler_id)
+                    ->whereIn('url_hash', array_keys($queuedLinks))
+                    ->pluck('url_hash')
+                    ->all();
+            }
 
             foreach ($queuedLinks as $record) {
                 $records[] = [
@@ -117,6 +138,7 @@ class CrawlUrl
                     'url_hash' => $record['url_hash'],
                     'url' => $record['url'],
                     'found_on_id' => $record['found_on_id'],
+                    'ignored' => in_array($record['url_hash'], $ignoredHashes, true),
                     'crawled' => false,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp,

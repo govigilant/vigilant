@@ -93,7 +93,7 @@ class ImportSite
     protected function importDns(Site $site): void
     {
         /** @var array<int, AbstractRecord> $records */
-        $records = $this->dnsClient->get(str_replace('https://', '', $site->url), [
+        $records = $this->dnsClient->get($this->stripProtocol($site->url), [
             RecordTypes::A,
             RecordTypes::AAAA,
             RecordTypes::CNAME,
@@ -131,8 +131,8 @@ class ImportSite
             'site_id' => $site->id,
             'team_id' => $site->team_id,
         ], [
-            'domain' => $site->url,
-            'port' => 443,
+            'domain' => $this->stripProtocol($site->url),
+            'port' => str_starts_with($site->url, 'https://') ? 443 : 80,
         ]);
     }
 
@@ -146,5 +146,10 @@ class ImportSite
             'schedule' => '0 10 * * 1',
             'start_url' => $site->url,
         ]);
+    }
+
+    protected function stripProtocol(string $domain): string
+    {
+        return preg_replace('#^https?://#', '', $domain) ?? $domain;
     }
 }

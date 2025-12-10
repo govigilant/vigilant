@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Http;
 use Mtownsend\XmlToArray\XmlToArray;
 use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
+use Vigilant\Crawler\Models\IgnoredUrl;
 
 class ImportSitemaps
 {
@@ -73,16 +74,31 @@ class ImportSitemaps
                 continue;
             }
 
+            $timestamp = now();
+            $urlHashes = $newUrls->map(fn ($url): string => md5($url));
+            $ignoredHashes = $urlHashes->isEmpty()
+                ? []
+                : IgnoredUrl::query()
+                    ->where('crawler_id', '=', $crawler->id)
+                    ->whereIn('url_hash', $urlHashes->all())
+                    ->pluck('url_hash')
+                    ->all();
+
             $crawler->urls()->insert(
-                $newUrls->map(fn ($url): array => [
-                    'uuid' => (new CrawledUrl)->newUniqueId(),
-                    'crawler_id' => $crawler->id,
-                    'team_id' => $crawler->team_id,
-                    'url' => $url,
-                    'url_hash' => md5($url),
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ])->toArray()
+                $newUrls->map(function ($url) use ($crawler, $timestamp, $ignoredHashes): array {
+                    $hash = md5($url);
+
+                    return [
+                        'uuid' => (new CrawledUrl)->newUniqueId(),
+                        'crawler_id' => $crawler->id,
+                        'team_id' => $crawler->team_id,
+                        'url' => $url,
+                        'url_hash' => $hash,
+                        'ignored' => in_array($hash, $ignoredHashes, true),
+                        'created_at' => $timestamp,
+                        'updated_at' => $timestamp,
+                    ];
+                })->toArray()
             );
         }
     }
