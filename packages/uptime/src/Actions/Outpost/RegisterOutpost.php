@@ -45,7 +45,6 @@ class RegisterOutpost
             $existingOutpost->external_ip = $externalIp;
             $existingOutpost->last_available_at = now();
             $existingOutpost->status = OutpostStatus::Available;
-            $existingOutpost->geoip_automatic = true;
 
             $existingOutpost->save();
 
