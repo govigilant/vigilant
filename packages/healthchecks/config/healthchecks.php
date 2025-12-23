@@ -5,6 +5,8 @@ return [
 
     'http_timeout' => env('HEALTHCHECKS_HTTP_TIMEOUT', 10),
 
+    'http_max_attempts' => env('HEALTHCHECKS_HTTP_MAX_ATTEMPTS', 2),
+
     'intervals' => [
         60 => 'Every minute',
         300 => 'Every 5 minutes',
