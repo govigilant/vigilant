@@ -71,7 +71,7 @@ abstract class Checker
                 sleep(1);
             }
         }
-
-        throw new RuntimeException('Unable to perform HTTP call');
     }
+}
+
 }
