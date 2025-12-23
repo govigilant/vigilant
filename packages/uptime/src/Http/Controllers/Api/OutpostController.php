@@ -25,6 +25,7 @@ class OutpostController extends Controller
             'port' => 'required|integer|min:1|max:65535',
             'country' => [
                 'nullable',
+                'string',
                 new CountryCode,
                 Rule::requiredIf(! $geoipAutomatic),
             ],
