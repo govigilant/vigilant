@@ -5,7 +5,7 @@
                 href="https://github.com/govigilant/magento2-healthchecks">{{ __('Install the Magento 2 healthcheck module') }}</a>
         </li>
         <li>{{ __('In your Magento 2 backend, go to System > Integrations') }}</li>
-        <li>{{ __('Create a integration with permissions for the "Health Endpoint"') }}</li>
+        <li>{{ __('Create an integration with permissions for the "Health Endpoint"') }}</li>
         <li>{{ __('Activate the integration and paste the access token here') }}</li>
     </ol>
 </div>
