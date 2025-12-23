@@ -58,6 +58,46 @@
 
                     <x-form.number field="form.timeout" name="Timeout" description="Timeout for connecting to the service" />
 
+                    <div class="border-t border-base-200 pt-4">
+                        <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+                            <div class="flex flex-col justify-center">
+                                <p class="block text-base font-semibold leading-6 text-base-50">Set location manually</p>
+                                <span class="text-base-400 text-sm mt-1">Provide the country and coordinates instead of detecting them automatically.</span>
+                            </div>
+                            <div class="flex flex-col justify-center">
+                                <div class="flex items-center h-10">
+                                    <button type="button"
+                                        role="switch"
+                                        x-data="{ automatic: $wire.entangle('form.geoip_automatic').live }"
+                                        x-on:click="automatic = !automatic"
+                                        :aria-checked="(!automatic).toString()"
+                                        :class="(!automatic) ? 'bg-gradient-to-r from-red to-orange' : 'bg-base-700'"
+                                        class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red focus:ring-offset-2 focus:ring-offset-base-900">
+                                        <span class="sr-only">Set location manually</span>
+                                        <span :class="(!automatic) ? 'translate-x-5' : 'translate-x-0'"
+                                            class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-base-50 shadow-lg ring-0 transition duration-200 ease-in-out"></span>
+                                    </button>
+                                </div>
+                                @error('form.geoip_automatic') <span class="text-red text-sm mt-1">{{ $message }}</span> @enderror
+                            </div>
+                        </div>
+
+                        @if (! $form->geoip_automatic)
+                            <div class="grid grid-cols-1 gap-4 md:grid-cols-3 mt-4">
+                                <x-form.text field="form.country" name="Country"
+                                    description="Two-letter country code (e.g. US)" />
+
+                                <x-form.number field="form.latitude" name="Latitude"
+                                    description="Between -90 and 90"
+                                    step="any" min="-90" max="90" placeholder="43.6532" />
+
+                                <x-form.number field="form.longitude" name="Longitude"
+                                    description="Between -180 and 180"
+                                    step="any" min="-180" max="180" placeholder="-79.3832" />
+                            </div>
+                        @endif
+                    </div>
+
                     @if (!$inline)
                         <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
                     @endif

@@ -27,6 +27,7 @@
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.18",
         "laravel/tinker": "^2.8",
+        "league/iso3166": "^4.3",
         "livewire/livewire": "^3.0",
         "mallardduck/blade-boxicons": "^2.4",
         "ramonrietdijk/livewire-tables": "^6.0",

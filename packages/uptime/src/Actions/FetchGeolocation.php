@@ -34,12 +34,12 @@ class FetchGeolocation
             $override = config("uptime.ip_geo_overrides.$host");
             if ($override) {
                 return [
-                    'country'   => $override['country'] ?? null,
-                    'latitude'  => $override['latitude'] ?? null,
+                    'country' => $override['country'] ?? null,
+                    'latitude' => $override['latitude'] ?? null,
                     'longitude' => $override['longitude'] ?? null,
                 ];
             }
-            
+
             $response = Http::timeout(10)
                 ->get('https://free.freeipapi.com/api/json/'.$host);
 
