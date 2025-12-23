@@ -52,6 +52,7 @@ abstract class Checker
 
     /**
      * @param  Closure(PendingRequest): Response  $callback
+     *
      * @throws ConnectionException
      */
     protected function performHttpCall(Healthcheck $healthcheck, Closure $callback): Response
@@ -71,7 +72,7 @@ abstract class Checker
                 sleep(1);
             }
         }
-    }
-}
 
+        throw new RuntimeException('Unable to perform HTTP call.');
+    }
 }
