@@ -37,6 +37,7 @@ use Vigilant\Users\Models\Team;
  * @property ?float $longitude
  * @property ?int $closest_outpost_id
  * @property ?Carbon $geoip_fetched_at
+ * @property bool $geoip_automatic
  * @property ?Carbon $created_at
  * @property ?Carbon $updated_at
  * @property ?Site $site
@@ -66,6 +67,7 @@ class Monitor extends Model
         'latitude' => 'float',
         'longitude' => 'float',
         'geoip_fetched_at' => 'datetime',
+        'geoip_automatic' => 'boolean',
     ];
 
     public function site(): BelongsTo
@@ -111,6 +113,10 @@ class Monitor extends Model
 
     public function shouldFetchGeoip(): bool
     {
+        if (! $this->geoip_automatic) {
+            return false;
+        }
+
         if ($this->geoip_fetched_at === null) {
             return true;
         }
