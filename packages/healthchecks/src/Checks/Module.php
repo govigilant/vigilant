@@ -3,7 +3,8 @@
 namespace Vigilant\Healthchecks\Checks;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Validator;
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Models\Healthcheck;
@@ -14,14 +15,19 @@ class Module extends Checker
     {
         $runId = $this->generateRunId($healthcheck);
 
-        $endpoint = $healthcheck->endpoint ?? $healthcheck->type->endpoint();
+        $endpoint = blank($healthcheck->endpoint) ? $healthcheck->type->endpoint() : $healthcheck->endpoint;
 
         throw_if($endpoint === null, 'Endpoint is required');
 
         try {
-            $response = Http::baseUrl($healthcheck->domain)
-                ->withToken($healthcheck->token)
-                ->post($endpoint);
+            $response = $this->performHttpCall(
+                $healthcheck,
+                function (PendingRequest $request) use ($healthcheck, $endpoint): Response {
+                    return $request
+                        ->withToken($healthcheck->token)
+                        ->post($endpoint);
+                }
+            );
         } catch (ConnectionException) {
             $this->persistResult($healthcheck, 'connection', Status::Unhealthy, 'Could not connect');
 
@@ -36,8 +42,8 @@ class Module extends Checker
 
         $this->persistResult($healthcheck, 'connection', Status::Healthy);
 
-        $checks = $response->json('checks', []);
-        $metrics = $response->json('metrics', []);
+        $checks = $response->json($healthcheck->type->checksResponseKey(), []);
+        $metrics = $response->json($healthcheck->type->metricsResponseKey(), []);
 
         foreach ($checks as $check) {
             $validator = Validator::make($check, [

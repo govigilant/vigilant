@@ -2,6 +2,11 @@
 
 namespace Vigilant\Healthchecks\Checks;
 
+use Closure;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
+use Illuminate\Support\Facades\Http;
 use RuntimeException;
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Models\Healthcheck;
@@ -43,5 +48,31 @@ abstract class Checker
             ['key' => $key],
             $attributes
         );
+    }
+
+    /**
+     * @param  Closure(PendingRequest): Response  $callback
+     *
+     * @throws ConnectionException
+     */
+    protected function performHttpCall(Healthcheck $healthcheck, Closure $callback): Response
+    {
+        $maxAttempts = max((int) config('healthchecks.http_max_attempts', 2), 1);
+
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            try {
+                $request = Http::baseUrl($healthcheck->domain);
+
+                return $callback($request);
+            } catch (ConnectionException $e) {
+                if ($attempt === $maxAttempts) {
+                    throw $e;
+                }
+
+                sleep(1);
+            }
+        }
+
+        throw new RuntimeException('Unable to perform HTTP call.');
     }
 }

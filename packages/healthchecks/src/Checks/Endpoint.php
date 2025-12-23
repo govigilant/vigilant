@@ -3,7 +3,8 @@
 namespace Vigilant\Healthchecks\Checks;
 
 use Illuminate\Http\Client\ConnectionException;
-use Illuminate\Support\Facades\Http;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use InvalidArgumentException;
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Models\Healthcheck;
@@ -18,9 +19,14 @@ class Endpoint extends Checker
         $runId = $this->generateRunId($healthcheck);
 
         try {
-            $response = Http::baseUrl($healthcheck->domain)
-                ->timeout($timeout)
-                ->get($healthcheck->endpoint);
+            $response = $this->performHttpCall(
+                $healthcheck,
+                function (PendingRequest $request) use ($timeout, $healthcheck): Response {
+                    return $request
+                        ->timeout($timeout)
+                        ->get($healthcheck->endpoint);
+                }
+            );
 
             $healthy = $response->ok();
 
@@ -33,7 +39,7 @@ class Endpoint extends Checker
         } catch (ConnectionException $e) {
             $this->persistResult(
                 $healthcheck,
-                'endpoint_check',
+                'connection',
                 Status::Unhealthy,
                 'Failed to connect to endpoint',
                 [
