@@ -12,7 +12,6 @@ class CountryCode implements ValidationRule
         protected string $format = 'alpha2',
         protected ?ISO3166 $iso3166 = null,
     ) {
-        $this->iso3166 ??= new ISO3166;
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
@@ -25,11 +24,14 @@ class CountryCode implements ValidationRule
 
         $value = strtoupper(trim($value));
 
+        /** @var ISO3166 $iso3166 */
+        $iso3166 = $this->iso3166 ??= new ISO3166;
+
         try {
             match ($this->format) {
-                'alpha3' => $this->iso3166->alpha3($value),
-                'numeric' => $this->iso3166->numeric($value),
-                default => $this->iso3166->alpha2($value),
+                'alpha3' => $iso3166->alpha3($value),
+                'numeric' => $iso3166->numeric($value),
+                default => $iso3166->alpha2($value),
             };
         } catch (\Throwable) {
             $fail(__('The :attribute field must be a valid country code.'));
