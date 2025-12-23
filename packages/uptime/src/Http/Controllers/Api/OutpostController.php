@@ -18,12 +18,11 @@ class OutpostController extends Controller
         RegisterOutpost $registrar,
         GenerateOutpostCertificate $certificateGenerator
     ): JsonResponse {
-        $geoipAutomatic = $request->boolean('geoip_automatic', true);
+        $geoipAutomatic = ! ($request->filled('country') && $request->filled('latitude') && $request->filled('longitude'));
 
         $request->validate([
             'ip' => 'required|ip',
             'port' => 'required|integer|min:1|max:65535',
-            'geoip_automatic' => ['nullable', 'boolean'],
             'country' => [
                 'nullable',
                 new CountryCode,
@@ -42,8 +41,6 @@ class OutpostController extends Controller
                 Rule::requiredIf(! $geoipAutomatic),
             ],
         ]);
-
-        $geoipAutomatic = $request->boolean('geoip_automatic', true);
 
         $clientIp = $request->ip();
         if ($clientIp === null) {

@@ -41,7 +41,7 @@ class RegisterOutpost
             ->where('port', '=', $port)
             ->first();
 
-        if ($existingOutpost && $existingOutpost->country !== null && $existingOutpost->geoip_automatic) {
+        if ($existingOutpost && $existingOutpost->country !== null) {
             $existingOutpost->external_ip = $externalIp;
             $existingOutpost->last_available_at = now();
             $existingOutpost->status = OutpostStatus::Available;
