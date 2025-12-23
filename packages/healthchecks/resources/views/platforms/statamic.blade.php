@@ -7,4 +7,3 @@
         <li>{{ __('Configure the token in your environment file') }}</li>
     </ol>
 </div>
-/div>
