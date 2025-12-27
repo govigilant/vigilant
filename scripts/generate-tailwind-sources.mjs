@@ -63,8 +63,8 @@ async function collectAllSources() {
     }
   }
 
-  const allSources = [...STATIC_SOURCES, ...dynamicSources];
-  return Array.from(new Set(allSources)).sort((a, b) => a.localeCompare(b));
+  STATIC_SOURCES.forEach((source) => dynamicSources.add(source));
+  return Array.from(dynamicSources).sort((a, b) => a.localeCompare(b));
 }
 
 function buildFileContent(sources) {
