@@ -11,7 +11,7 @@ Route::prefix('notifications')->group(function () {
     Route::get('edit/{trigger}', NotificationForm::class)->name('notifications.trigger.edit');
 
     Route::prefix('channels')->group(function () {
-        Route::get('/', [\Vigilant\Notifications\Http\Controllers\ChannelController::class, 'index'])->name('notifications.channels');
+        Route::get('/', [ChannelController::class, 'index'])->name('notifications.channels');
         Route::get('create', ChannelForm::class)->name('notifications.channel.create');
         Route::get('edit/{channel}', ChannelForm::class)->name('notifications.channel.edit');
     });
