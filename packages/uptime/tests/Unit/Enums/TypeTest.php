@@ -10,6 +10,7 @@ class TypeTest extends TestCase
 {
     public function test_http_format_target_accepts_ip_host(): void
     {
+        /** @var Monitor $monitor */
         $monitor = Monitor::factory()->make([
             'settings' => ['host' => '127.0.0.1'],
             'type' => Type::Http,
