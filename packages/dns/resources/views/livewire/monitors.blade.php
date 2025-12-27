@@ -22,6 +22,10 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:dns-monitor-table />
+    @if ($hasMonitors)
+        <livewire:dns-monitor-table />
+    @else
+        <x-dns::empty-states.monitors />
+    @endif
 
 </div>

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Vigilant\Notifications\Http\Controllers\ChannelController;
 use Vigilant\Notifications\Http\Livewire\ChannelForm;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 
@@ -10,7 +11,7 @@ Route::prefix('notifications')->group(function () {
     Route::get('edit/{trigger}', NotificationForm::class)->name('notifications.trigger.edit');
 
     Route::prefix('channels')->group(function () {
-        Route::view('/', 'notifications::channels')->name('notifications.channels');
+        Route::get('/', [\Vigilant\Notifications\Http\Controllers\ChannelController::class, 'index'])->name('notifications.channels');
         Route::get('create', ChannelForm::class)->name('notifications.channel.create');
         Route::get('edit/{channel}', ChannelForm::class)->name('notifications.channel.edit');
     });

@@ -15,5 +15,9 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:lighthouse-sites-table />
+    @if ($hasMonitors)
+        <livewire:lighthouse-sites-table />
+    @else
+        <x-lighthouse::empty-states.monitors />
+    @endif
 </div>
