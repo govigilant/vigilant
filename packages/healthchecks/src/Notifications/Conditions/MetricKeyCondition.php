@@ -21,10 +21,24 @@ class MetricKeyCondition extends SelectCondition
             ->toArray();
     }
 
+    public function operators(): array
+    {
+        return [
+            '=' => 'is',
+            '!=' => 'is not',
+        ];
+    }
+
     public function applies(Notification $notification, ?string $operand, ?string $operator, mixed $value, ?array $meta): bool
     {
         /** @var MetricNotification $notification */
 
-        return $notification->metric->key === $value;
+        $key = $notification->metric->key;
+
+        return match ($operator) {
+            '=' => $key === $value,
+            '!=' => $key !== $value,
+            default => $key === $value,
+        };
     }
 }
