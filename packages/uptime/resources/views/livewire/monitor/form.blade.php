@@ -45,6 +45,9 @@
                                 placeholder="{{ config('app.url') }}" />
                         @elseif ($form->type === \Vigilant\Uptime\Enums\Type::Ping->value)
                             <x-form.text field="form.settings.host" name="Host"
+                                description="IP address or hostname to ping" placeholder="1.1.1.1" />
+                        @elseif ($form->type === \Vigilant\Uptime\Enums\Type::Tcp->value)
+                            <x-form.text field="form.settings.host" name="Host"
                                 description="Host or IP address of the service"
                                 placeholder="{{ config('app.url') }} or 1.1.1.1" />
 

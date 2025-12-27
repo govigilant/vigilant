@@ -50,8 +50,8 @@ class CreateUptimeMonitorForm extends Form
                 'type' => ['required', Rule::enum(Type::class)],
                 'name' => ['required', 'string', 'max:255'],
                 'interval' => ['required', 'integer', 'in:'.implode(',', array_keys(config('uptime.intervals')))],
-                'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
-                'settings.host' => ['required_if:type,ping,http'],
+                'settings.port' => ['integer', 'min:1', 'max:65535', sprintf('required_if:type,%s', Type::Tcp->value)],
+                'settings.host' => [sprintf('required_if:type,%s,%s,%s', Type::Http->value, Type::Ping->value, Type::Tcp->value)],
                 'enabled' => ['boolean', new CanEnableRule(Monitor::class)],
                 'geoip_automatic' => ['boolean'],
                 'country' => [
