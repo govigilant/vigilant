@@ -7,7 +7,7 @@
         </x-page-header>
     </x-slot>
 
-    @if ($hasChannels ?? false)
+    @if ($hasChannels)
         <livewire:channel-table />
     @else
         <x-notifications::empty-states.channels />
