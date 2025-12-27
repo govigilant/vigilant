@@ -66,7 +66,7 @@
                         description="Amount of retries before marking the service as down" />
 
                     <x-form.number field="form.timeout" name="Timeout"
-                        description="Timeout for connecting to the service" />
+                        description="Timeout for connecting to the service in seconds" />
 
                     <div class="border-t border-base-200 pt-4">
                         <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
