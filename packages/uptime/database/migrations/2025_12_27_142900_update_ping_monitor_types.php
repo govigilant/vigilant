@@ -15,7 +15,7 @@ return new class extends Migration
     public function down(): void
     {
         DB::table('uptime_monitors')
-            ->where('type', '=', 'icmp')
+            ->where('type', '=', 'tcp')
             ->update(['type' => 'ping']);
     }
 };
