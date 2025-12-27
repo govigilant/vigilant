@@ -32,9 +32,17 @@ enum Type: string
     public function formatTarget(Monitor $monitor): string
     {
         if ($this === Type::Http) {
-            $settings = Validator::validate($monitor->settings, [
+            $validator = Validator::make($monitor->settings, [
                 'host' => ['required', 'url'],
             ]);
+
+            if ($validator->fails()) {
+                $validator = Validator::make($monitor->settings, [
+                    'host' => ['required', 'ip'],
+                ]);
+            }
+
+            $settings = $validator->validate();
 
             return $settings['host'];
         }
