@@ -42,7 +42,7 @@ enum Type: string
             self::Endpoint => null,
             self::Magento => 'rest/V1/vigilant/health',
             self::Wordpress => 'wp-json/vigilant/v1/health',
-            self::Joomla => 'index.php?option=com_vigilant&task=health.check',
+            self::Joomla => 'index.php?option=io_govigilant&task=health.check',
             self::Drupal => 'vigilant/health',
             default => 'api/vigilant/health'
         };
