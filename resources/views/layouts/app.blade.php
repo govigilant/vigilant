@@ -21,6 +21,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     @livewireStyles
+    @stack('head')
 </head>
 
 <body class="font-text antialiased dark dark:bg-base-black h-screen flex" x-data="{ sidebarOpen: false, contentShow: true }"
