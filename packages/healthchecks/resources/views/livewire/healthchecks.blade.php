@@ -14,5 +14,9 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:healthcheck-table />
+    @if ($hasHealthchecks)
+        <livewire:healthcheck-table />
+    @else
+        <x-healthchecks::empty-states.healthchecks />
+    @endif
 </div>

@@ -7,6 +7,10 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:channel-table />
+    @if ($hasChannels)
+        <livewire:channel-table />
+    @else
+        <x-notifications::empty-states.channels />
+    @endif
 
 </x-app-layout>

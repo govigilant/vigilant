@@ -14,5 +14,9 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:cve-monitor-table />
+    @if ($hasMonitors)
+        <livewire:cve-monitor-table />
+    @else
+        <x-cve::empty-states.monitors />
+    @endif
 </x-app-layout>

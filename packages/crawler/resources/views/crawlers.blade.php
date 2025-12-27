@@ -15,6 +15,10 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:crawler-table />
+    @if ($hasCrawlers)
+        <livewire:crawler-table />
+    @else
+        <x-crawler::empty-states.crawlers />
+    @endif
 
 </div>

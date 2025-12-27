@@ -4,6 +4,7 @@ namespace Vigilant\Crawler\Livewire;
 
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Vigilant\Crawler\Models\Crawler as CrawlerModel;
 
 class Crawlers extends Component
 {
@@ -11,7 +12,10 @@ class Crawlers extends Component
     {
         /** @var view-string $view */
         $view = 'crawler::crawlers';
+        $hasCrawlers = CrawlerModel::query()->exists();
 
-        return view($view);
+        return view($view, [
+            'hasCrawlers' => $hasCrawlers,
+        ]);
     }
 }

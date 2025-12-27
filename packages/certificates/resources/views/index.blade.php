@@ -15,5 +15,9 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:certificate-monitor-table />
+    @if ($hasMonitors)
+        <livewire:certificate-monitor-table />
+    @else
+        <x-certificates::empty-states.monitors />
+    @endif
 </x-app-layout>
