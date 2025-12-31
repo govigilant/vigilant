@@ -29,6 +29,14 @@ class ImportSites extends Component
         'crawler' => true,
     ];
 
+    public function mount(): void
+    {
+        if (session()->has('import_urls')) {
+            $this->urls = implode(PHP_EOL, session()->get('import_urls', []));
+            session()->forget('import_urls');
+        }
+    }
+
     public function confirm(): void
     {
         $this->validatedDomains = str($this->urls)

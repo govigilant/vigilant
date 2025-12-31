@@ -27,6 +27,7 @@ class RedirectToOnboard
             $user->email_verified_at === null ||
             Route::is('onboard*') ||
             Route::is('livewire.*') ||
+            Route::is('quick-setup') ||
             ! $shouldOnboard->shouldOnboard()
         ) {
             return $next($request);
