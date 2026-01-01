@@ -9,12 +9,11 @@ class CleanDomainValidator implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        if ($value === null || $value === '') {
-            return;
-        }
-
         $value = (string) $value;
 
+        if ($value === '') {
+            return;
+        }
         if ($this->containsUrlSpecificCharacters($value)) {
             $fail(__('Please enter only the domain (e.g., govigilant.io)'));
         }
