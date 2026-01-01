@@ -19,4 +19,5 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/', fn () => response()->redirectToRoute('sites'));
+    Route::fallback(fn () => abort(404));
 });
