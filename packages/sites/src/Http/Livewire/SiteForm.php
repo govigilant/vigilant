@@ -45,6 +45,8 @@ class SiteForm extends Component
             $this->dispatch('save');
         }
 
+        $this->form->url = $this->normalizeUrl($this->form->url);
+
         $this->validate();
 
         if ($this->site->exists) {
@@ -83,6 +85,17 @@ class SiteForm extends Component
             'updating' => $this->site->exists,
             'tabs' => $tabs,
         ]);
+    }
+
+    private function normalizeUrl(string $url): string
+    {
+        $parts = parse_url($url);
+
+        if ($parts === false || ! isset($parts['scheme'], $parts['host'])) {
+            return rtrim($url, '/');
+        }
+
+        return sprintf('%s://%s', $parts['scheme'], $parts['host']);
     }
 
     /** @return array<string, array<string, string>> */
