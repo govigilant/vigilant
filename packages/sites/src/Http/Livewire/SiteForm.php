@@ -87,8 +87,11 @@ class SiteForm extends Component
         ]);
     }
 
-    private function normalizeUrl(string $url): string
+    private function normalizeUrl(?string $url): string
     {
+        if ($url === null) {
+            return '';
+        }
         $parts = parse_url($url);
 
         if ($parts === false || ! isset($parts['scheme'], $parts['host'])) {
