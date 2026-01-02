@@ -74,12 +74,13 @@ class ChannelForm extends Component
 
         $this->validate();
 
+        $data = $this->form->all();
+        $data['name'] = blank($data['name'] ?? null) ? null : $data['name'];
+
         if ($this->channelModel->exists) {
-            $this->channelModel->update($this->form->all());
+            $this->channelModel->update($data);
         } else {
-            $this->channelModel = Channel::query()->create(
-                $this->form->all()
-            );
+            $this->channelModel = Channel::query()->create($data);
         }
 
         if ($this->inline) {
