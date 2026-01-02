@@ -106,6 +106,10 @@ class ChannelForm extends Component
     {
         $this->save(false);
 
+        if (! $this->channelModel->exists) {
+            return;
+        }
+
         SendNotificationJob::dispatchSync(
             new TestNotification,
             $this->channelModel->team_id,
