@@ -141,7 +141,7 @@ a {
 }
 
 .footer {
-    background-color: #0A0A0F;
+    background-color: #000000;
     border-top: 1px solid #2D2D42;
 }
 
@@ -150,6 +150,7 @@ a {
     font-size: 13px;
     padding: 32px 16px;
     letter-spacing: 0.01em;
+    text-align: center;
 }
 
 .action {
