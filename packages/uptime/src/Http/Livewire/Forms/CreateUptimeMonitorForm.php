@@ -7,6 +7,7 @@ use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Vigilant\Core\Validation\CanEnableRule;
+use Vigilant\Frontend\Validation\CountryCode;
 use Vigilant\Uptime\Enums\Type;
 use Vigilant\Uptime\Models\Monitor;
 
@@ -34,6 +35,14 @@ class CreateUptimeMonitorForm extends Form
     #[Validate('required|integer|max:10')]
     public ?int $timeout = 5;
 
+    public bool $geoip_automatic = true;
+
+    public ?string $country = null;
+
+    public ?float $latitude = null;
+
+    public ?float $longitude = null;
+
     public function getRules(): array
     {
         return array_merge(parent::getRules(),
@@ -41,9 +50,43 @@ class CreateUptimeMonitorForm extends Form
                 'type' => ['required', Rule::enum(Type::class)],
                 'name' => ['required', 'string', 'max:255'],
                 'interval' => ['required', 'integer', 'in:'.implode(',', array_keys(config('uptime.intervals')))],
-                'settings.port' => ['integer', 'min:0', 'max:65535', 'required_if:type,ping'],
-                'settings.host' => ['required_if:type,ping,http'],
+                'settings.port' => ['integer', 'min:1', 'max:65535', sprintf('required_if:type,%s', Type::Tcp->value)],
+                'settings.host' => [sprintf('required_if:type,%s,%s,%s', Type::Http->value, Type::Ping->value, Type::Tcp->value)],
                 'enabled' => ['boolean', new CanEnableRule(Monitor::class)],
+                'geoip_automatic' => ['boolean'],
+                'country' => [
+                    Rule::requiredIf(fn () => ! $this->geoip_automatic),
+                    'nullable',
+                    'string',
+                    new CountryCode,
+                ],
+                'latitude' => [
+                    Rule::requiredIf(fn () => ! $this->geoip_automatic),
+                    'nullable',
+                    'numeric',
+                    'between:-90,90',
+                ],
+                'longitude' => [
+                    Rule::requiredIf(fn () => ! $this->geoip_automatic),
+                    'nullable',
+                    'numeric',
+                    'between:-180,180',
+                ],
             ]);
+    }
+
+    public function all(): array
+    {
+        $values = parent::all();
+
+        if ($this->geoip_automatic) {
+            $values['country'] = null;
+            $values['latitude'] = null;
+            $values['longitude'] = null;
+        } elseif ($values['country'] !== null) {
+            $values['country'] = strtoupper(trim($values['country']));
+        }
+
+        return $values;
     }
 }

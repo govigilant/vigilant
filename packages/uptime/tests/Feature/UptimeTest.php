@@ -68,7 +68,6 @@ class UptimeTest extends TestCase
             'type' => Type::Ping,
             'settings' => [
                 'host' => '127.0.0.1',
-                'port' => 53,
             ],
             'interval' => '* * * * *',
             'retries' => 1,

@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Vigilant\Core\Scopes\TeamScope;
+use Vigilant\Lighthouse\Observers\LighthouseMonitorObserver;
 use Vigilant\Sites\Models\Site;
 use Vigilant\Users\Observers\TeamObserver;
-use Vigilant\Lighthouse\Observers\LighthouseMonitorObserver;
 
 /**
  * @property int $id

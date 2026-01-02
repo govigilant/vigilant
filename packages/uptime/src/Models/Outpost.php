@@ -17,6 +17,7 @@ use Vigilant\Uptime\Observers\OutpostObserver;
  * @property ?string $country
  * @property ?float $latitude
  * @property ?float $longitude
+ * @property bool $geoip_automatic
  * @property Carbon $last_available_at
  * @property ?Carbon $unavailable_at
  * @property ?Carbon $created_at
@@ -33,6 +34,7 @@ class Outpost extends Model
         'status' => OutpostStatus::class,
         'latitude' => 'float',
         'longitude' => 'float',
+        'geoip_automatic' => 'boolean',
         'last_available_at' => 'datetime',
         'unavailable_at' => 'datetime',
     ];

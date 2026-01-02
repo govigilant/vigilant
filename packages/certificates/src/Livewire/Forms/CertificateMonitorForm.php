@@ -7,6 +7,7 @@ use Livewire\Attributes\Validate;
 use Livewire\Form;
 use Vigilant\Certificates\Models\CertificateMonitor;
 use Vigilant\Core\Validation\CanEnableRule;
+use Vigilant\Frontend\Validation\CleanDomainValidator;
 use Vigilant\Frontend\Validation\Fqdn;
 
 class CertificateMonitorForm extends Form
@@ -26,7 +27,7 @@ class CertificateMonitorForm extends Form
         return array_merge(parent::getRules(),
             [
                 'enabled' => ['boolean', new CanEnableRule(CertificateMonitor::class)],
-                'domain' => ['required', 'string', 'max:255', new Fqdn],
+                'domain' => ['required', 'string', 'max:255', new CleanDomainValidator, new Fqdn],
             ]
         );
     }

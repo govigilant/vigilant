@@ -4,6 +4,7 @@ namespace Vigilant\Dns\Livewire;
 
 use Illuminate\Contracts\View\View;
 use Livewire\Component;
+use Vigilant\Dns\Models\DnsMonitor;
 
 class DnsMonitors extends Component
 {
@@ -11,7 +12,10 @@ class DnsMonitors extends Component
     {
         /** @var view-string $view */
         $view = 'dns::livewire.monitors';
+        $hasMonitors = DnsMonitor::query()->exists();
 
-        return view($view);
+        return view($view, [
+            'hasMonitors' => $hasMonitors,
+        ]);
     }
 }

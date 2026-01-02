@@ -15,17 +15,7 @@
         <x-validation-errors class="mb-6" />
 
         <form method="POST" action="{{ route('register') }}" x-data="{
-            passwordStrength: 0,
-            showPasswordStrength: false,
-            step: 0,
-            checkPasswordStrength(password) {
-                let strength = 0;
-                if (password.length >= 8) strength++;
-                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
-                if (password.match(/\d/)) strength++;
-                if (password.match(/[^a-zA-Z\d]/)) strength++;
-                this.passwordStrength = strength;
-            }
+            step: 0
         }" x-init="setTimeout(() => step = 1, 80)">
             @csrf
 
@@ -75,78 +65,17 @@
                 </div>
             </div>
 
-            <!-- Password field with strength indicator - Staggered fade in -->
+            <!-- Password group with strength indicator -->
             <div class="mt-6 opacity-0 translate-y-4 transition-all duration-400"
                 :class="step >= 3 && 'opacity-100 translate-y-0'"
                 x-init="setTimeout(() => step = 4, 480)">
-                <div class="relative group">
-                    <x-label for="password" value="{{ __('Password') }}" class="transition-colors duration-150 group-focus-within:text-red" />
-                    <div class="relative mt-1">
-                        <x-input id="password" class="block w-full transition-all duration-200 hover:ring-2 hover:ring-red/20 focus-within:scale-[1.01]" 
-                            type="password" name="password" required
-                            autocomplete="new-password"
-                            @focus="showPasswordStrength = true"
-                            @input="checkPasswordStrength($event.target.value)" />
-                    </div>
-                    
-                    <!-- Password strength indicator with smooth transitions -->
-                    <div class="mt-3 space-y-2 overflow-hidden transition-all duration-400"
-                        x-show="showPasswordStrength"
-                        x-transition:enter="transition ease-out duration-250"
-                        x-transition:enter-start="opacity-0 -translate-y-2"
-                        x-transition:enter-end="opacity-100 translate-y-0">
-                        <div class="flex gap-1.5">
-                            <div class="h-1.5 flex-1 rounded-full bg-base-800 overflow-hidden transition-all duration-400"
-                                :class="passwordStrength >= 1 && 'bg-gradient-to-r from-red to-orange'"></div>
-                            <div class="h-1.5 flex-1 rounded-full bg-base-800 overflow-hidden transition-all duration-400 delay-[60ms]"
-                                :class="passwordStrength >= 2 && 'bg-gradient-to-r from-orange to-yellow'"></div>
-                            <div class="h-1.5 flex-1 rounded-full bg-base-800 overflow-hidden transition-all duration-400 delay-[80ms]"
-                                :class="passwordStrength >= 3 && 'bg-gradient-to-r from-yellow to-green-light'"></div>
-                            <div class="h-1.5 flex-1 rounded-full bg-base-800 overflow-hidden transition-all duration-400 delay-[120ms]"
-                                :class="passwordStrength >= 4 && 'bg-gradient-to-r from-green to-green-light'"></div>
-                        </div>
-                        <p class="text-xs transition-all duration-200"
-                            :class="{
-                                'text-red': passwordStrength <= 1,
-                                'text-orange': passwordStrength === 2,
-                                'text-yellow': passwordStrength === 3,
-                                'text-green-light': passwordStrength === 4
-                            }">
-                            <span x-show="passwordStrength === 0">{{ __('Enter a password') }}</span>
-                            <span x-show="passwordStrength === 1">{{ __('Weak password') }}</span>
-                            <span x-show="passwordStrength === 2">{{ __('Fair password') }}</span>
-                            <span x-show="passwordStrength === 3">{{ __('Good password') }}</span>
-                            <span x-show="passwordStrength === 4">{{ __('Strong password! 🎉') }}</span>
-                        </p>
-                    </div>
-                </div>
+                <x-password-group password-id="password"
+                    password-confirmation-id="password_confirmation"
+                    password-name="password"
+                    class="space-y-6" />
             </div>
 
-            <!-- Password confirmation field - Staggered fade in -->
-            <div class="mt-6 opacity-0 translate-y-4 transition-all duration-400"
-                :class="step >= 4 && 'opacity-100 translate-y-0'"
-                x-init="setTimeout(() => step = 5, 640)">
-                <div class="relative group">
-                    <x-label for="password_confirmation" value="{{ __('Confirm Password') }}" class="transition-colors duration-150 group-focus-within:text-red" />
-                    <div class="relative mt-1">
-                        <x-input id="password_confirmation" class="block w-full transition-all duration-200 hover:ring-2 hover:ring-red/20 focus-within:scale-[1.01]" 
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-                        <!-- Animated check icon when passwords match -->
-                        <div class="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 scale-0 transition-all duration-200"
-                            x-data="{ show: false }"
-                            x-init="$el.previousElementSibling.addEventListener('input', (e) => {
-                                const pwd = document.getElementById('password').value;
-                                show = e.target.value.length > 0 && e.target.value === pwd;
-                            })"
-                            :class="show && 'opacity-100 scale-100'">
-                            <svg class="w-5 h-5 text-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                            </svg>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="hidden" x-init="setTimeout(() => step = 5, 640)"></div>
 
             <!-- Terms checkbox - Staggered fade in -->
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())

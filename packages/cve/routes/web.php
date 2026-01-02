@@ -7,7 +7,7 @@ use Vigilant\Cve\Livewire\CveMonitorForm;
 
 Route::prefix('cve')
     ->group(function () {
-        Route::view('/', 'cve::index')->name('cve.index');
+        Route::get('/', [CveMonitorController::class, 'list'])->name('cve.index');
         Route::get('/create', CveMonitorForm::class)->name('cve.monitor.create');
         Route::get('/edit/{monitor}', CveMonitorForm::class)->name('cve.monitor.edit');
         Route::get('/{monitor}', [CveMonitorController::class, 'view'])->name('cve.monitor.view');

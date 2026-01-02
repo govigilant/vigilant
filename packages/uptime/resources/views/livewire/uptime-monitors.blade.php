@@ -14,5 +14,9 @@
         </x-page-header>
     </x-slot>
 
-    <livewire:uptime-monitor-table />
+    @if ($hasMonitors)
+        <livewire:uptime-monitor-table />
+    @else
+        <x-uptime::empty-states.monitors />
+    @endif
 </div>

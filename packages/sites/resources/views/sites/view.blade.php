@@ -22,25 +22,7 @@
     </x-slot>
 
     @if ($empty)
-        <div class="mx-auto max-w-2xl text-center py-12">
-            <x-card class="bg-base-850/50 border-base-700/50">
-                <div class="flex flex-col items-center">
-                    <div class="rounded-full bg-red/10 p-4 mb-6">
-                        @svg('tni-folder-plus-o', 'h-12 w-12 text-red')
-                    </div>
-
-                    <h3 class="text-2xl font-bold text-base-50 mb-2">@lang('No Monitors Configured')</h3>
-
-                    <p class="text-base text-base-300 mb-8 max-w-md">
-                        @lang('Get started by adding monitors for this site')
-                    </p>
-
-                    <x-form.button class="bg-gradient-to-r from-red via-orange to-red bg-300% animate-gradient-shift hover:shadow-lg hover:shadow-red/30 transition-all duration-300" :href="route('site.edit', ['site' => $site])">
-                        @lang('Configure Monitors')
-                    </x-form.button>
-                </div>
-            </x-card>
-        </div>
+        <x-sites::empty-states.no-monitors :site="$site" />
     @else
         <x-frontend::tabs.container :activeTab="!empty($tabs) ? $tabs[0]['key'] : ''" class="pb-12">
             

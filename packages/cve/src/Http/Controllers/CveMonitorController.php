@@ -8,6 +8,17 @@ use Vigilant\Cve\Models\CveMonitor;
 
 class CveMonitorController extends Controller
 {
+    public function list(): View
+    {
+        /** @var view-string $view */
+        $view = 'cve::index';
+        $hasMonitors = CveMonitor::query()->exists();
+
+        return view($view, [
+            'hasMonitors' => $hasMonitors,
+        ]);
+    }
+
     public function view(CveMonitor $monitor): View
     {
         /** @var view-string $view */

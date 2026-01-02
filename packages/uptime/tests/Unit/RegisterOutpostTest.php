@@ -112,4 +112,72 @@ class RegisterOutpostTest extends TestCase
         $this->assertNull($outpost->longitude);
         $this->assertEquals(OutpostStatus::Available, $outpost->status);
     }
+
+    public function test_it_registers_outpost_with_manual_location_when_geoip_disabled(): void
+    {
+        Http::fake();
+
+        $registerOutpost = app(RegisterOutpost::class);
+
+        $outpost = $registerOutpost->register(
+            externalIp: '5.6.7.8',
+            ip: '10.0.0.1',
+            port: 9000,
+            geoipAutomatic: false,
+            country: 'ca',
+            latitude: 45.1234,
+            longitude: -75.9876,
+        );
+
+        $this->assertInstanceOf(Outpost::class, $outpost);
+        $this->assertEquals('5.6.7.8', $outpost->external_ip);
+        $this->assertEquals('10.0.0.1', $outpost->ip);
+        $this->assertEquals(9000, $outpost->port);
+        $this->assertEquals('CA', $outpost->country);
+        $this->assertEquals(45.1234, $outpost->latitude);
+        $this->assertEquals(-75.9876, $outpost->longitude);
+        $this->assertEquals(OutpostStatus::Available, $outpost->status);
+        $this->assertFalse((bool) $outpost->geoip_automatic);
+
+        Http::assertNothingSent();
+    }
+
+    public function test_it_updates_existing_outpost_with_manual_location_when_geoip_disabled(): void
+    {
+        $existingOutpost = Outpost::query()->create([
+            'ip' => '172.16.0.1',
+            'port' => 7070,
+            'external_ip' => '2.2.2.2',
+            'status' => OutpostStatus::Unavailable,
+            'country' => 'US',
+            'latitude' => 10.0,
+            'longitude' => 20.0,
+            'geoip_automatic' => true,
+            'last_available_at' => now()->subDay(),
+        ]);
+
+        Http::fake();
+
+        $registerOutpost = app(RegisterOutpost::class);
+
+        $outpost = $registerOutpost->register(
+            externalIp: '9.9.9.9',
+            ip: '172.16.0.1',
+            port: 7070,
+            geoipAutomatic: false,
+            country: 'br',
+            latitude: -23.5505,
+            longitude: -46.6333,
+        );
+
+        $this->assertEquals($existingOutpost->id, $outpost->id);
+        $this->assertEquals('9.9.9.9', $outpost->external_ip);
+        $this->assertEquals('BR', $outpost->country);
+        $this->assertEquals(-23.5505, $outpost->latitude);
+        $this->assertEquals(-46.6333, $outpost->longitude);
+        $this->assertEquals(OutpostStatus::Available, $outpost->status);
+        $this->assertFalse((bool) $outpost->geoip_automatic);
+
+        Http::assertNothingSent();
+    }
 }

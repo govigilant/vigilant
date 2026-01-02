@@ -1,7 +1,7 @@
 <div>
     @if (!$inline)
         <x-slot name="header">
-            <x-page-header :title="$updating ? 'Edit Channel - ' . $channelModel->channel::$name : 'Add Channel'" :back="route('notifications.channels')">
+            <x-page-header :title="$updating ? 'Edit Channel - ' . $channelModel->title() : 'Add Channel'" :back="route('notifications.channels')">
                 @if($updating)
                     <x-frontend::page-header.actions>
                         <x-form.button class="bg-red" @click="$dispatch('open-delete-modal')">
@@ -34,6 +34,10 @@
                             <option value="{{ $channel }}">{{ $channel::$name }}</option>
                         @endforeach
                     </x-form.select>
+
+                    <x-form.text field="form.name" name="Internal Name"
+                        description="Give this channel a recognizable label for your team.">
+                    </x-form.text>
 
                     <h3 class="text-lg font-bold leading-7 sm:truncate sm:text-2xl sm:tracking-tight text-neutral-100">
                         {{ __('Configuration') }}</h3>
@@ -72,7 +76,7 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm text-base-300">
-                                        <span class="font-semibold text-base-100">{{ $channelModel->channel::$name }}</span>
+                                        <span class="font-semibold text-base-100">{{ $channelModel->title() }}</span>
                                     </p>
                                     <p class="text-sm text-base-400 mt-1">
                                         @lang('This action cannot be undone. All channel settings will be permanently deleted and notifications will no longer be sent to this channel.')

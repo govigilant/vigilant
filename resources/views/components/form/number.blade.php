@@ -1,4 +1,4 @@
-@props(['field', 'name', 'placeholder', 'description' => ''])
+@props(['field', 'name', 'placeholder' => null, 'description' => ''])
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="flex flex-col justify-center">
         <label for="{{ $field }}" class="block text-base font-semibold leading-6 text-base-50">@lang($name)</label>
@@ -13,8 +13,8 @@
                    name="{{ $name }}"
                    id="{{ $field }}"
                    wire:model.live="{{ $field }}"
-                   class="flex-1 border-0 bg-transparent py-2.5 px-3 text-base-100 focus:ring-0 sm:text-sm sm:leading-6 placeholder:text-base-500"
-                   placeholder="{{ $placeholder ?? '' }}">
+                   placeholder="{{ $placeholder ?? '' }}"
+                   {{ $attributes->class(['flex-1 border-0 bg-transparent py-2.5 px-3 text-base-100 focus:ring-0 sm:text-sm sm:leading-6 placeholder:text-base-500']) }}>
         </div>
 
         @error($field) <span class="text-red text-sm mt-1">{{ $message }}</span> @enderror

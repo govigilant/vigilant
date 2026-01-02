@@ -8,13 +8,15 @@ use Vigilant\Uptime\Models\Monitor;
 enum Type: string
 {
     case Http = 'http';
-    case Ping = 'ping';
+    case Ping = 'icmp';
+    case Tcp = 'tcp';
 
     public function label(): string
     {
         return match ($this) {
             Type::Http => 'HTTP(s)',
             Type::Ping => 'Ping',
+            Type::Tcp => 'TCP',
         };
     }
 
@@ -22,15 +24,32 @@ enum Type: string
     {
         return match ($this) {
             Type::Http => 'http',
-            Type::Ping => 'tcp',
+            Type::Ping => 'icmp',
+            Type::Tcp => 'tcp',
         };
     }
 
     public function formatTarget(Monitor $monitor): string
     {
         if ($this === Type::Http) {
-            $settings = Validator::validate($monitor->settings, [
+            $validator = Validator::make($monitor->settings, [
                 'host' => ['required', 'url'],
+            ]);
+
+            if ($validator->fails()) {
+                $validator = Validator::make($monitor->settings, [
+                    'host' => ['required', 'ip'],
+                ]);
+            }
+
+            $settings = $validator->validate();
+
+            return $settings['host'];
+        }
+
+        if ($this === Type::Ping) {
+            $settings = Validator::validate($monitor->settings, [
+                'host' => ['required', 'ip'],
             ]);
 
             return $settings['host'];
