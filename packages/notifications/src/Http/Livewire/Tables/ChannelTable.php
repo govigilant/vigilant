@@ -21,7 +21,12 @@ class ChannelTable extends BaseTable
     protected function columns(): array
     {
         return [
-            Column::make(__('Channel'), 'channel')
+            Column::make(__('Name'), 'name')
+                ->displayUsing(function (?string $name, Channel $channel): string {
+                    return $channel->title();
+                }),
+
+            Column::make(__('Channel Type'), 'channel')
                 ->displayUsing(function (string $channel) {
                     /** @var class-string<NotificationChannel> $channel */
 
