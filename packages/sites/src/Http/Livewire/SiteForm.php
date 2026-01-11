@@ -35,6 +35,21 @@ class SiteForm extends Component
             $this->form->fill($site->toArray());
             $this->site = $site;
         }
+        
+        if ($domain = request()->query('domain')) {
+            $this->form->fill(['url' => $this->normalizeDomainToUrl($domain)]);
+        }
+    }
+
+    protected function normalizeDomainToUrl(string $domain): string
+    {
+        $domain = strtolower(trim($domain));
+        
+        if (str_starts_with($domain, 'http://') || str_starts_with($domain, 'https://')) {
+            return $domain;
+        }
+        
+        return 'https://' . $domain;
     }
 
     #[On('save')]
