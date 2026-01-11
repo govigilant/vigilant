@@ -39,7 +39,14 @@ class ChannelForm extends Component
 
             if (class_exists($channel->channel)) {
                 $this->settingsComponent = $channel->channel::$component ?? null;
+                
+                // If prefilled with settings, mark as validated
+                if (!empty($channel->settings)) {
+                    $this->componentValidated = true;
+                }
             }
+        } else {
+            $this->channelModel = new Channel();
         }
     }
 
@@ -66,7 +73,7 @@ class ChannelForm extends Component
         $this->componentValidated = $validated;
     }
 
-    public function save(bool $redirect = true): void
+    public function save(bool $redirect = true, bool $dispatchSaved = true): void
     {
         if (! $this->componentValidated && $this->settingsComponent !== null) {
             return;
@@ -84,9 +91,11 @@ class ChannelForm extends Component
         }
 
         if ($this->inline) {
-            $this->dispatch('channel-saved', [
-                'channel' => $this->channelModel,
-            ]);
+            if ($dispatchSaved) {
+                $this->dispatch('channel-saved', [
+                    'channel' => $this->channelModel,
+                ]);
+            }
 
             return;
         }
@@ -105,7 +114,7 @@ class ChannelForm extends Component
 
     public function test(): void
     {
-        $this->save(false);
+        $this->save(false, false);
 
         if (! $this->channelModel->exists) {
             return;

@@ -28,7 +28,13 @@ class Complete extends Component
 
     public function checkStepFinished(): void
     {
-        // This is the final step, no redirect needed
+        /** @var User $user */
+        $user = auth()->user();
+
+        OnboardingStep::query()->updateOrCreate(
+            ['team_id' => $user->currentTeam?->id],
+            ['step' => 'complete', 'finished_at' => now()]
+        );
     }
 
     public function render(): mixed
