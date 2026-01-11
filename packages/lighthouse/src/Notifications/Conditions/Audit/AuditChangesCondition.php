@@ -8,7 +8,7 @@ use Vigilant\Notifications\Notifications\Notification;
 
 class AuditChangesCondition extends Condition
 {
-    public static string $name = 'Audit value changes';
+    public static string $name = 'Numeric audit value changes by percentage';
 
     public function operands(): array
     {
