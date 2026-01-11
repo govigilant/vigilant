@@ -24,9 +24,9 @@ class BestPracticesScoreValueCondition extends Condition
             '=' => 'Equal to',
             '<>' => 'Not equal to',
             '<' => 'Less than',
-            '<=' => 'Less or equal than',
+            '<=' => 'Less than or equal to',
             '>' => 'Greater than',
-            '>=' => 'Greater or equal than',
+            '>=' => 'Greater than or equal to',
         ];
     }
 
