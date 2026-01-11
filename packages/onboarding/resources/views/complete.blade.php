@@ -144,11 +144,7 @@
         </div>
     </div>
 
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
-        <button wire:click="goBack" class="text-base-400 hover:text-base-200 text-sm transition-colors duration-200">
-            @lang('← Go back')
-        </button>
-
+    <div class="max-w-4xl mx-auto flex items-center justify-end">
         <a type="button" href="{{ route('sites') }}" wire:navigate.hover
             class="px-6 py-3 bg-gradient-to-r from-red to-orange text-base-100 font-semibold rounded-lg hover:shadow-lg hover:shadow-orange/20 transition-all duration-200">
             @lang('View My Sites →')

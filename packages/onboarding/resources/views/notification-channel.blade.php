@@ -52,7 +52,7 @@
 
     <!-- Channel Form -->
     <div class="max-w-4xl mx-auto">
-        <livewire:channel-form :inline="true" />
+        <livewire:channel-form :inline="true" :channel="$channel" />
         
         <!-- Navigation -->
         <div class="mt-6 flex items-center justify-between">

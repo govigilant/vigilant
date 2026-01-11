@@ -17,15 +17,22 @@ class ShouldOnboard
 
         $team = $teamService->team();
 
-        $siteCount = Site::query()->where('team_id', '=', $team->id)->count();
+        /** @var ?OnboardingStep $onBoard */
+        $onBoard = OnboardingStep::query()
+            ->where('team_id', '=', $team->id)
+            ->where('step', '=', 'complete')
+            ->first();
 
-        if ($siteCount > 0) {
+        if ($onBoard !== null && $onBoard->finished_at !== null) {
             return false;
         }
 
-        /** @var ?OnboardingStep $onBoard */
-        $onBoard = OnboardingStep::query()->firstWhere('team_id', '=', $team->id);
+        $siteCount = Site::query()->where('team_id', '=', $team->id)->count();
 
-        return $onBoard === null || $onBoard->finished_at === null;
+        if ($siteCount > 0) {
+            return true;
+        }
+
+        return true;
     }
 }
