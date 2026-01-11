@@ -23,13 +23,33 @@ use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultAuditsTable;
 use Vigilant\Lighthouse\Livewire\Tables\LighthouseResultsTable;
 use Vigilant\Lighthouse\Models\LighthouseMonitor;
 use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditChangesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditIncreasesCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditTypeCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditValueCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Category\AccessibilityPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AccessibilityScoreDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AccessibilityScoreIncreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AccessibilityScoreValueCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreChangesCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreIncreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreValueCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesScoreDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesScoreIncreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\BestPracticesScoreValueCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Category\PerformancePercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\PerformanceScoreDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\PerformanceScoreIncreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\PerformanceScoreValueCondition;
 use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoPercentPercentScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoScoreDecreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoScoreIncreasesCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\SeoScoreValueCondition;
 use Vigilant\Lighthouse\Notifications\NumericAuditChangedNotification;
 use Vigilant\Notifications\Facades\NotificationRegistry;
 use Vigilant\Sites\Conditions\SiteCondition;
@@ -147,6 +167,25 @@ class ServiceProvider extends BaseServiceProvider
 
         NotificationRegistry::registerCondition(CategoryScoreChangedNotification::class, [
             SiteCondition::class,
+            // Change-based conditions (new, clearer)
+            AverageScoreIncreasesCondition::class,
+            AverageScoreDecreasesCondition::class,
+            AverageScoreChangesCondition::class,
+            PerformanceScoreIncreasesCondition::class,
+            PerformanceScoreDecreasesCondition::class,
+            AccessibilityScoreIncreasesCondition::class,
+            AccessibilityScoreDecreasesCondition::class,
+            BestPracticesScoreIncreasesCondition::class,
+            BestPracticesScoreDecreasesCondition::class,
+            SeoScoreIncreasesCondition::class,
+            SeoScoreDecreasesCondition::class,
+            // Absolute value conditions
+            AverageScoreValueCondition::class,
+            PerformanceScoreValueCondition::class,
+            AccessibilityScoreValueCondition::class,
+            BestPracticesScoreValueCondition::class,
+            SeoScoreValueCondition::class,
+            // Legacy conditions (kept for backward compatibility)
             AverageScoreCondition::class,
             AccessibilityPercentScoreCondition::class,
             BestPracticesPercentScoreCondition::class,
@@ -155,6 +194,13 @@ class ServiceProvider extends BaseServiceProvider
         ]);
 
         NotificationRegistry::registerCondition(NumericAuditChangedNotification::class, [
+            // Change-based conditions (new, clearer)
+            AuditIncreasesCondition::class,
+            AuditDecreasesCondition::class,
+            AuditChangesCondition::class,
+            // Absolute value condition
+            AuditValueCondition::class,
+            // Legacy condition (kept for backward compatibility)
             AuditPercentCondition::class,
             AuditTypeCondition::class,
         ]);

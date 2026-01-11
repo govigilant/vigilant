@@ -3,7 +3,7 @@
 namespace Vigilant\Lighthouse\Notifications;
 
 use Vigilant\Lighthouse\Models\LighthouseResultAudit;
-use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditPercentCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Audit\AuditChangesCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
@@ -22,9 +22,8 @@ class NumericAuditChangedNotification extends Notification implements HasSite
         'children' => [
             [
                 'type' => 'condition',
-                'condition' => AuditPercentCondition::class,
+                'condition' => AuditChangesCondition::class,
                 'operator' => '>=',
-                'operand' => 'absolute',
                 'value' => 10,
             ],
         ],

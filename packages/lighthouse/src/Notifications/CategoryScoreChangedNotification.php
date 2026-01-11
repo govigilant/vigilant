@@ -4,7 +4,7 @@ namespace Vigilant\Lighthouse\Notifications;
 
 use Vigilant\Lighthouse\Data\CategoryResultDifferenceData;
 use Vigilant\Lighthouse\Models\LighthouseResult;
-use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreCondition;
+use Vigilant\Lighthouse\Notifications\Conditions\Category\AverageScoreChangesCondition;
 use Vigilant\Notifications\Contracts\HasSite;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Notifications\Notification;
@@ -21,9 +21,8 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
         'children' => [
             [
                 'type' => 'condition',
-                'condition' => AverageScoreCondition::class,
+                'condition' => AverageScoreChangesCondition::class,
                 'operator' => '>=',
-                'operand' => 'absolute',
                 'value' => 20,
             ],
         ],
