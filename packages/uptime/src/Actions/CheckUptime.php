@@ -31,12 +31,25 @@ class CheckUptime
         $result = null;
         $outpostCountry = null;
         $excludedOutpostIds = [];
+        $maxAttempts = 3;
 
-        for ($i = 0; $i < 3; $i++) {
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            $isLastAttempt = $i === $maxAttempts - 1;
             $outpost = $this->determineOutpost->determine($monitor, $excludedOutpostIds);
 
             if ($outpost === null) {
                 logger()->error('No outpost available for uptime check');
+
+                if ($isLastAttempt) {
+                    $result = new UptimeResult(
+                        up: false,
+                        totalTime: 0,
+                        country: null,
+                        data: ['error' => 'no_outpost_available'],
+                    );
+
+                    break;
+                }
 
                 continue;
             }
@@ -51,7 +64,7 @@ class CheckUptime
                     ->withOptions([
                         'verify' => $certPath,
                     ])
-                    ->timeout($monitor->timeout + 2) // Give some buffer time for the outpost to respond
+                    ->timeout($monitor->timeout + 5) // Give some buffer time for the outpost to respond
                     ->post('run-check', [
                         'type' => $monitor->type->outpostValue(),
                         'target' => $monitor->type->formatTarget($monitor),
@@ -59,14 +72,40 @@ class CheckUptime
                     ]);
 
             } catch (ConnectionException $e) {
-                $outpost->update([
-                    'status' => OutpostStatus::Unavailable,
-                ]);
+                $message = strtolower($e->getMessage());
+                $isTimeout = str_contains($message, 'timed out');
 
-                logger()->error('Outpost connection error during uptime check', [
-                    'outpost_id' => $outpost->id,
-                    'error' => $e->getMessage(),
-                ]);
+                if (! $isTimeout) {
+                    $outpost->update([
+                        'status' => OutpostStatus::Unavailable,
+                    ]);
+                }
+
+                logger()->error(
+                    $isTimeout
+                        ? 'Outpost timed out during uptime check'
+                        : 'Outpost connection error during uptime check',
+                    [
+                        'outpost_id' => $outpost->id,
+                        'uptime_monitor_id' => $monitor->id,
+                        'target' => $monitor->type->formatTarget($monitor),
+                        'error' => $e->getMessage(),
+                    ]
+                );
+
+                if ($isLastAttempt) {
+                    $result = new UptimeResult(
+                        up: false,
+                        totalTime: 0,
+                        country: $outpost->country,
+                        data: [
+                            'error' => $isTimeout ? 'timeout' : 'connection_exception',
+                            'message' => $e->getMessage(),
+                        ],
+                    );
+
+                    break;
+                }
 
                 continue;
             }
@@ -99,7 +138,23 @@ class CheckUptime
                 'outpost' => $outpost->ip,
                 'status' => $response->status(),
                 'body' => $response->body(),
+                'uptime_monitor_id' => $monitor->id,
+                'target' => $monitor->type->formatTarget($monitor),
             ]);
+
+            if ($isLastAttempt) {
+                $result = new UptimeResult(
+                    up: false,
+                    totalTime: 0,
+                    country: $outpost->country,
+                    data: [
+                        'error' => 'unsuccessful_response',
+                        'status' => $response->status(),
+                    ],
+                );
+
+                break;
+            }
         }
 
         if ($result === null) {
