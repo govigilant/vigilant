@@ -4,7 +4,6 @@ namespace Vigilant\OnBoarding\Actions;
 
 use Vigilant\Core\Services\TeamService;
 use Vigilant\OnBoarding\Models\OnboardingStep;
-use Vigilant\Sites\Models\Site;
 
 class ShouldOnboard
 {
@@ -25,12 +24,6 @@ class ShouldOnboard
 
         if ($onBoard !== null && $onBoard->finished_at !== null) {
             return false;
-        }
-
-        $siteCount = Site::query()->where('team_id', '=', $team->id)->count();
-
-        if ($siteCount > 0) {
-            return true;
         }
 
         return true;
