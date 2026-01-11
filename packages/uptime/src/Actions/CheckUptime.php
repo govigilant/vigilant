@@ -33,6 +33,11 @@ class CheckUptime
         $excludedOutpostIds = [];
         $maxAttempts = 3;
 
+        // Add 5s to give some buffer time for the outpost to respond
+        $timeout = $monitor->retries > 0
+            ? ($monitor->timeout * $monitor->retries) + 5
+            : $monitor->timeout + 5;
+
         for ($i = 0; $i < $maxAttempts; $i++) {
             $isLastAttempt = $i === $maxAttempts - 1;
             $outpost = $this->determineOutpost->determine($monitor, $excludedOutpostIds);
@@ -64,7 +69,7 @@ class CheckUptime
                     ->withOptions([
                         'verify' => $certPath,
                     ])
-                    ->timeout($monitor->timeout + 5) // Give some buffer time for the outpost to respond
+                    ->timeout($timeout)
                     ->post('run-check', [
                         'type' => $monitor->type->outpostValue(),
                         'target' => $monitor->type->formatTarget($monitor),

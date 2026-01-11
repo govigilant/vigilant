@@ -24,17 +24,18 @@
 
         <x-frontend::card>
             <div class="text-left">
-                <p class="text-left">{{ $cve->description }}</p>
+                <p class="text-left text-base-100 leading-relaxed">{{ $cve->description }}</p>
 
-                <h3 class="text-lg font-bold mt-4">@lang('References')</h3>
-                <ul class="list-disc pl-5">
+                <h3 class="text-lg font-bold mt-4 text-base-50">@lang('References')</h3>
+                <ul class="list-disc pl-5 text-base-200 space-y-1">
                     @foreach (data_get($cve->data, 'cve.references.reference_data', []) as $reference)
                         <li>
-                            <a href="{{ $reference['url'] }}" target="_blank">
+                            <a class="text-red hover:text-red-light underline transition-colors duration-200" href="{{ $reference['url'] }}" target="_blank">
                                 {{ $reference['name'] ?? $reference['url'] }}
                             </a>
                         </li>
                     @endforeach
+                </ul>
             </div>
         </x-frontend::card>
     </div>
