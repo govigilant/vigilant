@@ -9,8 +9,9 @@ const outputFile = path.join(cssDir, 'tailwind.sources.css');
 const STATIC_SOURCES = [
   "../views/**/*.blade.php",
   "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php",
-  "../../vendor/laravel/jetstream/**/*.blade.php",
-  "../../vendor/ramonrietdijk/livewire-tables/resources/**/*.blade.php",
+  "../../vendor/laravel/jetstream/resources/views/**/*.blade.php",
+  "../../vendor/laravel/jetstream/stubs/livewire/resources/views/**/*.blade.php",
+  "../../vendor/ramonrietdijk/livewire-tables/resources/views/**/*.blade.php",
 ];
 
 const IGNORED_DIRS = new Set(['.', '..', 'vendor', 'node_modules']);
@@ -24,19 +25,59 @@ async function directoryExists(targetPath) {
   }
 }
 
-async function collectPackageSources(baseDir) {
-  const entries = await fs.readdir(baseDir, { withFileTypes: true }).catch(() => []);
+async function collectPackageViewsSources() {
   const sources = [];
 
+  if (!await directoryExists(packagesDir)) {
+    return sources;
+  }
+
+  const entries = await fs.readdir(packagesDir, { withFileTypes: true }).catch(() => []);
+
   for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
+    if (!entry.isDirectory() && !entry.isSymbolicLink()) continue;
     if (IGNORED_DIRS.has(entry.name) || entry.name.startsWith('.')) continue;
 
-    const pkgDir = path.join(baseDir, entry.name);
-    const viewsDir = path.join(pkgDir, 'resources', 'views');
-    if (await directoryExists(viewsDir)) {
-      const relativePath = path.relative(cssDir, viewsDir).replace(/\\/g, '/');
+    const pkgPath = path.join(packagesDir, entry.name);
+
+    // Check for direct views: packages/*/views
+    const directViewsDir = path.join(pkgPath, 'views');
+    if (await directoryExists(directViewsDir)) {
+      const relativePath = path.relative(cssDir, directViewsDir).replace(/\\/g, '/');
       sources.push(`${relativePath}/**/*.blade.php`);
+    }
+
+    // Check for resources/views: packages/*/resources/views
+    const resourcesViewsDir = path.join(pkgPath, 'resources', 'views');
+    if (await directoryExists(resourcesViewsDir)) {
+      const relativePath = path.relative(cssDir, resourcesViewsDir).replace(/\\/g, '/');
+      sources.push(`${relativePath}/**/*.blade.php`);
+    }
+
+    // Check for nested packages: packages/saas/*/views
+    const nestedPackagesDir = path.join(pkgPath, 'packages');
+    if (await directoryExists(nestedPackagesDir)) {
+      const nestedEntries = await fs.readdir(nestedPackagesDir, { withFileTypes: true }).catch(() => []);
+      for (const nestedEntry of nestedEntries) {
+        if (!nestedEntry.isDirectory() && !nestedEntry.isSymbolicLink()) continue;
+        if (IGNORED_DIRS.has(nestedEntry.name) || nestedEntry.name.startsWith('.')) continue;
+
+        const nestedPkgPath = path.join(nestedPackagesDir, nestedEntry.name);
+
+        // Check for direct views in nested package
+        const nestedDirectViewsDir = path.join(nestedPkgPath, 'views');
+        if (await directoryExists(nestedDirectViewsDir)) {
+          const relativePath = path.relative(cssDir, nestedDirectViewsDir).replace(/\\/g, '/');
+          sources.push(`${relativePath}/**/*.blade.php`);
+        }
+
+        // Check for resources/views in nested package
+        const nestedResourcesViewsDir = path.join(nestedPkgPath, 'resources', 'views');
+        if (await directoryExists(nestedResourcesViewsDir)) {
+          const relativePath = path.relative(cssDir, nestedResourcesViewsDir).replace(/\\/g, '/');
+          sources.push(`${relativePath}/**/*.blade.php`);
+        }
+      }
     }
   }
 
@@ -46,22 +87,8 @@ async function collectPackageSources(baseDir) {
 async function collectAllSources() {
   const dynamicSources = new Set();
 
-  if (await directoryExists(packagesDir)) {
-    const topLevelSources = await collectPackageSources(packagesDir);
-    topLevelSources.forEach((source) => dynamicSources.add(source));
-
-    const topLevelEntries = await fs.readdir(packagesDir, { withFileTypes: true }).catch(() => []);
-    for (const entry of topLevelEntries) {
-      if (!entry.isDirectory()) continue;
-      if (IGNORED_DIRS.has(entry.name) || entry.name.startsWith('.')) continue;
-
-      const nestedPackagesDir = path.join(packagesDir, entry.name, 'packages');
-      if (await directoryExists(nestedPackagesDir)) {
-        const nestedSources = await collectPackageSources(nestedPackagesDir);
-        nestedSources.forEach((source) => dynamicSources.add(source));
-      }
-    }
-  }
+  const packageSources = await collectPackageViewsSources();
+  packageSources.forEach((source) => dynamicSources.add(source));
 
   STATIC_SOURCES.forEach((source) => dynamicSources.add(source));
   return Array.from(dynamicSources).sort((a, b) => a.localeCompare(b));

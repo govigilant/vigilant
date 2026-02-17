@@ -47,6 +47,11 @@ class Settings extends Component
                 'title' => 'Billing',
                 'component' => 'settings-tab-billing',
             ];
+
+            $tabs['company'] = [
+                'title' => 'Company Info',
+                'component' => 'settings-tab-company-info',
+            ];
         }
 
         return $tabs;
