@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libxml2-dev \
     libicu-dev \
+    libgd-dev \
     supervisor \
     nodejs \
     npm \
@@ -33,7 +34,8 @@ RUN docker-php-ext-install \
     zip \
     exif \
     bcmath \
-    intl
+    intl \
+    gd
 
 RUN pecl install redis \
     && docker-php-ext-enable redis
