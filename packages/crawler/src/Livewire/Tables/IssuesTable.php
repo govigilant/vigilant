@@ -83,8 +83,12 @@ class IssuesTable extends BaseTable
             })->standalone(),
 
             Action::make(__('Export Selected'), function (Enumerable $models): BinaryFileResponse {
+                $collection = $models instanceof \Illuminate\Database\Eloquent\Collection
+                    ? $models->loadMissing('foundOn')
+                    : CrawledUrl::query()->with('foundOn')->findMany($models->map(fn ($m) => $m->getKey())->all());
+
                 return Excel::download(
-                    new IssuesExport($models->collect()->loadMissing('foundOn')),
+                    new IssuesExport($collection),
                     $this->generateFilename(),
                 );
             }),
