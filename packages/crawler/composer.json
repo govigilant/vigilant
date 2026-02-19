@@ -15,6 +15,7 @@
         "guzzlehttp/guzzle": "^7.8",
         "laravel/framework": "^12.0",
         "livewire/livewire": "^3.4",
+        "maatwebsite/excel": "^3.1",
         "vigilant/core": "@dev",
         "vigilant/sites": "@dev",
         "vigilant/users": "@dev",

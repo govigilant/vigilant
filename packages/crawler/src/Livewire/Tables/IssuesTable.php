@@ -4,11 +4,15 @@ namespace Vigilant\Crawler\Livewire\Tables;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Enumerable;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Locked;
+use Maatwebsite\Excel\Facades\Excel;
 use RamonRietdijk\LivewireTables\Actions\Action;
 use RamonRietdijk\LivewireTables\Columns\Column;
 use RamonRietdijk\LivewireTables\Filters\SelectFilter;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Vigilant\Crawler\Enums\Status;
+use Vigilant\Crawler\Exports\IssuesExport;
 use Vigilant\Crawler\Jobs\CollectCrawlerStatsJob;
 use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
@@ -69,6 +73,22 @@ class IssuesTable extends BaseTable
     protected function actions(): array
     {
         return [
+            Action::make(__('Export All'), function (): BinaryFileResponse {
+                $collection = $this->appliedQuery()->get();
+
+                return Excel::download(
+                    new IssuesExport($collection),
+                    $this->generateFilename(),
+                );
+            })->standalone(),
+
+            Action::make(__('Export Selected'), function (Enumerable $models): BinaryFileResponse {
+                return Excel::download(
+                    new IssuesExport($models->collect()),
+                    $this->generateFilename(),
+                );
+            }),
+
             Action::make(__('Ignore Selected'), function (Enumerable $models): void {
                 foreach ($models as $model) {
                     IgnoredUrl::firstOrCreate([
@@ -95,6 +115,16 @@ class IssuesTable extends BaseTable
                 CollectCrawlerStatsJob::dispatch(Crawler::query()->findOrFail($this->crawlerId), false);
             }, 'unignoreUrl'),
         ];
+    }
+
+    protected function generateFilename(): string
+    {
+        $crawler = Crawler::query()->with('site')->findOrFail($this->crawlerId);
+        $host = $crawler->site?->url ? parse_url($crawler->site->url, PHP_URL_HOST) : null;
+        $domain = Str::slug($host ?: 'unknown');
+        $date = now()->format('Y-m-d');
+
+        return "{$domain}-broken-links-{$date}.csv";
     }
 
     protected function filters(): array
