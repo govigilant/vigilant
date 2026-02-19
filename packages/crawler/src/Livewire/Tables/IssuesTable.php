@@ -74,7 +74,7 @@ class IssuesTable extends BaseTable
     {
         return [
             Action::make(__('Export All'), function (): BinaryFileResponse {
-                $collection = $this->appliedQuery()->get();
+                $collection = $this->appliedQuery()->with('foundOn')->get();
 
                 return Excel::download(
                     new IssuesExport($collection),
@@ -84,7 +84,7 @@ class IssuesTable extends BaseTable
 
             Action::make(__('Export Selected'), function (Enumerable $models): BinaryFileResponse {
                 return Excel::download(
-                    new IssuesExport($models->collect()),
+                    new IssuesExport($models->collect()->loadMissing('foundOn')),
                     $this->generateFilename(),
                 );
             }),
