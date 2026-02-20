@@ -153,7 +153,7 @@ class LatencyChart extends BaseChart
         $points = $this->points();
 
         $labels = $points->pluck('created_at');
-        $data = $points->pluck('total_time')->map(fn (float $time): int => round($time));
+        $data = $points->pluck('total_time')->map(fn (float $time): int => (int) round($time));
 
         $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
 
