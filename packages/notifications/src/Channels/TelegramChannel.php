@@ -62,8 +62,8 @@ class TelegramChannel extends NotificationChannel
         Http::post($url, $payload);
     }
 
-    private function escapeMarkdownV2(string $text): string
+    protected function escapeMarkdownV2(string $text): string
     {
-        return preg_replace('/([_*\[\]()~`>#+\-=|{}.!\\\\])/', '\\\\$1', $text);
+        return preg_replace('/([_*\[\]()~`>#+\-=|{}.!\\\\])/', '\\\\$1', $text) ?? '';
     }
 }
