@@ -45,7 +45,48 @@ class TelegramChannelTest extends TestCase
             return $request->url() === 'https://api.telegram.org/bottest_bot_token/sendMessage' &&
                 $body['chat_id'] === '123456789' &&
                 $body['text'] === "*Title of this fake notification*\n\nDescription of this fake notification" &&
-                $body['parse_mode'] === 'Markdown';
+                $body['parse_mode'] === 'MarkdownV2';
+        });
+    }
+
+    #[Test]
+    public function it_escapes_markdown_v2_special_characters(): void
+    {
+        Http::fake([
+            'api.telegram.org/*' => Http::response(),
+        ]);
+
+        Channel::withoutEvents(function () {
+            Channel::query()->create([
+                'team_id' => 1,
+                'channel' => TelegramChannel::class,
+                'settings' => [
+                    'bot_token' => 'test_bot_token',
+                    'chat_id' => '123456789',
+                ],
+            ]);
+        });
+
+        $notification = new class(1) extends FakeNotification
+        {
+            public string $title = 'Alert: CPU_usage > 90% [critical]';
+
+            public string $description = 'Host 192.168.1.1 is down. Check #monitoring.';
+        };
+
+        /** @var Channel $channelModel */
+        $channelModel = Channel::query()->withoutGlobalScopes()->first();
+
+        /** @var TelegramChannel $channel */
+        $channel = app(TelegramChannel::class);
+
+        $channel->fire($notification, $channelModel);
+
+        Http::assertSent(function (Request $request): bool {
+            $body = $request->data();
+
+            return $body['text'] === "*Alert: CPU\_usage \> 90% \[critical\]*\n\nHost 192\.168\.1\.1 is down\. Check \#monitoring\." &&
+                $body['parse_mode'] === 'MarkdownV2';
         });
     }
 
