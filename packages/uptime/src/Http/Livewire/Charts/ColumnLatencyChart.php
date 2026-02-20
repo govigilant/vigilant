@@ -27,7 +27,7 @@ class ColumnLatencyChart extends LatencyChart
 
     public function data(): array
     {
-        $points = $this->points()->pluck('total_time')->map(fn (float $time): int => round($time));
+        $points = $this->points()->pluck('total_time')->map(fn (float $time): int => (int) round($time));
 
         return [
             'type' => 'line',
