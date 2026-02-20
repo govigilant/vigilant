@@ -21,7 +21,9 @@ class TelegramChannel extends NotificationChannel
     {
         $settings = $channel->settings;
 
-        $text = "*{$notification->title()}*\n\n{$notification->description()}";
+        $title = $this->escapeMarkdownV2($notification->title());
+        $description = $this->escapeMarkdownV2($notification->description());
+        $text = "*{$title}*\n\n{$description}";
 
         $inlineKeyboard = [];
 
@@ -46,7 +48,7 @@ class TelegramChannel extends NotificationChannel
         $payload = [
             'chat_id' => $settings['chat_id'],
             'text' => $text,
-            'parse_mode' => 'Markdown',
+            'parse_mode' => 'MarkdownV2',
         ];
 
         if (! empty($inlineKeyboard)) {
@@ -58,5 +60,10 @@ class TelegramChannel extends NotificationChannel
         $url = "https://api.telegram.org/bot{$settings['bot_token']}/sendMessage";
 
         Http::post($url, $payload);
+    }
+
+    private function escapeMarkdownV2(string $text): string
+    {
+        return preg_replace('/([_*\[\]()~`>#+\-=|{}.!\\\\])/', '\\\\$1', $text);
     }
 }
