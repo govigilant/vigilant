@@ -3,7 +3,7 @@
 namespace Vigilant\Uptime\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
+use Illuminate\Contracts\Queue\ShouldBeUniqueUntilProcessing;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -12,7 +12,7 @@ use Vigilant\Core\Services\TeamService;
 use Vigilant\Uptime\Actions\CheckUptime;
 use Vigilant\Uptime\Models\Monitor;
 
-class CheckUptimeJob implements ShouldBeUnique, ShouldQueue
+class CheckUptimeJob implements ShouldBeUniqueUntilProcessing, ShouldQueue
 {
     use Dispatchable;
     use InteractsWithQueue;

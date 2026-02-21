@@ -15,6 +15,7 @@ use Vigilant\Notifications\Channels\MailChannel;
 use Vigilant\Notifications\Channels\MicrosoftTeamsChannel;
 use Vigilant\Notifications\Channels\NtfyChannel;
 use Vigilant\Notifications\Channels\SlackChannel;
+use Vigilant\Notifications\Channels\TelegramChannel;
 use Vigilant\Notifications\Commands\CreateNotificationsCommand;
 use Vigilant\Notifications\Commands\RenameConditionClassesCommand;
 use Vigilant\Notifications\Commands\TestNotificationCommand;
@@ -26,6 +27,7 @@ use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Mail;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\MicrosoftTeams;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Ntfy;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Slack;
+use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Telegram;
 use Vigilant\Notifications\Http\Livewire\Channels\Configuration\Webhook;
 use Vigilant\Notifications\Http\Livewire\NotificationForm;
 use Vigilant\Notifications\Http\Livewire\Notifications;
@@ -137,6 +139,7 @@ class ServiceProvider extends BaseServiceProvider
         Livewire::component('channel-configuration-discord', Discord::class);
         Livewire::component('channel-configuration-google-chat', GoogleChat::class);
         Livewire::component('channel-configuration-microsoft-teams', MicrosoftTeams::class);
+        Livewire::component('channel-configuration-telegram', Telegram::class);
 
         return $this;
     }
@@ -167,6 +170,7 @@ class ServiceProvider extends BaseServiceProvider
             SlackChannel::class,
             GoogleChatChannel::class,
             MicrosoftTeamsChannel::class,
+            TelegramChannel::class,
         ]);
 
         return $this;

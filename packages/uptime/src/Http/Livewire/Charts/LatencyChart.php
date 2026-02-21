@@ -153,7 +153,7 @@ class LatencyChart extends BaseChart
         $points = $this->points();
 
         $labels = $points->pluck('created_at');
-        $data = $points->pluck('total_time');
+        $data = $points->pluck('total_time')->map(fn (float $time): int => (int) round($time));
 
         $dateFormat = $this->dateRange === 'week' ? 'd/m H:i' : 'd/m';
 
@@ -245,7 +245,7 @@ class LatencyChart extends BaseChart
                     continue;
                 }
                 $timestamp = $point->created_at->timestamp;
-                $countryData[$country][$timestamp] = $point->total_time; // @phpstan-ignore-line
+                $countryData[$country][$timestamp] = round($point->total_time); // @phpstan-ignore-line
                 $allTimestamps->push($timestamp);
             }
         }

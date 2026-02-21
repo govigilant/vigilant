@@ -43,6 +43,6 @@ class CalculateUptimePercentage
         $totalMinutes = $minutesSinceFirstResult - $downtimeMinutes;
         $uptimePercentage = ($totalMinutes / $minutesSinceFirstResult) * 100;
 
-        return round($uptimePercentage, 2);
+        return floor($uptimePercentage * 100) / 100;
     }
 }

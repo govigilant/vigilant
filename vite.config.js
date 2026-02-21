@@ -15,7 +15,7 @@ export default defineConfig({
         watch: {
             ignored: [
                 '**/vendor/**',
-                '**/packages/*/vendor/**',
+                '**/packages/**',
             ],
         },
     },

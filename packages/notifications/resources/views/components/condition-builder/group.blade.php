@@ -74,10 +74,10 @@
             @endif
         @endforeach
 
-        <div class="w-full bg-blue/20 border border-blue text-blue-light rounded-md py-2 px-3 mt-3 text-sm font-medium" x-cloak x-show="addGroupHover">
+        <div class="w-full bg-blue/20 border border-blue text-blue-light rounded-md py-2 px-3 mt-3 text-sm font-medium pointer-events-none" x-cloak x-show="addGroupHover">
             @lang('New Group')
         </div>
-        <div class="w-full bg-green/20 border border-green text-green-light rounded-md py-2 px-3 mt-3 text-sm font-medium" x-cloak x-show="addConditionHover">
+        <div class="w-full bg-green/20 border border-green text-green-light rounded-md py-2 px-3 mt-3 text-sm font-medium pointer-events-none" x-cloak x-show="addConditionHover">
             @lang('New Condition')
         </div>
 

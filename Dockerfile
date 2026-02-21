@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     libxml2-dev \
     libicu-dev \
+    libgd-dev \
     supervisor \
     nodejs \
     npm \
@@ -14,6 +15,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     cron \
     vim \
+    python3 \
+    python3-pip \
+    python3-cffi \
+    python3-brotli \
+    libpango-1.0-0 \
+    libpangoft2-1.0-0 \
+    && pip3 install --break-system-packages WeasyPrint \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -26,7 +34,8 @@ RUN docker-php-ext-install \
     zip \
     exif \
     bcmath \
-    intl
+    intl \
+    gd
 
 RUN pecl install redis \
     && docker-php-ext-enable redis

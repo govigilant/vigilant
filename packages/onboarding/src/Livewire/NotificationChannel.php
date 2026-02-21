@@ -4,12 +4,30 @@ namespace Vigilant\OnBoarding\Livewire;
 
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Vigilant\Notifications\Channels\MailChannel;
+use Vigilant\Notifications\Models\Channel;
 use Vigilant\OnBoarding\Models\OnboardingStep;
 use Vigilant\Users\Models\User;
 
 class NotificationChannel extends Component
 {
-    #[On('onboard.notifications')]
+    public Channel $channel;
+
+    public function mount(): void
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $this->channel = new Channel([
+            'channel' => MailChannel::class,
+            'name' => 'E-mail',
+            'settings' => [
+                'to' => $user->email,
+            ],
+        ]);
+    }
+
+    #[On('channel-saved')]
     public function redirectNextStep(): void
     {
         /** @var User $user */
