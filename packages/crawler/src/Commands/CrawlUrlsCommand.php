@@ -11,14 +11,13 @@ use Vigilant\Crawler\Models\CrawledUrl;
 
 class CrawlUrlsCommand extends Command
 {
-    protected $signature = 'crawler:crawl {--count=500}';
+    protected $signature = 'crawler:crawl';
 
     protected $description = 'Crawl pending URLs';
 
     public function handle(): int
     {
-        /** @var int $count */
-        $count = $this->option('count');
+        $count = config()->integer('crawler.crawls_per_minute');
 
         CrawledUrl::query()
             ->withoutGlobalScopes()

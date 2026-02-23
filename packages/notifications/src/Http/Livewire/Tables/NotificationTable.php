@@ -65,8 +65,8 @@ class NotificationTable extends BaseTable
             BooleanFilter::make(__('Enabled'), 'enabled'),
             SelectFilter::make(__('Type'), 'notification')
                 ->options(
-                    collect(NotificationRegistry::notifications()) // @phpstan-ignore-line
-                        ->mapWithKeys(fn (string $notification): array => [$notification => $notification::$name])
+                    collect(NotificationRegistry::notifications())
+                        ->mapWithKeys(fn (string $notification): array => [$notification => $notification::$name]) // @phpstan-ignore-line
                         ->toArray()
                 ),
         ];
