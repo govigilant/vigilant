@@ -63,16 +63,16 @@ class CrawlerForm extends Component
 
         $this->validate();
 
+        $data = collect($this->form->all())->except('url_blacklist')->all();
+
         if ($this->crawler->exists) {
             $this->authorize('update', $this->crawler);
 
-            $this->crawler->update($this->form->all());
+            $this->crawler->update($data);
         } else {
             $this->authorize('create', $this->crawler);
 
-            $this->crawler = Crawler::query()->create(
-                $this->form->all()
-            );
+            $this->crawler = Crawler::query()->create($data);
         }
 
         if (! $this->inline) {
