@@ -5,6 +5,7 @@ namespace Vigilant\Crawler\Actions;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -114,12 +115,14 @@ class CrawlUrl
             ->pluck('url_hash')
             ->all();
 
-        $blacklistPattern = $this->buildBlacklistPattern($url->crawler);
+        $blacklistPatterns = $this->buildBlacklistPatterns($url->crawler);
 
         $queuedLinks = collect($queuedLinks)
             ->reject(fn (array $record): bool => in_array($record['url_hash'], $existingLinks, true))
-            ->when($blacklistPattern, fn (Collection $links, string $pattern): Collection => $links
-                ->reject(fn (array $record): bool => @preg_match($pattern, $record['url']) === 1)
+            ->when($blacklistPatterns->isNotEmpty(), fn (Collection $links): Collection => $links
+                ->reject(fn (array $record): bool => $blacklistPatterns
+                    ->contains(fn (string $pattern): bool => @preg_match($pattern, $record['url']) === 1)
+                )
             )
             ->all();
 
@@ -160,18 +163,12 @@ class CrawlUrl
         ]);
     }
 
-    protected function buildBlacklistPattern(Crawler $crawler): ?string
+    protected function buildBlacklistPatterns(Crawler $crawler): \Illuminate\Support\Collection
     {
-        $lines = collect(explode("\n", (string) ($crawler->settings['url_blacklist'] ?? '')))
+        return collect(explode("\n", (string) ($crawler->settings['url_blacklist'] ?? '')))
             ->map(fn (string $line): string => trim($line))
             ->filter()
             ->values();
-
-        if ($lines->isEmpty()) {
-            return null;
-        }
-
-        return '(?:'.$lines->implode('|').')';
     }
 
     protected function extractLinks(string $html, array $baseUrl): array

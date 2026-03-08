@@ -127,4 +127,86 @@ class CrawUrlTest extends TestCase
         $this->assertEquals(State::Ratelimited, $crawler->state);
         $this->assertTrue($crawledUrl->crawled);
     }
+
+    #[Test]
+    public function it_does_not_insert_blacklisted_urls(): void
+    {
+        Http::fake([
+            'https://govigilant.io/url-1' => Http::response('<html>
+            <a href="/products/shoes"></a>
+            <a href="/checkout/cart"></a>
+            <a href="/customer/account/login"></a>
+            <a href="/about-us"></a>
+           </html>'),
+        ])->preventStrayRequests();
+
+        /** @var Crawler $crawler */
+        $crawler = Crawler::query()->create([
+            'start_url' => 'https://govigilant.io',
+            'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
+            'settings' => [
+                'url_blacklist' => implode("\n", [
+                    '~^https?://[^/]+/checkout/~i',
+                    '~^https?://[^/]+/customer/account/login~i',
+                ]),
+            ],
+        ]);
+
+        /** @var CrawledUrl $crawledUrl */
+        $crawledUrl = $crawler->urls()->create([
+            'url' => 'https://govigilant.io/url-1',
+            'crawled' => false,
+        ]);
+
+        /** @var CrawlUrl $action */
+        $action = app(CrawlUrl::class);
+        $action->crawl($crawledUrl);
+
+        $discoveredUrls = $crawler->urls()
+            ->where('crawled', '=', false)
+            ->pluck('url')
+            ->toArray();
+
+        $this->assertContains('https://govigilant.io/products/shoes', $discoveredUrls);
+        $this->assertContains('https://govigilant.io/about-us', $discoveredUrls);
+        $this->assertNotContains('https://govigilant.io/checkout/cart', $discoveredUrls);
+        $this->assertNotContains('https://govigilant.io/customer/account/login', $discoveredUrls);
+    }
+
+    #[Test]
+    public function it_inserts_all_urls_when_blacklist_is_empty(): void
+    {
+        Http::fake([
+            'https://govigilant.io/url-1' => Http::response('<html>
+            <a href="/checkout/cart"></a>
+            <a href="/about-us"></a>
+           </html>'),
+        ])->preventStrayRequests();
+
+        /** @var Crawler $crawler */
+        $crawler = Crawler::query()->create([
+            'start_url' => 'https://govigilant.io',
+            'state' => State::Crawling,
+            'schedule' => '0 0 * * *',
+        ]);
+
+        /** @var CrawledUrl $crawledUrl */
+        $crawledUrl = $crawler->urls()->create([
+            'url' => 'https://govigilant.io/url-1',
+            'crawled' => false,
+        ]);
+
+        /** @var CrawlUrl $action */
+        $action = app(CrawlUrl::class);
+        $action->crawl($crawledUrl);
+
+        $discoveredUrls = $crawler->urls()
+            ->where('crawled', '=', false)
+            ->pluck('url')
+            ->toArray();
+
+        $this->assertContains('https://govigilant.io/checkout/cart', $discoveredUrls);
+        $this->assertContains('https://govigilant.io/about-us', $discoveredUrls);
+    }
 }
