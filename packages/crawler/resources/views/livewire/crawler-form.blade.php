@@ -75,8 +75,57 @@
 
 
                     @if (!$inline)
-                        <div class="flex justify-end gap-4">
-                            <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
+                        <div x-data="{
+                            open: false,
+                            platform: '',
+                            platforms: {{ Js::from(collect(config('crawler.platform_blacklists'))->map(fn ($p) => ['label' => $p['label'], 'patterns' => implode("\n", $p['patterns'])])) }},
+                            applyPlatform() {
+                                if (this.platform === '') return;
+                                this.$refs.urlBlacklist.value = this.platforms[this.platform].patterns;
+                                this.$refs.urlBlacklist.dispatchEvent(new Event('input'));
+                                this.$refs.urlBlacklist.dispatchEvent(new Event('change'));
+                            },
+                        }" class="flex flex-col gap-4">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="flex flex-col justify-center">
+                                    <label class="block text-base font-semibold leading-6 text-base-50">@lang('Platform preset')</label>
+                                    <span class="text-base-400 text-sm mt-1">@lang('Optionally pre-fill the URL blacklist with known paths for a platform.')</span>
+                                </div>
+                                <div class="flex flex-col justify-center">
+                                    <select x-model="platform" @change="applyPlatform()"
+                                        class="block w-full rounded-lg border-0 py-2.5 px-3 text-base-100 bg-base-900 ring-1 ring-inset ring-base-700 focus-within:ring-2 focus-within:ring-inset focus-within:ring-red transition-all duration-200">
+                                        <option value="">@lang('None')</option>
+                                        <template x-for="[key, p] in Object.entries(platforms)" :key="key">
+                                            <option :value="key" x-text="p.label"></option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="border-t border-base-700 pt-4">
+                                <button type="button" @click="open = !open"
+                                    class="flex items-center gap-2 text-sm font-medium text-base-400 hover:text-base-100 transition-colors duration-200">
+                                    <div class="transition-transform duration-200" x-bind:class="open ? 'rotate-180' : ''">
+                                        @svg('phosphor-caret-down', 'w-4 h-4')
+                                    </div>
+                                    @lang('Advanced')
+                                </button>
+
+                                <div x-show="open" x-cloak x-collapse class="mt-4 flex flex-col gap-4">
+                                    <x-form.textarea
+                                        field="form.url_blacklist"
+                                        name="URL Blacklist"
+                                        description="One regex pattern per line. URLs matching any pattern will not be crawled."
+                                        :rows="6"
+                                        placeholder="/admin/&#10;/private/.*"
+                                        xRef="urlBlacklist"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="flex justify-end gap-4">
+                                <x-form.submit-button dusk="submit-button" :submitText="$updating ? 'Save' : 'Create'" />
+                            </div>
                         </div>
                     @endif
                 </div>

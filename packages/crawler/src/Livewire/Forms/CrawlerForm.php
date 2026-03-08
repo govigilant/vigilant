@@ -7,6 +7,7 @@ use Livewire\Form;
 use Vigilant\Core\Validation\CanEnableRule;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Validation\EqualDomainRule;
+use Vigilant\Crawler\Validation\ValidRegexLines;
 use Vigilant\Frontend\Validation\CronExpression;
 
 class CrawlerForm extends Form
@@ -21,6 +22,8 @@ class CrawlerForm extends Form
     public string $start_url = '';
 
     public ?array $sitemaps = [];
+
+    public string $url_blacklist = '';
 
     public ?array $settings = [
         'scheduleConfig' => [
@@ -40,6 +43,7 @@ class CrawlerForm extends Form
             'sitemaps.*' => ['required', 'url'],
             'settings' => ['array'],
             'enabled' => ['boolean', new CanEnableRule(Crawler::class)],
+            'url_blacklist' => ['nullable', 'string', new ValidRegexLines],
         ];
     }
 }

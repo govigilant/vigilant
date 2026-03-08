@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
+use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Models\IgnoredUrl;
 use Vigilant\Crawler\Notifications\RatelimitedNotification;
 
@@ -113,9 +114,14 @@ class CrawlUrl
             ->pluck('url_hash')
             ->all();
 
-        $queuedLinks = array_filter($queuedLinks, function (array $record) use ($existingLinks): bool {
-            return ! in_array($record['url_hash'], $existingLinks, true);
-        });
+        $blacklistPattern = $this->buildBlacklistPattern($url->crawler);
+
+        $queuedLinks = collect($queuedLinks)
+            ->reject(fn (array $record): bool => in_array($record['url_hash'], $existingLinks, true))
+            ->when($blacklistPattern, fn (Collection $links, string $pattern): Collection => $links
+                ->reject(fn (array $record): bool => @preg_match($pattern, $record['url']) === 1)
+            )
+            ->all();
 
         if ($queuedLinks !== []) {
             $timestamp = now();
@@ -152,6 +158,20 @@ class CrawlUrl
             'status' => $response->status(),
             'crawled' => true,
         ]);
+    }
+
+    protected function buildBlacklistPattern(Crawler $crawler): ?string
+    {
+        $lines = collect(explode("\n", (string) ($crawler->settings['url_blacklist'] ?? '')))
+            ->map(fn (string $line): string => trim($line))
+            ->filter()
+            ->values();
+
+        if ($lines->isEmpty()) {
+            return null;
+        }
+
+        return '(?:'.$lines->implode('|').')';
     }
 
     protected function extractLinks(string $html, array $baseUrl): array
