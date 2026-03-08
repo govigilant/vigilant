@@ -63,7 +63,9 @@ class CrawlerForm extends Component
 
         $this->validate();
 
-        $data = collect($this->form->all())->except('url_blacklist')->all();
+        /** @var array<string, mixed> $formData */
+        $formData = $this->form->all();
+        $data = collect($formData)->except('url_blacklist')->all();
 
         if ($this->crawler->exists) {
             $this->authorize('update', $this->crawler);
