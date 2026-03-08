@@ -19,6 +19,7 @@ use Vigilant\Crawler\Listeners\CrawlerFinishedListener;
 use Vigilant\Crawler\Livewire\Crawler\Dashboard;
 use Vigilant\Crawler\Livewire\CrawlerForm;
 use Vigilant\Crawler\Livewire\Crawlers;
+use Vigilant\Crawler\Livewire\Tables\CrawledUrlsTable;
 use Vigilant\Crawler\Livewire\Tables\CrawlerTable;
 use Vigilant\Crawler\Livewire\Tables\IssuesTable;
 use Vigilant\Crawler\Models\Crawler;
@@ -105,6 +106,7 @@ class ServiceProvider extends BaseServiceProvider
 
         Livewire::component('crawler-dashboard', Dashboard::class);
         Livewire::component('crawler-issues-table', IssuesTable::class);
+        Livewire::component('crawler-crawled-urls-table', CrawledUrlsTable::class);
 
         return $this;
     }
