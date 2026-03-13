@@ -36,6 +36,11 @@ enum Type: string
         };
     }
 
+    public function hasParser(): bool
+    {
+        return class_exists('\Vigilant\Dns\RecordParsers\\'.$this->name);
+    }
+
     public function parser(): RecordParser
     {
         $class = '\Vigilant\Dns\RecordParsers\\'.$this->name;
