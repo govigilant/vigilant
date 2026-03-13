@@ -108,7 +108,7 @@ class ImportSite
 
             $type = DnsType::tryFrom($data['type']);
 
-            if ($type === null) {
+            if ($type === null || ! $type->hasParser()) {
                 continue;
             }
 
