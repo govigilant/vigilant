@@ -58,6 +58,7 @@ RUN mkdir -p /tmp/public/ \
     && cp -r /app/public/* /tmp/public/
 
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/php-fpm.ini /usr/local/etc/php/conf.d/zzz-fpm-overrides.ini
 
 RUN /usr/bin/crontab /app/docker/crontab
 
