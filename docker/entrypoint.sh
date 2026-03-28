@@ -12,7 +12,6 @@ if ! grep -q "^APP_KEY=" ".env" || [ -z "$(grep "^APP_KEY=" ".env" | cut -d '=' 
 fi
 
 php artisan optimize:clear
-php artisan optimize
 php artisan migrate --force
 php artisan storage:link
 php artisan notifications:create
