@@ -5,6 +5,7 @@ cp -f -r /tmp/public/* /app/public
 mkdir -p /app/storage/framework/cache
 mkdir -p /app/storage/framework/sessions
 mkdir -p /app/storage/framework/views
+mkdir -p /app/storage/logs
 
 if ! grep -q "^APP_KEY=" ".env" || [ -z "$(grep "^APP_KEY=" ".env" | cut -d '=' -f2)" ]; then
     php artisan key:generate
