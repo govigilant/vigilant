@@ -55,7 +55,8 @@ RUN npm install
 RUN npm run build
 
 RUN mkdir -p /tmp/public/ \
-    && cp -r /app/public/* /tmp/public/
+    && cp -r /app/public/* /tmp/public/ \
+    && chown -R www-data:www-data /app
 
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
 COPY docker/php-fpm.ini /usr/local/etc/php/conf.d/zzz-fpm-overrides.ini

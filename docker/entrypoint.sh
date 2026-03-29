@@ -6,6 +6,7 @@ mkdir -p /app/storage/framework/cache
 mkdir -p /app/storage/framework/sessions
 mkdir -p /app/storage/framework/views
 mkdir -p /app/storage/logs
+chown -R www-data:www-data /app/storage
 
 if ! grep -q "^APP_KEY=" ".env" || [ -z "$(grep "^APP_KEY=" ".env" | cut -d '=' -f2)" ]; then
     php artisan key:generate

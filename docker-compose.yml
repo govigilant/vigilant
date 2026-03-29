@@ -34,6 +34,7 @@ services:
             - ./storage:/app/storage
             - public:/app/public
         restart: always
+        user: www-data
         working_dir: /app
         networks:
             - vigilant
