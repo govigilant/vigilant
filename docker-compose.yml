@@ -34,11 +34,10 @@ services:
             - ./storage:/app/storage
             - public:/app/public
         restart: always
-        user: www-data
         working_dir: /app
         networks:
             - vigilant
-        entrypoint: ["php", "artisan", "horizon"]
+        entrypoint: ["sh", "/app/docker/horizon-entrypoint.sh"]
         healthcheck:
             test: ["CMD", "php", "artisan", "horizon:status"]
             interval: 30s

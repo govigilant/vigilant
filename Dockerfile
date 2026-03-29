@@ -9,6 +9,7 @@ RUN apk add --no-cache \
     nginx \
     supervisor \
     dcron \
+    su-exec \
     nodejs \
     npm \
     libzip-dev \
