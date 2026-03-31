@@ -37,7 +37,7 @@ services:
         working_dir: /app
         networks:
             - vigilant
-        entrypoint: ["php", "artisan", "horizon"]
+        entrypoint: ["sh", "/app/docker/horizon-entrypoint.sh"]
         healthcheck:
             test: ["CMD", "php", "artisan", "horizon:status"]
             interval: 30s

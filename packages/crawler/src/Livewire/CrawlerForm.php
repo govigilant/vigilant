@@ -27,6 +27,7 @@ class CrawlerForm extends Component
             $this->authorize('update', $crawler);
 
             $this->form->fill($crawler->toArray());
+            $this->form->url_blacklist = $crawler->settings['url_blacklist'] ?? '';
         } else {
             $this->authorize('create', Crawler::class);
 
@@ -56,19 +57,24 @@ class CrawlerForm extends Component
     {
         $this->form->sitemaps = $this->form->sitemaps !== null ? array_filter($this->form->sitemaps) : null;
         $this->form->schedule = $this->getCronSchedule();
+        $this->form->settings = array_merge($this->form->settings ?? [], [
+            'url_blacklist' => $this->form->url_blacklist,
+        ]);
 
         $this->validate();
+
+        /** @var array<string, mixed> $formData */
+        $formData = $this->form->all();
+        $data = collect($formData)->except('url_blacklist')->all();
 
         if ($this->crawler->exists) {
             $this->authorize('update', $this->crawler);
 
-            $this->crawler->update($this->form->all());
+            $this->crawler->update($data);
         } else {
             $this->authorize('create', $this->crawler);
 
-            $this->crawler = Crawler::query()->create(
-                $this->form->all()
-            );
+            $this->crawler = Crawler::query()->create($data);
         }
 
         if (! $this->inline) {
