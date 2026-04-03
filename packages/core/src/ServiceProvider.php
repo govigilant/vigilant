@@ -41,7 +41,6 @@ class ServiceProvider extends BaseServiceProvider
             ->bootConfig()
             ->bootMigrations()
             ->bootCommands()
-            ->bootViews()
             ->bootRoutes()
             ->bootNavigation();
     }
@@ -78,13 +77,6 @@ class ServiceProvider extends BaseServiceProvider
 
             ]);
         }
-
-        return $this;
-    }
-
-    protected function bootViews(): static
-    {
-        $this->loadViewsFrom(__DIR__.'/../resources/views', 'core');
 
         return $this;
     }

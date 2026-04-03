@@ -8558,7 +8558,7 @@
         },
         {
             "name": "vigilant/certificates",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/certificates",
@@ -8634,7 +8634,7 @@
         },
         {
             "name": "vigilant/core",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/core",
@@ -8719,7 +8719,7 @@
         },
         {
             "name": "vigilant/crawler",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/crawler",
@@ -8797,7 +8797,7 @@
         },
         {
             "name": "vigilant/cve",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/cve",
@@ -8873,7 +8873,7 @@
         },
         {
             "name": "vigilant/dns",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/dns",
@@ -8950,7 +8950,7 @@
         },
         {
             "name": "vigilant/frontend",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/frontend",
@@ -9022,7 +9022,7 @@
         },
         {
             "name": "vigilant/healthchecks",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/healthchecks",
@@ -9098,7 +9098,7 @@
         },
         {
             "name": "vigilant/lighthouse",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/lighthouse",
@@ -9175,7 +9175,7 @@
         },
         {
             "name": "vigilant/notifications",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/notifications",
@@ -9251,7 +9251,7 @@
         },
         {
             "name": "vigilant/onboarding",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/onboarding",
@@ -9324,7 +9324,7 @@
         },
         {
             "name": "vigilant/settings",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/settings",
@@ -9399,7 +9399,7 @@
         },
         {
             "name": "vigilant/sites",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/sites",
@@ -9475,7 +9475,7 @@
         },
         {
             "name": "vigilant/uptime",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/uptime",
@@ -9553,7 +9553,7 @@
         },
         {
             "name": "vigilant/users",
-            "version": "dev-develop",
+            "version": "dev-feature/optimize-deployment",
             "dist": {
                 "type": "path",
                 "url": "./packages/users",

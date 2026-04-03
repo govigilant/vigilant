@@ -17,5 +17,6 @@ php artisan migrate --force
 php artisan storage:link
 php artisan notifications:create
 php artisan notifications:rename-classes
+php artisan optimize
 
 /usr/bin/supervisord -c /app/docker/supervisor/supervisor.conf
