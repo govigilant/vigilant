@@ -16,6 +16,9 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
 
     public Level $level = Level::Warning;
 
+    // 4 days
+    public static ?int $defaultCooldown = 60 * 24 * 4;
+
     public static array $defaultConditions = [
         'type' => 'group',
         'children' => [
@@ -42,17 +45,17 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
 
     public function description(): string
     {
-        $performanceOld = $this->data->performanceOld() * 100;
-        $performanceNew = $this->data->performanceNew() * 100;
+        $performanceOld = (int) round($this->data->performanceOld() * 100);
+        $performanceNew = (int) round($this->data->performanceNew() * 100);
 
-        $accessibilityOld = $this->data->accessibilityOld() * 100;
-        $accessibilityNew = $this->data->accessibilityNew() * 100;
+        $accessibilityOld = (int) round($this->data->accessibilityOld() * 100);
+        $accessibilityNew = (int) round($this->data->accessibilityNew() * 100);
 
-        $bestPracticesOld = $this->data->bestPracticesOld() * 100;
-        $bestPracticesNew = $this->data->bestPracticesNew() * 100;
+        $bestPracticesOld = (int) round($this->data->bestPracticesOld() * 100);
+        $bestPracticesNew = (int) round($this->data->bestPracticesNew() * 100);
 
-        $seoOld = $this->data->seoOld() * 100;
-        $seoNew = $this->data->seoNew() * 100;
+        $seoOld = (int) round($this->data->seoOld() * 100);
+        $seoNew = (int) round($this->data->seoNew() * 100);
 
         return __('New values are: Performance :performance, Accessibility :accessibility, Best Practices :best_practices, SEO :seo',
             [

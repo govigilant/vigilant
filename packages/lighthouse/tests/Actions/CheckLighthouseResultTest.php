@@ -30,7 +30,7 @@ class CheckLighthouseResultTest extends TestCase
             'interval' => '0 * * * *',
         ]);
 
-        for ($i = 0; $i < 4; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $site->lighthouseResults()->create([
                 'performance' => 0.5,
                 'accessibility' => 0.5,
@@ -41,7 +41,7 @@ class CheckLighthouseResultTest extends TestCase
             ]);
         }
 
-        for ($i = 0; $i < 12; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $site->lighthouseResults()->create([
                 'performance' => 0.7,
                 'accessibility' => 0.7,

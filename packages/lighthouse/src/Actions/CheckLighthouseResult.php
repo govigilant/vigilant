@@ -10,6 +10,10 @@ use Vigilant\Lighthouse\Notifications\CategoryScoreChangedNotification;
 
 class CheckLighthouseResult
 {
+    protected const CURRENT_WINDOW = 10;
+
+    protected const PREVIOUS_WINDOW = 10;
+
     protected array $categories = [
         'performance',
         'accessibility',
@@ -25,21 +29,15 @@ class CheckLighthouseResult
             ->where('lighthouse_monitor_id', '=', $result->lighthouse_monitor_id)
             ->count();
 
-        // Not enough data
-        if ($totalResultCount < 10) {
+        // Not enough data to fill both windows.
+        if ($totalResultCount < self::CURRENT_WINDOW + self::PREVIOUS_WINDOW) {
             return;
         }
 
-        // take 10% of the result set to calculate the current value
-        $currentLimit = (int) floor($totalResultCount * 0.1);
-
-        // take 30% of the result set before the current to calculate the previous value
-        $previousLimit = (int) floor($totalResultCount * 0.3);
-
-        $current = $this->averageResults($result->lighthouse_monitor_id, $currentLimit, 0)
+        $current = $this->averageResults($result->lighthouse_monitor_id, self::CURRENT_WINDOW, 0)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_new' => $score ?? 0]);
 
-        $previous = $this->averageResults($result->lighthouse_monitor_id, $previousLimit, $currentLimit)
+        $previous = $this->averageResults($result->lighthouse_monitor_id, self::PREVIOUS_WINDOW, self::CURRENT_WINDOW)
             ->mapWithKeys(fn (?float $score, string $key) => [$key.'_old' => $score ?? 0]);
 
         $data = CategoryResultDifferenceData::of($current->merge($previous)->toArray());
