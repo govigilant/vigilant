@@ -17,7 +17,7 @@ class CategoryScoreChangedNotification extends Notification implements HasSite
     public Level $level = Level::Warning;
 
     // 4 days
-    public static ?int $defaultCooldown = 5760;
+    public static ?int $defaultCooldown = 60 * 24 * 4;
 
     public static array $defaultConditions = [
         'type' => 'group',
