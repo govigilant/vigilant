@@ -5,6 +5,7 @@ namespace Vigilant\Crawler\Livewire\Forms;
 use Livewire\Attributes\Locked;
 use Livewire\Form;
 use Vigilant\Core\Validation\CanEnableRule;
+use Vigilant\Core\Validation\NotInternalUrl;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Validation\EqualDomainRule;
 use Vigilant\Crawler\Validation\ValidRegexLines;
@@ -38,9 +39,9 @@ class CrawlerForm extends Form
     {
         return [
             'schedule' => ['required', new CronExpression],
-            'start_url' => ['required', 'max:255', 'url'],
+            'start_url' => ['required', 'max:255', 'url', new NotInternalUrl],
             'sitemaps' => ['required_without:start_url', 'array', new EqualDomainRule],
-            'sitemaps.*' => ['required', 'url'],
+            'sitemaps.*' => ['required', 'url', new NotInternalUrl],
             'settings' => ['array'],
             'enabled' => ['boolean', new CanEnableRule(Crawler::class)],
             'url_blacklist' => ['nullable', 'string', new ValidRegexLines],

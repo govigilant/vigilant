@@ -23,6 +23,7 @@ abstract class TestCase extends BaseTestCase
     {
         return [
             ServiceProvider::class,
+            \Vigilant\Core\ServiceProvider::class,
             \Vigilant\Users\ServiceProvider::class,
             LivewireServiceProvider::class,
         ];
@@ -36,5 +37,6 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('core.ssrf.allowed_hosts', ['govigilant.io']);
     }
 }

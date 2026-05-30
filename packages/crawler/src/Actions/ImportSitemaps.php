@@ -3,8 +3,9 @@
 namespace Vigilant\Crawler\Actions;
 
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Http;
 use Mtownsend\XmlToArray\XmlToArray;
+use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Core\Http\SsrfGuard;
 use Vigilant\Crawler\Models\CrawledUrl;
 use Vigilant\Crawler\Models\Crawler;
 use Vigilant\Crawler\Models\IgnoredUrl;
@@ -12,6 +13,8 @@ use Vigilant\Crawler\Models\IgnoredUrl;
 class ImportSitemaps
 {
     protected array $processed = [];
+
+    public function __construct(protected SsrfGuard $ssrfGuard) {}
 
     public function import(Crawler $crawler): void
     {
@@ -28,9 +31,17 @@ class ImportSitemaps
 
         $this->processed[] = $url;
 
-        $response = Http::withHeaders([
-            'Accept' => 'application/xml',
-        ])->get($url);
+        try {
+            $this->ssrfGuard->assertSafeUrl($url);
+        } catch (SsrfException) {
+            return;
+        }
+
+        $response = $this->ssrfGuard->request($url)
+            ->withHeaders([
+                'Accept' => 'application/xml',
+            ])
+            ->get($url);
 
         if (! $response->successful()) {
             return;

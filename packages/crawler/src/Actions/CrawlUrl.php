@@ -7,8 +7,9 @@ use Illuminate\Http\Client\Response;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Core\Http\SsrfGuard;
 use Vigilant\Core\Services\TeamService;
 use Vigilant\Crawler\Enums\State;
 use Vigilant\Crawler\Models\CrawledUrl;
@@ -20,7 +21,7 @@ class CrawlUrl
 {
     protected const MAX_REDIRECTS = 5;
 
-    public function __construct(protected TeamService $teamService) {}
+    public function __construct(protected TeamService $teamService, protected SsrfGuard $ssrfGuard) {}
 
     public function crawl(CrawledUrl $url, int $try = 0): void
     {
@@ -49,6 +50,13 @@ class CrawlUrl
 
         try {
             $response = $this->fetchResponse($url->url, $allowedHost);
+        } catch (SsrfException) {
+            $url->update([
+                'status' => 0,
+                'crawled' => true,
+            ]);
+
+            return;
         } catch (ConnectionException) {
             if ($try < 3) {
                 $this->crawl($url, $try + 1);
@@ -163,7 +171,7 @@ class CrawlUrl
         ]);
     }
 
-    protected function buildBlacklistPatterns(Crawler $crawler): \Illuminate\Support\Collection
+    protected function buildBlacklistPatterns(Crawler $crawler): Collection
     {
         return collect(explode("\n", (string) ($crawler->settings['url_blacklist'] ?? '')))
             ->map(fn (string $line): string => trim($line))
@@ -239,7 +247,10 @@ class CrawlUrl
         $timeout = config()->integer('crawler.timeout', 5);
         $connectTimeout = config()->integer('crawler.connect_timeout', $timeout);
 
-        return Http::timeout($timeout)
+        $this->ssrfGuard->assertSafeUrl($url);
+
+        return $this->ssrfGuard->request($url)
+            ->timeout($timeout)
             ->connectTimeout($connectTimeout)
             ->withOptions(['verify' => false, 'allow_redirects' => false])
             ->withUserAgent(config('core.user_agent'))
@@ -272,9 +283,20 @@ class CrawlUrl
             $redirectLocation = $this->resolveRelativeUrl($redirectLocation, $baseParts);
         }
 
-        return $this->isSameDomain($redirectLocation, $allowedDomain)
+        return $this->isSameDomain($redirectLocation, $allowedDomain) && $this->isSafeUrl($redirectLocation)
             ? $redirectLocation
             : null;
+    }
+
+    protected function isSafeUrl(string $url): bool
+    {
+        try {
+            $this->ssrfGuard->assertSafeUrl($url);
+        } catch (SsrfException) {
+            return false;
+        }
+
+        return true;
     }
 
     protected function isSameDomain(string $url, string $domain): bool

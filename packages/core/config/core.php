@@ -14,6 +14,27 @@ return [
 
     'user_agent' => 'Vigilant Bot',
 
+    'ssrf' => [
+        /*
+         * Hostnames that should be exempt from SSRF protection. Useful for
+         * self-hosted operators who legitimately monitor internal services.
+         * Comma-separated list (e.g. "internal.api.local,10.0.0.5").
+         */
+        'allowed_hosts' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('SSRF_ALLOWED_HOSTS', '')),
+        ))),
+
+        /*
+         * Additional CIDR ranges to block beyond the built-in defaults
+         * (RFC1918, loopback, link-local, CGN, cloud metadata, etc.).
+         */
+        'extra_blocked_cidrs' => array_values(array_filter(array_map(
+            'trim',
+            explode(',', (string) env('SSRF_BLOCKED_CIDRS', '')),
+        ))),
+    ],
+
     'data_retention' => [
         DnsMonitorHistory::class => env('DATA_RETENTION_DNS_MONITOR_HISTORY', 180),
         Downtime::class => env('DATA_RETENTION_DOWNTIME', 730),
