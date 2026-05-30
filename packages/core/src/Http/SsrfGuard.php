@@ -189,9 +189,13 @@ class SsrfGuard
             return false;
         }
 
-        // Unwrap IPv4-mapped IPv6 (::ffff:127.0.0.1) and revalidate.
-        if (preg_match('/^::ffff:(\d+\.\d+\.\d+\.\d+)$/i', $ip, $matches) === 1) {
-            return $this->isPublicIp($matches[1]);
+        // Unwrap IPv4-mapped (::ffff:a.b.c.d) and IPv4-compatible (::a.b.c.d)
+        // IPv6 addresses to their dotted-quad form regardless of textual
+        // representation (e.g. ::ffff:7f00:1 == ::ffff:127.0.0.1).
+        $unwrapped = $this->unwrapIpv4InIpv6($ip);
+
+        if ($unwrapped !== null) {
+            return $this->isPublicIp($unwrapped);
         }
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) === false) {
@@ -215,6 +219,35 @@ class SsrfGuard
         }
 
         return true;
+    }
+
+    /**
+     * If $ip is an IPv6 address embedding an IPv4 address (mapped ::ffff:0:0/96
+     * or compatible ::/96), return the dotted-quad form. Otherwise null.
+     */
+    protected function unwrapIpv4InIpv6(string $ip): ?string
+    {
+        $packed = @inet_pton($ip);
+
+        if ($packed === false || strlen($packed) !== 16) {
+            return null;
+        }
+
+        // Bytes 0-9 must be zero for either mapped or compatible forms.
+        if (substr($packed, 0, 10) !== str_repeat("\0", 10)) {
+            return null;
+        }
+
+        $prefix = substr($packed, 10, 2);
+
+        // ::ffff:a.b.c.d (IPv4-mapped) or ::a.b.c.d (IPv4-compatible).
+        if ($prefix !== "\xff\xff" && $prefix !== "\0\0") {
+            return null;
+        }
+
+        $ipv4 = @inet_ntop(substr($packed, 12, 4));
+
+        return is_string($ipv4) ? $ipv4 : null;
     }
 
     protected function ipInCidr(string $ip, string $cidr): bool

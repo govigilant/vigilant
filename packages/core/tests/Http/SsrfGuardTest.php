@@ -35,6 +35,8 @@ class SsrfGuardTest extends TestCase
             'decimal-encoded loopback' => ['http://2130706433/'],
             'hex-encoded loopback' => ['http://0x7f000001/'],
             'ipv4-mapped ipv6 loopback' => ['http://[::ffff:127.0.0.1]/'],
+            'ipv4-mapped ipv6 loopback (hex)' => ['http://[::ffff:7f00:1]/'],
+            'ipv4-compatible ipv6 loopback' => ['http://[::127.0.0.1]/'],
             'cloud metadata hostname' => ['http://metadata.google.internal/'],
             'disallowed scheme (file)' => ['file:///etc/passwd'],
             'disallowed scheme (gopher)' => ['gopher://127.0.0.1/'],
