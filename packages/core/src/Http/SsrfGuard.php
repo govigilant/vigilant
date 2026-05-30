@@ -2,23 +2,17 @@
 
 namespace Vigilant\Core\Http;
 
+use BlueLibraries\Dns\Records\RecordTypes;
+use BlueLibraries\Dns\Records\Types\A;
+use BlueLibraries\Dns\Records\Types\AAAA;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Dns\Client\DnsClient;
 
 class SsrfGuard
 {
-    /**
-     * Hostnames that should never be contacted regardless of resolved IP.
-     * Covers known cloud metadata service hostnames.
-     */
-    protected const BLOCKED_HOSTNAMES = [
-        'metadata.google.internal',
-        'metadata.goog',
-        'metadata.azure.com',
-        'instance-data',
-        'instance-data.ec2.internal',
-    ];
+    public function __construct(protected DnsClient $dnsClient) {}
 
     /**
      * Asserts the URL is safe to fetch. Throws SsrfException on violation.
@@ -37,15 +31,20 @@ class SsrfGuard
     {
         $parts = parse_url($url);
 
-        if ($parts === false || ! isset($parts['scheme'], $parts['host'])) {
-            throw SsrfException::invalidUrl($url);
-        }
+        throw_if(
+            $parts === false || ! isset($parts['scheme'], $parts['host']),
+            SsrfException::invalidUrl($url),
+        );
 
         $scheme = strtolower((string) $parts['scheme']);
         $host = $this->normalizeHost((string) $parts['host']);
         $port = isset($parts['port']) ? (int) $parts['port'] : ($scheme === 'https' ? 443 : 80);
 
         $ips = $this->resolveSafeIps($url);
+
+        if ($ips === []) {
+            return Http::createPendingRequest();
+        }
 
         $resolveEntries = array_map(
             fn (string $ip): string => sprintf('%s:%d:%s', $host, $port, $ip),
@@ -68,48 +67,39 @@ class SsrfGuard
     {
         $parts = parse_url($url);
 
-        if ($parts === false || ! isset($parts['scheme'], $parts['host'])) {
-            throw SsrfException::invalidUrl($url);
-        }
+        throw_if(
+            $parts === false || ! isset($parts['scheme'], $parts['host']),
+            SsrfException::invalidUrl($url),
+        );
 
         $scheme = strtolower((string) $parts['scheme']);
 
-        if (! in_array($scheme, ['http', 'https'], true)) {
-            throw SsrfException::disallowedScheme($scheme);
-        }
+        throw_unless(
+            in_array($scheme, ['http', 'https'], true),
+            SsrfException::disallowedScheme($scheme),
+        );
 
-        if (isset($parts['user']) || isset($parts['pass'])) {
-            throw SsrfException::userInfoForbidden();
-        }
+        throw_if(
+            isset($parts['user']) || isset($parts['pass']),
+            SsrfException::userInfoForbidden(),
+        );
 
         $host = $this->normalizeHost((string) $parts['host']);
 
-        if ($host === '') {
-            throw SsrfException::invalidUrl($url);
-        }
+        throw_if($host === '', SsrfException::invalidUrl($url));
 
         if ($this->isAllowedHost($host)) {
-            $ips = $this->resolveIps($host);
-
-            return $ips === [] ? [$host] : $ips;
-        }
-
-        foreach (self::BLOCKED_HOSTNAMES as $blocked) {
-            if ($host === $blocked || str_ends_with($host, '.'.$blocked)) {
-                throw SsrfException::blockedHost($host);
-            }
+            // Trusted host: skip DNS resolution and IP checks. curl will
+            // resolve via the OS resolver (which may know internal DNS).
+            return [];
         }
 
         $ips = $this->resolveIps($host);
 
-        if ($ips === []) {
-            throw SsrfException::unresolvable($host);
-        }
+        throw_if($ips === [], SsrfException::unresolvable($host));
 
         foreach ($ips as $ip) {
-            if (! $this->isPublicIp($ip)) {
-                throw SsrfException::blockedIp($ip);
-            }
+            throw_unless($this->isPublicIp($ip), SsrfException::blockedIp($ip));
         }
 
         return $ips;
@@ -146,31 +136,15 @@ class SsrfGuard
 
         $ips = [];
 
-        $aRecords = @dns_get_record($host, DNS_A);
-
-        if (is_array($aRecords)) {
-            foreach ($aRecords as $record) {
-                if (isset($record['ip']) && is_string($record['ip'])) {
-                    $ips[] = $record['ip'];
-                }
+        foreach ($this->dnsClient->get($host, RecordTypes::A) as $record) {
+            if ($record instanceof A && ($ip = $record->getIp()) !== null) {
+                $ips[] = $ip;
             }
         }
 
-        $aaaaRecords = @dns_get_record($host, DNS_AAAA);
-
-        if (is_array($aaaaRecords)) {
-            foreach ($aaaaRecords as $record) {
-                if (isset($record['ipv6']) && is_string($record['ipv6'])) {
-                    $ips[] = $record['ipv6'];
-                }
-            }
-        }
-
-        if ($ips === []) {
-            $fallback = @gethostbynamel($host);
-
-            if (is_array($fallback)) {
-                $ips = $fallback;
+        foreach ($this->dnsClient->get($host, RecordTypes::AAAA) as $record) {
+            if ($record instanceof AAAA && ($ip = $record->getIPV6()) !== null) {
+                $ips[] = $ip;
             }
         }
 

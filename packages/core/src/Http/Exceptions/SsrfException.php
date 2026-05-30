@@ -21,11 +21,6 @@ class SsrfException extends RuntimeException
         return new self('URLs containing userinfo are not allowed.');
     }
 
-    public static function blockedHost(string $host): self
-    {
-        return new self(sprintf('The host "%s" is not allowed.', $host));
-    }
-
     public static function blockedIp(string $ip): self
     {
         return new self(sprintf('The host resolves to a non-routable or reserved IP address "%s".', $ip));

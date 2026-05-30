@@ -25,5 +25,7 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('dns.nameservers', '1.1.1.1');
+        $app['config']->set('dns.max_attempts', 1);
     }
 }
