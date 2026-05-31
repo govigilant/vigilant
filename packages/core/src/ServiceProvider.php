@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Vigilant\Core\Actions\ResolveDataRetention;
 use Vigilant\Core\Contracts\ResolvesDataRetention;
 use Vigilant\Core\Facades\Navigation as NavigationFacade;
+use Vigilant\Core\Http\SsrfGuard;
 use Vigilant\Core\Navigation\Navigation;
 use Vigilant\Core\Services\TeamService;
 
@@ -30,6 +31,7 @@ class ServiceProvider extends BaseServiceProvider
     {
         $this->app->scoped(TeamService::class);
         $this->app->singleton(Navigation::class);
+        $this->app->singleton(SsrfGuard::class);
 
         return $this;
     }

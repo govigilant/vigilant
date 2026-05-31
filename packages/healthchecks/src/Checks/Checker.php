@@ -6,13 +6,16 @@ use Closure;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
-use Illuminate\Support\Facades\Http;
 use RuntimeException;
+use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Core\Http\SsrfGuard;
 use Vigilant\Healthchecks\Enums\Status;
 use Vigilant\Healthchecks\Models\Healthcheck;
 
 abstract class Checker
 {
+    public function __construct(protected SsrfGuard $ssrfGuard) {}
+
     /** @return int runId */
     abstract public function check(Healthcheck $healthcheck): int;
 
@@ -61,7 +64,12 @@ abstract class Checker
 
         for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
             try {
-                $request = Http::baseUrl($healthcheck->domain);
+                try {
+                    $request = $this->ssrfGuard->request($healthcheck->domain)
+                        ->baseUrl($healthcheck->domain);
+                } catch (SsrfException $exception) {
+                    throw new ConnectionException($exception->getMessage(), previous: $exception);
+                }
 
                 return $callback($request);
             } catch (ConnectionException $e) {

@@ -2,7 +2,9 @@
 
 namespace Vigilant\Notifications\Channels;
 
-use Illuminate\Support\Facades\Http;
+use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Core\Http\SsrfGuard;
+use Vigilant\Core\Validation\NotInternalUrl;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Notifications\Notification;
 
@@ -12,9 +14,14 @@ class SlackChannel extends NotificationChannel
 
     public static ?string $component = 'channel-configuration-slack';
 
-    public array $rules = [
-        'webhook_url' => ['required', 'url'],
-    ];
+    public array $rules = [];
+
+    public function rules(): array
+    {
+        return [
+            'webhook_url' => ['required', 'url', new NotInternalUrl],
+        ];
+    }
 
     public function fire(Notification $notification, Channel $channel): void
     {
@@ -75,6 +82,16 @@ class SlackChannel extends NotificationChannel
             ],
         ];
 
-        Http::post($settings['webhook_url'], $payload);
+        /** @var SsrfGuard $guard */
+        $guard = app(SsrfGuard::class);
+        $url = $settings['webhook_url'];
+
+        try {
+            $guard->assertSafeUrl($url);
+        } catch (SsrfException) {
+            return;
+        }
+
+        $guard->request($url)->post($url, $payload);
     }
 }

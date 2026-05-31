@@ -25,7 +25,7 @@ class NtfyChannelTest extends TestCase
                 'team_id' => 1,
                 'channel' => NtfyChannel::class,
                 'settings' => [
-                    'server' => 'ntfy',
+                    'server' => 'http://ntfy',
                     'topic' => 'topic',
                     'auth_method' => 'username',
                     'username' => 'username',

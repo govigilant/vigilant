@@ -30,6 +30,7 @@ abstract class TestCase extends BaseTestCase
             'database' => ':memory:',
             'prefix' => '',
         ]);
+        $app['config']->set('core.ssrf.allowed_hosts', ['ntfy']);
 
     }
 

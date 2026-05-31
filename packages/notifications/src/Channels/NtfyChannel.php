@@ -2,7 +2,9 @@
 
 namespace Vigilant\Notifications\Channels;
 
-use Illuminate\Support\Facades\Http;
+use Vigilant\Core\Http\Exceptions\SsrfException;
+use Vigilant\Core\Http\SsrfGuard;
+use Vigilant\Core\Validation\NotInternalUrl;
 use Vigilant\Notifications\Enums\Level;
 use Vigilant\Notifications\Models\Channel;
 use Vigilant\Notifications\Notifications\Notification;
@@ -13,14 +15,19 @@ class NtfyChannel extends NotificationChannel
 
     public static ?string $component = 'channel-configuration-ntfy';
 
-    public array $rules = [
-        'server' => ['required', 'url'],
-        'topic' => ['required'],
-        'auth_method' => ['nullable', 'in:username,token'],
-        'username' => ['required_if:auth_method,username'],
-        'password' => ['required_if:auth_method,username'],
-        'token' => ['required_if:auth_method,token'],
-    ];
+    public array $rules = [];
+
+    public function rules(): array
+    {
+        return [
+            'server' => ['required', 'url', new NotInternalUrl],
+            'topic' => ['required'],
+            'auth_method' => ['nullable', 'in:username,token'],
+            'username' => ['required_if:auth_method,username'],
+            'password' => ['required_if:auth_method,username'],
+            'token' => ['required_if:auth_method,token'],
+        ];
+    }
 
     public function fire(Notification $notification, Channel $channel): void
     {
@@ -33,7 +40,17 @@ class NtfyChannel extends NotificationChannel
             Level::Success => 'white_check_mark',
         };
 
-        $request = Http::baseUrl($settings['server'])
+        /** @var SsrfGuard $guard */
+        $guard = app(SsrfGuard::class);
+
+        try {
+            $guard->assertSafeUrl($settings['server']);
+        } catch (SsrfException) {
+            return;
+        }
+
+        $request = $guard->request($settings['server'])
+            ->baseUrl($settings['server'])
             ->withHeaders([
                 'Title' => $notification->title().' - '.config('app.name'),
                 'Tags' => $tag,
